@@ -16,7 +16,7 @@ sourceUrl: "/breast-implant-illness/"
 now know more than ever that implants are harmful to our health. They contain numerous chemicals that have been shown to release into the body over time, ultimately causing disruption in how the immune system functions. Implants drive local abnormal immune and inflammatory reactions in the breast due to the body’s innate ability to detect the presence of a foreign object. Research is connecting the implants' capability to alter the immune system by either weakening it and making individuals more vulnerable to other organisms like viruses, bacteria, candida and mold or over stimulating the immune system ultimately driving auto-immune diseases.
 
 So, what makes some women more likely to be sick from implants compared to others? The answer to this is complicated. The body is continuously in a state of finding homeostasis or balance, but it becomes trying to the system to self-correct when there are numerous variables that nudge the body into the wrong direction challenging normal body functions. There are many contributors to the malfunctioning of the body, but here are the most common concerns most of us are combatting daily: environmental exposures (heavy metals, pesticides, mold, VOCs, EMFs), genetics (generally mutations involved in removing toxins from the body appropriately), chronic stress, lack of exercise, poor diet, and intestinal flora imbalances due to poor diet, birth control, antibiotic history and sugar. The implant placement alone over time continues to cause stress due to the release of chemicals and presence of biofilms, therefore challenging the normal functions of the body leading to a disheartening health status. Not only can the toxic burden affect the body physically, but mentally as well as many lead down a road of being misunderstood by physicians or not getting the answers they need to uncover why they are sick.
-<h4>Breast Implant Illness Symptoms</h4>
+<h2>Breast Implant Illness Symptoms</h2>
 
 <ul>
  	<li>Fatigue or chronic fatigue</li>
@@ -80,7 +80,7 @@ So, what makes some women more likely to be sick from implants compared to other
  	<li>Print off and share with your physician the BII Symptom checklist</li>
 </ul>
 
-<h4>Suspected Culprits in Breast Implant Illness</h4>
+<h2>Suspected Culprits in Breast Implant Illness</h2>
 <strong>Biofilms and Autoimmune Diseases</strong>
 
 Biofilms are complex structures made of bacteria, yeast and other organisms that adhere to a surface, in this case, implants. Biofilm development was analyzed in a combination of implant types including, silicone (47), textured implants (44), saline (3) and smooth implants (6) in women who had Breast Implant Illness (BII) compared to women without symptoms. The BII group had a 6-fold greater rate of positive cultures with the most prominent organism being Propionibacterium acnes, compared to the women who had implants without BII symptoms. The researchers identified positive cultures in 36% of BII pts compared to 6% of controls. Uncertainty is present as to the impact of the biofilms contribution in individuals that experience BII. However, P. acnes has been connected with various rheumatological disorders, including CREST disease, thyroid disease, sarcoidosis, and endophthalmitis (inflammation of the eye). The commonality was that P. acnes was found in the lymph nodes of these patients. Staphylococcus epidermis was another organism cultured in both the BII and control groups. Other pts in the BII group had polymicrobial growth of gram neg bacilli and candida. This is not the first time organisms were studied in this way. Previous research found E. coli and staph epidermidis colonizing the implants as well.
@@ -164,7 +164,7 @@ BIA-ALCL is a rare form of T-cell lymphoma that occurs in some people who have h
 
 A study was done evaluating 750 women. Preoperative and postoperative survey scores were taken. The survey was to determine symptoms present in patients who had Breast Implant Illness before and after capsulectomy which included: numbness and tingling in the extremities, joint and/or muscle pain, hair loss, memory loss/cognitive problems, dry eyes and/or blurred vision, chronic fatigue, breast pain, rashes or hives, food sensitivities/intolerance, flu-like symptoms and/or low-grade fever, and difficulty breathing. Patients were asked to rate symptoms on a scale from 0 (absent) to 5 (very severe). Significant immediate and sustained improvement occurred after the removal of the implant and the capsule surrounding the implant in the majority of patients 30 days post-explant.
 All patients were treated using total capsulectomy and implant removal. Implant fill and texture were diverse: 303 of 750 had saline implants, 413 had silicone implants, 555 had smooth implants, 150 had textured implants, and 6 had polyurethane-coated implants either smooth or textured. Histologic analysis of capsules surrounding an intact and ruptured implant showed chronic inflammation in the tissues surrounding the implant. The theory is that the silicone shell can trigger the reaction and symptoms in women who have both saline and silicone implants. (<a href="https://journals.lww.com/annalsplasticsurgery/Fulltext/2020/07001/Understanding_Breast_Implant_Illness,_Before_and.19.aspx" target="_blank" rel="noopener noreferrer">https://journals.lww.com/annalsplasticsurgery/Fulltext/2020/07001/Understanding_Breast_Implant_Illness,_Before_and.19.aspx</a>)
-<h4>Treatment strategies for the BII Healing Program</h4>
+<h2>Treatment strategies for the BII Healing Program</h2>
 <strong>Step 1: Consult with a Surgeon</strong>
 
 The ideal candidate is one who has extensive knowledge about BII and the importance of explantation using the En bloc procedure.
@@ -268,7 +268,7 @@ The toxic load within the extracellular fluid matrix bathes all the organs and d
 <strong>Goal #6: Heal the Brain</strong>
 
 Most BII patients will feel better after completing the first 5 goals to wellness. The brain is being addressed through this whole process through nutrient repletion, HBOT, and FSM therapies. There may be some patients who need some more specific attention to brain health and for these patients we utilize brain mapping (QEEG) where we can decipher Delta, Theta, Alpha, and Beta brain waves and create customized approaches of rewiring the brain for individual optimal functioning. Neurofeedback provides a true restoration of brain functioning with improved stress response, elevated and steady moods, and enhanced memory and cognitive abilities.
-<h4>Specifics on the BII Healing Program</h4>
+<h2>Specifics on the BII Healing Program</h2>
 At EVND we want individuals to take initiative in their healing and we hope to provide the tools to allow you to do so using our Treatment Center therapies without the need of establishing yourself with one of the doctors. If you are not achieving the results that you would expect to after following Phase I of this program, however we highly recommend that you meet with one of our doctors for a more deep and specific look into your overall health state. We may need to see if there are other obstacles that are hindering you from healing or 6-8 weeks may not be long enough in the detox portion and may be recommended to detox longer. Entering into Phase II of the BII Healing Program is appropriate when you are being led by one of our physicians as they know and understand what to look for in the healing process.
 
 Hydration is extremely important when moving toxins out of the body. We recommend that you put great effort in drinking plenty of filtered water during this time. Also to properly detoxify regular bowel movements at least 1 x day is necessary and if you are having difficulty achieving this or have chronic digestive issues it would be best to establish yourself with one of our physicians to get to the root issue and help correct this before proceeding with detoxification.
@@ -287,25 +287,25 @@ We recommend incorporating Goal #2-4 simultaneously for the best outcome. We rec
 </ul>
 Lymph movement is important when detoxing. As long as we are sweating, having regular bowel movements you will be more successful at ridding the body of toxins from the liver, kidneys, skin and bowels.  Herbal lymphagogues are important to take and are recommended in this program. General exercise can be helpful for lymph movement and lymph drainage techniques handout will be discussed at this time. Lymphatic massage and frequency specific microcurrent are additional therapies that may be recommended based on symptoms.
 
-<h4>Enhanced Detox Recommendations</h4>
+<h2>Enhanced Detox Recommendations</h2>
 Additional detox strategies can be included to help the body better get rid of toxins and are highly recommended for patients who have been ill for over 5 years or had implants present for over 10 years.
-<h4>Infrared Sauna Therapy:</h4>
+<h2>Infrared Sauna Therapy:</h2>
 If purchasing a personal sauna isn’t an option then you are welcome to schedule your sauna session at EVND. Prepare to work yourself up from 10 minutes to 30 minutes. Bring ice water to sip on while in session to help you stay in longer. <a href="/detoxification/">To better understand the health benefits of the Infrared Sauna click here</a>. We recommend Sauna therapy as often as you can for the 6 weeks, with a minimum of 3 sessions a week for optimal benefits.
 
 **Electrolytes to be taken post sauna. Ex. Reacted Multi-Min (Orthomolecular) 3 capsules or Liquid Trace Minerals 1/2-1 tsp in water before and after Infrared Sauna treatment.
-<h4>Detox Footbath:</h4>
+<h2>Detox Footbath:</h2>
 This is an excellent tool that can aid the body in liberating chemicals and metals from the body. We recommend 2 sessions a week with 3-4 days separating treatments as this therapy has shown significant benefit in removal of heavy metals, and glyphosate. (For ex. Monday and Thursday or Tuesday and Friday). Each session takes 30 minutes. <a href="/detoxification/">To better understand all of the health benefits from the Detox Footbath therapy click here</a>. We recommend Detox Footbath treatments 2 x week for 6 weeks.
 
 **Electrolytes to be taken post footbath. Ex. Reacted Multi-Min (Orthomolecular) 3 capsules or Liquid Trace Minerals 1/2-1 tsp in water before and after Infrared Sauna treatment.
-<h4>Infrared Sauna and Detox Footbath Combined Therapy:</h4>
+<h2>Infrared Sauna and Detox Footbath Combined Therapy:</h2>
 This gives you an opportunity to mix the therapies and get the best of both worlds. Some choose to alternate weeks of sauna with footbath. For example Week 1 Infrared Sauna therapy sessions, Week 2 Detox Footbath sessions. This gives the patient the ability to see if they are responding better to one detox therapy over another one.
 
 **Electrolytes to be taken post footbath and sauna. Ex. Reacted Multi-Min (Orthomolecular) 3 capsules or can add Electrolyte powder (Example Optimal Electrolyte Berry Powder by Seeking Health) to your water following the footbath or Sauna.
-<h4>Injection Therapy</h4>
+<h2>Injection Therapy</h2>
 Injections that contain key nutrients for detox support can be added in at any time for additional support. We recommend at most 1 x week to 1-2 x month.
-<h4>Super Detox Shot</h4>
+<h2>Super Detox Shot</h2>
 This injection includes the ingredients: M.I.C., B complex and Glutathione. Glutathione is a potent antioxidant. One of its many roles in the body is to protect the cells from damage induce by lifestyle and environmental factors. Often these toxicities decrease the amount present in the body which only further taxes the body’s ability to rid itself from toxins. MIC stands for methionine, inositol and choline which aid the liver in detoxification. There have been some reports that Inositol has also been able to rid the body of silicone specifically.
-<h4><strong>Intravenous Therapy</strong></h4>
+<h2><strong>Intravenous Therapy</strong></h2>
 Nutritional IVs are wonderful therapy that can be used to deliver a higher level of nutrients to the cells that would not be able to be received when taken orally. Detox Defender IVs are sometimes used for those who are considered nutrient deficient and need a boost of Vitamins to help facilitate not only better detox but cell repair. These IVs contain Vitamin C, B vitamins, calcium, magnesium, zinc and selenium and glutathione.The timeline of healing is different for everyone. There are influencing factors which may prolong improvement for some as noted below. 
 
 <b>Influencing Factors:</b>
@@ -378,4 +378,4 @@ Hyperbaric oxygen therapy (HBOT) is a tried and studied treatment that uses a pr
 <b>Neurofeedback</b>
 
 Neurofeedback is a technique used to retrain brain waves toward optimal functioning by strengthening positive neural pathways. A QEEG is done initially as it is used to evaluate how the brain functions. It is often referred to as a brain map as it gathers information on brainwave patterns, relationships and interactions between different parts of the brain, and the efficiency of communication between different parts of the brain. This information is interpreted in order to develop an individualized treatment plan for neurofeedback. 
-<h5>We hope this is helpful for you and invite you to not get overwhelmed with what you think you’re not doing or don’t know. We welcome you to call us at <a href="tel:480-985-0000"><strong>(480) 985-0000 </strong></a>with any questions or concerns you may have about Breast Implant Illness.</h5>
+<h3>We hope this is helpful for you and invite you to not get overwhelmed with what you think you’re not doing or don’t know. We welcome you to call us at <a href="tel:480-985-0000"><strong>(480) 985-0000 </strong></a>with any questions or concerns you may have about Breast Implant Illness.</h3>

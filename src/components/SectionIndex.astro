@@ -24,7 +24,7 @@ if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section
     return (
       <div class="sec-card">
         <a class="sec-card-head" href={item.href}>
-          <h3>{item.label}</h3>
+          <h2>{item.label}</h2>
           <Icon name="arrow-up-right" size={16} />
         </a>
         {showChildren && kids.length > 0 && (

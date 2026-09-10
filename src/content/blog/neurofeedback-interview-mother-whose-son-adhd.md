@@ -23,15 +23,15 @@ Attention Deficit Hyperactivity Disorder, commonly known as ADHD, is a chronic b
 For Carin Dawson, an East Valley mother, finding a treatment to help her son, JT, who had ADHD was a top priority for her. JT was finding it difficult to sleep and focus along with feeling antsy, antisocial, and impulsive. Carin explained how her son didn’t have the full ability to think before he spoke or acted which resulted in acting up at both school and home.
 
 “He would get in a lot of trouble at school because he would be tardy because he was taking too long or put his hat on in class after the teacher told him not to,” Carin said. “He was getting a lot of negative feedback from the teachers.”
-<h3><b>Starting Neurofeedback</b></h3>
+<h2><b>Starting Neurofeedback</b></h2>
 That’s when Carin decided to try neurofeedback at East Valley Naturopathic Doctors in Mesa. The Dawson’s had heard positive feedback from people on neurofeedback along with some negative statements saying it was very expensive or will only work if they frequently went.
 
 “It was an investment,” Carin said. “But it was something we decided was worth it… because the doctor had said it would potentially get rid of the symptoms associated with ADHD. So we were like, “done.” We pretty much would do anything.”
 
 JT started the neurofeedback sessions at the end of his eighth-grade year this past April. Three times a week for the eight weeks, JT went into East Valley Naturopathic Doctors and went through the neurofeedback sessions until he was completely changed.
-<h3><b>How it Works</b></h3>
+<h2><b>How it Works</b></h2>
 How the neurofeedback sessions work is like this: The doctor has the client sit in a recliner with EEG (electroencephalogram), leads attached to specific areas on the scalp. These leads are then connected to a computer where the doctor can monitor the brainwave activity. The patient then observes auditory and/or visual feedback, which rewards the client when their brain waves meet the criteria needed for optimal brain performance. The feedback is removed when the brain waves do not meet the criteria. To the client it just looks like the picture on the screen fading in and out along with the sound.
-<h3><b>After Neurofeedback Therapy</b></h3>
+<h2><b>After Neurofeedback Therapy</b></h2>
 “I could see some slight changes after five or six sessions,” Carin said. “However, after about the tenth one, JT could feel the differences.”
 
 Carin went on to explain that after the tenth session, JT was noticing how he was sleeping better and was coming home from school so much happier. He started acing tests because he was able to focus and sit down to take the test. His teachers even started noticing and couldn’t believe the changes in JT’s behavior.

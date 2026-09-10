@@ -227,8 +227,20 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
     }, 4000);
   }
 
-  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 20);
-  onScroll();
+  // `is-scrolled` shrinks the header. Two things kept this cheap to get wrong:
+  // toggling the class on every scroll event invalidates style even when the
+  // value has not changed, and calling it synchronously at load forced a full
+  // layout of the ~1,400-node page before first paint — the trace put 81 ms on
+  // it. Now it only writes when the state flips, and the first read waits for
+  // the next frame so it never sits in the critical path.
+  let scrolled: boolean | undefined;
+  const onScroll = () => {
+    const now = window.scrollY > 20;
+    if (now === scrolled) return;
+    scrolled = now;
+    nav.classList.toggle('is-scrolled', now);
+  };
+  requestAnimationFrame(onScroll);
   window.addEventListener('scroll', onScroll, { passive: true });
 
   // The panel sits below the header bar inside a sticky element, so the height

@@ -31,7 +31,7 @@ REFERENCE
  	<li aria-level="2"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Loo+CK&amp;cauthor_id=22215866">Colleen K Loo</a> et al; <b>Transcranial direct current stimulation for depression: 3-week, randomized, sham-controlled trial</b>. Br J Psychiatry. 2012 Jan;200(1):52-9. doi: 10.1192/bjp.bp.111.097634. PMID: 22215866</li>
 </ol>
 
-<h4>Study: Transcranial direct current stimulation for depression: 3-week, randomised, sham-controlled trial</h4>
+<h2>Study: Transcranial direct current stimulation for depression: 3-week, randomised, sham-controlled trial</h2>
 <strong>Background: </strong>Preliminary evidence suggests transcranial direct current stimulation (tDCS) has antidepressant efficacy.
 
 <strong>Aims: </strong>To further investigate the efficacy of tDCS in a double-blind, sham-controlled trial (registered at www.clinicaltrials.gov: <a title="See in ClinicalTrials.gov" href="http://clinicaltrials.gov/show/NCT00763230">NCT00763230</a>).

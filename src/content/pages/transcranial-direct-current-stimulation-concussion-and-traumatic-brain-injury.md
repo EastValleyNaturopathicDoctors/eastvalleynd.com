@@ -40,7 +40,7 @@ REFERENCE
  	<li aria-level="2"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Kim%20WS%5BAuthor%5D">Won-Seok Kim</a> et al; <b>Transcranial direct current stimulation for the treatment of motor impairment following traumatic brain injury. </b><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6347832/#">J Neuroeng Rehabil.</a> 2019; 16: 14.Published online 2019 Jan 25. doi: <a href="https://doi.org/10.1186%2Fs12984-019-0489-9">10.1186/s12984-019-0489-9</a>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/30683136">30683136</a>. PMCID: PMC6347832</li>
 </ol>
 
-<h4>Study: <b>Transcranial direct current stimulation modulates working memory and prefrontal-insula connectivity after mild-moderate traumatic brain injury</b></h4>
+<h2>Study: <b>Transcranial direct current stimulation modulates working memory and prefrontal-insula connectivity after mild-moderate traumatic brain injury</b></h2>
 <p><strong>Background:</strong> Persistent posttraumatic symptoms (PPS) may manifest after a mild-moderate traumatic brain injury (mmTBI) even when standard brain imaging appears normal. Transcranial direct current stimulation (tDCS) represents a promising treatment that may ameliorate pathophysiological processes contributing to PPS.</p>
 <strong>Objective/Hypothesis:</strong> We hypothesized that in a mmTBI population, active tDCS combined with training would result in greater improvement in executive functions and post-TBI cognitive symptoms and increased resting state connectivity of the stimulated region, i.e., left dorsolateral prefrontal cortex (DLPFC) compared to control tDCS.
 

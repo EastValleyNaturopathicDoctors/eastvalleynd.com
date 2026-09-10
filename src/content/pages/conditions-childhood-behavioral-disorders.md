@@ -18,7 +18,7 @@ Neurofeedback has now been used clincially for nearly 40 years. It stands as one
 <img src="/images/page-inline/2017-03-EVND.png" alt="anxiety" width="300" height="300" />Anxiety is one of the most common mental disorders affecting children, adolescents, and adults. Anxiety can express as feelings of intense fear, inadequacy, or reduced coping ability in social interactions and functions of daily living. It may start early in life and persist over time, or it may rise suddenly in middle age without provocation. It may begin during a period of extreme stress, or arise as a subtle symptom of irregular sleep patterns. Anxiety can be sufficiently crippling to keep someone from leaving their home, and so subtle, that it goes undetected in close friends.
 
 Traditional medicine has offered counseling and prescription medication with great benefit to some, mild benefit to others, and no relief for too many. Neurofeedback has successfully treated anxiety in all age groups and across all forms. Successful treatment leads to better sleep quality, improved relationships, and greater ease and comfort while engaging with others.
-<h4>NEUROFEEDBACK RESEARCH SUPPORTING TREATMENT of ANXIETY</h4>
+<h2>NEUROFEEDBACK RESEARCH SUPPORTING TREATMENT of ANXIETY</h2>
 <a href="http://www.scielo.br/scielo.php?script=sci_arttext&amp;pid=S1516-44462016000300264"><strong>A neurofeedback protocol to improve mild anxiety and sleep quality.</strong></a>
 
 Rev Bras Psiquiatr. 2016 Jul-Sep;38(3):264-5. doi: 10.1590/1516-4446-2015-1811.
@@ -130,7 +130,7 @@ A robust body of neurophysiologic research is reviewed on functional brain abnor
 Standard treatment protocols frequently prescribe medications before assessing neurotransmitter levels or brain wave activity. This approach is effective only 33% of the time. The majority of patients prescribed anti-depressants will have no effect at all or side effects that force patients to stop medications and seek alternative therapies.
 
 The proper treatment of depression requires a comprehensive assessment of metabolic, endocrine, and immune disorders along with brain wave activity or quantitative encephalography (qEEG). Neurofeedback treatment begins to tap at the root of depressive symptoms. When neurofeedback is combined with genetic, neurotransmitter, and hormone testing, a more complete and whole treatment plan will produce positive outcomes without the risk of side effects.
-<h4>Neurofeedback Research Supporting Treatment of Depression</h4>
+<h2>Neurofeedback Research Supporting Treatment of Depression</h2>
 <a href="https://www.ncbi.nlm.nih.gov/pubmed/26392114"><b>The Efficacy of Neurofeedback in Patients with Major Depressive Disorder: An Open Labeled Prospective Study.</b></a>
 
 Appl Psychophysiol Biofeedback. 2016 Mar;41(1):103-10. doi: 10.1007/s10484-015-9315-8.
@@ -154,7 +154,7 @@ Forceful actions to regulate behavior, even when well intended, often intensify 
 Neurofeedback can been applied with children of any age. Some children have behavioral disorders which may accompany other learning or social engaging disorders such as attention deficit or autism. Behavioral conditions are rarely just the only problem but go hand in hand with other difficulties in engaging within a normal or routine structure.
 
 Neurofeedback has been shown to have a very positive response in varying behavioral disorders. Even though each child can present very different from other children, even with the same diagnosis, neurofeedback optimizes neural networks and connections. These changes within the brain lead to improved ability in learning, flexibility with others needs and requests, and being more receptive toward structure and correction in the child’s interest.
-<h4>Neurofeedback Research Supporting Treatment of Reactive Attachment Disorder and Other Behavioral Disorders</h4>
+<h2>Neurofeedback Research Supporting Treatment of Reactive Attachment Disorder and Other Behavioral Disorders</h2>
 <a href="https://www.ncbi.nlm.nih.gov/pubmed/10915615">Dysfunction in the Neural Circuitry of Emotion Regulation—A Possible Prelude to Violence.</a>
 
 Science. 2000 Jul 28:289(5479):591-4
@@ -280,7 +280,7 @@ In RAD, the most devastating reality is the absence of the other, the internal e
 Although research on the effectiveness of neurofeedback for learning disabilities is in its early stages, the few studies completed show that neurofeedback can be useful in several types of learning disabilities including reading and math. Instead of helping a person compensate for, or work around, their learning difficulties, neurofeedback actually improves the ability to learn by training the areas of the brain relevant to math, reading, auditory and visual processing and execution. Neurofeedback should not replace essential or beneficial support in overcoming learning disorders because it will speed progress in learning objectives when applied at the same time.
 
 Neurofeedback for learning disabilities is often especially helpful with a history of head injuries and when other difficulties including frustration, irritability, anger, anxiety, and mood are also present. In addition we find that children with sensory, autism, or behavioral problems often have undiagnosed learning disorders. Learning cannot occur optimally until these initial layers of brain dysregulation are cleared. Neurofeedback has demonstrated great ability to clear these lower layers with eventual  improvement in symptoms and disabilities of higher functioning.
-<h4>Neurofeedback Research Supporting Treatment of Reading and Learning Disorders</h4>
+<h2>Neurofeedback Research Supporting Treatment of Reading and Learning Disorders</h2>
 <a href="https://www.ncbi.nlm.nih.gov/pubmed/24904993">Self-regulation of inter-hemispheric visual cortex balance through real-time fMRI neurofeedback training.</a>
 
 <a href="https://www.ncbi.nlm.nih.gov/pubmed/24904993">Neuroimage.</a> 2014 Oct 15;100:1-14. doi: 10.1016/j.neuroimage.2014.05.072. Epub 2014 Jun 4.
@@ -328,7 +328,7 @@ Sensory processing disorders(SPD) are caused by a block or “traffic jam” in 
 Brain mapping studies of people with ASD and SPD have revealed distinctive patterns of neural dysregulation. As with many brain-based disorders, autism, and sensory processing disorders are distinguished by abnormalities in the brain’s electrical activity patterns, a factor that neurofeedback therapy has been clinically proven to help correct.
 
 Neurofeedback reduces symptoms by improving self-regulation in children with ASD and SPD through balancing brain rhythms or electrical patterns. Neurofeedback is able to reduce sensory “overload”, improve behavioral dysregulation and communication, and enhance learning. Neurofeedback therapy can be used on its own, or in conjunction with other treatments such as occupational therapy. Improvements reported include an increase in verbal and social engagement, reduced self-stimulatory behavior (i.e. hand flapping), improvement in following through with verbal requests, increase in empathy, better sleep onset and duration, less anxiety, improved behavior, and improved sensory response. For children with ASD and SPD, neurofeedback therapy presents an incredibly safe and side-effect-free option for managing and reducing problems with autism and sensory processing.
-<h4>Neurofeedback Research Supporting Treatment of ASD and SPD</h4>
+<h2>Neurofeedback Research Supporting Treatment of ASD and SPD</h2>
 <a href="http://www.ncbi.nlm.nih.gov/pubmed/26210513"><b>An Effective Neurofeedback Intervention to Improve Social Interactions in Children with Autism Spectrum Disorder.</b></a>
 
 <a href="http://www.ncbi.nlm.nih.gov/pubmed/26210513"><b>J Autism Dev Disord.</b></a><b> 2015 Dec;45(12):4084-100. doi: 10.1007/s10803-015-2523-5</b>

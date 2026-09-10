@@ -14,20 +14,20 @@ sourceUrl: "/transcranial-direct-current-stimulation/"
 ---
 
 Transcranial direct current stimulation (tDCS) is a non-invasive brain stimulation considered to have the potential to improve cognitive impairment in patients ranging from neurodevelopmental disorders(ADHD), mood disorders, traumatic brain injuries to mild cognitive impairment (MCI) and Alzheimer’s disease (AD).
-<h6>Concussion and Traumatic Brain Injury</h6>
+<h2>Concussion and Traumatic Brain Injury</h2>
 
-<h6>Dementia and Alzheimer's</h6>
+<h2>Dementia and Alzheimer's</h2>
 
-<h6>ADHD</h6>
+<h2>ADHD</h2>
 
-<h6>Dysmenorrhea</h6>
+<h2>Dysmenorrhea</h2>
 
-<h6>Depression</h6>
+<h2>Depression</h2>
 
-<h6>Anxiety</h6>
+<h2>Anxiety</h2>
 
-<h6>Autism</h6>
+<h2>Autism</h2>
 
-<h6>Tic Disorders</h6>
+<h2>Tic Disorders</h2>
 
-<h6>Long COVID</h6>
+<h2>Long COVID</h2>

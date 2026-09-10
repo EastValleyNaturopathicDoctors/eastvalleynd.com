@@ -13,7 +13,12 @@
 
   /* Brand accents — used sparingly */
   --grn: #6CBE3F;            /* logo bright green */
-  --grn-2: #4FA22A;
+  /* Green for text and icons. Was #4FA22A, which is 3.21:1 on white — under
+     the 4.5:1 AA floor for body text, and it was the colour of every link in
+     every article body. #367A1B is 5.31:1 on white and 4.6:1 on the soft
+     green, so it clears AA on every ground it is used on. --grn is untouched:
+     the logo green stays on the logo, the dots and the button fills. */
+  --grn-2: #367A1B;
   --grn-soft: #ECF6E2;
   --blu: #2DAFE5;            /* legacy site blue */
   --blu-soft: #E4F4FB;
@@ -24,8 +29,15 @@
   --radius: 14px;
   --radius-lg: 22px;
 
-  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Bricolage Grotesque", "Manrope", system-ui, sans-serif;
+  /* The "… Fallback" faces are Arial with capsize's metric overrides
+     (src/styles/font-fallbacks.css), so text laid out before the web font
+     arrives occupies the same lines it will after. They must sit directly
+     behind the real face: anything in between would render first and shift. */
+  --font-sans: "Manrope", "Manrope Fallback", Arial, ui-sans-serif, system-ui, sans-serif;
+  /* fontsource registers the variable build under this exact name — plain
+     "Bricolage Grotesque" would match nothing and fall back to Manrope
+     without a word of warning. */
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque Variable Fallback", Arial, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
@@ -158,7 +170,10 @@ em { font-style: normal; color: var(--grn-2); }
    both SVGs share a 1020x246 viewBox, so it lands on the same footprint and the
    swap moves nothing beside it. */
 .logo-rotator { position: relative; display: inline-block; line-height: 0; }
-.logo-rotator img { opacity: 0; transition: opacity .5s ease; }
+/* aspect-ratio: the trace flagged the SVG as an unsized image (0.0005 CLS).
+   `height: 44px; width: auto` only knows the width once the file has loaded;
+   the ratio reserves it up front. Both lockups share the 1020x246 viewBox. */
+.logo-rotator img { opacity: 0; transition: opacity .5s ease; aspect-ratio: 1020 / 246; }
 .logo-rotator img + img { position: absolute; left: 0; top: 0; }
 .logo-rotator img.is-on { opacity: 1; }
 /* No script, no rotation: the first lockup must still be visible. */
@@ -179,9 +194,6 @@ em { font-style: normal; color: var(--grn-2); }
 .navlink.is-active { background: var(--ink); color: #fff; }
 .mainnav-right { display: flex; align-items: center; gap: 12px; }
 .hamburger { display: none; padding: 8px; }
-
-.pp-dot.treat { background: var(--blu); }
-.pp-dot.optimize { background: var(--grn); }
 
 @media (max-width: 980px) {
   .mainnav-links { display: none; }
@@ -435,7 +447,10 @@ em { font-style: normal; color: var(--grn-2); }
   color: var(--grn-2);
   margin-bottom: 24px;
 }
-.found-cell h4 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+/* Card titles are h3: they sit under a section h2, and Lighthouse flagged
+   the h2 -> h4 skip on every page carrying these cards. The hero's two
+   .dp-title panels are h2 for the same reason — they followed the h1 directly. */
+.found-cell h3 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
 .found-cell p { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
 
 @media (max-width: 900px) {
@@ -452,7 +467,6 @@ em { font-style: normal; color: var(--grn-2); }
 @keyframes dot { 0%, 80%, 100% { opacity: 0.3; } 40% { opacity: 1; } }
 
 @media (max-width: 900px) {
-  .ask-wrap { grid-template-columns: 1fr; }
 }
 
 /* =============================================================
@@ -476,7 +490,6 @@ em { font-style: normal; color: var(--grn-2); }
    CONDITIONS
    ============================================================= */
 .conditions-section { background: #fff; }
-.conditions-section.is-dimmed { opacity: 0.55; transition: opacity .35s; }
 .cond-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -515,7 +528,7 @@ em { font-style: normal; color: var(--grn-2); }
   align-self: flex-start;
   backdrop-filter: blur(6px);
 }
-.cond-card h4 {
+.cond-card h3 {
   font-family: var(--font-display);
   font-weight: 600; font-size: 18px;
   margin: 0;
@@ -613,7 +626,7 @@ em { font-style: normal; color: var(--grn-2); }
   transition: background .2s, color .2s;
 }
 .therapy-card:hover .therapy-icon { background: var(--grn); color: var(--ink); }
-.therapy-card h4 {
+.therapy-card h2, .therapy-card h3 {
   font-family: var(--font-display);
   font-size: 19px; line-height: 1.2; font-weight: 600;
   letter-spacing: -0.01em;
@@ -634,7 +647,6 @@ em { font-style: normal; color: var(--grn-2); }
    OPTIMIZATION
    ============================================================= */
 .opt-section { background: var(--bg-soft); }
-.opt-section.is-dimmed { opacity: 0.55; transition: opacity .35s; }
 .opt-grid {
   display: grid; grid-template-columns: 1.1fr 1fr;
   gap: 24px;
@@ -692,7 +704,7 @@ em { font-style: normal; color: var(--grn-2); }
   color: var(--grn-2);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.opt-item h4 { font-family: var(--font-display); font-size: 18px; margin: 0 0 4px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.opt-item h3 { font-family: var(--font-display); font-size: 18px; margin: 0 0 4px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
 .opt-item p { margin: 0; font-size: 14px; color: var(--ink-3); }
 
 @media (max-width: 1000px) { .opt-grid { grid-template-columns: 1fr; } }
@@ -716,7 +728,7 @@ em { font-style: normal; color: var(--grn-2); }
 }
 .doc-row:hover { background: var(--bg-softer); }
 .doc-num { font-family: var(--font-mono); font-size: 13px; color: var(--ink-3); }
-.doc-name h4 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+.doc-name h2, .doc-name h3 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
 .doc-name span { font-size: 12.5px; color: var(--ink-3); font-family: var(--font-mono); letter-spacing: 0.04em; }
 .doc-focus { color: var(--ink-2); font-size: 15px; }
 .doc-photo {
@@ -744,7 +756,6 @@ em { font-style: normal; color: var(--grn-2); }
 @media (max-width: 1000px) {
   .doc-row { grid-template-columns: 40px 1fr 1fr 60px; gap: 14px; }
   .doc-focus { grid-column: 1 / -1; padding-left: 54px; }
-  .doc-years { display: none; }
   .doc-cta { padding: 8px 12px; font-size: 12px; }
 }
 
@@ -753,7 +764,6 @@ em { font-style: normal; color: var(--grn-2); }
    ============================================================= */
 .testi-section { background: var(--ink); color: #fff; padding: clamp(80px, 10vw, 140px) 0; }
 .testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
-.testi-section .eyebrow-dot { background: var(--grn); }
 .testi-wrap { display: flex; flex-direction: column; gap: 48px; }
 .testi-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
 .testi-nav { display: flex; gap: 6px; }
@@ -845,7 +855,7 @@ em { font-style: normal; color: var(--grn-2); }
 }
 .res-meta span:first-child { background: var(--grn); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-weight: 600; }
 .res-meta span:last-child { background: rgba(14,19,17,0.6); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
-.res-card h4 { font-family: var(--font-display); font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; margin: 18px 22px 0; text-wrap: balance; }
+.res-card h3 { font-family: var(--font-display); font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; margin: 18px 22px 0; text-wrap: balance; }
 .res-author { padding: 4px 22px 22px; color: var(--ink-3); font-size: 13px; }
 .res-arrow {
   position: absolute; bottom: 18px; right: 18px;
@@ -870,7 +880,10 @@ em { font-style: normal; color: var(--grn-2); }
 }
 .faq-left .h2 { margin: 12px 0 18px; }
 .faq-left p { color: var(--ink-2); margin: 0 0 24px; }
-.faq-left a { color: var(--grn-2); border-bottom: 1px solid var(--grn); }
+/* `:not(.btn)`: the FAQ column also holds the "Book online" button, and this
+   rule was winning over .btn-dark's white text — green on near-black, the one
+   contrast failure Lighthouse could still find on the homepage. */
+.faq-left a:not(.btn) { color: var(--grn-2); border-bottom: 1px solid var(--grn); }
 .faq-list { border-top: 1px solid var(--line); }
 .faq-item { border-bottom: 1px solid var(--line); }
 
@@ -979,7 +992,7 @@ em { font-style: normal; color: var(--grn-2); }
 .footer-contact { display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
 .footer-contact a, .footer-contact span { display: inline-flex; align-items: center; gap: 10px; }
 .footer-contact a:hover { color: #fff; }
-.footer-col h5 { font-family: var(--font-display); color: #fff; font-size: 14px; margin: 0 0 18px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.footer-col h2 { font-family: var(--font-display); color: #fff; font-size: 14px; margin: 0 0 18px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .footer-col a { font-size: 14px; transition: color .2s; }
 .footer-col a:hover { color: #fff; }
@@ -1017,12 +1030,9 @@ em { font-style: normal; color: var(--grn-2); }
 }
 
 @media (max-width: 600px) {
-  .chat-fab { bottom: 16px; right: 16px; }
-  .chat-teaser { display: none; }
 }
 
 /* =============================================================
    Path-mode visual emphasis (small accents)
    ============================================================= */
 .app.path-treat .cond-arrow { background: rgba(45,175,229,0.3); }
-.app.path-optimize .therapy-icon { background: var(--grn-soft); }

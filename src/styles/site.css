@@ -608,7 +608,7 @@ a.mobilenav-top { border-bottom: 1px solid var(--line); }
   display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
   color: inherit;
 }
-.sec-card-head h3 {
+.sec-card-head h2 {
   font-family: var(--font-display); font-size: 19px; font-weight: 600;
   letter-spacing: -0.012em; line-height: 1.24; margin: 0;
 }

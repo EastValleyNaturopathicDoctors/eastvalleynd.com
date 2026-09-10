@@ -25,5 +25,5 @@ Dr. Schwartz grew up in Michigan, where she attended Oakland University and grad
 
 <hr />
 
-<h4>Schedule an appointment with Dr. Laura Schwartz</h4>
+<h2>Schedule an appointment with Dr. Laura Schwartz</h2>
 <iframe title="Book online appointments with Laura Kwiatkowski | Patient Fusion" src="https://www.patientfusion.com/external/appointment/25884059-33ce-4a7c-adcb-dbe6fe748f48?origin=doctor" width="1190px" height="380px" frameborder="0"></iframe>

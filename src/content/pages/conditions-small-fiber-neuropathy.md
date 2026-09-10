@@ -130,7 +130,7 @@ Acupuncture is an ancient eastern medicine model for treatment showing great pro
 <strong>Treatment Goals and Protocols</strong>
 
 The overall success of managing and resolving the chronic disability of small fiber neuropathy is still a great struggle. Modern medicines' best attempts to manage the pain symptoms still leave too many struggling with side effects and ongoing disability. Our approach is not to replace the current medicines and treatments, but to provide natural, low risk, effective, and synergistic therapies to reduce pain greater than 50 percent and restore mental and physical function greater than 75 percent. Please contact our office to learn how we can help you find the right therapies for your small fiber neuropathy.
-<h4>References</h4>
+<h2>References</h2>
 <ol>
  	<li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Shevalye+H&amp;cauthor_id=22751692">Hanna Shevalye</a> et al. Metanx alleviates multiple manifestations of peripheral neuropathy and increases intraepidermal nerve fiber density in Zucker diabetic fatty rats. Diabetes. 2012 Aug;61(8):2126-33.</li>
  	<li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rond%C3%B3n+LJ&amp;cauthor_id=28725942">Lusliany J Rondón</a> et al. L-Arginine supplementation prevents allodynia and hyperalgesia in painful diabetic neuropathic rats by normalizing plasma nitric oxide concentration and increasing plasma agmatine concentration. Eur J Nutr. . 2018 Oct;57(7):2353-2363<a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rosenberg+ML&amp;cauthor_id=32102167">.</a></li>

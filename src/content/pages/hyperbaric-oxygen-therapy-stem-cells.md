@@ -16,7 +16,7 @@ sourceUrl: "/stem-cells-hyperbarics/"
 cells have the ability to mature into multiple types of cells, as found in blood, brain, muscle, ligaments, or bones, leading to regeneration of the organ and the body. The process of specializing and becoming a specific type of cell is called differentiation. Due to this capability, stem cells migrate to help with renewal, repairing tissue, and replacing damaged cells. Stem cells have been found to be useful in the treatment of neurological disease, stroke, physical injuries, joint pain, Alzheimer’s disease, cancer and numerous other diseases and conditions, as research continues to reveal.
 
 Much research has been done with stem cells and hyperbaric oxygen therapy (HBOT) to determine its role in stem cell activation. In one experiment studying HBOT and stroke recovery, researchers found that HBOT promoted the proliferation of stem cells by upregulating certain signal pathways. This significantly increased the amount of stem cells present in the brain and circulatory system, which served to treat the post-stroke brain. Other cases found that exogenous stem cells can have a significant impact on regenerating the body from the effects of aging or other diseases. The body already has many innate mechanisms to heal itself, and HBOT energizes and enhances these processes, essentially driving the body to heal itself. Studies have demonstrated HBOT's therapeutic influence on stem cells with the following:
-<h6>Enhance Stem Cell Activity with HBOT–Documented Physiological Effects</h6>
+<h2>Enhance Stem Cell Activity with HBOT–Documented Physiological Effects</h2>
 <ul>
  	<li>Activates Nitric Oxide Synthase Type 3 (NOS-3)</li>
  	<li>Proliferates and Mobilizes Bone Marrow Derived Stem Cells</li>
@@ -26,7 +26,7 @@ Much research has been done with stem cells and hyperbaric oxygen therapy (HBOT)
  	<li>Reduces High ROS Levels</li>
  	<li>Promotes Endothelial Growth Factor-2 for Angiogenesis • Increases CD34 Expression &amp; Pluripotent Stem Cells</li>
 </ul>
-<h6>Enhance Healing from Disease or–Clinically Documented &amp; Supported Through Research Citations</h6>
+<h2>Enhance Healing from Disease or–Clinically Documented &amp; Supported Through Research Citations</h2>
 <ul>
  	<li>Accelerates Growth &amp; Repair of Damaged Tissue</li>
  	<li>Improves Tissue Regeneration &amp; Organ Functionality</li>
@@ -41,7 +41,7 @@ REFERENCE
  	<li>Liska, G. M., Lippert, T., Russo, E., Nieves, N., &amp; Borlongan, C. V. (2018). A Dual Role for Hyperbaric Oxygen in Stroke Neuroprotection: Preconditioning of the Brain and Stem Cells. Conditioning medicine, 1(4), 151–166.</li>
 </ol>
 
-<h4>Study: Stem Cells Mobilized with HBOT</h4>
+<h2>Study: Stem Cells Mobilized with HBOT</h2>
 A landmark study published in 2005 involved 26 patients who were at risk for osteoradionecrosis after undergoing radiation therapy for head or neck tumors. All patients underwent 20 HBOT treatments and blood was collected and evaluated after the first, tenth and twentieth treatment. The population of CD34 cells in the peripheral circulation system doubled after the first treatment and increased eightfold by the end of the trial. Colony-forming cells also significantly increased, while vascular endothelial growth factor-2 and stromal-derived growth factors increased as well. The study concluded that HBOT mobilizes bone marrow-derived stem/progenitor cells by stimulating nitric oxide synthesis.
 <ol>
  	<li>Thom, Stephen R., Veena M. Bhopale, Omaida C. Velazquez, Lee J. Goldstein, Lynne H. Thom and Donald G. Buerk. (2005) Stem cell mobilization by hyperbaric oxygen. Am J Physiol Heart Circ Physiol 290: H1378-H1386</li>

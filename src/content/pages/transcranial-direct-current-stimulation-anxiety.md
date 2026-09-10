@@ -33,7 +33,7 @@ REFERENCE
  	<li aria-level="2">Nitschke JB, Heller W. <b>Distinguishing neural substrates of heterogeneity among anxiety disorders.</b> Int Rev Neurobiol. 2005;<b>67</b>(05):1–42. PMID: 16291018</li>
 </ol>
 
-<h4>Study: Transcranial direct current stimulation for depression: 3-week, randomised, sham-controlled trial</h4>
+<h2>Study: Transcranial direct current stimulation for depression: 3-week, randomised, sham-controlled trial</h2>
 <strong>Background: </strong>Transcranial direct current stimulation (tDCS) is a type of non-invasive brain stimulation technique that has proven effective for neuropsychiatric disorders. Generalized anxiety disorder (GAD) and depression are common psychiatric disorders that often are comorbid, meaning they occur simultaneously. Current evidence supports the value of tDCS for GAD. The objectives of this report is to explore the effect of tDCS on clinical symptoms and cerebral function in a patient with comorbid GAD and depression.
 
 <p><strong>Methods:</strong> Our subject was a semiprofessional athlete diagnosed with comorbid GAD and depression. Symptoms included palpitations, sweating, continuous tension, and anxiety. We designed a B-A-B experimental protocol and used the Beck Anxiety Index (BAI), Beck Depression Index (BDI), and Pittsburgh Sleep Quality Index (PSQI) as assessment tools. Treatment consisted of 2 series of 15 days each, separated by a 3-week washout period. We collected functional near-infrared spectroscopy (fNIRS) data before and after both series, as well as fNIRS data immediately after the first treatment in both series. In addition, we collected functional magnetic resonance imaging data before and after the second series.</p>

@@ -15,21 +15,21 @@ Dr. Laura Schwartz (formerly Dr. Badalamenti), ND, is a licensed naturopathic do
 
 
 Dr. Schwartz is dedicated to discovering the causes and finding solutions for her patients’ health concerns. Her specialties include:
-<h5>PEDIATRICS</h5>
+<h2>PEDIATRICS</h2>
 Frequent ear infections, allergies, digestive issues, and stomach aches, frequent colds and flu’s, eczema, asthma, behavioral issues, and other pediatric illnesses, she is an excellent resource for families with children.
-<h5><a href="/conditions/gastrointestinal-disorders/">DIGESTIVE ISSUES</a></h5>
+<h2><a href="/conditions/gastrointestinal-disorders/">DIGESTIVE ISSUES</a></h2>
 IBS, constipation, diarrhea, bloating, gas, heartburn, indigestion, small intestinal bacterial overgrowth, Crohn’s disease, Ulcerative colitis, Celiac disease, Candida overgrowth, gallbladder issues
-<h5>METABOLIC ISSUES</h5>
+<h2>METABOLIC ISSUES</h2>
 Pre-diabetes, type 2 diabetes, weight loss, high cholesterol, high blood pressure, treatment, and prevention of cardiovascular disease
-<h5><a href="/conditions/womens-health/">WOMEN’S HEALTH</a></h5>
+<h2><a href="/conditions/womens-health/">WOMEN’S HEALTH</a></h2>
 Menopausal symptoms, PMS, painful periods, heavy periods, irregular cycles, ovarian cysts, endometriosis, vaginal infections, bladder infections, well-woman exams, and paps
-<h5>HORMONAL ISSUES</h5>
+<h2>HORMONAL ISSUES</h2>
 Hypothyroidism, hyperthyroidism, Hashimoto’s disease, Graves’ disease, adrenal dysfunction, bioidentical hormone treatments
-<h5>MOOD DISORDERS</h5>
+<h2>MOOD DISORDERS</h2>
 <a href="/conditions/mntal-health/depression-anxiety/">Depression and anxiety</a>, anger/Irritability
-<h5>FATIGUE</h5>
+<h2>FATIGUE</h2>
 Is often multifactorial and I will look into hormonal factors, the immune system and chronic infections, nutritional deficiencies, and many more causes
-<h5>ENVIRONMENTAL TOXIC BURDEN</h5>
+<h2>ENVIRONMENTAL TOXIC BURDEN</h2>
 Heavy metals/chelation, cleanses for detoxification. I highly recommend testing for toxins if you plan on becoming pregnant. Cleansing is optimal at least 1 year before you plan to conceive.
 <ul>
  	<li><a href="/specialty-labs/">ALLERGY TESTING</a></li>

@@ -14,7 +14,7 @@ sourceUrl: "/cancer-hyperbarics/"
 ---
 
 American Cancer Society estimates that in 2019 there will be 1,762,450 new cancer cases diagnosed, representing a 28% increase when compared to 2005. With cancer being one of the leading causes of death world-wide, integrated treatments are increasingly being utilized. Current research on Hyperbaric oxygen therapy (HBOT) use, in conjunction with conventional treatments like radiation and chemotherapy, assists in attaining optimal dosages for patients, stimulates tumor regression and reduces the side effects of treatments. HBOT increases the levels of oxygen within the body creating a benefit in delivering the chemotherapy and radiotherapy to the deepest parts of the tumor. Studies have demonstrated the benefits of HBOT for cancer with the following:
-<h6>Enhance "Conventional" Cancer Therapies &amp; Treatments</h6>
+<h2>Enhance "Conventional" Cancer Therapies &amp; Treatments</h2>
 <ul>
  	<li>Reduces Tumor Hypoxia
 <ul>
@@ -26,30 +26,30 @@ American Cancer Society estimates that in 2019 there will be 1,762,450 new cance
  	<li>Decreases Tumor Drug Resistance</li>
  	<li>Allows for Optimal Therapy Dosage to be Attained</li>
 </ul>
-<h6>Reduce Side Effects of "Conventional" Cancer Therapies &amp; Treatments</h6>
+<h2>Reduce Side Effects of "Conventional" Cancer Therapies &amp; Treatments</h2>
 <ul>
  	<li>Reduces Radiation Therapy Side Effects</li>
  	<li>Decreases Chemotherapy Side Effects</li>
  	<li>Accelerates Post-Operative Healing &amp; Prevents Infection</li>
  	<li>Reduces Chemo-Brain Syndrome Symptoms</li>
 </ul>
-<h6>Enhance IV Cancer Treatments</h6>
+<h2>Enhance IV Cancer Treatments</h2>
 <ul>
  	<li>Increases Intravenous Vitamin C Therapy Effect</li>
  	<li>Enhances Chemotherapy Uptake</li>
 </ul>
-<h6>Reduce Tremor Agressivemeses</h6>
+<h2>Reduce Tremor Agressivemeses</h2>
 <ul>
  	<li>Weakens Hypoxic Tumors</li>
  	<li>Targets Metastatic Tumors</li>
 </ul>
-<h6>Increase Natural Killer Cell Activity &amp; Function</h6>
+<h2>Increase Natural Killer Cell Activity &amp; Function</h2>
 <ul>
  	<li>Increases Oxy-Radical Production</li>
  	<li>Amplifies Apoptosis (Cell death) Effect</li>
  	<li>Regresses Tumor Volume</li>
 </ul>
-<h6>Cancer Prevention</h6>
+<h2>Cancer Prevention</h2>
 <ul>
  	<li>Decreases Inflammatory Markers</li>
  	<li>Normalizes Intracellular Oxygen Levels</li>
@@ -58,7 +58,7 @@ American Cancer Society estimates that in 2019 there will be 1,762,450 new cance
  	<li>Supports Cellular Energy Processes for Optimal DNA Repair</li>
 </ul>
 
-<h4>Study: Tumor Regression Stimulated by HBOT</h4>
+<h2>Study: Tumor Regression Stimulated by HBOT</h2>
 A non-randomized trial was conducted with 29 patients to evaluate the efficacy of radiotherapy combined with HBOT, in patients with a malignant glioma. Fifteen patients were irradiated daily after HBOT and fourteen other irradiated patients were treated without HBOT. In the HBOT group, 11 of 15 patients (73 percent) showed 50 percent tumor regression. In the non-HBOT group, only four of 14 patients, 29 percent, showed tumor regression. The median survival rate in patients with HBOT doubled that of the non-HBOT group (24 months vs. 12 months) respectively. No serious side-effects were observed in the HBOT patients. This provides additional support for HBOT to be a beneficial treatment for malignant gliomas.
 <ol>
  	<li>1.K Kohshi, YKinoshita, H Imada, N Kunugita, H Abe, H Terashima, N Tokui and S Uemura (1999)Effects of radiotherapy after hyperbaric oxygenation on malignant gliomas. BritishJournal of Cancer (1999) 80(1/2), 236-241</li>

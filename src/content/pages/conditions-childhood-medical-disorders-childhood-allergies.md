@@ -14,7 +14,7 @@ sourceUrl: "/suffering-from-childhood-allergies/"
 ---
 
 <h2><strong>Is Your Child Suffering from Childhood Allergies?</strong></h2>
-<h6><em>By Dr. Laura. Badalamenti, ND</em></h6>
+<h3><em>By Dr. Laura. Badalamenti, ND</em></h3>
 Arizona once was considered a haven for allergy sufferers, providing relief for both adult and childhood allergies. People would move here to see if their allergies would resolve. There really isn’t overwhelming evidence to support this choice and there are a lot of factors that play into allergies. For example, many people who live in the Midwest have ragweed allergies. Unfortunately, ragweed also grows in Arizona so you would not necessarily find relief by moving here. There have been more non-native plants being transplanted to Arizona over the years increasing the pollen diversity. I still see mold allergies in Arizona even though it is a dry climate.
 
 The Arizona valley has a high level of air pollution and the smog can irritate and sensitize the airways contributing to allergies and asthma. We also see that people who have an improvement in their allergies initially by moving to Arizona will start to have allergies within a few years of living here. The problem is we need to help the person be less reactive and build up their health. Yes, reducing allergen exposure definitely helps, but allergies are an over-active response of the immune system so we also need to address and balance the immune response.

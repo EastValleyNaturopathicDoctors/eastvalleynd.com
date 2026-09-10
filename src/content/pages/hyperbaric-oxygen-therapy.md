@@ -14,7 +14,7 @@ sourceUrl: "/hyperbaric-oxygen-therapy/"
 ---
 
 Oxygen Therapy (HBOT) is a tried and studied treatment that uses a pressurized hyperbaric chamber to increase solubility and saturation of oxygen, producing as a result, free O2 molecules which more easily spread through the body and most importantly to low oxygen tissues or organs. This higher pressure allows the 100% pure oxygen to pierce deeper into the body, reaching organs that typically are not as greatly benefited from normal respiration. The pressure within the hyperbaric chamber is minimally three times greater than normal atmospheric pressure (i.e., higher than 1 atmosphere absolute). The medical benefits of this therapy are varied, but when used in conjunction with other proven methods, hyperbaric therapy can become a powerful supplemental tool to help treat acute and chronic issues.
-<h4>Conditions known to be helped by Hyperbaric Oxygen Therapy</h4>
+<h2>Conditions known to be helped by Hyperbaric Oxygen Therapy</h2>
 
 <ul>
  	<li><a href="/brain-regeneration-clinic/alzheimers-and-dementia/">Alzheimer's Disease</a></li>
@@ -55,5 +55,5 @@ Oxygen Therapy (HBOT) is a tried and studied treatment that uses a pressurized h
  	<li>and more to come</li>
 </ul>
 
-<h4>What to Expect</h4>
+<h2>What to Expect</h2>
 As seen in the photo above, the hyperbaric chamber is cylindrical in shape, with enough width and length to accommodate most adults or a child accompanied by a parent. With assistance, patients will situate themselves inside the chamber, whereupon the attending physician or assistant will help secure the chamber for usage by zipping and sealing it. Oxygen will then be filtered into the chamber until it reaches optimal or desired pressure. The patient will lie in the chamber for the duration of the therapy usually lasting from 60-90 minutes. The abundance of space within the chamber allows for a comfortable experience. Patients are free to sleep, meditate, listen to music, read, etc. As the treatment ends the chamber is slowly depressurized and the patient is helped out of the chamber. Consider a baseline  QEEG Brain Map before starting Hyperbaric Oxygen Therapy to evaluate hidden concerns and monitor benefit overtime.

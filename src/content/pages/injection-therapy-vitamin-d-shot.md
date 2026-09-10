@@ -13,7 +13,7 @@ sourceId: 2197
 sourceUrl: "/injection-therapy/vitamin-d-shot/"
 ---
 
-<h3>Vitamin D (Established patients only) - $40</h3>
+<h2>Vitamin D (Established patients only) - $40</h2>
 <p>Vitamin D is a fat-soluble vitamin and when at levels in the blood between 50 -70 offers many health benefits. It is known to benefit bone health, reduce risks for cardiovascular disease, MS, and breast cancer prevention to name a few while offering more immediate benefits for some by improving energy and mood. Our Vitamin D shot contains 50,000IU per injection. We recommend testing to know what levels prior to utilizing the injections to determine individual treatment plans accordingly.</p>
 
 

@@ -23,11 +23,11 @@ categories:
  	<li>Peripheral Blood Stem Cell Therapy</li>
 </ul>
 
-<h3>Adipose-Derived Therapy</h3>
+<h2>Adipose-Derived Therapy</h2>
 Adipose-Derived Stem cell therapy occurs when adipose tissue (known as “fat”) is taken from the abdominal and hip area. As well as being a safer, less invasive method, other advantages to adipose stem cell therapy include same day procedures with no wait time for culturing, a high stem cell yield, and more viable stem cells than other methods. With adipose-derived therapy, the donor and the recipient are the same person, so there is little chance of rejection. In this process, 5% become blood cells, and about 95% become mesenchymal stem cells.
-<h3>Bone Marrow Extraction Therapy</h3>
+<h2>Bone Marrow Extraction Therapy</h2>
 In bone marrow extraction, the donor and the recipient are different people. The stem cells are extracted in the spongy bone marrow that is found inside the bone. These types of stem cells become red blood cells, white blood cells, and platelet cells. The yield of stem cells is significantly less, and it is estimated that only 0.01 to 1% of the cells will be mesenchymal stem cells.
-<h3>Peripheral Blood Therapy</h3>
+<h2>Peripheral Blood Therapy</h2>
 Peripheral blood therapy is the least invasive of the treatments and involves pulling stem cells from the bloodstream itself. In comparison with other therapies, it results in the least amount of stem cells and it can be more difficult to obtain a number of stem cells needed for productive therapy. Half of the stem cells will become blood cells and half will become mesenchymal cells.
 
 Of the three therapies, it is generally accepted that - in terms of safety and production – adipose-derived extraction therapy is the most effective. From beginning to end, the procedure takes about 3.5 hours, from extraction to delivery. The procedure should be conducted in a “closed system” so that the stem cells are never exposed to outside elements. Ideally, these stem cells will then use their healing potential to repair and regenerate failing or damaged cells.

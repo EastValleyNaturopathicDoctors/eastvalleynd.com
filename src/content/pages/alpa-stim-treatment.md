@@ -223,7 +223,7 @@ sourceUrl: "New Pages/LP_ Alpha Stim (combined content).docx"
 
 <p><a href="/contact/">Contact East Valley Naturopathic Doctors</a> today to schedule a consultation and learn whether Alpha-Stim® treatment may be right for you.</p>
 
-<h4>Alpha-Stim® Research and References</h4>
+<h3>Alpha-Stim® Research and References</h3>
 
 <ul>
   <li>Barclay TH, Barclay RD. A clinical Trial of cranial electrotherapy stimulation for anxiety and comorbid depression. Journal of Affective Disorders. 2014;164:171-177.</li>

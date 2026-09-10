@@ -15,7 +15,7 @@ sourceUrl: "/special_labs/galleri-cancer-screening/"
 
 <p>Cancer screening is a top priority at East Valley Naturopathic Doctors. In the spirit of being proactive and providing opportunities for our patients to screen in innovative ways we offer information on one of the growing number of preventative screens.</p>
 This blood test screen targets cancer. Screening helps you potentially get ahead of cancer when it may be more treatable. The Galleri® multi-cancer early detection test — in addition to routine screenings such as colonoscopy and mammography — is part of our offering to help you screen for more cancers.
-<h3><strong>What is the Galleri Test?</strong></h3>
+<h2><strong>What is the Galleri Test?</strong></h2>
 ● Screens for a signal shared by 50+ cancers, including fast-spreading, aggressive
 
 cancers that don’t show symptoms in early stages, such as pancreatic and ovarian.
@@ -25,11 +25,11 @@ cancers that don’t show symptoms in early stages, such as pancreatic and ovari
 ● If a cancer signal is detected, Galleri predicts the tissue type or organ associated with the cancer signal.
 <p>● Recommended for use in adults with an elevated risk of cancer, such as those age 50 or older, or with a personal or strong family history of cancers.</p>
 &nbsp;
-<h3>What is the Galleri Cancer Screening Test?                  How are cancer signals detected ?</h3>
+<h2>What is the Galleri Cancer Screening Test?                  How are cancer signals detected ?</h2>
 
 
 
-<h3>What cancer types produce cancer signals that can be detected?</h3>
+<h2>What cancer types produce cancer signals that can be detected?</h2>
 *The Galleri test does not detect a signal for all cancers and not all cancers can be detected in the blood. As an example the current testing does not detect Breast Cancer signals very well.
 
 
@@ -65,7 +65,7 @@ Additional Cancers with potential for detection:
 
 
 
-<h3>A</h3>
+<h2>A</h2>
 <ul>
  	<li>Adrenal Cortical Carcinoma</li>
  	<li>Ampulla of Vater</li>
@@ -73,7 +73,7 @@ Additional Cancers with potential for detection:
  	<li>Appendix, Carcinoma</li>
 </ul>
 
-<h3>B</h3>
+<h2>B</h2>
 <ul>
  	<li>Bile Ducts, Distal</li>
  	<li>Bile Ducts, Intrahepatic</li>
@@ -81,29 +81,29 @@ Additional Cancers with potential for detection:
  	<li>Bladder, Urinary</li>
  	<li>Bone</li>
 </ul>
-<h3>C</h3>
+<h2>C</h2>
 <ul>
  	<li>Cervix</li>
  	<li>Colon and Rectum</li>
 </ul>
-<h3>E</h3>
+<h2>E</h2>
 <ul>
  	<li>Esophagus and Esophagogastric Junction</li>
 </ul>
 
-<h3>G</h3>
+<h2>G</h2>
 <ul>
  	<li>Gallbladder</li>
  	<li>Gastrointestinal Stromal Tumor</li>
  	<li>Gestational Trophoblastic Neoplasms</li>
 </ul>
-<h3>K</h3>
+<h2>K</h2>
 <ul>
  	<li>Kidney</li>
 </ul>
 
 
-<h3>L</h3>
+<h2>L</h2>
 <ul>
  	<li>Larynx</li>
  	<li>Leukemia</li>
@@ -111,13 +111,13 @@ Additional Cancers with potential for detection:
  	<li>Lung</li>
  	<li>Lymphoma (Hodgkin and Non-Hodgkin)</li>
 </ul>
-<h3>M</h3>
+<h2>M</h2>
 <ul>
  	<li>Melanoma of the Skin</li>
  	<li>Merkel Cell Carcinoma</li>
  	<li>Mesothelioma, Malignant Pleural</li>
 </ul>
-<h3>N</h3>
+<h2>N</h2>
 <ul>
  	<li>Nasal Cavity and Paranasal Sinuses Nasopharynx</li>
  	<li>Neuroendocrine Tumors of the Appendix</li>
@@ -125,7 +125,7 @@ Additional Cancers with potential for detection:
  	<li>Neuroendocrine Tumors of the Pancreas</li>
 </ul>
 
-<h3>O</h3>
+<h2>O</h2>
 <ul>
  	<li>Oral Cavity</li>
  	<li>Oropharynx (HPV-Mediated, p16+)</li>
@@ -133,7 +133,7 @@ Additional Cancers with potential for detection:
  	<li>Ovary, Fallopian Tube and Primary Peritoneum</li>
 </ul>
 
-<h3>P</h3>
+<h2>P</h2>
 
 <ul>
  	<li>Pancreas, exocrine</li>
@@ -148,7 +148,7 @@ Additional Cancers with potential for detection:
 
 
 
-<h3>S</h3>
+<h2>S</h2>
 
 
 <ul>
@@ -161,7 +161,7 @@ Additional Cancers with potential for detection:
  	<li>Stomach</li>
 </ul>
 
-<h3>T</h3>
+<h2>T</h2>
 
 
 <ul>
@@ -169,7 +169,7 @@ Additional Cancers with potential for detection:
 </ul>
 
 
-<h3>U</h3>
+<h2>U</h2>
 
 
 <ul>
@@ -179,14 +179,14 @@ Additional Cancers with potential for detection:
 </ul>
 
 
-<h3>V</h3>
+<h2>V</h2>
 <ul>
  	<li>Vagina</li>
  	<li>Vulva</li>
 </ul>
 
 
-<h3>Jack’s Story                                             Jackie’s Story                                       Valerie’s Story</h3>
+<h2>Jack’s Story                                             Jackie’s Story                                       Valerie’s Story</h2>
 
-<h3><strong>We are thrilled to announce that East Valley Naturopathic Doctors is now offering the Galleri test at a discounted rate of $749, discounted from the previous price of $949.</strong></h3>
-<h3><strong>If you would like to learn more about the Galleri test or are interested in taking the test, please email patientcare@eastvalleynd.com or contact us by calling (480) 985-0000. </strong></h3>
+<h2><strong>We are thrilled to announce that East Valley Naturopathic Doctors is now offering the Galleri test at a discounted rate of $749, discounted from the previous price of $949.</strong></h2>
+<h2><strong>If you would like to learn more about the Galleri test or are interested in taking the test, please email patientcare@eastvalleynd.com or contact us by calling (480) 985-0000. </strong></h2>

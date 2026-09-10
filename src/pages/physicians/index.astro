@@ -22,6 +22,7 @@ const docs = (await getCollection('physicians')).sort((a, b) => a.data.order - b
       <div class="docs-list">
         {docs.map((d, i) => (
           <PractitionerCard
+            level="h2"
             name={d.data.name} credentials={d.data.credentials} slug={d.data.slug}
             imageFile={d.data.imageFile} summary={d.data.summary} index={i}
           />

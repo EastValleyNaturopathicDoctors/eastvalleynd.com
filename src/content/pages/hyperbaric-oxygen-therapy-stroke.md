@@ -18,7 +18,7 @@ year nearly 800,000 strokes occur, averaging one every 40 seconds, making it the
 Due to the hypoxic nature of strokes, it has been postulated that by increasing levels of oxygen, the effects of the stroke may be improved. Many different studies support this theory and believe that hyperbaric oxygen therapy (HBOT) can help an individual to improve cognition as well as physical abilities such as gait. Furthermore, they have found that the sooner HBOT is administered after the occurrence of stroke, the more recovery can be expected. Many believe that the optimal time frame would be no greater than six hours after the stroke. However, some studies show that recovery is still possible days months or even years post-stroke.
 
 Hyperbaric oxygen therapy can also be used in the prevention of strokes. Strokes are characterized by a lack of adequate blood supply to the brain and HBOT has been shown to increase blood flow to the brain as well as promote angiogenesis (the creation of new blood vessels). Further studies have demonstrated the benefits of HBOT for strokes including the following:
-<h6>Stroke Recovery</h6>
+<h2>Stroke Recovery</h2>
 <ul>
  	<li>Faster Overall Recovery</li>
  	<li>Improves Vision and Speech</li>
@@ -29,7 +29,7 @@ Hyperbaric oxygen therapy can also be used in the prevention of strokes. Strokes
  	<li>Escalates Brain Tissue Repair</li>
  	<li>Alleviates Spasticity</li>
 </ul>
-<h6>Stroke Prevention</h6>
+<h2>Stroke Prevention</h2>
 <ul>
  	<li>Stimulates Blood Vessel Growth Improving Blood Flow</li>
  	<li>Reduces Atherosclerosis</li>
@@ -70,7 +70,7 @@ The Chronic Stroke Recovery Program is for patients with symptoms from a stroke 
  	<li>International Hyperbaric Association. (2014). Stroke. Retrieved from https:// ihausa.org/Stroke.html</li>
 </ol>
 
-<h4>Study: Neurological Function Improved in Post-Stroke Patients with HBOT</h4>
+<h2>Study: Neurological Function Improved in Post-Stroke Patients with HBOT</h2>
 In 2013 a prospective, randomized, controlled trial focused on the introduction of 6 to 36 months prior to inclusion and had at least one motor dysfunction, were randomly assigned to treated and cross-over groups. The treated group received two months of 40, one hour HBOT sessions, five days a week. Whereas the crossover group was evaluated after one month with no HBOT and again after one month following HBOT, utilizing the same treatment protocol. The evaluating physicians found that neurological function, brain activity and quality of life of all treated patients improved after HBOT. Brain scan results directly correlated with clinical improvements and indicated that HBOT can lead to significant neurological improvements in post-stroke patients, even at chronic late stages. The observed clinical improvements indicated that new brain connections can be activated long after a stroke occurs.
 <ol>
  	<li>Efrati S, Fishlev G, Bechor Y, Volkov O, Bergen J, et al. (2013) Hyperbaric Oxygen Induces Late Neuroplasticity in Post Stroke Patients - Randomized, Prospective Trial. PloS ONE 8(1): e53716</li>

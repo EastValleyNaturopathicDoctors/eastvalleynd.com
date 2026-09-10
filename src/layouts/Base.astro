@@ -2,6 +2,33 @@
 import { jsonLd } from '@/lib/schema';
 import '../styles/design.css';
 import '../styles/site.css';
+import '../styles/font-fallbacks.css';   // generated: scripts/font-fallbacks.mjs
+// Fonts are self-hosted (fontsource) rather than fetched from Google. Two
+// reasons: a third-party DNS+TLS+CSS+font chain sat on the critical path of
+// every page, and for a medical practice, Google Fonts is a GDPR exposure the
+// site does not need. Only the weights the stylesheet actually sets are loaded
+// — 400 (body), 500 and 600 (headings and UI), 700 (<b>/<strong>). Bricolage
+// is the variable build so the optical-size axis the display type relies on
+// still works.
+// Latin subset only. The full builds declare every script (Cyrillic, Greek,
+// Vietnamese…) behind unicode-range, which is fine for a browser but shipped
+// 31 files and 376 KB the site can never use. `standard` on Bricolage keeps
+// the optical-size axis the display type is set for.
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '@fontsource-variable/bricolage-grotesque/standard.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
+// Preload the two faces that paint above the fold — the display face sets the
+// hero title and every heading, Manrope 400 sets the body. Without this the
+// hero text rendered in the fallback and then reflowed when the real font
+// landed at ~2.4 s on Slow 4G: a 0.026 layout shift on hero-sub, hero-meta and
+// hero-cta. `?url` hands back the hashed path Vite will emit, so the preload
+// can never drift from the file the stylesheet actually references.
+import bricolageWoff2 from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2?url';
+import manropeWoff2 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
 import TopBar from '../components/TopBar.astro';
 import MainNav from '../components/MainNav.astro';
 import Footer from '../components/Footer.astro';
@@ -67,6 +94,8 @@ const schema = {
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  <link rel="preload" href={bricolageWoff2} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={manropeWoff2} as="font" type="font/woff2" crossorigin />
   {robots && <meta name="robots" content={robots} />}
   <link rel="icon" href="/assets/evnd-logo.png" />
 
@@ -76,17 +105,10 @@ const schema = {
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
   <meta name="twitter:card" content="summary_large_image" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- Weights are exactly what the stylesheet uses: 400 body, 500 buttons and
        chips, 600 labels and headings, 700 for <strong> and the prose headings
        that inherit the browser default. Manrope 300 was requested and never
        used. -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  />
   <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
 </head>
 <body class={transparentNav ? 'has-dark-hero' : ''}>

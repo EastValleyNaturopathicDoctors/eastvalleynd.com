@@ -18,7 +18,10 @@ const a = site.address;
     </div>
     {footerCols.map((c) => (
       <div class="footer-col">
-        <h5>{c.h}</h5>
+        {/* h2, not h5: these follow whatever the page body ended on, and an
+            h2 is the only level that cannot skip from any of them. The footer
+            is its own landmark, so its column headings sit at the top of it. */}
+        <h2>{c.h}</h2>
         <ul>{c.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
       </div>
     ))}

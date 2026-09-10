@@ -5,7 +5,15 @@ export default defineConfig({
   // The WordPress site used /%postname%/ — every inbound link and all 449
   // existing redirects assume a trailing slash. See docs/DECISIONS.md D5.
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  /**
+   * The stylesheet is inlined into every page. It is 11 KB gzipped, and as a
+   * separate file it was the only render-blocking request left — 548 ms of
+   * LCP on Slow 4G, almost all of it the round trip rather than the bytes.
+   * Inlining costs each page that 11 KB and removes the round trip. Repeat
+   * views lose the cached-CSS benefit, but first views are what Core Web
+   * Vitals and search measure.
+   */
+  build: { format: 'directory', inlineStylesheets: 'always' },
 
   /**
    * `astro dev` on 4321, `astro preview` (the production build) on 4322, so

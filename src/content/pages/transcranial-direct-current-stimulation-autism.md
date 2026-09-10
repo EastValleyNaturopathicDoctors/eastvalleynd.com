@@ -32,7 +32,7 @@ REFERENCE
  	<li aria-level="2"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Wilson%20JE%5BAuthor%5D">Joan Esse Wilson</a> et al; <b>Transcranial Direct Current Stimulation to the Right Temporoparietal Junction for Social Functioning in Autism Spectrum Disorder</b>. <a href="https://www.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&amp;retmode=ref&amp;cmd=prlinks&amp;id=28825927">J ECT. 2018 Mar; 34(1): e10–e13.</a> doi: <a href="https://doi.org/10.1097%2FYCT.0000000000000445">10.1097/YCT.0000000000000445</a>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/28825927">28825927</a>. PMCID: PMC6495599</li>
 </ol>
 
-<h4>Study: <b>A systematic review of randomized controlled trials on efficacy and safety of transcranial direct current stimulation in major neurodevelopmental disorders: ADHD, autism, and dyslexia</b></h4>
+<h2>Study: <b>A systematic review of randomized controlled trials on efficacy and safety of transcranial direct current stimulation in major neurodevelopmental disorders: ADHD, autism, and dyslexia</b></h2>
 
 
 <strong>Objective: </strong>Among the target groups in child and adolescent psychiatry, transcranial direct current stimulation (tDCS) has been more applied in neurodevelopmental disorders specifically, attention-deficit hyperactivity disorder (ADHD), autism spectrum disorder (ASD), and dyslexia. This systematic review aims to provide the latest update on published randomized-controlled trials applying tDCS in these disorders for evaluating its efficacy and safety.

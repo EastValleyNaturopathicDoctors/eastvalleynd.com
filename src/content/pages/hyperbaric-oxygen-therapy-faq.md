@@ -58,33 +58,33 @@ East Valley Naturopathic Doctors is not contracted with any insurance companies 
 
 No, there is no valid support for this claim. There are many reports stating this myth, however, they all originate from one statement in the textbook Hyperbaric Medicine, page 143. Not only is there no reference for this statement, but there is no clinical data or research supporting this claim.
 
-<h6>Untreated Pneumothorax</h6>
+<h2>Untreated Pneumothorax</h2>
 The only absolute contraindication for HBOT is untreated pneumothorax (collapsed lung). Pneumothorax is a complication, which can be caused by breath-holding during decompression. A chest x-ray may be necessary to rule out pneumothorax if a patient’s medical history includes: a history of spontaneous pneumothorax, thoracic surgery, or chest injury.
-<h6>Pulmonary Barotrauma</h6>
+<h2>Pulmonary Barotrauma</h2>
 Pulmonary barotrauma or damage to the lungs is a rare condition that can occur during decompression. Patients with airway obstruction have an increased risk for pulmonary barotrauma during decompression. Patients must be cautioned against breath holding during decompression. Any history of pulmonary barotrauma as a result of HBOT may also exclude you from further treatment. Pulmonary Barotrauma is more likely to occur in higher pressures above 2.5 ATA, which are not currently utilized in our clinic.
-<h6>Emphysema with CO2 Retention (COPD)</h6>
+<h2>Emphysema with CO2 Retention (COPD)</h2>
 Generally speaking, COPD can be a concern at very high pressures, particularly in some cases of severe emphysema. However, when you look deeper into COPD, you will find chronic inflammation plays a key role in the progression of the disease. For this reason, repetitive hyperbaric oxygen therapy at lower pressures has become increasingly deployed, with favorable outcomes and clinical improvement. Thus, lower pressures can provide both good and safe outcome benefits. It is always good to make sure you get approval from your doctor before starting HBOT.
-<h6>Oxygen Seizures</h6>
+<h2>Oxygen Seizures</h2>
 The incidence of seizures is reported in 0.01% of 28,700 treatments and never has been reported at less than 2.0 ATA for less than one hour. If a history exists for oxygen seizures lower pressures and shorter sessions may be warranted.
-<h6>Pregnancy (emergency only)</h6>
+<h2>Pregnancy (emergency only)</h2>
 It is not generally advised to undergo hyperbaric therapy if you are pregnant. Some people feel that there is a benefit, according to research done in Russia. However, until further safety studies are performed, it is not advisable to be inside a hyperbaric chamber during pregnancy.
-<h6>High Fevers (uncontrolled)</h6>
+<h2>High Fevers (uncontrolled)</h2>
 Uncontrolled high fevers may be an indication of an active bacterial infection which will favor more oxygen and worsen the patient’s condition or infection. It is not advisable to use HBOT during an active bacterial infection.
-<h6>History of or concern for ear barotrauma</h6>
+<h2>History of or concern for ear barotrauma</h2>
 Increased pressure in Hyperbaric Therapy can put more pressure on the ears or sinus cavities. Middle ear barotrauma is the most common side effect of HBOT therapy. Difficulty in clearing the ears causes “popping” in the ears leading to pain. It is prevented in most clients by teaching maneuvers such as yawning or chewing to release pressure. HBOT is not recommended with current ear infections or those with difficulty clearing pressure in the ear canals as when flying.
-<h6>Sinus Pain, Upper Respiratory Infections and Chronic Sinusitis</h6>
+<h2>Sinus Pain, Upper Respiratory Infections and Chronic Sinusitis</h2>
 A potential risk for increased sinus pressure (aka sinus squeeze) is more likely with an active upper respiratory or sinus infection. The incidence is less frequent than middle ear barotraumas. Antihistamines, decongestants, and/or nasal sprays may be helpful in reducing symptoms if taken before treatments. It may be recommended to temporarily suspend treatment until the infection or pressure is abated. With slow compression and decompression usually, there are no problems.
-<h6>Myopia and Cataract</h6>
+<h2>Myopia and Cataract</h2>
 Myopia (nearsightedness) is a reversible complication of repeated exposure to HBOT. Even when progressive myopia does occur during a series of HBOT therapies, after treatment the visual acuity changes reverse completely. Acceleration of growth in existing cataracts is a complication of chronic long-term exposure at pressures over 2 ATA, however, published reports, as well as extensive clinical experience, indicate that new cataracts do not develop within the series of 30 to 50 therapies that are commonly used in the USA.
-<h6>Patent Foramen Ovale</h6>
+<h2>Patent Foramen Ovale</h2>
 If your family has a history of Patent Foramen Ovale (hole-in-heart), there is an increased risk of decompression sickness. Please let your physician know if you have a history of PFO or decompression sickness with recreational diving.
-<h6>Dental Work</h6>
+<h2>Dental Work</h2>
 Dental barotrauma occurs from increased pressures damaging the tooth dentin. All dental work including root canals, temporary caps, and fillings must be complete, otherwise, the risk for dental baro-trauma is possible.
-<h6>Implanted Devices</h6>
+<h2>Implanted Devices</h2>
 All implanted devices must be able to undergo pressure. We will contact the manufacturer of the device and obtain information.
-<h6>Flying or Diving</h6>
+<h2>Flying or Diving</h2>
 No flying or diving is permitted within 24 hours of Hyperbaric Oxygen Therapy.
-<h6>Claustrophobia</h6>
+<h2>Claustrophobia</h2>
 Claustrophobia, which appears to be present in about 2% of the general population, may cause some degree of confinement anxiety. However, our chambers are very large which reduces the occurrence of claustrophobia. We take measures to ensure you feel comfortable. The chamber can be depressurized and opened from the inside. Once inside the chamber, both visual and verbal communication is possible with the outside. Most people report a comfortable, relaxing experience and emerge from the chamber feeling refreshed.
 
 The effects of some medications may be reduced or enhanced as a result of Hyperbaric Oxygen Therapy. The following are some of the potential medications influenced by HBOT.
@@ -94,7 +94,7 @@ The effects of some medications may be reduced or enhanced as a result of Hyperb
 <strong>Antabuse:</strong> Disulfiram (Antabuse) is known to block S.O.D.
 
 <strong>Chemotherapy Agents:</strong> Some chemotherapy agents may need to clear at least 3 days before doing HBOT. Normal pulmonary function is required to participate in HBOT. Testing may be required if compromised due to therapy. Chemotherapy agents include: Doxorubicin (Adriamycin), Bleomycin, and Cis-platinumHyperbaric Oxygen Therapy sessions last 60 minutes. Schedule Hyperbaric Oxygen Therapy daily for the number of sessions recommended by your physician and/or based on the purchased package. Consider a baseline Hyperbaric Brain Map or QEEG before starting Hyperbaric Oxygen Therapy to evaluate concerns and observe benefit overtime.
-<h6>References and further reading for Hyperbaric Therapy</h6>
+<h2>References and further reading for Hyperbaric Therapy</h2>
 <ul>
  	<li>Textbook of Hyperbaric Medicine, K.K. Jain, M.D., Vol. 1, 2, 3</li>
  	<li>Hyperbaric Medicine Practice, Eric Kindwall, M.D.</li>
