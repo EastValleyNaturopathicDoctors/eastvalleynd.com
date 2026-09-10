@@ -1,0 +1,54 @@
+---
+/**
+ * A YouTube video that costs nothing until someone presses play.
+ *
+ * Renders a locally-hosted poster frame and a button. The iframe — and every
+ * request to Google — only happens on click. Six embedded players on one page
+ * would otherwise pull well over a megabyte of third-party script before the
+ * visitor had asked for any of it.
+ *
+ * Posters come from YouTube at 640x480 with letterbox bars; the 16:9 frame plus
+ * object-fit: cover crops back to exactly the video frame.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  id: string;
+  /** Shown on the card. */
+  title: string;
+  /** The video's own title on YouTube — the iframe's accessible name. */
+  youtubeTitle?: string;
+  posterFile?: string;
+  loading?: 'lazy' | 'eager';
+}
+const { id, title, youtubeTitle = '', posterFile = '', loading = 'lazy' } = Astro.props;
+
+const posters = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/images/webinars/*.{jpg,jpeg,png,webp}', { eager: true }
+);
+const poster = posterFile ? posters[`/src/images/webinars/${posterFile}`] : undefined;
+if (import.meta.env.DEV && posterFile && !poster) {
+  console.warn(`<VideoFacade> missing src/images/webinars/${posterFile}`);
+}
+---
+<article class="video-card">
+  <div class="video-frame" data-video-id={id} data-video-title={youtubeTitle || title}>
+    {poster ? (
+      <Image src={poster.default} alt="" width={640} height={360}
+             class="video-poster" loading={loading} decoding="async" />
+    ) : (
+      <div class="video-poster video-poster-blank"></div>
+    )}
+    <button type="button" class="video-play">
+      <span class="video-play-dot"><Icon name="play" size={20} /></span>
+      <span class="sr-only">Play “{title}”</span>
+    </button>
+  </div>
+  <h3 class="video-title">{title}</h3>
+  <a class="video-link" href={`https://www.youtube.com/watch?v=${id}`}
+     target="_blank" rel="noopener">
+    Watch on YouTube <Icon name="arrow-up-right" size={13} />
+  </a>
+</article>

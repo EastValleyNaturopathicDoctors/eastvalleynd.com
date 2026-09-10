@@ -1,0 +1,250 @@
+{
+  "generatedBy": "extract/build_forms.py",
+  "source": "extract/export/data/forms.json (Gravity Forms, WP backup 2026-08-25)",
+  "note": "Do not hand-edit. Required flags and short labels are set in the script.",
+  "forms": {
+    "appointment-request": {
+      "gravityFormId": 1,
+      "gravityTitle": "Request Appointment",
+      "submitLabel": "Submit",
+      "fields": [
+        {
+          "key": "firstName",
+          "label": "First name",
+          "type": "text",
+          "required": true,
+          "autocomplete": "given-name",
+          "half": true
+        },
+        {
+          "key": "lastName",
+          "label": "Last name",
+          "type": "text",
+          "required": true,
+          "autocomplete": "family-name",
+          "half": true
+        },
+        {
+          "key": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "autocomplete": "email",
+          "half": true
+        },
+        {
+          "key": "phone",
+          "label": "Phone",
+          "type": "phone",
+          "required": true,
+          "autocomplete": "tel",
+          "half": true
+        },
+        {
+          "key": "currentPatient",
+          "label": "Are you a current patient?",
+          "type": "radio",
+          "required": false,
+          "gravityLabel": "Current Patient?",
+          "choices": [
+            "No",
+            "Yes"
+          ]
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "type": "date",
+          "required": false,
+          "gravityLabel": "Patients Date of Birth",
+          "autocomplete": "bday",
+          "half": true
+        },
+        {
+          "key": "reason",
+          "label": "What brings you in?",
+          "type": "textarea",
+          "required": false,
+          "gravityLabel": "What is your main reason or chief complaint for seeing or seeking a naturopath?"
+        },
+        {
+          "key": "submissionPage",
+          "label": "Submission Page:",
+          "type": "hidden"
+        },
+        {
+          "key": "source",
+          "label": "Source",
+          "type": "hidden"
+        },
+        {
+          "key": "medium",
+          "label": "Medium",
+          "type": "hidden"
+        },
+        {
+          "key": "campaign",
+          "label": "Campaign",
+          "type": "hidden"
+        }
+      ]
+    },
+    "appointment": {
+      "gravityFormId": 2,
+      "gravityTitle": "Request Appointment - Full Page",
+      "submitLabel": "Submit",
+      "fields": [
+        {
+          "key": "firstName",
+          "label": "First name",
+          "type": "text",
+          "required": true,
+          "gravityLabel": "First Name",
+          "autocomplete": "given-name",
+          "half": true
+        },
+        {
+          "key": "lastName",
+          "label": "Last name",
+          "type": "text",
+          "required": true,
+          "gravityLabel": "Last Name",
+          "autocomplete": "family-name",
+          "half": true
+        },
+        {
+          "key": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "autocomplete": "email",
+          "half": true
+        },
+        {
+          "key": "phone",
+          "label": "Phone",
+          "type": "phone",
+          "required": true,
+          "autocomplete": "tel",
+          "half": true
+        },
+        {
+          "key": "currentPatient",
+          "label": "Are you a current patient?",
+          "type": "radio",
+          "required": false,
+          "gravityLabel": "Current Patient?",
+          "choices": [
+            "No",
+            "Yes"
+          ]
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "type": "date",
+          "required": false,
+          "gravityLabel": "Patients Date of Birth",
+          "autocomplete": "bday",
+          "half": true
+        },
+        {
+          "key": "doctor",
+          "label": "Preferred provider",
+          "type": "radio",
+          "required": false,
+          "gravityLabel": "Choose a Doctor",
+          "choices": [
+            "Jason Porter, NMD",
+            "Jennifer Nevels, NMD",
+            "Julie Keiffer, NMD"
+          ],
+          "choicesAreStale": true
+        },
+        {
+          "key": "reason",
+          "label": "What brings you in?",
+          "type": "textarea",
+          "required": false,
+          "gravityLabel": "What is your main reason or chief complaint for seeing or seeking a naturopath?"
+        },
+        {
+          "key": "submissionPage",
+          "label": "Submission Page:",
+          "type": "hidden"
+        },
+        {
+          "key": "source",
+          "label": "Source",
+          "type": "hidden"
+        },
+        {
+          "key": "medium",
+          "label": "Medium",
+          "type": "hidden"
+        },
+        {
+          "key": "campaign",
+          "label": "Campaign",
+          "type": "hidden"
+        }
+      ]
+    },
+    "contact": {
+      "gravityFormId": 3,
+      "gravityTitle": "Contact Us",
+      "submitLabel": "Submit",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true,
+          "autocomplete": "name"
+        },
+        {
+          "key": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "autocomplete": "email",
+          "half": true
+        },
+        {
+          "key": "phone",
+          "label": "Phone",
+          "type": "phone",
+          "required": true,
+          "autocomplete": "tel",
+          "half": true
+        },
+        {
+          "key": "comments",
+          "label": "Comments",
+          "type": "textarea",
+          "required": false
+        },
+        {
+          "key": "submissionPage",
+          "label": "Submission Page:",
+          "type": "hidden"
+        },
+        {
+          "key": "source",
+          "label": "Source",
+          "type": "hidden"
+        },
+        {
+          "key": "medium",
+          "label": "Medium",
+          "type": "hidden"
+        },
+        {
+          "key": "campaign",
+          "label": "Campaign",
+          "type": "hidden"
+        }
+      ]
+    }
+  }
+}

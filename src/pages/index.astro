@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import Foundations from '../components/Foundations.astro';
+import Conditions from '../components/Conditions.astro';
+import TruDOSE from '../components/TruDOSE.astro';
+import Therapies from '../components/Therapies.astro';
+import Optimization from '../components/Optimization.astro';
+import Practitioners from '../components/Practitioners.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Resources from '../components/Resources.astro';
+import FAQ from '../components/FAQ.astro';
+import BookCTA from '../components/BookCTA.astro';
+import { site } from '../data/site';
+---
+<Base
+  title={site.name}
+  description="Board-licensed naturopathic doctors in Mesa, AZ treating the root cause — chronic fatigue, Lyme, mold, autoimmune, hormones, and whole-person optimization."
+  transparentNav>
+  <Hero />
+  <TrustStrip />
+  <Foundations />
+  <Conditions limit={8} />
+  <TruDOSE />
+  <Therapies />
+  <Optimization />
+  <Practitioners />
+  <Testimonials />
+  <Resources />
+  <FAQ />
+  <BookCTA />
+</Base>

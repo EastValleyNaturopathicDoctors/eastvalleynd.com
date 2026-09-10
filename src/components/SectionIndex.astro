@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { find } from '@/lib/nav';
+
+interface Props {
+  /** Top-level section path, e.g. "/conditions/". */
+  root: string;
+  /** Show each child's own sub-pages beneath it. */
+  showChildren?: boolean;
+  /** Cap the sub-pages listed per card; the rest collapse into a count. */
+  maxChildren?: number;
+}
+const { root, showChildren = true, maxChildren = 5 } = Astro.props;
+
+const section = find(root);
+const items = section?.children ?? [];
+if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section for "${root}"`);
+---
+<div class="sec-grid">
+  {items.map((item) => {
+    const kids = item.children;
+    const shown = kids.slice(0, maxChildren);
+    const extra = kids.length - shown.length;
+    return (
+      <div class="sec-card">
+        <a class="sec-card-head" href={item.href}>
+          <h3>{item.label}</h3>
+          <Icon name="arrow-up-right" size={16} />
+        </a>
+        {showChildren && kids.length > 0 && (
+          <ul class="sec-card-kids">
+            {shown.map((k) => <li><a href={k.href}>{k.label}</a></li>)}
+            {extra > 0 && (
+              <li class="sec-card-more"><a href={item.href}>+{extra} more</a></li>
+            )}
+          </ul>
+        )}
+      </div>
+    );
+  })}
+</div>

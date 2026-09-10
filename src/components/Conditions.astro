@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { conditions } from '../data/content';
+interface Props { limit?: number; showHead?: boolean; }
+const { limit, showHead = true } = Astro.props;
+const items = limit ? conditions.slice(0, limit) : conditions;
+---
+<section class="section conditions-section" id="conditions">
+  <div class="container">
+    {showHead && (
+      <SectionHead
+        eyebrow="Conditions we treat"
+        blurb="Each condition links to a full page with our specific labs, therapies, and the doctors who lead that work at EVND."
+        ctaLabel="All conditions A–Z" ctaHref="/conditions/">
+        If conventional medicine has shrugged, <br />we are probably the next call.
+      </SectionHead>
+    )}
+    <div class="cond-grid">
+      {items.map((c, i) => (
+        <a href={c.href} class="cond-card" style={`--i:${i}`}>
+          <img src={c.img} alt="" loading="lazy" decoding="async" />
+          <div class="cond-overlay"></div>
+          <div class="cond-body">
+            <span class="cond-tag">{c.tag}</span>
+            <h4>{c.name}</h4>
+            <span class="cond-arrow"><Icon name="arrow-up-right" size={16} /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

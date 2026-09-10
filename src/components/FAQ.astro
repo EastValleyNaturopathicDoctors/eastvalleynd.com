@@ -1,0 +1,39 @@
+---
+import { jsonLd } from '@/lib/schema';
+import Button from './Button.astro';
+import Eyebrow from './Eyebrow.astro';
+import { site } from '../data/site';
+import { faqs } from '../data/content';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<section class="section faq-section" id="faq">
+  <div class="container faq-wrap">
+    <div class="faq-left">
+      <Eyebrow>Common questions</Eyebrow>
+      <h2 class="h2">The honest answers we wish every new patient already knew.</h2>
+      <p>Can't find what you're looking for? Call <a href={site.phoneHref}>{site.phone}</a> or send the front desk a message — a real person replies within a business day.</p>
+      <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Book a new-patient visit</Button>
+    </div>
+    <div class="faq-list">
+      {faqs.map((f, i) => (
+        <details class="faq-item" open={i === 0}>
+          <summary>
+            <span>{f.q}</span>
+            <span class="faq-mark" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-body"><p>{f.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+<script is:inline type="application/ld+json" set:html={jsonLd(schema)} />

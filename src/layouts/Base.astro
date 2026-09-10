@@ -1,0 +1,101 @@
+---
+import { jsonLd } from '@/lib/schema';
+import '../styles/design.css';
+import '../styles/site.css';
+import TopBar from '../components/TopBar.astro';
+import MainNav from '../components/MainNav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import preview from '../data/preview.json';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Dark hero pages let the nav sit transparent over the top. */
+  transparentNav?: boolean;
+  ogImage?: string;
+  /**
+   * Points elsewhere when this page deliberately repeats another one's body.
+   * The sitemap files Long COVID under both the Brain Regeneration Clinic and
+   * Conditions; both are wanted in the IA, but only one should be indexed.
+   */
+  canonicalPath?: string;
+  /** Keep a page out of search results. Set on anything unfinished. */
+  noindex?: boolean;
+}
+const {
+  title,
+  description = site.tagline,
+  transparentNav = false,
+  ogImage = '/assets/evnd-logo.png',
+  canonicalPath,
+  noindex = false,
+} = Astro.props;
+
+// While the site is up for preview nothing is indexable, whatever the page
+// asked for. `nofollow` as well, so a crawler that reaches the preview host does
+// not walk it. See src/data/preview.json for how to turn this off.
+const robots = preview.noindex ? 'noindex, nofollow' : (noindex ? 'noindex, follow' : '');
+
+const fullTitle = title === site.name ? title : `${title} — ${site.short}`;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
+const a = site.address;
+
+// LocalBusiness/MedicalClinic schema — the old site had this via Yoast.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  name: site.name,
+  url: Astro.site?.href,
+  telephone: site.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: a.street,
+    addressLocality: a.city,
+    addressRegion: a.state,
+    postalCode: a.zip,
+    addressCountry: 'US',
+  },
+  medicalSpecialty: 'Naturopathic',
+};
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {robots && <meta name="robots" content={robots} />}
+  <link rel="icon" href="/assets/evnd-logo.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Weights are exactly what the stylesheet uses: 400 body, 500 buttons and
+       chips, 600 labels and headings, 700 for <strong> and the prose headings
+       that inherit the browser default. Manrope 300 was requested and never
+       used. -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
+</head>
+<body class={transparentNav ? 'has-dark-hero' : ''}>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <TopBar />
+  <MainNav />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

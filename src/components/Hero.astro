@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import heroPoster from '@/images/site/hero-team.jpg';
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import Eyebrow from './Eyebrow.astro';
+import { site } from '../data/site';
+---
+<section class="hero" id="home">
+  <!--
+    The poster always renders. When a video id is set, the iframe is injected on
+    top of it at runtime — so there is no black gap while YouTube loads, and
+    anyone with prefers-reduced-motion keeps the still image instead of an
+    autoplaying background video.
+  -->
+  <div class="hero-bg has-poster" id="heroBg" data-video-id={site.heroVideoId ?? ''}>
+    {/* The largest paint on the site. Through astro:assets it ships as WebP at
+        the width the viewport actually needs, instead of one 336 KB JPEG. */}
+    <Image class="hero-poster" src={heroPoster} alt="" widths={[640, 960, 1280, 1920, 2560]}
+           sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <Eyebrow>
+        <Icon name="leaf" size={14} />
+        <span>Mesa, AZ · since 2008 · whole-person medicine</span>
+      </Eyebrow>
+      <h1 class="hero-title">Medicine that listens, treats, and restores.</h1>
+      <p class="hero-sub">
+        East Valley Naturopathic Doctors is a Mesa, AZ clinic of board-licensed NMDs who treat
+        the root cause — whether you're sick and tired of being sick, or building the next 40
+        years of your healthspan.
+      </p>
+      <div class="hero-cta">
+        <Button href="/new-patient-appointment-request/" variant="light" icon="arrow-right" size="lg">Book a new patient visit</Button>
+        <a href="/about/" class="play-link">
+          <span class="play-circle"><Icon name="play" size={14} /></span>
+          How we work — 2 min
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div><b>6</b><span>licensed clinicians</span></div>
+        <div><b>18,000+</b><span>patients treated</span></div>
+        <div><b>4.9★</b><span>Google rating</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-paths-wrap">
+    <div class="container">
+      <div class="hero-paths-label">
+        <Icon name="arrow-right" size={14} />
+        Start by telling us why you're here
+      </div>
+      <div class="dualpath">
+        <a class="dp-card dp-treat" href="/conditions/">
+          <div class="dp-top">
+            <span class="dp-num">01</span>
+            <span class="dp-tag"><Icon name="stetho" size={14} />For patients</span>
+          </div>
+          <h3 class="dp-title">Diagnosing &amp; treating health conditions</h3>
+          <p class="dp-sub">I'm dealing with symptoms, a diagnosis, or a chronic condition and I want answers and a real plan.</p>
+          <div class="dp-tags">
+            <span>Chronic fatigue</span><span>Lyme &amp; mold</span><span>GI</span>
+            <span>Autoimmune</span><span>Brain injury</span><span>+10 more</span>
+          </div>
+          <span class="dp-go">Start treatment path<Icon name="arrow-right" size={16} /></span>
+        </a>
+        <a class="dp-card dp-optimize" href="/services/#optimize">
+          <div class="dp-top">
+            <span class="dp-num">02</span>
+            <span class="dp-tag"><Icon name="sparkle" size={14} />For optimizers</span>
+          </div>
+          <h3 class="dp-title">Optimizing health</h3>
+          <p class="dp-sub">I'm well, but I want to perform, recover, age, or feel better than "normal labs" allow.</p>
+          <div class="dp-tags">
+            <span>Peptides</span><span>Hormone therapy</span><span>NAD+</span>
+            <span>PRP</span><span>Longevity labs</span><span>Semaglutide</span>
+          </div>
+          <span class="dp-go">Start optimization path<Icon name="arrow-right" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const bg = document.getElementById('heroBg');
+  const id = bg?.dataset.videoId;
+  const wantsMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Below 900px the copy fills the hero and the video is never really seen —
+  // not worth the YouTube payload on a phone. Skip injecting it entirely so
+  // the poster scrim stays correct too.
+  const wideEnough = window.matchMedia('(min-width: 901px)').matches;
+
+  if (bg && id && wantsMotion && wideEnough) {
+    const params = new URLSearchParams({
+      autoplay: '1', mute: '1', loop: '1', playlist: id,
+      controls: '0', showinfo: '0', modestbranding: '1',
+      playsinline: '1', rel: '0', iv_load_policy: '3', disablekb: '1',
+    });
+    const frame = document.createElement('iframe');
+    frame.title = 'EVND clinic background video';
+    frame.src = `https://www.youtube-nocookie.com/embed/${id}?${params}`;
+    frame.allow = 'autoplay; encrypted-media';
+    frame.setAttribute('frameborder', '0');
+    frame.setAttribute('aria-hidden', 'true');
+    frame.tabIndex = -1;
+    // Fade in once it has had a moment to start, so we never flash black.
+    frame.addEventListener('load', () => bg.classList.add('video-ready'));
+    bg.insertBefore(frame, bg.querySelector('.hero-overlay'));
+    bg.classList.add('has-video');
+  }
+</script>

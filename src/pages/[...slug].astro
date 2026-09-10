@@ -1,0 +1,52 @@
+---
+/**
+ * Every generated route on the site: interior content pages, blog posts, and
+ * the scaffolds for pages whose copy has not arrived.
+ *
+ * This replaces 226 near-identical `<ContentPage slug="…" />` wrapper files.
+ * Astro resolves static routes before a rest parameter, so the hand-written
+ * pages (`/`, `/about/`, `/contact/`, `/physicians/`, …) still win — nothing
+ * here needs to know about them.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import ContentPage from '@/layouts/ContentPage.astro';
+import BlogPost from '@/layouts/BlogPost.astro';
+import Stub from '@/layouts/Stub.astro';
+import stubRoutes from '@/data/stub-routes.json';
+
+type Props =
+  | { kind: 'page'; entry: CollectionEntry<'pages'> }
+  | { kind: 'post'; entry: CollectionEntry<'blog'> }
+  | { kind: 'stub'; title: string; path: string };
+
+export async function getStaticPaths() {
+  // Astro hoists getStaticPaths into its own scope, so its helpers live here
+  // rather than at module level.
+  /** `/conditions/acne/` -> `conditions/acne`, the shape a rest param wants. */
+  const toParam = (route: string) => route.replace(/^\/|\/$/g, '');
+
+  const pages = await getCollection('pages');
+  const posts = await getCollection('blog');
+
+  return [
+    ...pages.map((entry) => ({
+      params: { slug: toParam(entry.data.route) },
+      props: { kind: 'page' as const, entry },
+    })),
+    ...posts.map((entry) => ({
+      params: { slug: entry.data.slug },
+      props: { kind: 'post' as const, entry },
+    })),
+    ...(stubRoutes.routes as { path: string; title: string }[]).map((s) => ({
+      params: { slug: toParam(s.path) },
+      props: { kind: 'stub' as const, title: s.title, path: s.path },
+    })),
+  ];
+}
+
+const props = Astro.props as Props;
+---
+{props.kind === 'page' && <ContentPage entry={props.entry} />}
+{props.kind === 'post' && <BlogPost entry={props.entry} />}
+{props.kind === 'stub' && <Stub title={props.title} path={props.path} />}

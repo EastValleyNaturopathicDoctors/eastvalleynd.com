@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHead from './SectionHead.astro';
+import PractitionerCard from './PractitionerCard.astro';
+
+interface Props { limit?: number }
+const { limit } = Astro.props;
+
+// Read the real roster, so names, photos and slugs always match the bio pages.
+const all = (await getCollection('physicians')).sort((a, b) => a.data.order - b.data.order);
+const docs = limit ? all.slice(0, limit) : all;
+const count = all.length;
+const words = ['zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'];
+const spelled = words[count] ?? String(count);
+---
+<section class="section practitioners-section" id="practitioners">
+  <div class="container">
+    <SectionHead
+      eyebrow="Meet our practitioners"
+      blurb="Our doctors are board-licensed NMDs in the state of Arizona, plus licensed massage, nutrition and skincare practitioners. Each has a chronic-disease specialty."
+      ctaLabel="Full bios & specialties" ctaHref="/physicians/">
+      {spelled} clinicians. One way of practicing medicine.
+    </SectionHead>
+
+    <div class="docs-list">
+      {docs.map((d, i) => (
+        <PractitionerCard
+          name={d.data.name} credentials={d.data.credentials} slug={d.data.slug}
+          imageFile={d.data.imageFile} summary={d.data.summary} index={i}
+        />
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIndex from '../components/SectionIndex.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import TruDOSE from '../components/TruDOSE.astro';
+import BookCTA from '../components/BookCTA.astro';
+import { find } from '@/lib/nav';
+
+const section = find('/services/');
+const count = section?.children.length ?? 0;
+---
+<Base
+  title="Services & Therapies"
+  description="IV therapy, regenerative injections, hyperbaric oxygen, neurofeedback, ozone, hormone therapy and specialty labs — a real in-house clinic in Mesa, AZ.">
+  <PageHero
+    eyebrow="Services & therapies"
+    title="A real in-house clinic, not a referral wall."
+    lede={`${count} services under one roof in Mesa — IV suite, regenerative injection room, HBOT chamber, neurofeedback lab, and full functional-lab partnerships.`}
+  />
+  <TrustStrip />
+  <section class="section">
+    <div class="container">
+      <SectionIndex root="/services/" />
+    </div>
+  </section>
+  <TruDOSE />
+  <BookCTA />
+</Base>

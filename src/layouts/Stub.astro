@@ -1,0 +1,50 @@
+---
+import Base from './Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { childrenOf } from '@/lib/nav';
+
+interface Props { title: string; path: string; }
+const { title, path } = Astro.props;
+
+/**
+ * A section whose copy has not arrived still has to be navigable. Three of
+ * these — /iv-therapy/, /injection-therapy/ and the tDCS page — sit above 8
+ * finished pages between them, and when the mega menu stopped listing
+ * grandchildren those children had no inbound link left at all. Listing them
+ * here fixes it where it belongs: the parent page.
+ */
+const children = childrenOf(path);
+---
+<!-- noindex: this page says "waiting on content" — it must not be indexed,
+     and it is excluded from sitemap.xml by the same token. `follow` so the
+     nav links on it still pass through. -->
+<Base title={title} description={`${title} — ${site.name}, Mesa AZ.`} noindex>
+  <section class="page-hero stub-hero">
+    <div class="container">
+      <h1 class="h1">{title}</h1>
+      <p class="stub-note">
+        This page is scaffolded and waiting on content.
+        <code>{path}</code>
+      </p>
+    </div>
+  </section>
+
+  {children.length > 0 && (
+    <section class="section stub-children">
+      <div class="container">
+        <h2 class="h2">In this section</h2>
+        <ul class="stub-child-list">
+          {children.map((c) => (
+            <li>
+              <a href={c.href}>
+                <span>{c.label}</span>
+                <Icon name="arrow-right" size={15} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>

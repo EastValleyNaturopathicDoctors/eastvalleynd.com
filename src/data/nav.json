@@ -1,0 +1,1466 @@
+[
+  {
+    "label": "Home",
+    "href": "/",
+    "inMenu": true,
+    "children": []
+  },
+  {
+    "label": "About Us",
+    "href": "/about/",
+    "inMenu": true,
+    "children": [
+      {
+        "label": "Our Physicians",
+        "href": "/physicians/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Dr. Jason Porter",
+            "href": "/physicians/jason-porter/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dr. Jennifer Nevels",
+            "href": "/physicians/jennifer-nevels/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dr. Laura Schwartz",
+            "href": "/physicians/laura-badalamenti-schwartz/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dr. Casey Seenauth",
+            "href": "/physicians/casey-seenauth/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Jean Sutliff-Stanley",
+            "href": "/physicians/jean-sutliff-stanley/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Shelly Sandhu",
+            "href": "/physicians/shelly-sandhu/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Marie Ybarra",
+            "href": "/physicians/marie-ybarra/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Our Mission",
+        "href": "/about/our-mission/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Naturopathic Medicine",
+        "href": "/about/naturopathic-medicine/",
+        "inMenu": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "Services",
+    "href": "/services/",
+    "inMenu": true,
+    "children": [
+      {
+        "label": "Acupuncture",
+        "href": "/acupuncture/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Alpha-Stim® Treatment",
+        "href": "/alpa-stim-treatment/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Brain Photobiomodulation",
+        "href": "/photobiomodulation/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Brain Regeneration Clinic",
+        "href": "/brain-regeneration-clinic/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Alzheimer's & Dementia",
+            "href": "/brain-regeneration-clinic/alzheimers-and-dementia/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Anti-aging",
+            "href": "/brain-regeneration-clinic/anti-aging/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Chronic Stress",
+            "href": "/brain-regeneration-clinic/chronic-stress/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Concussion & Tramautic Brain Injury",
+            "href": "/brain-regeneration-clinic/concussion-and-traumatic-brain-injury/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Depression & Anxiety",
+            "href": "/brain-regeneration-clinic/depression-and-anxiety/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Insomnia",
+            "href": "/brain-regeneration-clinic/insomnia/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Long Covid Syndrome",
+            "href": "/brain-regeneration-clinic/long-covid-syndrome/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Stroke Injury",
+            "href": "/brain-regeneration-clinic/stroke-injury/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Detox Programs",
+        "href": "/detoxification/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Environmental Detox",
+            "href": "/detoxification/environmental-detox-program/",
+            "inMenu": false,
+            "children": [
+              {
+                "label": "Heavy Metal Sources",
+                "href": "/detoxification/heavy-metal-sources/",
+                "inMenu": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "label": "Mold Detox Program",
+            "href": "/detoxification/mold-detox-program/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Stages of Detoxification",
+            "href": "/detoxification/stages-of-detoxification/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "ExoMind™ Transcranial Magnetic Stimulation (TMS)",
+        "href": "/exomind-tms/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Frequency Specific Microcurrent Therapy",
+        "href": "/frequency-specific-microcurrent-therapy/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Frequency Specific Microcurrent Therapy for PTSD",
+            "href": "/frequency-specific-microcurrent-therapy/ptsd/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Heart Rate Variability Training (HRV)",
+        "href": "/heart-rate-variability-training/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Hormone Therapy",
+        "href": "/hormone-therapy/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Hyperbaric Oxygen Therapy",
+        "href": "/hyperbaric-oxygen-therapy/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Alzheimer's & Dementia",
+            "href": "/hyperbaric-oxygen-therapy/alzheimers-and-dementia/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Anti-Aging",
+            "href": "/hyperbaric-oxygen-therapy/anti-aging/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Cancer",
+            "href": "/hyperbaric-oxygen-therapy/cancer/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Cerebral Palsy",
+            "href": "/hyperbaric-oxygen-therapy/cerebral-palsy/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Diabetes",
+            "href": "/hyperbaric-oxygen-therapy/diabetes/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Inflammation",
+            "href": "/hyperbaric-oxygen-therapy/inflammation/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Stem Cells",
+            "href": "/hyperbaric-oxygen-therapy/stem-cells/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Stroke",
+            "href": "/hyperbaric-oxygen-therapy/stroke/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "FAQ",
+            "href": "/hyperbaric-oxygen-therapy/faq/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Injection Therapy",
+        "href": "/injection-therapy/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Vitamin B12 Shot",
+            "href": "/injection-therapy/vitamin-b12-shot/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Super B Shot",
+            "href": "/injection-therapy/super-b-shot/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Vitamin D Shot",
+            "href": "/injection-therapy/vitamin-d-shot/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Glutathione Shot",
+            "href": "/injection-therapy/glutathione-shot/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Slim Shot",
+            "href": "/injection-therapy/slim-shot/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Super Slim Shot",
+            "href": "/injection-therapy/super-slim-shot/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Stress Buster",
+            "href": "/injection-therapy/stress-buster/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Super Detox Shot",
+            "href": "/injection-therapy/super-detox-shot/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "IV Therapy",
+        "href": "/iv-therapy/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Detox Defender",
+            "href": "/iv-therapy/detox-defender/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Energizer IV",
+            "href": "/iv-therapy/the-energizer-iv/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "High Dose Vitamin C",
+            "href": "/iv-therapy/high-dose-vitamin-c-iv/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Hydration IV",
+            "href": "/iv-therapy/hydration-iv/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Hydrogen Peroxide (H2O2)",
+            "href": "/iv-therapy/hydrogen-peroxide-iv/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Myers Cocktail",
+            "href": "/iv-therapy/myers-cocktail/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "NAD Mitochondrial IV",
+            "href": "/iv-therapy/nad-mitochondrial-iv/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Ozone IV Therapy",
+            "href": "/iv-therapy/ozone-iv-therapy/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Plaquex IV",
+            "href": "/iv-therapy/plaquex/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Microneedling with SkinPen",
+        "href": "/skinpen-microneedling/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Neurofeedback Therapy",
+        "href": "/neurofeedback/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Alzheimer's, Dementia & Neurofeedback",
+            "href": "/neurofeedback/neurofeedback-for-dementia-and-alzheimers/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Neurofeedback for Concussion & Traumatic Brain Injury",
+            "href": "/neurofeedback/concussion-and-tramatic-brain-injury/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Neurofeedback Pricing Packages",
+            "href": "/neurofeedback/pricing-packages/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "History of Neurofeedback and Biofeedback",
+            "href": "/neurofeedback/history-of-neurofeedback-and-biofeedback/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Ozone Therapy",
+        "href": "/ozone-therapy/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "PRP & Prolotherapy",
+        "href": "/prp-and-prolotherapy/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "QEEG Brain Mapping",
+        "href": "/qeeg-brain-mapping/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Transcranial Direct Current Stimulation (tDCS)",
+        "href": "/transcranial-direct-current-stimulation/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "ADHD",
+            "href": "/transcranial-direct-current-stimulation/adhd/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Anxiety",
+            "href": "/transcranial-direct-current-stimulation/anxiety/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Autism",
+            "href": "/transcranial-direct-current-stimulation/autism/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Concussion & Traumatic Brain Injury",
+            "href": "/transcranial-direct-current-stimulation/concussion-and-traumatic-brain-injury/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dementia & Alzheimer's",
+            "href": "/transcranial-direct-current-stimulation/dementia-and-alzheimers/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Depression",
+            "href": "/transcranial-direct-current-stimulation/depression/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dysmenorrhea",
+            "href": "/transcranial-direct-current-stimulation/dysmenorrhea/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Long COVID",
+            "href": "/transcranial-direct-current-stimulation/long-covid/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Specialty Labs",
+        "href": "/specialty-labs/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Adrendal Function Testing",
+            "href": "/specialty-labs/adrenal-function-testing/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Environmental TOXDetect Profile®",
+            "href": "/specialty-labs/environmental-toxic-load-testing/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Folate Receptor Antibody Test (FRAT®)",
+            "href": "/specialty-labs/folate-receptor-antibody-test-frat/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Food Sensitivity",
+            "href": "/specialty-labs/food-sensitivity/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Galleri Cancer Screening",
+            "href": "/specialty-labs/galleri-cancer-screening/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Gut Health Testing",
+            "href": "/specialty-labs/gut-health/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Heavy Metal Testing",
+            "href": "/specialty-labs/heavy-metals/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Hormone Testing & Treatment",
+            "href": "/hormone-therapy/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Microbiome Panel",
+            "href": "/specialty-labs/micorbiome-panel/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Mold & Mycotoxin Testing",
+            "href": "/specialty-labs/mold-and-mycotoxin/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Nasal Bacteria Culture",
+            "href": "/specialty-labs/nasal-bacteria-culture-marcons-testing/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Organic Acid Testing",
+            "href": "/specialty-labs/organic-acid-test/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Parasite Testing",
+            "href": "/specialty-labs/parasite-testing/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": ".       Plasmalogens",
+            "href": "/specialty-labs/plasmalogens/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Trio Smart- Hydrogen(SIBO), Methane and Hydrogen Sulfide Breath test",
+            "href": "/specialty-labs/trio-smart-breath-test/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Veterans",
+        "href": "/save-our-veterans/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Weight Loss",
+        "href": "/weight-loss/",
+        "inMenu": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "Conditions We Treat",
+    "href": "/conditions/",
+    "inMenu": true,
+    "children": [
+      {
+        "label": "Adrenal Fatigue",
+        "href": "/conditions/adrenal-fatigue/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Adrenal Rejuvination Program",
+            "href": "/conditions/adrenal-rejuvination-program/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Allergies, Eczema, Asthma, & MCAS",
+        "href": "/conditions/allergies-eczema-asthma-mcas/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Allergies",
+            "href": "/conditions/allergies/",
+            "inMenu": false,
+            "children": [
+              {
+                "label": "Sublingual Immunotherapy",
+                "href": "/conditions/allergies/sublingual-immunotherapy/",
+                "inMenu": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "label": "Asthma",
+            "href": "/conditions/asthma/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Eczema",
+            "href": "/conditions/eczema/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "IgG Food Intolerance",
+            "href": "/conditions/igg-food-intolerance/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Mast Cell Activation Syndrome (MCAS)",
+            "href": "/conditions/mcas/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Arthiritis",
+        "href": "/conditions/arthiritis/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Autoimmune Disorders",
+        "href": "/conditions/autoimmune/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Hashimoto's & Thyroid Conditions",
+            "href": "/conditions/hashimotos-and-thyroid/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Rheumatoid Arthritis",
+            "href": "/conditions/rheumatoid-arthritis/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Cancer Support",
+        "href": "/conditions/cancer-support/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Prevention of Colon Cancer",
+            "href": "/prevention-of-colon-cancer/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Childhood Behavioral Disorders",
+        "href": "/conditions/childhood-behavioral-disorders/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Autism",
+            "href": "/conditions/childhood-behavioral-disorders/autism/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "PANDAS",
+            "href": "/conditions/childhood-behavioral-disorders/pandas/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Childhood Medical Disorders",
+        "href": "/conditions/childhood-medical-disorders/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Childhood Allergies",
+            "href": "/conditions/childhood-medical-disorders/childhood-allergies/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Chronic Fatigue",
+        "href": "/conditions/chronic-fatigue/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Chronic Pain",
+        "href": "/conditions/chronic-pain/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Back Pain",
+            "href": "/conditions/chronic-pain/back-pain/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dysmenorrhea",
+            "href": "/conditions/chronic-pain/dysmenorrhea/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Fibromyalgia",
+            "href": "/conditions/chronic-pain/fibromyalgia/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Knee Pain",
+            "href": "/conditions/chronic-pain/knee-pain/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Migraines & Tension Headaches",
+            "href": "/conditions/chronic-pain/migraines-and-tension-headaches/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Neck Pain",
+            "href": "/conditions/chronic-pain/neck-pain/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Plantar Fascitis",
+            "href": "/conditions/chronic-pain/plantar-fascitis/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Sciatica Pain",
+            "href": "/conditions/chronic-pain/sciatica-pain/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Shoulder Pain",
+            "href": "/conditions/chronic-pain/shoulder-pain/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Small Fiber Neuropathy",
+            "href": "/conditions/small-fiber-neuropathy/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "TMJ",
+            "href": "/conditions/chronic-pain/tmj-pain/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Wrist & Elbow Pain",
+            "href": "/conditions/chronic-pain/wrist-and-elbow-pain/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Diabetes & Metabolic Issues",
+        "href": "/conditions/diabetes/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Gastrointestinal Disorders",
+        "href": "/conditions/gastrointestinal-disorders/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Candida, Yeast, and Fungal Overgrowth (SIFO)",
+            "href": "/conditions/gastrointestinal-disorders/candida-overgrowth/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Inflammatory Bowel Disease",
+            "href": "/conditions/gastrointestinal-disorders/inflammatory-bowel-disease/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Intestinal Permeability and GI Microbiome",
+            "href": "/conditions/gastrointestinal-disorders/intestinal-permeability-and-gi-microbiome/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "SIBO",
+            "href": "/conditions/gastrointestinal-disorders/sibo/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Gut & Digestive Health Problems",
+        "href": "/conditions/gut-health/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Heart Care",
+        "href": "/conditions/heart-care/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Atrial Fibrillation",
+            "href": "/conditions/heart-care/atrial-fibrillation/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Carotid Ultrasound",
+            "href": "/conditions/heart-care/carotid-ultrasound/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Cholesterol and Vascular disease",
+            "href": "/conditions/heart-care/cholesterol-and-cardiovascular-disease/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Coronary Artery Disease",
+            "href": "/conditions/heart-care/coronary-artery-disease/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "CT Calcium Score",
+            "href": "/conditions/heart-care/ct-calcium-score/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Glycocalyx",
+            "href": "/conditions/heart-care/glycocalyx/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Heart Palpitations",
+            "href": "/conditions/heart-care/heart-palpitations/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Homocysteine & MTHFR",
+            "href": "/conditions/heart-care/homocysteine-and-mthfr/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Hypertension",
+            "href": "/conditions/heart-care/hypertension/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Peripheral Arterial Disease",
+            "href": "/conditions/heart-care/peripheral-arterial-disease/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Hormonal Issues",
+        "href": "/conditions/hormonal/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Infertility",
+        "href": "/conditions/infertility/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Insomnia",
+        "href": "/conditions/insomnia/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Long COVID",
+        "href": "/conditions/long-covid-syndrome/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Lyme Disease",
+        "href": "/conditions/lyme-disease/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Men's Health",
+        "href": "/mens-health/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Andropause",
+            "href": "/mens-health/andropause/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Men's Health Programs",
+            "href": "/mens-health/mens-health-programs/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Prostate Health",
+            "href": "/mens-health/prostate-health/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Mental Health Conditions",
+        "href": "/conditions/mental-health/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Depression & Anxiety",
+            "href": "/conditions/mntal-health/depression-anxiety/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Highly Sensitive Person",
+            "href": "/conditions/mntal-health/highly-sensitive-person/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Stress",
+            "href": "/conditions/mental-health/stress/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "MTHFR",
+        "href": "/conditions/mthfr/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Neurological",
+        "href": "/conditions/neurological/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Osteoporosis",
+        "href": "/conditions/osteoporosis/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "POTS",
+        "href": "/conditions/pots/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Skin Conditions",
+        "href": "/conditions/skin-conditions/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Acne",
+            "href": "/conditions/acne/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Minor Dermatological Surgeries",
+            "href": "/conditions/minor-dermatological-surgeries/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Women's Health",
+        "href": "/conditions/womens-health/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "Breast Cancer Prevention",
+            "href": "/conditions/womens-health/breast-cancer-prevention/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Breast Implant Illness",
+            "href": "/conditions/womens-health/breast-implant-illness/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Hormonal Fluctuations and Mood Disorders",
+            "href": "/conditions/womens-health/hormonal-fluctuations-and-mood-disorders/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Menopause",
+            "href": "/conditions/womens-health/menopause/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "PCOS / Endometriosis",
+            "href": "/conditions/womens-health/pcos/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "PMS",
+            "href": "/conditions/womens-health/pms/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Urinary Tract Infections",
+            "href": "/conditions/womens-health/urinary-tract-infections/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Uterine Fibroids",
+            "href": "/conditions/womens-health/uterine-fibroids/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Vaginal Infections",
+            "href": "/conditions/womens-health/vaginal-infections/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Well Woman Exams",
+            "href": "/conditions/womens-health/well-woman-exams/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Insurance",
+        "href": "/insurance-coverage/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Forms & Handouts",
+        "href": "/forms-and-handouts/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Patient Portal",
+        "href": "/patient-portal/",
+        "inMenu": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "Resources",
+    "href": "/resources/",
+    "inMenu": true,
+    "children": [
+      {
+        "label": "Appointment Request",
+        "href": "/new-patient-appointment-request/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Blog",
+        "href": "/blog/",
+        "inMenu": true,
+        "children": [
+          {
+            "label": "5 Steps to Minimize Cancer Contraction",
+            "href": "/5-steps-to-minimize-cancer-contraction/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "10 Tips for Naturally Reducing Stress",
+            "href": "/10-tips-for-naturally-reducing-stress/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Are Your Personal Care Products Toxic?",
+            "href": "/are-your-personal-care-products-toxic/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Back To School: A Healthy School Year for your Child",
+            "href": "/back-school-healthy-school-year-child/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Can I Do Neurofeedback at Home?",
+            "href": "/can-i-do-neurofeedback-at-home/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Choosing a Non-Toxic Sunscreen for You and Your Family",
+            "href": "/choosing-a-non-toxic-sunscreen-for-you-and-your-family/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Common Causes of Depression and How to Treat It Naturally",
+            "href": "/common-causes-and-treatment-of-depression/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Dr. Jennifer Nevels of East Valley Naturopathic Doctors Named to Phoenix Magazine’s Top Primary Care Doctors of 2025 List",
+            "href": "/dr-jennifer-nevels-of-east-valley-naturopathic-doctors-named-to-phoenix-magazines-top-primary-care-doctors-of-2025-list/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Foods That Can Worsen ADHD Symptoms",
+            "href": "/foods-that-can-worsen-adhd-symptoms/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "High Dose Vitamin C Kills Cancer",
+            "href": "/high-dose-vitamin-c-kills-cancer/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Dirty is Your Soap?",
+            "href": "/how-dirty-is-your-soap/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Do We Maximize Cellular Oxygenation?",
+            "href": "/how-do-we-maximize-cellular-oxygenation/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help ADHD",
+            "href": "/how-neurofeedback-can-help-adhd/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help with Anxiety",
+            "href": "/how-neurofeedback-can-help-with-anxiety/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help with Concussions",
+            "href": "/how-neurofeedback-can-help-with-concussions/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help Cognitive Decline",
+            "href": "/how-neurofeedback-can-help-cognitive-decline/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help Depression",
+            "href": "/how-neurofeedback-can-help-depression/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help with Behavioral Disorders",
+            "href": "/how-neurofeedback-can-help-with-behavioral-disorders/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help Insomnia",
+            "href": "/how-neurofeedback-can-help-insomnia/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Can Help with Traumatic Brain Injures",
+            "href": "/how-neurofeedback-can-help-with-traumatic-brain-injures/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How Neurofeedback Helps with Reading and Learning Disorders",
+            "href": "/how-neurofeedback-helps-wth-reading-and-learning-disorders/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How to Feel Amazing in Menopause Part I: 5 Foods that Naturally Promote Hormonal Balance",
+            "href": "/how-to-feel-amazing-in-menopause-part-1/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How to Feel Amazing in Menopause Part 2: Top Herbal Remedies for Menopause",
+            "href": "/how-to-feel-amazing-in-menopause-part-2/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How to Feel Amazing in Menopause Part 3: Natural Hormone Replacement",
+            "href": "/how-to-feel-amazing-in-menopause-part-3/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "How to Feel Amazing in Menopause Part 4: 3 Health Issues that Masquerade as Hormonal Imbalance",
+            "href": "/how-to-feel-amazing-in-menopause-part-4/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Multiple Chemical Sensitivity",
+            "href": "/multiple-chemical-sensitivity/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Natural Allergy Relief",
+            "href": "/natural-allergy-relief/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Natural Solutions to Painful Periods",
+            "href": "/natural-solutions-to-painful-periods/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Neurofeedback: An Interview with a Mother Whose Son HAD ADHD",
+            "href": "/neurofeedback-interview-mother-whose-son-adhd/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Neurofeedback Treatment for ADHD: An Interview with the Parents",
+            "href": "/neurofeedback-treatment-for-adhd-an-interview-with-the-parents/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Pesticide Exposure Linked to Attention Deficit and Hyperactivity Disorder",
+            "href": "/pesticide-exposure-linked-to-attention-deficit-and-hyperactivity-disorder/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Suffering from Childhood Allergies",
+            "href": "/suffering-from-childhood-allergies/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Testosterone deficiency linked to depression and lack of motivation",
+            "href": "/testosterone-deficiency-linked-to-depression-and-lack-of-motivation/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Benefits of Neurofeedback in ADHD Treatment",
+            "href": "/the-benefits-of-neurofeedback-in-adhd-treatment/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Benefits of Vitamin D for Depression",
+            "href": "/the-benefits-of-vitamin-d-for-depression/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Best Cookware for Non-Toxic Cooking",
+            "href": "/the-best-cookware-for-non-toxic-cooking/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Breast Cancer Screening Test Everyone Should Know About",
+            "href": "/the-breast-cancer-screening-test-everyone-should-know-about/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Dangers of Common Household Cleaners and Safe Alternatives",
+            "href": "/the-dangers-of-common-household-cleaners-and-safe-alternatives/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Environmental Impact on Fertility",
+            "href": "/the-environmental-impact-on-fertility/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "The Healing Potential of Stem Cell Therapy",
+            "href": "/the-healing-potential-of-stem-cell-therapy/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Treat Your Cold and Flu Symptoms Naturally This Season",
+            "href": "/treat-your-cold-and-flu-symptoms-naturally-this-season/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "Utilizing Brain Mapping to Accurately Diagnose ADHD",
+            "href": "/utilizing-brain-mapping-to-accurately-diagnose-adhd/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "What Causes Vaginal Infections?",
+            "href": "/what-causes-vaginal-infections/",
+            "inMenu": false,
+            "children": []
+          },
+          {
+            "label": "What Is Neurofeedback?",
+            "href": "/what-is-neurofeedback/",
+            "inMenu": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "label": "Insurane Coverage",
+        "href": "/insurance-coverage/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Patient Portal",
+        "href": "/patient-portal/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Webinars",
+        "href": "/webinars/",
+        "inMenu": true,
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "Contact",
+    "href": "/contact/",
+    "inMenu": true,
+    "children": []
+  },
+  {
+    "label": "Schedule Appointment",
+    "href": "/schedule-appointment/",
+    "inMenu": true,
+    "children": []
+  }
+]

@@ -1,0 +1,20 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  file: string; alt: string; width: number; height: number;
+  class?: string; loading?: 'lazy' | 'eager'; fetchpriority?: 'high' | 'auto' | 'low';
+}
+const { file, alt, width, height, class: cls = '', loading = 'lazy', fetchpriority } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/images/blog/*.{jpg,jpeg,png,webp,avif,gif}', { eager: true }
+);
+const mod = images[`/src/images/blog/${file}`];
+if (import.meta.env.DEV && file && !mod) console.warn(`<BlogImage> missing src/images/blog/${file}`);
+---
+{mod && (
+  <Image src={mod.default} alt={alt} width={width} height={height}
+         class={cls} loading={loading} fetchpriority={fetchpriority} decoding="async" />
+)}

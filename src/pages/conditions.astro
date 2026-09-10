@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIndex from '../components/SectionIndex.astro';
+import TruDOSE from '../components/TruDOSE.astro';
+import FAQ from '../components/FAQ.astro';
+import BookCTA from '../components/BookCTA.astro';
+import { find } from '@/lib/nav';
+
+const section = find('/conditions/');
+const count = section?.children.length ?? 0;
+---
+<Base
+  title="Conditions We Treat"
+  description="Chronic fatigue, Lyme, autoimmune, gastrointestinal, hormonal, cardiovascular, chronic pain and more — the conditions conventional medicine struggles with, treated at the root.">
+  <PageHero
+    eyebrow="Conditions we treat"
+    title="If conventional medicine has shrugged, we are probably the next call."
+    lede={`${count} areas of care, each with the labs we run, the therapies we use, and the doctor who leads that work at EVND.`}
+  />
+  <section class="section">
+    <div class="container">
+      <SectionIndex root="/conditions/" />
+    </div>
+  </section>
+  <TruDOSE />
+  <FAQ />
+  <BookCTA />
+</Base>

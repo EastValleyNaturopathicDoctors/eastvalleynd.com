@@ -1,0 +1,20 @@
+{
+  "_comment": [
+    "THE SWITCH THAT KEEPS THIS SITE OUT OF SEARCH RESULTS.",
+    "",
+    "While `noindex` is true the whole site is closed to crawlers three ways:",
+    "  1. every page gets <meta name=\"robots\" content=\"noindex, nofollow\">",
+    "  2. robots.txt is Disallow: / and does not advertise the sitemap",
+    "  3. public/_headers sends X-Robots-Tag on everything, which is the only",
+    "     one of the three that can cover the 26 patient PDFs — a meta tag",
+    "     cannot be put inside a PDF.",
+    "",
+    "TO GO LIVE: set noindex to false, then re-run",
+    "  python3 extract/build_sitemap_xml.py && cd site && npm run build",
+    "Both the build and extract/audit_site.py shout while this is true, so it",
+    "cannot ship to production unnoticed. Launching a site with noindex left on",
+    "is the single most expensive mistake available here."
+  ],
+  "noindex": true,
+  "reason": "Preview upload — site is not ready to be indexed (set 2026-09-08)."
+}

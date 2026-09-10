@@ -1,0 +1,45 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import Eyebrow from './Eyebrow.astro';
+import { resources } from '../data/content';
+interface Props { showHead?: boolean; }
+const { showHead = true } = Astro.props;
+---
+<section class="section resources-section" id="resources">
+  <div class="container">
+    {showHead && (
+      <SectionHead
+        eyebrow="Resources"
+        blurb="Articles, webinars, and downloadable guides from the EVND clinicians, organized by condition."
+        ctaLabel="Resource library" ctaHref="/resources/">
+        Learn the medicine, then decide.
+      </SectionHead>
+    )}
+
+    <div class="res-grid">
+      <div class="ebook-card">
+        <Eyebrow>Free e-book</Eyebrow>
+        <h3>How to Feel Amazing in Menopause</h3>
+        <p>Dr. Jennifer Nevels' patient handbook — natural remedies, hormone testing, and a real plan for the decade that defines healthspan.</p>
+        <form id="ebookForm" method="post" action="/api/ebook">
+          <label class="sr-only" for="ebookEmail">Your email</label>
+          <input id="ebookEmail" name="email" type="email" placeholder="Your email" required autocomplete="email" />
+          <button type="submit">Send me the e-book</button>
+        </form>
+        <small>One-time download · we don't spam.</small>
+      </div>
+
+      {resources.map((r) => (
+        <a class="res-card" href="/resources/">
+          <img src={r.img} alt="" loading="lazy" decoding="async" />
+          <div class="res-overlay"></div>
+          <div class="res-meta"><span>{r.kind}</span><span>{r.time}</span></div>
+          <h4>{r.title}</h4>
+          <span class="res-author">By {r.author}</span>
+          <span class="res-arrow"><Icon name="arrow-up-right" size={14} /></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

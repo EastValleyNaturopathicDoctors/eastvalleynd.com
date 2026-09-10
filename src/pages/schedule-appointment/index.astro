@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import TallyForm from '@/components/TallyForm.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import { site } from '@/data/site';
+
+/**
+ * Replaces Gravity Form 2, "Request Appointment - Full Page", which was the
+ * entire contents of this page on the old site ([gravityform id=2]).
+ *
+ * The online booking column is not decoration: the old site sent established
+ * patients straight to their provider's Patient Fusion widget, and the /contact/
+ * page still tells them online scheduling is for established patients only.
+ * Those links come from the physicians collection, never a hand-kept list.
+ */
+const bookable = (await getCollection('physicians'))
+  .filter((d) => d.data.booking.length > 0)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Base
+  title="Schedule an Appointment"
+  description={`Request an appointment with East Valley Naturopathic Doctors in ${site.address.city}, ${site.address.state}. Established patients can book online; new patients, send a request or call ${site.phone}.`}>
+  <PageHero
+    eyebrow="Appointments"
+    title="Let's get you on the schedule."
+    lede="Send a request and the front desk will call you back to confirm a time. Already an established patient? You can book directly with your provider."
+  />
+
+  <section class="section form-section">
+    <div class="container form-grid">
+      <div class="form-main">
+        <h2 class="form-heading">Request an appointment</h2>
+        <p class="form-intro">
+          Tell us how to reach you and what you'd like help with. We'll follow up
+          during clinic hours — usually the same day.
+        </p>
+
+        <TallyForm form="appointment" title="Request an appointment" height={760}>
+          <p class="tally-pending-title">Our online request form is moving.</p>
+          <p>
+            While we finish the switch, the fastest way to be seen is to call the
+            front desk — we'll take your details and get you booked on the spot.
+          </p>
+          <div class="hero-cta">
+            <Button href={site.phoneHref} variant="dark" icon="phone">Call {site.phone}</Button>
+          </div>
+        </TallyForm>
+      </div>
+
+      <aside class="form-aside">
+        <div class="form-card">
+          <h3>Prefer to call?</h3>
+          <p class="form-card-lead">The front desk can book you while you're on the phone.</p>
+          <a class="form-card-phone" href={site.phoneHref}>
+            <Icon name="phone" size={16} />{site.phone}
+          </a>
+          <ul class="form-card-hours">
+            {site.hours.map((h) => (
+              <li><span>{h.days}</span><span>{h.time}</span></li>
+            ))}
+          </ul>
+          {site.lunch && <p class="form-card-note">{site.lunch}</p>}
+        </div>
+
+        {bookable.length > 0 && (
+          <div class="form-card">
+            <h3>Already a patient?</h3>
+            <p class="form-card-lead">
+              Online scheduling is open to established patients. Pick your provider
+              to see their live availability.
+            </p>
+            <ul class="form-book-list">
+              {bookable.map((d) => (
+                <li>
+                  <a href={d.data.booking[0].url} target="_blank" rel="noopener">
+                    <span>{d.data.name}{d.data.credentials && `, ${d.data.credentials}`}</span>
+                    <Icon name="arrow-up-right" size={14} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p class="form-card-note">
+              Not sure who to see? <a href="/physicians/">Read the practitioner bios</a>.
+            </p>
+          </div>
+        )}
+
+        <div class="form-card">
+          <h3>New to the clinic?</h3>
+          <p class="form-card-lead">
+            First visits are longer and start with a full history, so we book them
+            by hand rather than online.
+          </p>
+          <Button href="/new-patient-appointment-request/" variant="ghost" icon="arrow-right">
+            New patient request
+          </Button>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

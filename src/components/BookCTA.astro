@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import Eyebrow from './Eyebrow.astro';
+import { site } from '../data/site';
+const a = site.address;
+---
+<section class="section book-section" id="book">
+  <div class="container book-wrap">
+    <div class="book-bg">
+      <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1800&q=80&auto=format&fit=crop" alt="" loading="lazy" />
+      <div class="book-overlay"></div>
+    </div>
+    <div class="book-text">
+      <Eyebrow light>New patients</Eyebrow>
+      <h2 class="h1">Ready when you are.</h2>
+      <p>Most new patients are seen within 7–14 days. Bring your story; we'll bring the medicine.</p>
+      <div class="book-actions">
+        <Button href={site.phoneHref} variant="light" icon="phone" size="lg">{site.phone}</Button>
+        <Button href="/new-patient-appointment-request/" variant="outline-light" icon="calendar" size="lg">Book online</Button>
+      </div>
+      <div class="book-meta">
+        <div><Icon name="map" size={16} /><span>{a.street}<br />{a.city}, {a.state} {a.zip}</span></div>
+        <div><Icon name="calendar" size={16} /><span>{site.hours.map((h) => `${h.days} ${h.time}`).join(' · ')}</span></div>
+        <div><Icon name="heart" size={16} /><span>Insurance &amp; HSA/FSA accepted<br />Self-pay packages available</span></div>
+      </div>
+    </div>
+  </div>
+</section>

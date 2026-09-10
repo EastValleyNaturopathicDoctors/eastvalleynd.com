@@ -1,0 +1,58 @@
+{
+  "generatedBy": "extract/build_pages.py",
+  "note": "Routes with no copy yet. Rendered by src/pages/[...slug].astro.",
+  "routes": [
+    {
+      "path": "/about/naturopathic-medicine/",
+      "title": "Naturopathic Medicine"
+    },
+    {
+      "path": "/about/our-mission/",
+      "title": "Our Mission"
+    },
+    {
+      "path": "/conditions/chronic-pain/dysmenorrhea/",
+      "title": "Dysmenorrhea"
+    },
+    {
+      "path": "/conditions/gut-health/",
+      "title": "Gut & Digestive Health Problems"
+    },
+    {
+      "path": "/conditions/hormonal/",
+      "title": "Hormonal Issues"
+    },
+    {
+      "path": "/conditions/neurological/",
+      "title": "Neurological"
+    },
+    {
+      "path": "/conditions/rheumatoid-arthritis/",
+      "title": "Rheumatoid Arthritis"
+    },
+    {
+      "path": "/how-to-feel-amazing-in-menopause-part-1/",
+      "title": "How to Feel Amazing in Menopause Part I: 5 Foods that Naturally Promote Hormonal Balance"
+    },
+    {
+      "path": "/how-to-feel-amazing-in-menopause-part-2/",
+      "title": "How to Feel Amazing in Menopause Part 2: Top Herbal Remedies for Menopause"
+    },
+    {
+      "path": "/how-to-feel-amazing-in-menopause-part-3/",
+      "title": "How to Feel Amazing in Menopause Part 3: Natural Hormone Replacement"
+    },
+    {
+      "path": "/how-to-feel-amazing-in-menopause-part-4/",
+      "title": "How to Feel Amazing in Menopause Part 4: 3 Health Issues that Masquerade as Hormonal Imbalance"
+    },
+    {
+      "path": "/specialty-labs/food-sensitivity/",
+      "title": "Food Sensitivity"
+    },
+    {
+      "path": "/specialty-labs/gut-health/",
+      "title": "Gut Health Testing"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "generatedBy": "extract/build_webinars.py",
+  "source": "extract/export/raw-html/page/evnd-webinars.html (WP page 4544)",
+  "webinars": [
+    {
+      "id": "hFJUnGl09pc",
+      "title": "Mold and its Mycotoxins-the Hidden Health Saboteur",
+      "youtubeTitle": "Mold and its Mycotoxins-the Hidden Health Saboteur| Dr. Jennifer Nevels| Mesa, Arizona",
+      "posterFile": "hFJUnGl09pc.jpg",
+      "url": "https://www.youtube.com/watch?v=hFJUnGl09pc"
+    },
+    {
+      "id": "Iigo8XbqjW4",
+      "title": "Intermittent Fasting for Life Extension and Weight Loss",
+      "youtubeTitle": "Intermittent Fasting - A New Lifestyle for Weight Loss, Improved Energy, and Anti-Aging",
+      "posterFile": "Iigo8XbqjW4.jpg",
+      "url": "https://www.youtube.com/watch?v=Iigo8XbqjW4"
+    },
+    {
+      "id": "U2A43yhmrZ4",
+      "title": "The Relation of Autism to EDS, ADHD, Anxiety, and PANDAS/PANS",
+      "youtubeTitle": "The Relation of Autism to EDS, ADHD, Anxiety, Cirs, and PANDAS/PANS|East Valley Naturopathic Doctors",
+      "posterFile": "U2A43yhmrZ4.jpg",
+      "url": "https://www.youtube.com/watch?v=U2A43yhmrZ4"
+    },
+    {
+      "id": "rs6uwl5iJQA",
+      "title": "Natural Treatments for Brain Injury",
+      "youtubeTitle": "Natural Treatments for Brain Injury| East Valley Naturopathic Doctors| Mesa, Arizona",
+      "posterFile": "rs6uwl5iJQA.jpg",
+      "url": "https://www.youtube.com/watch?v=rs6uwl5iJQA"
+    },
+    {
+      "id": "Z-BbJktOZkM",
+      "title": "How to Meet Weight Loss Goals and Detoxify At the Same Time",
+      "youtubeTitle": "How to Meet Weight Loss Goals and Detoxify At the Same Time| Expert Tips for a Healthier You",
+      "posterFile": "Z-BbJktOZkM.jpg",
+      "url": "https://www.youtube.com/watch?v=Z-BbJktOZkM"
+    },
+    {
+      "id": "FBL76OkKaXk",
+      "title": "Breast Implant Illness",
+      "youtubeTitle": "Dr.  Nevels' Breast Implant Illness Full Interview| East Valley Naturopathic Doctors| Mesa, Arizona",
+      "posterFile": "FBL76OkKaXk.jpg",
+      "url": "https://www.youtube.com/watch?v=FBL76OkKaXk"
+    }
+  ]
+}

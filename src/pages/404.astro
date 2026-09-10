@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Button from '../components/Button.astro';
+import { site } from '../data/site';
+import { nav } from '@/lib/nav';
+---
+<Base title="Page not found" description="That page has moved or no longer exists.">
+  <PageHero
+    eyebrow="404"
+    title="That page has moved."
+    lede="The link you followed no longer points anywhere. Try one of these, or call us and we'll point you the right way."
+  />
+  <section class="section">
+    <div class="container">
+      <div class="therapy-grid">
+        {nav.map((l) => (
+          <a href={l.href} class="therapy-card"><h4>{l.label}</h4></a>
+        ))}
+      </div>
+      <p style="margin-top:32px">
+        <Button href={site.phoneHref} variant="dark" icon="phone">{site.phone}</Button>
+      </p>
+    </div>
+  </section>
+</Base>

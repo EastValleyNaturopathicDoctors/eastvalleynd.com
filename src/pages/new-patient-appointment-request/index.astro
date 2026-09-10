@@ -1,0 +1,116 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import TallyForm from '@/components/TallyForm.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import { site } from '@/data/site';
+
+/**
+ * Replaces Gravity Form 1, "Request Appointment", which reached this page
+ * through the WordPress page-sidebar widget rather than the body — which is
+ * why the extracted body for /new-patient-appointment-request/ is empty.
+ *
+ * The old page had five inbound internal links and its own meta description;
+ * both are preserved here.
+ */
+const steps = [
+  {
+    n: '01',
+    h: 'You send the request',
+    p: 'Name, the best number to reach you, and what you would like help with. Two minutes.',
+  },
+  {
+    n: '02',
+    h: 'We call you back',
+    p: `The front desk calls during clinic hours to match you with the right practitioner and find a time.`,
+  },
+  {
+    n: '03',
+    h: 'Paperwork before you arrive',
+    p: 'We send your intake forms ahead of the visit so the first appointment is spent talking, not writing.',
+  },
+  {
+    n: '04',
+    h: 'Your first visit',
+    p: 'A full history and a plan. New patient visits are booked long on purpose.',
+  },
+];
+---
+<Base
+  title="New Patient Appointment Request"
+  description="Fill out a New Patient Appointment Request form for East Valley Naturopathic Doctors in Mesa, Arizona to start your path to healing.">
+  <PageHero
+    eyebrow="New patients"
+    title="Start here."
+    lede="Tell us a little about what's going on and how to reach you. We'll call you back to match you with the right practitioner and get you booked."
+  />
+
+  <section class="section form-section">
+    <div class="container form-grid">
+      <div class="form-main">
+        <h2 class="form-heading">New patient appointment request</h2>
+        <p class="form-intro">
+          This is a request, not a confirmed booking — we'll be in touch to
+          confirm a time. If you'd rather do it by phone, call {' '}
+          <a href={site.phoneHref}>{site.phone}</a>.
+        </p>
+
+        <TallyForm form="appointment-request" title="New patient appointment request" height={720}>
+          <p class="tally-pending-title">Our online request form is moving.</p>
+          <p>
+            While we finish the switch, call the front desk and we'll take your
+            details and get you scheduled.
+          </p>
+          <div class="hero-cta">
+            <Button href={site.phoneHref} variant="dark" icon="phone">Call {site.phone}</Button>
+          </div>
+        </TallyForm>
+      </div>
+
+      <aside class="form-aside">
+        <div class="form-card">
+          <h3>What happens next</h3>
+          <ol class="form-steps">
+            {steps.map((s) => (
+              <li>
+                <span class="form-step-n">{s.n}</span>
+                <div>
+                  <strong>{s.h}</strong>
+                  <p>{s.p}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="form-card">
+          <h3>Rather call?</h3>
+          <a class="form-card-phone" href={site.phoneHref}>
+            <Icon name="phone" size={16} />{site.phone}
+          </a>
+          <ul class="form-card-hours">
+            {site.hours.map((h) => (
+              <li><span>{h.days}</span><span>{h.time}</span></li>
+            ))}
+          </ul>
+          {site.lunch && <p class="form-card-note">{site.lunch}</p>}
+          <p class="form-card-note">
+            {site.address.street}, {site.address.city}, {site.address.state} {site.address.zip} ·{' '}
+            <a href="/contact/">Directions</a>
+          </p>
+        </div>
+
+        <div class="form-card">
+          <h3>Already a patient?</h3>
+          <p class="form-card-lead">
+            Established patients can book online with their own provider.
+          </p>
+          <Button href="/schedule-appointment/" variant="ghost" icon="arrow-right">
+            Schedule an appointment
+          </Button>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

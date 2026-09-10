@@ -1,0 +1,121 @@
+---
+import { jsonLd } from '@/lib/schema';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Button from '../../components/Button.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import BookCTA from '../../components/BookCTA.astro';
+import TeamPhoto from '../../components/TeamPhoto.astro';
+import TestimonialCarousel from '../../components/TestimonialCarousel.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('physicians');
+  const sorted = docs.sort((a, b) => a.data.order - b.data.order);
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.data.slug },
+    props: {
+      entry,
+      prev: sorted[(i - 1 + sorted.length) % sorted.length],
+      next: sorted[(i + 1) % sorted.length],
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const initials = d.name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: d.name,
+  jobTitle: d.credentials,
+  description: d.summary,
+  worksFor: { '@type': 'MedicalClinic', name: site.name },
+  // Image URL is emitted by the build; omitted here rather than guessed.
+};
+---
+<Base title={d.name} description={d.metaDescription || d.summary}>
+  <section class="page-hero doc-hero">
+    <div class="container doc-hero-inner">
+      <div class="doc-hero-photo">
+        {d.imageFile
+          ? <TeamPhoto file={d.imageFile} alt={d.name} width={480} height={480}
+                       loading="eager" fetchpriority="high" />
+          : <span class="doc-initials" aria-hidden="true">{initials}</span>}
+      </div>
+      <div class="doc-hero-text">
+        <Eyebrow><a href="/physicians/">Practitioners</a></Eyebrow>
+        <h1 class="h1">{d.name}</h1>
+        {d.credentials && <p class="doc-hero-creds">{d.credentials}</p>}
+        {/* `summary` is the first paragraph of the bio, which renders in full
+            immediately below — repeating it here just reads as a stutter. */}
+        <div class="hero-cta">
+          {d.booking.length === 1 ? (
+            <Button href={d.booking[0].url} variant="dark" icon="calendar" target="_blank" rel="noopener">
+              Book with {d.name.split(' ').slice(-1)[0]}
+            </Button>
+          ) : (
+            <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
+          )}
+          <Button href={site.phoneHref} variant="ghost" icon="phone">{site.phone}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {d.booking.length > 1 && (
+    <section class="section doc-booking-section">
+      <div class="container">
+        <Eyebrow>Book with {d.name.split(' ').slice(-1)[0]}</Eyebrow>
+        <h2 class="h2">Appointment types</h2>
+        <ul class="doc-booking-list">
+          {d.booking.map((b) => (
+            <li>
+              <a href={b.url} target="_blank" rel="noopener">
+                <span>{b.label}</span>
+                <Icon name="arrow-up-right" size={16} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section doc-bio-section">
+    <div class="container doc-bio">
+      <article class="doc-bio-body">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  {/* Porter and Nevels carry four reviews each, so these render as a carousel:
+      more than three is the house rule, and it lives in the component. */}
+  <TestimonialCarousel
+    items={d.testimonials}
+    eyebrow={`What patients say about ${d.name.replace(/^Dr\.\s*/, 'Dr. ')}`}
+    variant="doc"
+  />
+
+  <nav class="section doc-pager" aria-label="More practitioners">
+    <div class="container doc-pager-inner">
+      <a class="doc-pager-link is-prev" href={`/physicians/${prev.data.slug}/`}>
+        <Icon name="arrow-right" size={16} />
+        <span><small>Previous</small>{prev.data.name}</span>
+      </a>
+      <a class="doc-pager-all" href="/physicians/">All practitioners</a>
+      <a class="doc-pager-link is-next" href={`/physicians/${next.data.slug}/`}>
+        <span><small>Next</small>{next.data.name}</span>
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+  </nav>
+
+  <BookCTA />
+  <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
+</Base>

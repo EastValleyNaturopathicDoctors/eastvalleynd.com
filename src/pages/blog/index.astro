@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import BlogImage from '@/components/BlogImage.astro';
+import Icon from '@/components/Icon.astro';
+import BookCTA from '@/components/BookCTA.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+const fmt = (s: string) =>
+  s ? new Date(s + 'T00:00:00').toLocaleDateString('en-US',
+      { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+
+const [lead, ...rest] = posts;
+---
+<Base
+  title="Blog"
+  description="Articles from the clinicians at East Valley Naturopathic Doctors — naturopathic medicine, chronic illness, hormones, detox and brain health.">
+  <PageHero
+    eyebrow="Blog"
+    title="Notes from the clinic."
+    lede="Articles from the EVND physicians on chronic illness, hormones, detoxification, brain health and living well in the East Valley."
+  />
+
+  <section class="section blog-index">
+    <div class="container">
+      {lead && (
+        <a class="post-card is-lead" href={`/${lead.data.slug}/`}>
+          {lead.data.imageFile && (
+            <div class="post-card-media">
+              <BlogImage file={lead.data.imageFile} alt={lead.data.imageAlt || lead.data.title}
+                         width={900} height={560} loading="eager" />
+            </div>
+          )}
+          <div class="post-card-body">
+            <div class="post-card-meta">
+              {lead.data.categories[0] && <span class="post-card-cat">{lead.data.categories[0]}</span>}
+              <time datetime={lead.data.date}>{fmt(lead.data.date)}</time>
+            </div>
+            <h2>{lead.data.title}</h2>
+            {lead.data.excerpt && <p>{lead.data.excerpt}</p>}
+            <span class="post-card-more">Read the article <Icon name="arrow-right" size={15} /></span>
+          </div>
+        </a>
+      )}
+
+      <div class="post-grid">
+        {rest.map((p) => (
+          <a class="post-card" href={`/${p.data.slug}/`}>
+            <div class="post-card-media">
+              {p.data.imageFile
+                ? <BlogImage file={p.data.imageFile} alt={p.data.imageAlt || p.data.title}
+                             width={640} height={400} />
+                : <span class="post-card-placeholder" aria-hidden="true"><Icon name="leaf" size={26} /></span>}
+            </div>
+            <div class="post-card-body">
+              <div class="post-card-meta">
+                {p.data.categories[0] && <span class="post-card-cat">{p.data.categories[0]}</span>}
+                <time datetime={p.data.date}>{fmt(p.data.date)}</time>
+              </div>
+              <h3>{p.data.title}</h3>
+              {p.data.excerpt && <p>{p.data.excerpt}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <BookCTA />
+</Base>

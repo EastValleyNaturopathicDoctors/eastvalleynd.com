@@ -1,0 +1,89 @@
+---
+import { jsonLd } from '@/lib/schema';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import Base from './Base.astro';
+import Icon from '../components/Icon.astro';
+import BlogImage from '../components/BlogImage.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import BookCTA from '../components/BookCTA.astro';
+import { site } from '../data/site';
+
+interface Props { entry: CollectionEntry<'blog'> }
+const { entry } = Astro.props;
+const d = entry.data;
+const slug = d.slug;
+const { Content } = await render(entry);
+
+const all = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const i = all.findIndex((e) => e.data.slug === slug);
+const prev = i > 0 ? all[i - 1] : null;
+const next = i >= 0 && i < all.length - 1 ? all[i + 1] : null;
+
+const fmt = (s: string) =>
+  s ? new Date(s + 'T00:00:00').toLocaleDateString('en-US',
+      { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  datePublished: d.date,
+  dateModified: d.updated || d.date,
+  author: { '@type': 'Organization', name: d.author || site.name },
+  publisher: { '@type': 'Organization', name: site.name },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
+---
+<Base title={d.title} description={d.metaDescription || d.excerpt}>
+  <article class="post">
+    <header class="page-hero post-hero">
+      <div class="container post-hero-inner">
+        <Eyebrow><a href="/blog/">Blog</a></Eyebrow>
+        <h1 class="h1">{d.title}</h1>
+        <div class="post-meta">
+          {d.date && <time datetime={d.date}>{fmt(d.date)}</time>}
+          {d.author && <span>{d.author}</span>}
+          {d.wordCount > 0 && <span>{Math.max(1, Math.round(d.wordCount / 220))} min read</span>}
+        </div>
+        {d.categories.length > 0 && (
+          <ul class="post-cats">
+            {d.categories.map((c) => <li>{c}</li>)}
+          </ul>
+        )}
+      </div>
+    </header>
+
+    {d.imageFile && (
+      <div class="container post-figure">
+        <BlogImage file={d.imageFile} alt={d.imageAlt || d.title}
+                   width={1200} height={675} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+
+    <div class="container post-body-wrap">
+      <div class="post-body"><Content /></div>
+    </div>
+  </article>
+
+  <nav class="section post-pager" aria-label="More posts">
+    <div class="container post-pager-inner">
+      {prev ? (
+        <a class="post-pager-link is-prev" href={`/${prev.data.slug}/`}>
+          <Icon name="arrow-right" size={16} />
+          <span><small>Previous</small>{prev.data.title}</span>
+        </a>
+      ) : <span />}
+      <a class="post-pager-all" href="/blog/">All posts</a>
+      {next ? (
+        <a class="post-pager-link is-next" href={`/${next.data.slug}/`}>
+          <span><small>Next</small>{next.data.title}</span>
+          <Icon name="arrow-right" size={16} />
+        </a>
+      ) : <span />}
+    </div>
+  </nav>
+
+  <BookCTA />
+  <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
+</Base>

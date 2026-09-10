@@ -1,0 +1,54 @@
+---
+/**
+ * A Tally-hosted form, embedded inline.
+ *
+ * The embed is the standard one Tally documents: an <iframe data-tally-src>
+ * that their loader turns into a real src, immediately if it is near the
+ * viewport and lazily otherwise. The loader script is included once per page.
+ *
+ * When the form has no id yet (see src/data/forms.ts), nothing broken is
+ * rendered — the slot content stands in its place, so the page still gives
+ * the visitor a way to reach the clinic.
+ */
+import { tallyForms, tallyEmbedOptions, type TallyKey } from '@/data/forms';
+
+interface Props {
+  form: TallyKey;
+  /** Accessible name for the iframe. */
+  title: string;
+  /** Placeholder height before Tally reports the real one. */
+  height?: number;
+}
+const { form, title, height = 620 } = Astro.props;
+const id = tallyForms[form];
+const src = id ? `https://tally.so/embed/${id}?${tallyEmbedOptions}` : null;
+
+if (!id) {
+  console.warn(
+    `[TallyForm] "${form}" has no Tally id — ${Astro.url.pathname} is rendering ` +
+    'the fallback instead of a form. Set it in src/data/forms.ts.'
+  );
+}
+---
+{src ? (
+  <div class="tally-embed">
+    <iframe
+      data-tally-src={src}
+      loading="lazy"
+      width="100%"
+      height={height}
+      title={title}></iframe>
+  </div>
+  <script is:inline src="https://tally.so/widgets/embed.js"></script>
+  <script is:inline>
+    // The loader is shared: if two embeds are on one page, only the first
+    // script tag matters and loadEmbeds() picks up both.
+    if (typeof Tally !== 'undefined') Tally.loadEmbeds();
+    else document.querySelectorAll('iframe[data-tally-src]:not([src])')
+      .forEach((el) => { el.src = el.dataset.tallySrc; });
+  </script>
+) : (
+  <div class="tally-pending">
+    <slot />
+  </div>
+)}

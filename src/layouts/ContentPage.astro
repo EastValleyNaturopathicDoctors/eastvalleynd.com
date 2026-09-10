@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import Base from './Base.astro';
+import PageImage from '../components/PageImage.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import BookCTA from '../components/BookCTA.astro';
+import { trail as navTrail } from '@/lib/nav';
+
+interface Props { entry: CollectionEntry<'pages'> }
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+// Breadcrumb and child links come from the same nav tree as the header.
+const trail = navTrail(d.route);
+const parents = trail.slice(0, -1);
+const children = trail.at(-1)?.children ?? [];
+---
+<Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}>
+  <article class="cpage">
+    <header class="page-hero cpage-hero">
+      <div class="container">
+        {parents.length > 0 && (
+          <nav class="crumbs" aria-label="Breadcrumb">
+            {parents.map((p) => <a href={p.href}>{p.label}</a>)}
+          </nav>
+        )}
+        {parents.length === 0 && <Eyebrow>East Valley Naturopathic Doctors</Eyebrow>}
+        <h1 class="h1">{d.title}</h1>
+      </div>
+    </header>
+
+    {d.imageFile && (
+      <div class="container cpage-figure">
+        <PageImage file={d.imageFile} alt={d.imageAlt || d.title}
+                   width={1200} height={675} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+
+    <div class="container cpage-body-wrap">
+      <div class="cpage-body"><Content /></div>
+    </div>
+
+    {children.length > 0 && (
+      <section class="section cpage-children">
+        <div class="container">
+          <h2 class="h2">Explore {d.title}</h2>
+          <div class="sec-grid" style="margin-top:26px">
+            {children.map((c) => (
+              <div class="sec-card">
+                <a class="sec-card-head" href={c.href}>
+                  <h3>{c.label}</h3>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+  <BookCTA />
+</Base>

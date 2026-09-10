@@ -1,0 +1,76 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import { site } from '@/data/site';
+
+const a = site.address;
+const mapQuery = encodeURIComponent(`${a.street}, ${a.city}, ${a.state} ${a.zip}`);
+---
+<Base
+  title="Contact"
+  description={`Contact East Valley Naturopathic Doctors in ${a.city}, ${a.state}. Call ${site.phone}, or send the front desk a message.`}>
+  <PageHero
+    eyebrow="Contact"
+    title="Come see us in Mesa."
+    lede="Established patients can book online under their doctor. New patients — call the office or send a message and we'll get you scheduled."
+  />
+
+  <section class="section contact-section">
+    <div class="container contact-grid">
+      <div class="contact-details">
+        <div class="contact-block">
+          <h2>Clinic</h2>
+          <p class="contact-addr">
+            {site.name}<br />
+            {a.street}<br />
+            {a.city}, {a.state} {a.zip}
+          </p>
+          <p class="contact-lines">
+            <a href={site.phoneHref}><Icon name="phone" size={15} />{site.phone}</a>
+            {site.fax && <span><Icon name="send" size={15} />Fax {site.fax}</span>}
+          </p>
+          <div class="hero-cta" style="margin-top:22px">
+            <Button href="/schedule-appointment/" variant="dark" icon="calendar">Schedule an appointment</Button>
+          </div>
+        </div>
+
+        <div class="contact-block">
+          <h2>Hours</h2>
+          <ul class="contact-hours">
+            {site.hours.map((h) => (
+              <li><span>{h.days}</span><span>{h.time}</span></li>
+            ))}
+          </ul>
+          {site.lunch && <p class="contact-note">{site.lunch}</p>}
+        </div>
+
+        <div class="contact-block">
+          <h2>New patients</h2>
+          <p>
+            Online scheduling is set up for established patients only. If you're new, please
+            call the office or use the appointment request form and we'll be in touch.
+          </p>
+          <div class="hero-cta">
+            <Button href="/new-patient-appointment-request/" variant="ghost" icon="arrow-right">
+              New patient appointment request
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="contact-map">
+        <iframe
+          title={`Map to ${site.name}`}
+          src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <a class="contact-directions"
+           href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`}
+           target="_blank" rel="noopener">
+          Get directions <Icon name="arrow-up-right" size={14} />
+        </a>
+      </aside>
+    </div>
+  </section>
+</Base>

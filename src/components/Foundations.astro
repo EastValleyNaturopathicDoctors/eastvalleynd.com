@@ -1,0 +1,26 @@
+---
+import Eyebrow from './Eyebrow.astro';
+import { process } from '../data/content';
+---
+<section class="section" id="about">
+  <div class="container two-col">
+    <div class="col-eyebrow"><Eyebrow>About / EVND Foundations</Eyebrow></div>
+    <div class="col-body">
+      <h2 class="h2">We don't chase symptoms. We build a working model of <em>your</em> biology and treat from there.</h2>
+      <p class="lede">
+        EVND Foundations is the framework our doctors have refined over 18 years of practice. It
+        treats chronic disease, optimization, and acute illness as an individual journey — guided
+        by labs you can read, decisions you understand, and a plan that adjusts as your body does.
+      </p>
+      <div class="found-grid">
+        {process.map((s) => (
+          <div class="found-cell">
+            <span class="found-step">{s.step}</span>
+            <h4>{s.title}</h4>
+            <p>{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

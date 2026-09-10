@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Foundations from '../components/Foundations.astro';
+import Practitioners from '../components/Practitioners.astro';
+import SectionIndex from '../components/SectionIndex.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import Testimonials from '../components/Testimonials.astro';
+import BookCTA from '../components/BookCTA.astro';
+---
+<Base
+  title="About EVND"
+  description="East Valley Naturopathic Doctors has practiced whole-person naturopathic medicine in Mesa, Arizona since 2008. Meet the framework and the clinicians behind it.">
+  <PageHero
+    eyebrow="About"
+    title="Eighteen years of treating the cause, not the chart."
+    lede="East Valley Naturopathic Doctors opened in Mesa in 2008. Seven licensed clinicians, one in-house clinic, and a framework — EVND Foundations — refined across thousands of complex cases."
+  />
+  <TrustStrip />
+  <Foundations />
+
+  <section class="section">
+    <div class="container">
+      <h2 class="h2">More about EVND</h2>
+      <p class="lede" style="margin:14px 0 30px">Our mission, our approach to naturopathic medicine, and the people behind it.</p>
+      <SectionIndex root="/about/" />
+    </div>
+  </section>
+
+  <Practitioners />
+  <Testimonials />
+  <BookCTA />
+</Base>

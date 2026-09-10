@@ -1,0 +1,20 @@
+---
+import Button from './Button.astro';
+import Eyebrow from './Eyebrow.astro';
+interface Props { eyebrow: string; blurb?: string; ctaLabel?: string; ctaHref?: string; }
+const { eyebrow, blurb, ctaLabel, ctaHref } = Astro.props;
+---
+<div class="section-head">
+  <div>
+    <Eyebrow>{eyebrow}</Eyebrow>
+    <h2 class="h2"><slot /></h2>
+  </div>
+  {(blurb || ctaLabel) && (
+    <div class="section-head-right">
+      {blurb && <p>{blurb}</p>}
+      {ctaLabel && ctaHref && (
+        <Button href={ctaHref} variant="ghost" icon="arrow-right">{ctaLabel}</Button>
+      )}
+    </div>
+  )}
+</div>

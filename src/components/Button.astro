@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+/**
+ * Renders an <a> when given an href, a <button> otherwise. Extra attributes
+ * pass through, typed as the union of both elements rather than `any`.
+ */
+type Props = {
+  href?: string;
+  variant?: 'dark' | 'light' | 'ghost' | 'outline-light';
+  size?: 'md' | 'lg';
+  icon?: string;
+  class?: string;
+} & Omit<HTMLAttributes<'a'>, 'href' | 'class'> &
+  Omit<HTMLAttributes<'button'>, 'class'>;
+const { href, variant = 'dark', size = 'md', icon, class: cls = '', ...rest } = Astro.props;
+const cn = ['btn', `btn-${variant}`, size === 'lg' ? 'btn-lg' : '', cls].filter(Boolean).join(' ');
+const Tag = href ? 'a' : 'button';
+---
+<Tag class={cn} href={href} {...rest}>
+  <slot />
+  {icon && <Icon name={icon} size={16} />}
+</Tag>

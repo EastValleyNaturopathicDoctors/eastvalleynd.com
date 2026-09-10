@@ -1,0 +1,72 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import VideoFacade from '@/components/VideoFacade.astro';
+import BookCTA from '@/components/BookCTA.astro';
+import Icon from '@/components/Icon.astro';
+import data from '@/data/webinars.json';
+
+/**
+ * Replaces /evnd-webinars/ — the sitemap's Note for this row is
+ * "Update URL from https://www.eastvalleynd.com/evnd-webinars/".
+ *
+ * The list is generated: extract/build_webinars.py reads the six
+ * [vc_video] + heading pairs out of the old page's WPBakery source, in page
+ * order, and downloads each poster frame. Do not hand-edit webinars.json.
+ */
+const webinars = data.webinars;
+const CHANNEL = 'https://www.youtube.com/@eastvalleynaturopathicdoct5601';
+---
+<Base
+  title="Webinars"
+  description="East Valley Naturopathic Doctors have curated a library of webinars where our doctors share research in a long form format.">
+  <PageHero
+    eyebrow="Resources"
+    title="Our doctors, at length."
+    lede="A library of recorded webinars where our physicians work through the research on a single topic properly — not in the ten minutes an appointment allows."
+  />
+
+  <section class="section webinars-section">
+    <div class="container">
+      <div class="webinars-grid">
+        {webinars.map((w, i) => (
+          <VideoFacade
+            id={w.id} title={w.title} youtubeTitle={w.youtubeTitle}
+            posterFile={w.posterFile} loading={i < 2 ? 'eager' : 'lazy'}
+          />
+        ))}
+      </div>
+
+      <p class="webinars-more">
+        <a href={CHANNEL} target="_blank" rel="noopener">
+          More on our YouTube channel <Icon name="arrow-up-right" size={14} />
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <BookCTA />
+</Base>
+
+<script>
+  // Swap the poster for a real player on click. Nothing is requested from
+  // YouTube until this runs.
+  document.querySelectorAll<HTMLElement>('.video-frame').forEach((frame) => {
+    const btn = frame.querySelector('.video-play');
+    btn?.addEventListener('click', () => {
+      const id = frame.dataset.videoId;
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src =
+        `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+      iframe.title = frame.dataset.videoTitle ?? 'Webinar';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.loading = 'lazy';
+      frame.replaceChildren(iframe);
+      frame.classList.add('is-playing');
+      iframe.focus();
+    });
+  });
+</script>

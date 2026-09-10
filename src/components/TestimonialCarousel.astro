@@ -1,0 +1,119 @@
+---
+import Eyebrow from './Eyebrow.astro';
+
+/**
+ * Every set of testimonials on the site renders through this component, so the
+ * house rule lives in exactly one place: **more than three go in a carousel.**
+ * Three or fewer sit side by side, where they are all readable at once and a
+ * carousel would only hide content behind a click.
+ *
+ * Two visual treatments, both pre-existing:
+ *   feature — the dark full-bleed band on / and /about/, display-size type.
+ *   doc     — the light bordered cards on a practitioner bio page.
+ */
+export interface Testimonial {
+  quote: string;
+  name: string;
+  /** Feature variant: the line under the name ("Patient since 2019"). */
+  context?: string;
+  /** Carried in the physician data but deliberately not rendered: the migrated
+   *  value is the string "100%", which reads as a percentage rather than a
+   *  rating next to a name. Kept on the type so the data still type-checks. */
+  stars?: string;
+}
+
+interface Props {
+  /** readonly, because `src/data/content.ts` exports `as const`. */
+  items: readonly Testimonial[];
+  eyebrow: string;
+  variant?: 'feature' | 'doc';
+}
+
+const { items, eyebrow, variant = 'feature' } = Astro.props;
+
+const CAROUSEL_ABOVE = 3;
+const carousel = items.length > CAROUSEL_ABOVE;
+const doc = variant === 'doc';
+
+/** A migrated review is one string with blank lines in it, not one paragraph. */
+const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
+---
+
+<!-- Both variants sit on the same dark band; `doc` only changes the cards. -->
+{items.length > 0 && (
+  <section class="section testi-section">
+    <div class="container">
+      <div class:list={['testi-wrap', carousel && 'testi-carousel']}>
+        <div class="testi-head">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          {carousel && (
+            <div class="testi-nav" role="tablist" aria-label={eyebrow}>
+              {items.map((_, n) => (
+                <button type="button" role="tab" data-i={n} class={n === 0 ? 'is-on' : ''}
+                        aria-selected={n === 0 ? 'true' : 'false'}
+                        aria-label={`Story ${n + 1} of ${items.length}`}><span></span></button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Not a carousel: the cards sit in a grid. As a carousel the same
+            cards stack in one place and the script shows one at a time. */}
+        <div class:list={[doc && 'doc-testi-grid', carousel && 'is-carousel']}>
+          {items.map((t, n) => (
+            <blockquote class:list={[doc ? 'doc-testi' : 'testi-quote', 'testi-slide']}
+                        data-slide={n} hidden={carousel && n !== 0}>
+              <span class="quotemark">&ldquo;</span>
+              {paras(t.quote).map((p) => <p>{p}</p>)}
+              <footer>
+                <b>{t.name}</b>
+                {t.context && <span>{t.context}</span>}
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  // Scoped per root rather than to the document, so a page may carry more than
+  // one of these without the two fighting over the same slides. The previous
+  // version queried `.testi-quote` globally and only worked because exactly one
+  // carousel existed on the site.
+  document.querySelectorAll<HTMLElement>('.testi-carousel').forEach((root) => {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('.testi-slide'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('.testi-nav button'));
+    if (slides.length < 2) return;
+
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => (s.hidden = k !== i));
+      dots.forEach((d, k) => {
+        d.classList.toggle('is-on', k === i);
+        d.setAttribute('aria-selected', String(k === i));
+      });
+    };
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timer: number | undefined;
+    const restart = () => {
+      if (reduce) return;
+      clearInterval(timer);
+      timer = window.setInterval(() => show(i + 1), 7000);
+    };
+
+    dots.forEach((d) =>
+      d.addEventListener('click', () => { show(Number(d.dataset.i)); restart(); }));
+
+    // A reader part-way through a long review should not have it swapped out
+    // from under them. Practitioner reviews run to 200 words.
+    root.addEventListener('pointerenter', () => clearInterval(timer));
+    root.addEventListener('pointerleave', restart);
+    root.addEventListener('focusin', () => clearInterval(timer));
+
+    restart();
+  });
+</script>

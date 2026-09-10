@@ -1,0 +1,322 @@
+---
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import { nav, isSame, contains, type NavNode } from '@/lib/nav';
+import { site } from '@/data/site';
+
+const here = Astro.url.pathname;
+
+/** Wide sections get a multi-column panel; short ones a simple list. */
+const MEGA_AT = 8;
+
+/**
+ * A mega panel lists its section's own children and stops there.
+ *
+ * Listing grandchildren too put 87 links and 857px of menu on screen — taller
+ * than a laptop viewport, and `columns: 4` flowed them down-then-across so a
+ * group and its children split across a column break. The children are one
+ * click away on the section page, which already renders them as cards, and on
+ * the parent page itself. Picking the category is what a menu is for.
+ */
+
+/** What the panel offers alongside the list — the clinic's actual next step. */
+const PANEL_ASIDE: Record<string, { title: string; body: string }> = {
+  '/conditions/': {
+    title: 'Not sure which applies?',
+    body: 'Most people arrive with more than one thing going on. Tell us what you are experiencing and we will point you to the right clinician.',
+  },
+  '/services/': {
+    title: 'Which treatment is right?',
+    body: 'Treatments are chosen after testing, not before. A first visit works out which of these belongs in your plan.',
+  },
+};
+
+/**
+ * Header-only presentation rules. nav.json stays a faithful copy of the
+ * sitemap tree — breadcrumbs, section indexes and /404/ all read it — so
+ * anything that is about the *header* specifically belongs here, not in the
+ * generator.
+ */
+
+/** Short labels for the header. The pages keep their full sitemap titles. */
+const NAV_LABELS: Record<string, string> = {
+  '/about/': 'About',
+  '/conditions/': 'Conditions',
+};
+
+/**
+ * Both of these are the CTA button now — carrying them as nav links too put
+ * three ways to book within an inch of each other.
+ * /contact/ moves to the utility bar (see topBarLinks in src/data/site.ts).
+ */
+const HEADER_EXCLUDE = new Set(['/contact/', '/schedule-appointment/']);
+
+/**
+ * Sections that are a chronological archive rather than part of the IA. Their
+ * children are not listed in the menu: 44 posts in date order is not
+ * navigation, it changes every time something is published, and the section's
+ * own index page presents them far better.
+ */
+const ARCHIVE = new Set(['/blog/']);
+
+const label = (n: NavNode) => NAV_LABELS[n.href] ?? n.label;
+const kidsOf = (n: NavNode) => (ARCHIVE.has(n.href) ? [] : n.children);
+const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
+---
+<header class="mainnav" id="mainnav">
+  <div class="container mainnav-inner">
+    {/* Two lockups on a 4s loop: the EVND monogram, then the name spelled out.
+        Both SVGs carry the same 1020x246 viewBox, so they render at identical
+        size and the swap moves nothing on the page. The first sits in normal
+        flow and sets the box; the second is laid over it and they crossfade.
+        `alt=""` on both because the link already carries the accessible name —
+        otherwise a screen reader meets the logo twice. */}
+    <a href="/" class="logo-link" aria-label="EVND home">
+      <span class="logo-rotator">
+        <img src="/assets/EVND.svg" alt="" width="183" height="44" class="is-on" loading="eager" />
+        <img src="/assets/EVND-long.svg" alt="" width="183" height="44" loading="eager" />
+      </span>
+    </a>
+
+    <nav class="mainnav-links" aria-label="Primary">
+      {headerNav.map((item) => {
+        const kids = kidsOf(item);
+        const active = contains(item, here);
+        if (!kids.length) {
+          return (
+            <a href={item.href} class:list={['navlink', active && 'is-active']}
+               aria-current={isSame(item.href, here) ? 'page' : undefined}>{label(item)}</a>
+          );
+        }
+        const mega = kids.length > MEGA_AT;
+        const aside = PANEL_ASIDE[item.href];
+        return (
+          <div class:list={['navitem', 'has-sub', mega && 'is-mega', active && 'is-active']}>
+            <a href={item.href} class:list={['navlink', active && 'is-active']}
+               aria-current={isSame(item.href, here) ? 'page' : undefined}>{label(item)}</a>
+            <button type="button" class="subtoggle" aria-expanded="false"
+                    aria-label={`Show ${label(item)} menu`}><Icon name="chevron-down" size={13} /></button>
+
+            <div class:list={['subnav', mega && 'subnav-mega']}>
+              <ul class="subnav-list">
+                {kids.map((c) => (
+                  <li>
+                    <a href={c.href} class:list={[isSame(c.href, here) && 'is-active']}
+                       aria-current={isSame(c.href, here) ? 'page' : undefined}>
+                      <span>{c.label}</span>
+                      {kidsOf(c).length > 0 && (
+                        <>
+                          <em class="subnav-count" aria-hidden="true">{kidsOf(c).length}</em>
+                          <span class="sr-only">, {kidsOf(c).length} pages</span>
+                        </>
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              {mega && aside && (
+                <aside class="mega-aside">
+                  <p class="mega-aside-title">{aside.title}</p>
+                  <p class="mega-aside-body">{aside.body}</p>
+                  <a class="mega-aside-cta" href="/new-patient-appointment-request/">
+                    New patient request <Icon name="arrow-right" size={13} />
+                  </a>
+                  <a class="mega-aside-phone" href={site.phoneHref}>
+                    <Icon name="phone" size={14} />{site.phone}
+                  </a>
+                </aside>
+              )}
+
+              <a class="subnav-all" href={item.href}>
+                All {label(item)}<em aria-hidden="true">{kids.length}</em><Icon name="arrow-right" size={13} />
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </nav>
+
+    <div class="mainnav-right">
+      {/* "Appointment" is dropped on phones (CSS) so the button still fits beside
+          the logo and the hamburger. One text node, so a screen reader reads
+          exactly what is shown. */}
+      <Button href="/schedule-appointment/" variant="dark" icon="calendar" class="nav-cta"
+        >Schedule<span class="cta-word"> Appointment</span></Button
+      >
+      <button class="hamburger" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+        <Icon name="menu" />
+      </button>
+    </div>
+  </div>
+
+  <!--
+    Mobile groups collapse. Rendering the whole tree open made a 7,000px panel
+    of 194 links, which is a scroll, not a menu. <details> gives the toggle
+    natively: it works with JavaScript off, is keyboard operable, and screen
+    readers announce the expanded state without any ARIA of ours.
+
+    The shared `name` makes them an exclusive accordion natively: opening one
+    closes the rest, with no JavaScript. The script covers browsers without it.
+
+    Every group starts closed, so the menu opens the same way every time and the
+    panel starts at 488px rather than 1,773px on a Conditions page. The section
+    containing the current page is still marked `is-active` on its summary — it
+    is flagged, not expanded.
+  -->
+  <nav class="mobilenav" id="mobileNav" aria-label="Mobile" hidden>
+    {headerNav.map((item) => (
+      kidsOf(item).length === 0 ? (
+        <a href={item.href}
+           class:list={['mobilenav-top', contains(item, here) && 'is-active']}>{label(item)}</a>
+      ) : (
+        <details class="mobilenav-group" name="mobilenav-group">
+          <summary class:list={['mobilenav-top', contains(item, here) && 'is-active']}>
+            {label(item)}
+            <Icon name="chevron-down" size={16} />
+          </summary>
+          <ul class="mobilenav-sub">
+            <li>
+              <a class="mobilenav-all" href={item.href}>All {label(item)}</a>
+            </li>
+            {kidsOf(item).map((c) => (
+              <li>
+                <a href={c.href} class:list={[isSame(c.href, here) && 'is-active']}>
+                  <span>{c.label}</span>
+                  {kidsOf(c).length > 0 && (
+                    <>
+                      <em aria-hidden="true">{kidsOf(c).length}</em>
+                      <span class="sr-only">, {kidsOf(c).length} pages</span>
+                    </>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )
+    ))}
+    <div class="mobilenav-foot">
+      <a href="/schedule-appointment/" class="navlink is-cta">Schedule Appointment</a>
+      <a href={site.phoneHref} class="mobilenav-phone"><Icon name="phone" size={15} />{site.phone}</a>
+      <a href="/contact/" class="mobilenav-secondary">Contact the clinic</a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const nav = document.getElementById('mainnav')!;
+  const toggle = document.getElementById('navToggle')!;
+  const panel = document.getElementById('mobileNav') as HTMLElement;
+
+  // Logo lockups on a 4s loop, starting on the compact EVND monogram. Motion
+  // for its own sake, so it is dropped entirely under prefers-reduced-motion —
+  // the first lockup simply stays put. `is-live` tells the stylesheet the script
+  // is driving it; without that class the first image is visible on its own, so
+  // a failed script leaves a logo rather than an empty gap.
+  const rotator = nav.querySelector<HTMLElement>('.logo-rotator');
+  const lockups = rotator ? Array.from(rotator.querySelectorAll('img')) : [];
+  if (rotator && lockups.length > 1
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    rotator.classList.add('is-live');
+    let shown = 0;
+    setInterval(() => {
+      lockups[shown].classList.remove('is-on');
+      shown = (shown + 1) % lockups.length;
+      lockups[shown].classList.add('is-on');
+    }, 4000);
+  }
+
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 20);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // The panel sits below the header bar inside a sticky element, so the height
+  // available to it is whatever is left between the bottom of the bar and the
+  // bottom of the viewport. The bar's height is not a constant: the topbar
+  // scrolls away and `is-scrolled` shrinks the logo, so measure it rather than
+  // hard-coding it. The stylesheet turns this into a max-height and scrolls the
+  // overflow.
+  const bar = nav.querySelector('.mainnav-inner') as HTMLElement;
+  const sizePanel = () =>
+    nav.style.setProperty('--nav-h', Math.round(bar.getBoundingClientRect().bottom) + 'px');
+
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    panel.hidden = open;
+    nav.classList.toggle('nav-open', !open);
+    // Lock the page while the menu is over it, or a flick scrolls the article
+    // underneath and the menu slides away with the header.
+    document.body.classList.toggle('nav-locked', !open);
+    if (!open) { sizePanel(); panel.scrollTop = 0; }
+  });
+
+  // One group open at a time. The shared `name` on the <details> already does
+  // this in current browsers; closing the siblings here covers the ones where
+  // `name` is ignored. Deliberately NOT feature-detected: where the browser
+  // handles it the loop finds the siblings already closed and does nothing, and
+  // setting `open = false` on a closed <details> fires no event. One code path
+  // that every browser runs beats a fallback branch that no browser I can test
+  // ever enters.
+  const groups = Array.from(panel.querySelectorAll<HTMLDetailsElement>('.mobilenav-group'));
+
+  groups.forEach((d) => {
+    d.addEventListener('toggle', () => {
+      if (!d.open) return;
+      groups.forEach((o) => { if (o !== d) o.open = false; });
+      // Collapsing the groups above this one pulls it upward, which can take
+      // the header you just tapped off the top of the scrolled panel. Put it
+      // back. Only ever scrolls up, so opening a group in view stays put.
+      requestAnimationFrame(() => {
+        const top = d.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+        if (top < 0) panel.scrollTop += top;
+      });
+    });
+  });
+
+  // Rotating the phone changes both the viewport and the bar. Crossing the
+  // breakpoint is different: above 980px the panel is `display: none`, so
+  // leaving it "open" would lock the page with no menu visible and no way to
+  // unlock it. Close it instead.
+  window.addEventListener('resize', () => {
+    if (panel.hidden) return;
+    if (window.matchMedia('(min-width: 981px)').matches) toggle.click();
+    else sizePanel();
+  });
+
+  // Pointer users get hover from CSS; this covers click, touch and keyboard.
+  const subs = Array.from(nav.querySelectorAll<HTMLElement>('.navitem.has-sub'));
+  const closeAll = (except?: HTMLElement) => {
+    subs.forEach((s) => {
+      if (s === except) return;
+      s.classList.remove('is-open');
+      s.querySelector('.subtoggle')?.setAttribute('aria-expanded', 'false');
+    });
+  };
+  subs.forEach((item) => {
+    const btn = item.querySelector<HTMLButtonElement>('.subtoggle')!;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll(item);
+      btn.setAttribute('aria-expanded', String(!open));
+      item.classList.toggle('is-open', !open);
+    });
+    item.addEventListener('focusout', (e) => {
+      if (!item.contains(e.relatedTarget as Node)) {
+        item.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!(e.target as Element)?.closest('.navitem.has-sub')) closeAll();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (toggle.getAttribute('aria-expanded') === 'true') toggle.click();
+    closeAll();
+  });
+</script>

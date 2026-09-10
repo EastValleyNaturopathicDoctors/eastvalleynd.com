@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { therapies } from '../data/content';
+interface Props { showHead?: boolean; }
+const { showHead = true } = Astro.props;
+---
+<section class="section therapies-section" id="services">
+  <div class="container">
+    {showHead && (
+      <SectionHead
+        eyebrow="Services · most-requested therapies"
+        blurb="IV suite, regenerative injection room, HBOT chamber, neurofeedback lab, and full functional-lab partnerships — all under one roof in Mesa."
+        ctaLabel="All services" ctaHref="/services/">
+        A real in-house clinic, <br />not a referral wall.
+      </SectionHead>
+    )}
+    <div class="therapy-grid">
+      {therapies.map((t) => (
+        <a href={t.href} class="therapy-card">
+          <span class="therapy-cat">{t.category}</span>
+          <div class="therapy-icon"><Icon name={t.icon} size={22} /></div>
+          <h4>{t.name}</h4>
+          <span class="therapy-arrow"><Icon name="arrow-up-right" size={16} /></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

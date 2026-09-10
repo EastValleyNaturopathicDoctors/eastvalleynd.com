@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import TeamPhoto from './TeamPhoto.astro';
+interface Props {
+  name: string; credentials: string; slug: string;
+  imageFile?: string; summary?: string; index?: number;
+}
+const { name, credentials, slug, imageFile = '', summary = '', index = 0 } = Astro.props;
+const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
+---
+<a class="doc-row" href={`/physicians/${slug}/`}>
+  <div class="doc-num">{String(index + 1).padStart(2, '0')}</div>
+  <div class="doc-name">
+    <h4>{name}</h4>
+    <span>{credentials}</span>
+  </div>
+  <div class="doc-focus">{summary}</div>
+  <div class="doc-photo">
+    {imageFile
+      ? <TeamPhoto file={imageFile} alt={name} width={128} height={128} />
+      : <span class="doc-initials" aria-hidden="true">{initials}</span>}
+  </div>
+  <span class="doc-cta"><span>View profile</span><Icon name="arrow-up-right" size={14} /></span>
+</a>

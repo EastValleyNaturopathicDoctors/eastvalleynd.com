@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+import { site, topBarLinks } from '../data/site';
+
+/**
+ * "Accepting new patients — May 2026" does not fit beside the phone number on a
+ * 375px screen; both were wrapping to two lines. The qualifier after the dash
+ * is the part that can go, so it is split out and hidden on small screens,
+ * leaving "Accepting new patients" and the number on one clean line.
+ */
+const [statusHead, ...statusRest] = site.status.split('—');
+const statusTail = statusRest.join('—').trim();
+---
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span class="topbar-status">
+        <span class="status-dot"></span>
+        <span>{statusHead.trim()}{statusTail && <span class="topbar-status-tail"> — {statusTail}</span>}</span>
+      </span>
+    </div>
+    <div class="topbar-right">
+      {topBarLinks.map((l) => <a href={l.href} class="topbar-link">{l.label}</a>)}
+      <a href={site.phoneHref} class="topbar-phone">
+        <Icon name="phone" size={14} />{site.phone}
+      </a>
+    </div>
+  </div>
+</div>

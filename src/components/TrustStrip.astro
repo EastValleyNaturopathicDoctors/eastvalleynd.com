@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+const items = [
+  'Board-licensed NMDs', 'Functional + conventional labs', 'In-house IV suite',
+  'TruDOSE™ Platelet IV', 'Insurance friendly', 'HSA / FSA accepted',
+  'Telehealth available', 'Integrative — works with your specialist',
+];
+// Doubled so the marquee loops seamlessly.
+const track = [...items, ...items];
+---
+<div class="trust">
+  <div class="trust-track">
+    {track.map((t) => (
+      <span class="trust-item"><Icon name="check" size={14} />{t}</span>
+    ))}
+  </div>
+</div>

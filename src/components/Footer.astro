@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@/images/site/evnd-logo.png';
+import Icon from './Icon.astro';
+import { site, footerCols, footerLegal } from '../data/site';
+const year = new Date().getFullYear();
+const a = site.address;
+---
+<footer class="footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <Image src={logo} alt="EVND" width={150} height={60} loading="eager" />
+      <p>{site.name} — board-licensed naturopathic medicine in {a.city}, Arizona since {site.since}.</p>
+      <div class="footer-contact">
+        <a href={site.phoneHref}><Icon name="phone" size={14} />{site.phone}</a>
+        <span><Icon name="map" size={14} />{a.street}, {a.city} {a.state} {a.zip}</span>
+      </div>
+    </div>
+    {footerCols.map((c) => (
+      <div class="footer-col">
+        <h5>{c.h}</h5>
+        <ul>{c.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+    ))}
+  </div>
+  <div class="container footer-bottom">
+    <span>© {year} {site.name}. All rights reserved.</span>
+    <div class="footer-legal">
+      {footerLegal.map((l) => <a href={l.href}>{l.label}</a>)}
+    </div>
+  </div>
+</footer>
