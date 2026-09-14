@@ -87,3 +87,85 @@ const schema = {
   <BookCTA />
   <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
 </Base>
+
+<style is:global>
+/* --- Blog -------------------------------------------------------------------
+   Post bodies reuse the same prose rules as the practitioner bios; both are
+   migrated WordPress copy and should read identically. */
+.post-hero { border-bottom: none; padding-bottom: clamp(24px, 3vw, 36px); }
+.post-hero-inner { max-width: 78ch; }
+.post-hero .h1 { max-width: 22ch; font-size: clamp(34px, 4.6vw, 60px); }
+.post-hero .eyebrow a { text-decoration: none; }
+
+.post-meta {
+  display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 20px;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+.post-meta > * { position: relative; }
+.post-meta > * + *::before {
+  content: '·'; position: absolute; left: -11px; color: var(--line-2);
+}
+.post-cats { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 16px 0 0; padding: 0; }
+.post-cats li {
+  font-size: 12px; padding: 5px 11px; border-radius: 999px;
+  background: var(--grn-soft); color: var(--grn-2); font-weight: 500;
+}
+
+.post-figure { margin: clamp(20px, 3vw, 34px) auto 0; }
+.post-figure img {
+  width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.post-body-wrap { padding: clamp(36px, 5vw, 64px) var(--pad) clamp(48px, 6vw, 80px); }
+.post-body {
+  max-width: 72ch; margin: 0 auto;
+  font-size: 17.5px; line-height: 1.66; color: var(--ink-2);
+}
+.post-body > :first-child { margin-top: 0; }
+.post-body p { margin: 0 0 1.2em; }
+.post-body h2, .post-body h3, .post-body h4 {
+  font-family: var(--font-display); color: var(--ink);
+  letter-spacing: -0.015em; line-height: 1.18; margin: 1.9em 0 0.5em;
+}
+.post-body h2 { font-size: clamp(25px, 2.6vw, 33px); }
+.post-body h3 { font-size: clamp(21px, 2.1vw, 26px); }
+.post-body h4 { font-size: 18px; }
+.post-body ul, .post-body ol { margin: 0 0 1.2em; padding-left: 1.3em; }
+.post-body li { margin-bottom: 0.45em; }
+.post-body a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
+.post-body strong { color: var(--ink); }
+.post-body img { border-radius: var(--radius); margin: 1.4em 0; }
+.post-body blockquote {
+  margin: 1.6em 0; padding: 4px 0 4px 22px;
+  border-left: 3px solid var(--grn); color: var(--ink);
+  font-size: 19px;
+}
+.post-body .wp-linklist { list-style: none; padding: 0; display: grid; gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.post-body .wp-linklist a { text-decoration: none; font-weight: 500; }
+
+/* Prev / next */
+.post-pager { padding-top: 0; }
+.post-pager-inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  border-top: 1px solid var(--line); padding-top: 28px; flex-wrap: wrap;
+}
+.post-pager-link { display: inline-flex; align-items: center; gap: 12px; max-width: 40%; }
+.post-pager-link small {
+  display: block; font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3);
+}
+.post-pager-link span { font-weight: 500; }
+.post-pager-link.is-prev svg { transform: rotate(180deg); flex: none; }
+.post-pager-link.is-next svg { flex: none; }
+.post-pager-link:hover { color: var(--grn-2); }
+.post-pager-all { font-size: 14px; color: var(--ink-3); }
+.post-pager-all:hover { color: var(--ink); }
+
+@media (max-width: 820px) {
+  .post-pager-link { max-width: 100%; }
+  .post-pager-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>

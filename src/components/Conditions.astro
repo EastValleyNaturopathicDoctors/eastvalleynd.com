@@ -31,3 +31,67 @@ const items = limit ? conditions.slice(0, limit) : conditions;
     </div>
   </div>
 </section>
+
+<style is:global>
+.conditions-section { background: #fff; }
+.cond-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.cond-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .25s;
+}
+.cond-card:hover { transform: translateY(-3px); }
+.cond-card img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s ease;
+}
+.cond-card:hover img { transform: scale(1.08); }
+.cond-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(14,19,17,0.08) 0%, rgba(14,19,17,0.75) 100%);
+}
+.cond-body {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 18px 18px 18px;
+  color: #fff;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.cond-tag {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.14);
+  padding: 4px 8px; border-radius: 999px;
+  align-self: flex-start;
+  backdrop-filter: blur(6px);
+}
+.cond-card h3 {
+  font-family: var(--font-display);
+  font-weight: 600; font-size: 18px;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.cond-arrow {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff;
+  backdrop-filter: blur(6px);
+  transition: background .2s;
+}
+.cond-card:hover .cond-arrow { background: var(--grn); color: var(--ink); }
+
+@media (max-width: 1100px) { .cond-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px) { .cond-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

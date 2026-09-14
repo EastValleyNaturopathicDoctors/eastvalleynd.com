@@ -5,6 +5,7 @@ import PageHero from '@/components/PageHero.astro';
 import BlogImage from '@/components/BlogImage.astro';
 import Icon from '@/components/Icon.astro';
 import BookCTA from '@/components/BookCTA.astro';
+import '../../styles/post-cards.css';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.localeCompare(a.data.date));
@@ -71,3 +72,8 @@ const [lead, ...rest] = posts;
 
   <BookCTA />
 </Base>
+
+<style is:global>
+/* Index */
+.blog-index { padding-top: clamp(40px, 5vw, 64px); }
+</style>

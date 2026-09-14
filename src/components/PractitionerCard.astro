@@ -26,3 +26,76 @@ const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join
   </div>
   <span class="doc-cta"><span>View profile</span><Icon name="arrow-up-right" size={14} /></span>
 </a>
+
+<style is:global>
+.practitioners-section { background: #fff; }
+.docs-list {
+  border-top: 1px solid var(--line);
+}
+.doc-row {
+  display: grid;
+  grid-template-columns: 70px 240px 1fr 130px 90px 140px;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background .2s;
+  position: relative;
+}
+.doc-row:hover { background: var(--bg-softer); }
+.doc-num { font-family: var(--font-mono); font-size: 13px; color: var(--ink-3); }
+.doc-name h2, .doc-name h3 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+.doc-name span { font-size: 12.5px; color: var(--ink-3); font-family: var(--font-mono); letter-spacing: 0.04em; }
+.doc-focus { color: var(--ink-2); font-size: 15px; }
+.doc-photo {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-soft);
+  filter: grayscale(0.3);
+  transition: filter .2s, transform .2s;
+}
+.doc-row:hover .doc-photo { filter: none; transform: scale(1.05); }
+.doc-photo img { width: 100%; height: 100%; object-fit: cover; }
+.doc-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.doc-cta:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+@media (max-width: 1000px) {
+  .doc-row { grid-template-columns: 40px 1fr 1fr 60px; gap: 14px; }
+  .doc-focus { grid-column: 1 / -1; padding-left: 54px; }
+  .doc-cta { padding: 8px 12px; font-size: 12px; }
+}
+
+/* Practitioner fallback when we have no headshot on file. */
+.doc-photo .doc-initials {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  background: var(--grn-soft); color: var(--grn-2);
+  font-family: var(--font-display); font-size: 20px; font-weight: 600;
+}
+
+/* --- Practitioner pages ---------------------------------------------------- */
+
+/* Index rows reuse .doc-row from the design system, but as links rather than
+   hover-highlight rows, and without the "years in practice" column (we only
+   have a verified start year for some people). Restate the grid for 5 children
+   and restore the hover affordance. */
+.docs-list a.doc-row {
+  color: inherit;
+  grid-template-columns: 70px 240px 1fr 64px 150px;
+}
+.docs-list a.doc-row:hover { background: var(--bg-softer); }
+.docs-list a.doc-row:hover .doc-photo { filter: none; transform: scale(1.05); }
+.docs-list a.doc-row .doc-focus {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

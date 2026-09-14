@@ -29,3 +29,40 @@ import Eyebrow from './Eyebrow.astro';
     </div>
   </div>
 </section>
+
+<style is:global>
+.trudose { background: var(--bg-soft); }
+.trudose-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: stretch;
+}
+.trudose-media {
+  position: relative; aspect-ratio: 4/5; border-radius: var(--radius-lg); overflow: hidden;
+}
+.trudose-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.trudose-media-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(14,19,17,0.2) 0%, rgba(14,19,17,0.55) 100%);
+}
+.trudose-badge {
+  position: absolute; top: 22px; left: 22px;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.95);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink);
+}
+.trudose-badge svg { color: var(--grn-2); }
+.trudose-text { display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.ticklist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.ticklist li { display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: var(--ink-2); }
+.ticklist li svg { color: var(--grn-2); flex-shrink: 0; margin-top: 3px; }
+
+@media (max-width: 900px) {
+  .trudose-inner { grid-template-columns: 1fr; }
+  .trudose-media { aspect-ratio: 4/3; }
+}
+</style>

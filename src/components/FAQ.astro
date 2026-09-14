@@ -37,3 +37,68 @@ const schema = {
   </div>
 </section>
 <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
+
+<style is:global>
+.faq-section { background: #fff; }
+.faq-wrap {
+  display: grid; grid-template-columns: 1fr 1.3fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+.faq-left .h2 { margin: 12px 0 18px; }
+.faq-left p { color: var(--ink-2); margin: 0 0 24px; }
+/* `:not(.btn)`: the FAQ column also holds the "Book online" button, and this
+   rule was winning over .btn-dark's white text — green on near-black, the one
+   contrast failure Lighthouse could still find on the homepage. */
+.faq-left a:not(.btn) { color: var(--grn-2); border-bottom: 1px solid var(--grn); }
+.faq-list { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+
+/* The component renders <details>/<summary>; these rules used to target a
+   <button> and an `.is-open` class that no longer exist, so the questions fell
+   back to the browser's default disclosure triangle and — because `.faq-body`
+   kept its `max-height: 0` while `.is-open` never matched — the answers were
+   clipped to nothing even when the item was open. */
+.faq-item summary {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0;
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;                 /* Firefox */
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--grn-2); }
+.faq-item summary > span:first-child { flex: 1; min-width: 0; }
+
+/* A plus that becomes a minus, drawn in CSS so there is no icon to load. */
+.faq-mark {
+  position: relative; flex: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--bg-soft); transition: background .18s;
+}
+.faq-mark::before, .faq-mark::after {
+  content: ''; position: absolute; inset: 0; margin: auto;
+  background: var(--ink-2); border-radius: 1px;
+  transition: transform .22s ease, opacity .22s ease;
+}
+.faq-mark::before { width: 9px; height: 1.5px; }
+.faq-mark::after { width: 1.5px; height: 9px; }
+.faq-item[open] .faq-mark { background: var(--grn-soft); }
+.faq-item[open] .faq-mark::before { background: var(--grn-2); }
+.faq-item[open] .faq-mark::after { transform: scaleY(0); opacity: 0; }
+.faq-item summary:hover .faq-mark { background: var(--line); }
+
+.faq-body p { margin: 0 0 22px; color: var(--ink-2); font-size: 15.5px; line-height: 1.6; max-width: 65ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-mark, .faq-mark::before, .faq-mark::after { transition: none; }
+}
+
+@media (max-width: 900px) { .faq-wrap { grid-template-columns: 1fr; } }
+</style>

@@ -6,6 +6,7 @@ import PageImage from '../components/PageImage.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import { trail as navTrail } from '@/lib/nav';
+import '../styles/section-cards.css';
 
 interface Props { entry: CollectionEntry<'pages'> }
 const { entry } = Astro.props;
@@ -62,3 +63,61 @@ const children = trail.at(-1)?.children ?? [];
   </article>
   <BookCTA />
 </Base>
+
+<style is:global>
+/* --- Interior content pages -------------------------------------------------
+   Prose rules match the blog and practitioner bios; all three are migrated
+   WordPress copy and should read identically. */
+.cpage-hero { border-bottom: none; padding-bottom: clamp(20px, 3vw, 32px); }
+.cpage-hero .h1 { max-width: 20ch; font-size: clamp(34px, 4.6vw, 62px); }
+
+.crumbs {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin-bottom: 18px;
+  font-family: var(--font-mono); font-size: 11.5px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.crumbs a { color: var(--ink-3); }
+.crumbs a:hover { color: var(--grn-2); }
+.crumbs a + a::before { content: '/'; margin-right: 8px; color: var(--line-2); }
+
+.cpage-figure { margin-top: clamp(18px, 2.6vw, 30px); }
+.cpage-figure img {
+  width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.cpage-body-wrap { padding: clamp(34px, 4.6vw, 60px) var(--pad) clamp(20px, 3vw, 40px); }
+.cpage-body {
+  max-width: 72ch; margin: 0 auto;
+  font-size: 17.5px; line-height: 1.66; color: var(--ink-2);
+}
+.cpage-body > :first-child { margin-top: 0; }
+.cpage-body p { margin: 0 0 1.2em; }
+.cpage-body h1 { /* stray h1s from the old body; demote visually */
+  font-family: var(--font-display); font-size: clamp(25px, 2.6vw, 33px);
+  color: var(--ink); letter-spacing: -0.015em; line-height: 1.18; margin: 1.9em 0 0.5em;
+}
+.cpage-body h2, .cpage-body h3, .cpage-body h4 {
+  font-family: var(--font-display); color: var(--ink);
+  letter-spacing: -0.015em; line-height: 1.18; margin: 1.9em 0 0.5em;
+}
+.cpage-body h2 { font-size: clamp(24px, 2.5vw, 31px); }
+.cpage-body h3 { font-size: clamp(20px, 2vw, 25px); }
+.cpage-body h4 { font-size: 18px; }
+.cpage-body ul, .cpage-body ol { margin: 0 0 1.2em; padding-left: 1.3em; }
+.cpage-body li { margin-bottom: 0.45em; }
+.cpage-body a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
+.cpage-body strong { color: var(--ink); }
+.cpage-body img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 1.4em 0; }
+.cpage-body table { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-size: 15px; }
+.cpage-body th, .cpage-body td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; }
+.cpage-body .wp-linklist {
+  list-style: none; padding: 0; display: grid; gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.cpage-body .wp-linklist a { text-decoration: none; font-weight: 500; }
+
+.cpage-children { padding-top: 0; }
+.cpage-children .sec-card-head span { color: var(--ink-3); font-size: 18px; }
+</style>

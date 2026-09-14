@@ -117,3 +117,55 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
     restart();
   });
 </script>
+
+<style is:global>
+.testi-section { background: var(--ink); color: #fff; padding: clamp(80px, 10vw, 140px) 0; }
+.testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
+.testi-wrap { display: flex; flex-direction: column; gap: 48px; }
+.testi-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.testi-nav { display: flex; gap: 6px; }
+.testi-nav button { padding: 6px; }
+.testi-nav span { display: block; width: 28px; height: 2px; background: rgba(255,255,255,0.2); transition: background .2s; }
+.testi-nav button.is-on span { background: var(--grn); }
+.testi-quote {
+  margin: 0; max-width: 1000px;
+  display: flex; flex-direction: column; gap: 28px;
+  animation: fadein .4s ease;
+}
+.quotemark {
+  font-family: var(--font-display);
+  font-size: 90px;
+  line-height: 0.4;
+  color: var(--grn);
+}
+.testi-quote p {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.testi-quote footer { display: flex; gap: 16px; align-items: baseline; font-size: 14px; color: rgba(255,255,255,0.75); }
+.testi-quote footer b { color: #fff; font-weight: 600; }
+@keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Real patient reviews carried over from the WordPress bio pages. */
+.doc-testi-grid {
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 28px;
+}
+.doc-testi {
+  margin: 0; padding: 28px; border: 1px solid var(--line);
+  border-radius: var(--radius-lg); background: var(--bg);
+  position: relative;
+}
+.doc-testi .quotemark {
+  font-family: var(--font-display); font-size: 56px; line-height: 1;
+  color: var(--grn); display: block; margin-bottom: 4px;
+}
+.doc-testi p { margin: 0 0 0.9em; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+.doc-testi footer { font-size: 13px; font-family: var(--font-mono); color: var(--ink-3); }
+.doc-testi footer b { color: var(--ink); font-family: var(--font-sans); }
+</style>

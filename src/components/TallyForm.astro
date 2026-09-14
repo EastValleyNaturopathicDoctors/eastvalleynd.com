@@ -52,3 +52,18 @@ if (!id) {
     <slot />
   </div>
 )}
+
+<style is:global>
+/* The embed sits on its own card so the transparent Tally background reads as
+   a panel rather than as loose fields on the page. */
+.tally-embed, .tally-pending {
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: var(--bg-softer);
+  padding: clamp(18px, 2.4vw, 30px);
+}
+.tally-embed iframe { display: block; width: 100%; border: 0; }
+.tally-pending { background: var(--grn-soft); border-color: #D5E9C2; }
+.tally-pending p { margin: 0 0 12px; color: var(--ink-2); max-width: 52ch; }
+.tally-pending-title { font-weight: 600; color: var(--ink) !important; font-size: 17px; }
+.tally-pending .hero-cta { margin-top: 18px; }
+</style>

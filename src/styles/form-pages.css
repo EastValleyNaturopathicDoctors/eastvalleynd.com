@@ -1,0 +1,72 @@
+/* Shared by: index.astro, index.astro */
+
+/* --- Form pages (Tally embeds) ----------------------------------------------
+   Two columns: the form carries the page, the aside carries every other way to
+   reach the clinic. The aside is what keeps the page useful while a form is
+   loading, blocked, or not yet built. */
+.form-section { padding-top: clamp(40px, 5vw, 64px); }
+.form-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) 380px;
+  gap: clamp(32px, 5vw, 72px); align-items: start;
+}
+.form-heading {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(24px, 2.4vw, 31px); letter-spacing: -0.015em;
+  margin: 0 0 10px;
+}
+.form-intro { margin: 0 0 26px; color: var(--ink-2); max-width: 56ch; font-size: 16.5px; }
+.form-intro a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Aside */
+.form-aside { position: sticky; top: 96px; display: flex; flex-direction: column; gap: 16px; }
+.form-card {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px 22px 24px; background: var(--bg);
+}
+.form-card h3 {
+  font-family: var(--font-display); font-weight: 600; font-size: 18px;
+  letter-spacing: -0.01em; margin: 0 0 8px;
+}
+.form-card-lead { margin: 0 0 14px; font-size: 14.5px; line-height: 1.55; color: var(--ink-3); }
+.form-card-note { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-3); }
+.form-card-note a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
+.form-card-phone {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-display); font-weight: 600; font-size: 22px;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.form-card-phone:hover { color: var(--grn-2); }
+.form-card-phone svg { color: var(--grn-2); flex: none; }
+
+.form-card-hours { list-style: none; margin: 16px 0 0; padding: 0; }
+.form-card-hours li {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.5px;
+}
+.form-card-hours li:first-child { border-top: none; }
+.form-card-hours li span:first-child { color: var(--ink-2); }
+.form-card-hours li span:last-child { color: var(--ink-3); font-family: var(--font-mono); font-size: 12.5px; }
+
+.form-book-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.form-book-list a {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 14px; border: 1px solid var(--line); border-radius: 10px;
+  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  transition: border-color .18s, background .18s, color .18s;
+}
+.form-book-list a:hover { border-color: var(--grn); background: var(--grn-soft); color: var(--ink); }
+.form-book-list svg { flex: none; color: var(--ink-3); }
+
+.form-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.form-steps li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; }
+.form-step-n {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.04em;
+  color: var(--grn-2); padding-top: 2px;
+}
+.form-steps strong { display: block; font-size: 14.5px; font-weight: 600; margin-bottom: 3px; }
+.form-steps p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-3); }
+
+@media (max-width: 980px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-aside { position: static; }
+}

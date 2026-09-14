@@ -332,3 +332,330 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
     closeAll();
   });
 </script>
+
+<style is:global>
+.mainnav {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(255,255,255,0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s, background .2s;
+}
+.mainnav.is-scrolled { border-color: var(--line); background: rgba(255,255,255,0.96); }
+.mainnav-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: center;
+  padding: 18px var(--pad);
+  transition: padding .2s ease;
+}
+/* The sticky bar gives back a little height once the reader is past the top —
+   89px of permanent chrome is a tenth of a laptop viewport. */
+.mainnav.is-scrolled .mainnav-inner { padding-top: 11px; padding-bottom: 11px; }
+.mainnav.is-scrolled .logo-link img { height: 38px; }
+.logo-link img { transition: height .2s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .mainnav-inner, .logo-link img { transition: none; }
+}
+/* The asset is 750x300 (2.5:1). Asking for 150x44 (3.4:1) made the responsive
+   image styles crop to `cover`, which cut the tagline off the bottom. Width and
+   height follow the real ratio, and `contain` guarantees a logo is never
+   cropped whatever size it is asked for. */
+.logo-link img { height: 44px; width: auto; object-fit: contain; }
+/* Two lockups crossfading in place. The first <img> stays in normal flow so it
+   sets the box — which means the existing height rules, including the shrink on
+   `is-scrolled`, keep working untouched. The second is laid exactly over it;
+   both SVGs share a 1020x246 viewBox, so it lands on the same footprint and the
+   swap moves nothing beside it. */
+.logo-rotator { position: relative; display: inline-block; line-height: 0; }
+/* aspect-ratio: the trace flagged the SVG as an unsized image (0.0005 CLS).
+   `height: 44px; width: auto` only knows the width once the file has loaded;
+   the ratio reserves it up front. Both lockups share the 1020x246 viewBox. */
+.logo-rotator img { opacity: 0; transition: opacity .5s ease; aspect-ratio: 1020 / 246; }
+.logo-rotator img + img { position: absolute; left: 0; top: 0; }
+.logo-rotator img.is-on { opacity: 1; }
+/* No script, no rotation: the first lockup must still be visible. */
+.logo-rotator:not(.is-live) img:first-child { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .logo-rotator img { transition: none; }
+}
+.mainnav-links { display: flex; gap: 4px; justify-content: center; }
+.navlink {
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  transition: color .2s, background .2s;
+}
+.navlink:hover { background: var(--bg-soft); color: var(--ink); }
+.navlink.is-active { background: var(--ink); color: #fff; }
+.mainnav-right { display: flex; align-items: center; gap: 12px; }
+.hamburger { display: none; padding: 8px; }
+
+@media (max-width: 980px) {
+  .mainnav-links { display: none; }
+  .hamburger { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; }
+  /* The nav links are `display: none` here, which takes them out of the grid
+     entirely — so the three-column track collapsed and the CTA and hamburger
+     were laid out in the middle column, bunched against the logo with dead
+     space to their right. Two columns is what this layout actually has. */
+  .mainnav-inner {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding-top: 11px; padding-bottom: 11px;
+  }
+  .mainnav-right { gap: 6px; }
+}
+
+/* 119px of the viewport was header on a 375px phone. */
+@media (max-width: 560px) {
+  .mainnav-inner { padding-top: 9px; padding-bottom: 9px; }
+  .logo-link img { height: 38px; }
+  .mainnav.is-scrolled .logo-link img { height: 34px; }
+}
+
+/* Mobile nav panel — the template was a single page and never needed one. */
+.mobilenav { display: none; }
+.mainnav.nav-open .mobilenav {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 12px var(--pad) 20px;
+  background: var(--bg); border-top: 1px solid var(--line);
+  /* The panel hangs inside the sticky header, so anything past the bottom of
+     the viewport cannot be reached: with every group open it ran to 3,208px on
+     an 812px phone, leaving the Schedule CTA 2,300px below the fold. Cap it to
+     the space under the header bar and let it scroll itself. `max-height` only
+     bites when the content is actually taller, so a short menu still sizes to
+     its content. --nav-h is the bar's measured height, set by MainNav.astro on
+     open and on resize; the literal is the fallback for the frame before that
+     runs, and for no-JS. */
+  max-height: calc(100vh - var(--nav-h, 97px));
+  max-height: calc(100dvh - var(--nav-h, 97px));
+  overflow-y: auto;
+  /* Without this, flicking past the end of the menu scrolls the page behind it. */
+  overscroll-behavior: contain;
+}
+/* The page must not scroll behind an open menu — the panel scrolls instead. */
+body.nav-locked { overflow: hidden; }
+.mainnav.nav-open .mobilenav .navlink { padding: 12px 0; font-size: 17px; }
+.mobilenav .is-cta { color: var(--grn-2); font-weight: 600; }
+
+/* --- Nav dropdowns + mega menus --------------------------------------------
+   Pointer users open on hover; the toggle button covers click, touch and
+   keyboard, where hover never fires. A section with more than 8 children gets
+   a wide panel; the rest get a simple list. */
+/* The pill wraps the link and its chevron together — the chevron is part of
+   the control, not a separate thing floating beside it. The <a> and the
+   <button> stay separate elements: one navigates, one opens the panel. */
+.navitem.has-sub {
+  position: relative; display: inline-flex; align-items: center; gap: 0;
+  padding-right: 8px; border-radius: 999px;
+  transition: background .2s;
+}
+.navitem.has-sub > .navlink { padding-right: 6px; }
+.navitem.has-sub > .navlink:hover { background: none; }
+.navitem.has-sub:hover { background: var(--bg-soft); }
+.navitem.has-sub:hover > .navlink { color: var(--ink); }
+.navitem.has-sub.is-active { background: var(--ink); }
+.navitem.has-sub.is-active > .navlink,
+.navitem.has-sub.is-active .subtoggle { color: #fff; background: none; }
+.navitem.has-sub .subtoggle {
+  display: inline-grid; place-items: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  color: var(--ink-3); transition: transform .18s ease, color .18s;
+}
+.navitem.has-sub:hover .subtoggle,
+.navitem.has-sub.is-open .subtoggle { color: var(--ink); }
+/* A chevron turning up reads as "this is open". The old plus rotated into an
+   ×, which says "close" — the wrong idea for a disclosure. */
+.navitem.has-sub.is-open .subtoggle { transform: rotate(180deg); }
+
+.subnav {
+  position: absolute; top: calc(100% + 10px); left: -14px; z-index: 60;
+  min-width: 260px; max-width: 320px; padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 60px -12px rgba(14, 19, 17, 0.18), 0 2px 6px rgba(14, 19, 17, 0.05);
+  opacity: 0; visibility: hidden; transform: translateY(-8px) scale(.99);
+  transform-origin: top center;
+  transition: opacity .18s ease, transform .18s cubic-bezier(.2,.7,.3,1), visibility .18s;
+}
+.navitem.has-sub:hover .subnav,
+.navitem.has-sub:focus-within .subnav,
+.navitem.has-sub.is-open .subnav {
+  opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+}
+/* Bridges the gap between trigger and panel so the pointer can travel down. */
+.navitem.has-sub::after {
+  content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 14px;
+}
+
+.subnav-list { list-style: none; margin: 0; padding: 0; }
+.subnav-list > li { margin: 0; }
+.subnav-list a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 9px;
+  font-size: 14.5px; line-height: 1.25; color: var(--ink-2);
+  transition: background .15s, color .15s;
+}
+.subnav-list a > span { flex: 1; min-width: 0; }
+.subnav-list a:hover { background: var(--bg-soft); color: var(--ink); }
+.subnav-list a.is-active { color: var(--grn-2); font-weight: 600; background: var(--grn-soft); }
+
+/* How many pages sit under this one. A quiet count is more use than listing
+   them all: it says "there is more here" without spending 60 lines saying it. */
+.subnav-count {
+  flex: none; font-family: var(--font-mono); font-style: normal;
+  font-size: 10.5px; line-height: 1; color: var(--ink-3);
+  padding: 3px 6px; border-radius: 999px; background: var(--bg-sunk);
+}
+.subnav-list a:hover .subnav-count { background: var(--line); color: var(--ink-2); }
+.subnav-list a.is-active .subnav-count { background: rgba(79,162,42,.14); color: var(--grn-2); }
+
+.subnav-all {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 6px; padding: 11px 12px;
+  border-top: 1px solid var(--line); border-radius: 0 0 12px 12px;
+  font-family: var(--font-mono); font-size: 11.5px;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3);
+}
+.subnav-all em {
+  font-style: normal; margin-left: auto; font-size: 11px; color: var(--ink-3);
+}
+.subnav-all:hover { background: var(--bg-soft); color: var(--grn-2); }
+
+/* Mega panel. An explicit grid, not CSS `columns` — column flow broke groups
+   across the fold and made the panel taller than the viewport. */
+.navitem.is-mega { position: static; }
+.subnav-mega {
+  left: 50%; transform: translate(-50%, -8px) scale(.99);
+  width: min(1120px, calc(100vw - 2 * var(--pad)));
+  max-width: none; padding: 20px;
+  display: grid; grid-template-columns: 1fr 260px; gap: 20px;
+  align-items: start;
+}
+.navitem.is-mega:hover .subnav-mega,
+.navitem.is-mega:focus-within .subnav-mega,
+.navitem.is-mega.is-open .subnav-mega { transform: translate(-50%, 0) scale(1); }
+.subnav-mega .subnav-list {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px 8px; align-content: start;
+}
+.subnav-mega .subnav-all {
+  grid-column: 1 / -1; margin-top: 4px; border-radius: 10px;
+  background: var(--bg-softer);
+}
+
+/* The panel's own next step. A clinic menu should offer a way in, not only a
+   list of destinations. */
+.mega-aside {
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 18px; border-radius: 12px;
+  background: var(--bg-soft); border: 1px solid var(--line);
+}
+.mega-aside-title {
+  margin: 0; font-family: var(--font-display); font-weight: 600;
+  font-size: 16px; letter-spacing: -.01em; color: var(--ink);
+}
+.mega-aside-body { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-3); }
+.mega-aside-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  margin-top: 2px; padding: 12px 16px; border-radius: 999px;
+  background: var(--ink); color: #fff; font-size: 13.5px; font-weight: 500;
+  transition: background .18s;
+}
+.mega-aside-cta:hover { background: #000; }
+.mega-aside-phone {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 13px; color: var(--ink-2);
+}
+.mega-aside-phone:hover { color: var(--grn-2); }
+.mega-aside-phone svg { color: var(--grn-2); flex: none; }
+
+@media (max-width: 1180px) {
+  .subnav-mega { grid-template-columns: 1fr 230px; }
+  .subnav-mega .subnav-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* The two `.has-dark-hero` rules that lived here made the chevron white for a
+   nav rendered transparent over the hero. The bar is not transparent any more —
+   it is `rgba(255,255,255,0.86)` on every page — so those rules were painting a
+   white chevron on a white bar and the disclosure was invisible on the
+   homepage. Removed; the chevron follows the links, which are dark everywhere.
+   `has-dark-hero` is still set on <body> by Base.astro but nothing styles it,
+   so it can go the next time Base is touched. */
+
+/* --- Mobile nav ------------------------------------------------------------
+   Groups collapse. <details> carries the open state, the keyboard behaviour and
+   the screen-reader announcement natively, so there is no ARIA and no script. */
+.mobilenav-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 2px; font-size: 17px; font-weight: 600; color: var(--ink);
+  cursor: pointer; list-style: none;
+}
+.mobilenav-top::-webkit-details-marker { display: none; }
+.mobilenav-top svg { color: var(--ink-3); transition: transform .2s ease; flex: none; }
+.mobilenav-top.is-active { color: var(--grn-2); }
+.mobilenav-group { border-bottom: 1px solid var(--line); }
+.mobilenav-group[open] > .mobilenav-top svg { transform: rotate(180deg); }
+a.mobilenav-top { border-bottom: 1px solid var(--line); }
+
+.mobilenav-sub {
+  list-style: none; margin: 0 0 10px; padding: 0 0 0 12px;
+  border-left: 2px solid var(--line);
+}
+.mobilenav-sub a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; font-size: 15px; color: var(--ink-2);
+}
+.mobilenav-sub a > span { flex: 1; }
+.mobilenav-sub a em {
+  font-style: normal; font-family: var(--font-mono); font-size: 10.5px;
+  color: var(--ink-3); background: var(--bg-sunk);
+  padding: 3px 6px; border-radius: 999px;
+}
+.mobilenav-sub a:hover, .mobilenav-sub a.is-active { color: var(--grn-2); }
+.mobilenav-all {
+  font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase;
+  letter-spacing: .05em; color: var(--ink-3) !important;
+}
+
+.mobilenav-foot {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);
+}
+.mobilenav-phone {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  font-family: var(--font-display); font-weight: 600; font-size: 19px;
+  color: var(--ink);
+}
+.mobilenav-phone svg { color: var(--grn-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .subnav, .subtoggle, .mobilenav-top svg { transition: none !important; }
+}
+
+/* Secondary mobile action under the CTA — Contact left the main nav when
+   Schedule Appointment became the single header CTA, so it needs a home here. */
+.mobilenav-secondary {
+  display: block; text-align: center; margin-top: 10px; padding: 10px 0;
+  font-size: 14.5px; color: var(--ink-3);
+}
+.mobilenav-secondary:hover { color: var(--grn-2); }
+
+/* The header CTA is the only action in the bar, so it has to survive down to a
+   360px phone next to the logo and the hamburger. Shed the icon, then the word
+   "Appointment", rather than letting the row wrap. */
+@media (max-width: 620px) {
+  .mainnav-inner { gap: 14px; }
+  .nav-cta { padding: 11px 16px; font-size: 14px; }
+  .nav-cta svg { display: none; }
+  .cta-word { display: none; }
+}
+@media (max-width: 400px) {
+  .logo-link img { height: 36px; }
+}
+</style>

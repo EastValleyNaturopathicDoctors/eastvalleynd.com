@@ -43,3 +43,78 @@ const { showHead = true } = Astro.props;
     </div>
   </div>
 </section>
+
+<style is:global>
+.resources-section { background: var(--bg-softer); }
+.res-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.ebook-card {
+  grid-row: span 2;
+  background: var(--ink);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.ebook-card .eyebrow { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); }
+.ebook-card h3 { font-family: var(--font-display); font-size: 30px; margin: 0; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
+.ebook-card p { color: rgba(255,255,255,0.78); font-size: 15px; line-height: 1.55; margin: 0; }
+.ebook-card form { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+.ebook-card input {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font: inherit;
+}
+.ebook-card input::placeholder { color: rgba(255,255,255,0.5); }
+.ebook-card input:focus { outline: 0; border-color: var(--grn); background: rgba(255,255,255,0.15); }
+.ebook-card button {
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: var(--grn);
+  color: var(--ink);
+  font-weight: 600;
+  transition: background .2s;
+}
+.ebook-card button:hover { background: #fff; }
+.ebook-card small { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+.res-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  display: flex; flex-direction: column;
+  min-height: 260px;
+  transition: transform .25s;
+}
+.res-card:hover { transform: translateY(-3px); }
+.res-card img { aspect-ratio: 16/9; object-fit: cover; width: 100%; }
+.res-overlay { display: none; }
+.res-meta {
+  position: absolute; top: 14px; left: 14px; right: 14px;
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #fff;
+}
+.res-meta span:first-child { background: var(--grn); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-weight: 600; }
+.res-meta span:last-child { background: rgba(14,19,17,0.6); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
+.res-card h3 { font-family: var(--font-display); font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; margin: 18px 22px 0; text-wrap: balance; }
+.res-author { padding: 4px 22px 22px; color: var(--ink-3); font-size: 13px; }
+.res-arrow {
+  position: absolute; bottom: 18px; right: 18px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-soft);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .2s, color .2s;
+}
+.res-card:hover .res-arrow { background: var(--ink); color: #fff; }
+
+@media (max-width: 1000px) { .res-grid { grid-template-columns: repeat(2, 1fr); } .ebook-card { grid-row: span 1; grid-column: 1 / -1; } }
+@media (max-width: 600px) { .res-grid { grid-template-columns: 1fr; } }
+</style>

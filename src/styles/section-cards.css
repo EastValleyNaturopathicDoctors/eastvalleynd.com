@@ -1,0 +1,41 @@
+/* Shared by: SectionIndex.astro, ContentPage.astro */
+
+/* --- Section index (Conditions, Services, …) --------------------------------
+   Lists a section's real children from the sitemap, with each child's own
+   sub-pages beneath it. */
+.sec-grid {
+  display: grid; gap: clamp(18px, 2.2vw, 26px);
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+.sec-card {
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 22px 22px 18px; background: var(--bg);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  display: flex; flex-direction: column;
+}
+.sec-card:hover {
+  border-color: var(--line-2);
+  box-shadow: 0 12px 32px rgba(14, 19, 17, 0.07);
+  transform: translateY(-2px);
+}
+.sec-card-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+  color: inherit;
+}
+.sec-card-head h2 {
+  font-family: var(--font-display); font-size: 19px; font-weight: 600;
+  letter-spacing: -0.012em; line-height: 1.24; margin: 0;
+}
+.sec-card-head svg { flex: none; margin-top: 3px; color: var(--ink-3); transition: color .2s, transform .2s; }
+.sec-card:hover .sec-card-head svg { color: var(--grn-2); transform: translate(2px, -2px); }
+.sec-card-kids {
+  list-style: none; margin: 14px 0 0; padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.sec-card-kids a {
+  display: block; padding: 5px 0; font-size: 14px; color: var(--ink-3);
+  transition: color .15s;
+}
+.sec-card-kids a:hover { color: var(--grn-2); }
+.sec-card-more a { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; }

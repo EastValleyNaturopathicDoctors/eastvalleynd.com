@@ -1,0 +1,153 @@
+/* Global sheet: tokens, reset, type, layout helpers and the primitives more
+   than one component shares (buttons, eyebrow, page-hero, section-head,
+   hero-cta, sr-only). Everything else lives in a <style is:global> block
+   beside the markup it styles, or in a small src/styles/*.css partial when
+   two files share it — so each page inlines only the CSS it renders. */
+:root {
+  --ink: #0E1311;            /* base text */
+  --ink-2: #2A2F2D;          /* secondary text */
+  --ink-3: #6A716E;          /* tertiary text */
+  --bg: #FFFFFF;
+  --bg-soft: #F4F5F2;        /* warm light grey */
+  --bg-softer: #F9FAF7;
+  --line: #E5E7E1;
+  --line-2: #D9DCD4;
+
+  /* Brand accents — used sparingly */
+  --grn: #6CBE3F;            /* logo bright green */
+  /* Green for text and icons. Was #4FA22A, which is 3.21:1 on white — under
+     the 4.5:1 AA floor for body text, and it was the colour of every link in
+     every article body. #367A1B is 5.31:1 on white and 4.6:1 on the soft
+     green, so it clears AA on every ground it is used on. --grn is untouched:
+     the logo green stays on the logo, the dots and the button fills. */
+  --grn-2: #367A1B;
+  --grn-soft: #ECF6E2;
+  --blu: #2DAFE5;            /* legacy site blue */
+  --blu-soft: #E4F4FB;
+  --grey-warm: #B8BAB2;
+
+  --container: 1280px;
+  --pad: clamp(16px, 4vw, 40px);
+  --radius: 14px;
+  --radius-lg: 22px;
+
+  /* The "… Fallback" faces are Arial with capsize's metric overrides
+     (src/styles/font-fallbacks.css), so text laid out before the web font
+     arrives occupies the same lines it will after. They must sit directly
+     behind the real face: anything in between would render first and shift. */
+  --font-sans: "Manrope", "Manrope Fallback", Arial, ui-sans-serif, system-ui, sans-serif;
+  /* fontsource registers the variable build under this exact name — plain
+     "Bricolage Grotesque" would match nothing and fall back to Manrope
+     without a word of warning. */
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque Variable Fallback", Arial, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+/* The browser's own `[hidden] { display: none }` has the lowest possible
+   specificity, so any author `display` rule silently beats it. `.testi-quote`
+   sets `display: flex`, which left all four testimonials stacked on top of each
+   other with the carousel toggling an attribute that did nothing. */
+[hidden] { display: none !important; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
+  font-size: 16px;
+  line-height: 1.5;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; padding: 0; }
+em { font-style: normal; color: var(--grn-2); }
+::selection { background: var(--grn); color: var(--ink); }
+
+/* layout helpers */
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
+.section { padding: clamp(72px, 9vw, 130px) 0; }
+.h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(40px, 6vw, 84px); line-height: 1.02; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+.h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+.lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+.accent-grn { color: var(--grn-2); }
+
+/* Eyebrow */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.6);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-weight: 500; font-size: 15px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: transform .18s ease, background .2s, color .2s, border-color .2s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn-lg { padding: 18px 28px; font-size: 16px; }
+.btn:hover { transform: translateY(-1px); }
+.btn-dark { background: var(--ink); color: #fff; }
+.btn-dark:hover { background: #000; }
+.btn-light { background: #fff; color: var(--ink); }
+.btn-light:hover { background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+.btn-outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+.btn-outline-light:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+.btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.hero-cta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 36px; align-items: center; }
+
+.section-head {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+.section-head .h2 { margin-top: 12px; }
+.section-head-right { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.section-head-right p { color: var(--ink-2); margin: 0; max-width: 42ch; }
+
+@media (max-width: 800px) {
+  .section-head { grid-template-columns: 1fr; }
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 999;
+  background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 0 0 8px 0;
+}
+.skip-link:focus { left: 0; }
+
+:where(a, button, input, summary):focus-visible {
+  outline: 2px solid var(--grn-2);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Interior page header, for pages without the video hero. */
+.page-hero { padding: clamp(48px, 7vw, 96px) 0 clamp(32px, 4vw, 56px); background: var(--bg-softer); border-bottom: 1px solid var(--line); }
+.page-hero .h1 { max-width: 18ch; }
+.page-hero .lede { margin-top: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* Visually hidden, still announced by screen readers. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}

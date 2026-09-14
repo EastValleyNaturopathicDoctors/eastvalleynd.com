@@ -114,3 +114,227 @@ import { site } from '../data/site';
     bg.classList.add('has-video');
   }
 </script>
+
+<style is:global>
+.hero {
+  position: relative;
+  background: var(--ink);
+  color: #fff;
+  overflow: hidden;
+}
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg iframe {
+  position: absolute;
+  /* center an oversized iframe to fill */
+  top: 50%; left: 50%;
+  width: 178vw; height: 100vw;
+  min-width: 100%; min-height: 100%;
+  transform: translate(-50%, -50%) scale(1.05);
+  pointer-events: none;
+  border: 0;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(14,19,17,0.45) 0%, rgba(14,19,17,0.75) 60%, rgba(14,19,17,0.92) 100%),
+    linear-gradient(90deg, rgba(14,19,17,0.6), rgba(14,19,17,0.1));
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  padding: clamp(80px, 12vw, 160px) var(--pad) clamp(50px, 6vw, 80px);
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+}
+.hero-content { max-width: 820px; }
+.hero .eyebrow {
+  color: #fff;
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(44px, 7.2vw, 104px);
+  line-height: 0.98;
+  letter-spacing: -0.028em;
+  margin: 22px 0 22px;
+  text-wrap: balance;
+}
+.hero-sub {
+  font-size: clamp(17px, 1.4vw, 22px);
+  line-height: 1.45;
+  max-width: 60ch;
+  color: rgba(255,255,255,0.82);
+}
+
+.play-link {
+  display: inline-flex; align-items: center; gap: 12px;
+  color: #fff; font-size: 14px;
+}
+.play-circle {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.5);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.play-link:hover .play-circle { background: rgba(255,255,255,0.16); }
+.hero-meta {
+  display: flex; gap: clamp(24px, 4vw, 56px);
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.18);
+  max-width: 620px;
+}
+.hero-meta div { display: flex; flex-direction: column; gap: 4px; }
+.hero-meta b { font-family: var(--font-display); font-size: clamp(28px, 3.2vw, 42px); font-weight: 500; }
+.hero-meta span { font-size: 12px; color: rgba(255,255,255,0.62); letter-spacing: 0.03em; text-transform: uppercase; font-family: var(--font-mono); }
+
+/* DUAL PATH */
+.hero-paths-wrap {
+  position: relative; z-index: 3;
+  padding: 0 0 clamp(48px, 6vw, 80px);
+}
+.hero-paths-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.75);
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.dualpath {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+}
+.dp-card {
+  position: relative;
+  text-align: left;
+  background: rgba(255,255,255,0.96);
+  color: var(--ink);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-lg);
+  padding: 30px 32px 28px;
+  display: flex; flex-direction: column; gap: 14px;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s;
+  overflow: hidden;
+  cursor: pointer;
+}
+.dp-card::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 6px;
+  background: var(--grn);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform .35s ease;
+}
+.dp-treat::before { background: var(--blu); }
+.dp-card:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -25px rgba(0,0,0,0.4); }
+.dp-card:hover::before, .dp-card.is-active::before { transform: scaleY(1); }
+.dp-card.is-active { background: var(--ink); color: #fff; border-color: transparent; }
+.dp-card.is-active .dp-num,
+.dp-card.is-active .dp-tag,
+.dp-card.is-active .dp-tags span { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.18); }
+.dp-card.is-active .dp-sub { color: rgba(255,255,255,0.78); }
+.dp-card.is-active .dp-go { color: #fff; }
+.dp-top { display: flex; align-items: center; justify-content: space-between; }
+.dp-num { font-family: var(--font-mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0.06em; }
+.dp-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line);
+}
+.dp-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 0;
+}
+.dp-sub { color: var(--ink-2); margin: 0; font-size: 15.5px; line-height: 1.5; max-width: 46ch; }
+.dp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.dp-tags span {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-3);
+}
+.dp-go {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dp-treat .dp-go { color: #176E92; }
+.dp-treat.is-active .dp-go { color: var(--blu); }
+.dp-optimize .dp-go { color: var(--grn-2); }
+.dp-optimize.is-active .dp-go { color: var(--grn); }
+
+@media (max-width: 800px) {
+  .dualpath { grid-template-columns: 1fr; }
+  .hero-meta { gap: 24px; flex-wrap: wrap; }
+}
+
+/* Hero poster — stands in for the background video when no id is configured.
+   The template's overlay is tuned for dark video footage; a bright group photo
+   needs a directional scrim so the headline stays legible without flattening
+   the image to black. */
+.hero-poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 60% 22%;
+}
+.hero-bg.has-poster .hero-overlay {
+  background:
+    /* Directional scrim: dark under the copy, clearing toward the right so the
+       team photo reads. Tuned against the 2019 group shot at 1440px. */
+    linear-gradient(95deg,
+      rgba(14, 19, 17, 0.93) 0%,
+      rgba(14, 19, 17, 0.82) 28%,
+      rgba(14, 19, 17, 0.45) 54%,
+      rgba(14, 19, 17, 0.18) 100%),
+    /* Bottom fade so the stat row and path cards keep their contrast. */
+    linear-gradient(to bottom,
+      rgba(14, 19, 17, 0) 50%,
+      rgba(14, 19, 17, 0.55) 100%);
+}
+@media (max-width: 900px) {
+  /* The hero is ~1200px tall in portrait against a 2:1 photo — any crop lands on
+     a single face and reads as a mistake. Drop the image and use the brand dark
+     gradient instead: deliberate, and zero image payload on a phone.
+     Revisit if we ever shoot a portrait-oriented hero. */
+  .hero-poster { display: none; }
+  .hero-bg.has-poster {
+    background:
+      radial-gradient(120% 80% at 78% 8%, rgba(108, 190, 63, 0.16) 0%, rgba(108, 190, 63, 0) 60%),
+      linear-gradient(to bottom, #141A17 0%, #0E1311 60%, #0A0E0C 100%);
+  }
+  .hero-bg.has-poster .hero-overlay { background: none; }
+}
+
+/* --- Hero video layering ---------------------------------------------------
+   DOM order inside .hero-bg is: poster → iframe → overlay. All are absolutely
+   positioned with auto z-index, so paint order follows the DOM: the video sits
+   over the poster, and the scrim sits over both.
+
+   The iframe fades in on load, leaving the poster visible until YouTube has
+   actually painted a frame — otherwise the hero flashes black on slow links. */
+.hero-bg iframe {
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+.hero-bg.video-ready iframe { opacity: 1; }
+
+/* Once the video is up, go back to the template's scrim — it was tuned for dark
+   footage, and the directional poster scrim is too light over moving video. */
+.hero-bg.has-poster.video-ready .hero-overlay {
+  background:
+    linear-gradient(180deg, rgba(14, 19, 17, 0.45) 0%, rgba(14, 19, 17, 0.75) 60%, rgba(14, 19, 17, 0.92) 100%),
+    linear-gradient(90deg, rgba(14, 19, 17, 0.60), rgba(14, 19, 17, 0.10));
+}
+</style>

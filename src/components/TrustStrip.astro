@@ -15,3 +15,34 @@ const track = [...items, ...items];
     ))}
   </div>
 </div>
+
+<style is:global>
+.trust {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  background: #fff;
+}
+.trust-track {
+  display: flex; gap: 48px;
+  padding: 18px 0;
+  animation: scroll 50s linear infinite;
+  width: max-content;
+}
+.trust-item {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 13.5px; color: var(--ink-2);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.trust-item svg { color: var(--grn-2); }
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-track { animation: none !important; }
+}
+</style>

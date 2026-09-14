@@ -74,3 +74,44 @@ const mapQuery = encodeURIComponent(`${a.street}, ${a.city}, ${a.state} ${a.zip}
     </div>
   </section>
 </Base>
+
+<style is:global>
+/* --- Contact ---------------------------------------------------------------- */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4vw, 64px); align-items: start;
+}
+.contact-block + .contact-block { margin-top: clamp(30px, 4vw, 46px); }
+.contact-block h2 {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px; font-weight: 500;
+}
+.contact-addr { font-size: 19px; line-height: 1.55; margin: 0 0 16px; color: var(--ink); }
+.contact-lines { display: flex; flex-direction: column; gap: 8px; margin: 0; }
+.contact-lines a, .contact-lines span {
+  display: inline-flex; align-items: center; gap: 9px; font-size: 16px; color: var(--ink-2);
+}
+.contact-lines a:hover { color: var(--grn-2); }
+.contact-hours { list-style: none; margin: 0; padding: 0; max-width: 380px; }
+.contact-hours li {
+  display: flex; justify-content: space-between; gap: 20px;
+  padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 15.5px;
+}
+.contact-hours li span:first-child { color: var(--ink); }
+.contact-hours li span:last-child { color: var(--ink-2); font-family: var(--font-mono); font-size: 14px; }
+.contact-note { margin: 14px 0 0; font-size: 14.5px; color: var(--ink-3); }
+.contact-map { position: sticky; top: 96px; }
+.contact-map iframe {
+  width: 100%; aspect-ratio: 4 / 5; border: 1px solid var(--line);
+  border-radius: var(--radius-lg); display: block;
+}
+.contact-directions {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
+  font-size: 14px; font-weight: 500; color: var(--grn-2);
+}
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-map { position: static; }
+  .contact-map iframe { aspect-ratio: 4 / 3; }
+}
+</style>
