@@ -5,6 +5,8 @@ import Base from './Base.astro';
 import PageImage from '../components/PageImage.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
+import InlineCTA from '../components/InlineCTA.astro';
+import { splitForCta } from '@/lib/midcta';
 import { trail as navTrail } from '@/lib/nav';
 import '../styles/section-cards.css';
 
@@ -12,6 +14,9 @@ interface Props { entry: CollectionEntry<'pages'> }
 const { entry } = Astro.props;
 const d = entry.data;
 const { Content } = await render(entry);
+// Long bodies get a booking prompt part-way down rather than only under the
+// footer (D103). `rendered.html` is the same HTML <Content /> would emit.
+const halves = splitForCta(entry.rendered?.html ?? '');
 
 // Breadcrumb and child links come from the same nav tree as the header.
 const trail = navTrail(d.route);
@@ -40,7 +45,11 @@ const children = trail.at(-1)?.children ?? [];
     )}
 
     <div class="container cpage-body-wrap">
-      <div class="cpage-body"><Content /></div>
+      <div class="cpage-body">
+        {halves ? (
+          <Fragment><Fragment set:html={halves[0]} /><InlineCTA topic={d.title} /><Fragment set:html={halves[1]} /></Fragment>
+        ) : <Content />}
+      </div>
     </div>
 
     {children.length > 0 && (

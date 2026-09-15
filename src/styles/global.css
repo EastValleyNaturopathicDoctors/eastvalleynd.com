@@ -12,6 +12,7 @@
   --bg-softer: #F9FAF7;
   --line: #E5E7E1;
   --line-2: #D9DCD4;
+  --bg-sunk: #EEF0EA;        /* a step below --bg-soft: the menu count pills (Q52 -> D104) */
 
   /* Brand accents — used sparingly */
   --grn: #6CBE3F;            /* logo bright green */

@@ -48,5 +48,17 @@
 }
 .therapy-card:hover .therapy-arrow { opacity: 1; transform: translate(0,0); }
 
-@media (max-width: 1100px) { .therapy-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 700px) { .therapy-grid { grid-template-columns: repeat(2, 1fr); } }
+/* The grid's divider lines are its background showing through the 1px gaps,
+   so a short last row left grey, empty cells — 10 cards in 3 columns, or the
+   404 page's 5. Stretch the last card over the leftover columns instead. */
+@media (max-width: 1100px) {
+  .therapy-grid { grid-template-columns: repeat(3, 1fr); }
+  .therapy-card:last-child:nth-child(3n + 1) { grid-column: span 3; }
+  .therapy-card:last-child:nth-child(3n + 2) { grid-column: span 2; }
+}
+@media (max-width: 700px) {
+  .therapy-grid { grid-template-columns: repeat(2, 1fr); }
+  .therapy-card:last-child:nth-child(3n + 1),
+  .therapy-card:last-child:nth-child(3n + 2) { grid-column: auto; }
+  .therapy-card:last-child:nth-child(odd) { grid-column: span 2; }
+}

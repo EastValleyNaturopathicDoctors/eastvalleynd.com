@@ -6,13 +6,15 @@ wpTitle: "Well Woman Exams in Mesa, AZ"
 metaDescription: "Regular well woman exams are an important part of maintaining your health and identifying potential concerns before they become more serious. At East Valley…"
 imageFile: ""
 imageAlt: ""
-wordCount: 752
+wordCount: 776
 canonical: ""
 sourceUrl: "New Pages/Combined Well Womans Exams .docx"
 ---
 <p>Regular well woman exams are an important part of maintaining your health and identifying potential concerns before they become more serious. At <a href="/">East Valley Naturopathic Doctors in Mesa, Arizona,</a> we provide personalized well woman exams that address more than cervical cancer screening. Our goal is to evaluate your overall health while discussing preventive care and screenings based on your individual needs.</p>
 
 <p>For women throughout <a href="/mesa-naturopathic-doctors/">Mesa</a> and the East Valley, including <a href="/gilbert-naturopathic-doctors/">Gilbert</a>, Chandler, Tempe, Queen Creek, and Scottsdale, East Valley Naturopathic Doctors provides a convenient and comfortable setting for preventive women's healthcare.</p>
+
+<p class="cta-inline-btn"><a class="btn btn-dark" href="/contact/">Schedule Your Well Woman Exam</a></p>
 
 <h2>What Is Included in a Well Woman Exam?</h2>
 
@@ -44,6 +46,8 @@ sourceUrl: "New Pages/Combined Well Womans Exams .docx"
 
 <p>HPV is associated with cervical cancer, although only certain HPV types are considered high-risk for cervical cancer.</p>
 
+<p class="cta-inline-btn"><a class="btn btn-dark" href="/contact/">Talk With East Valley Naturopathic Doctors About Cervical Screening</a></p>
+
 <h2>Sexually Transmitted Infection Testing</h2>
 
 <p>STI screening can also be an important part of a well woman exam. Testing recommendations depend on factors including age, sexual activity, partners, pregnancy status, and individual risk. The most common STIs are Chlamydia, Gonorrhea, Herpes, HPV, Trichomoniasis, and HIV (HPV testing is often done in conjunction with the Pap smear, as it can predict future risks for cervical abnormalities). The CDC recommends annual chlamydia and gonorrhea screening for sexually active women under 25 and for some women 25 and older who have increased risk.</p>
@@ -58,6 +62,8 @@ sourceUrl: "New Pages/Combined Well Womans Exams .docx"
 
 <p>Condoms can reduce the risk of many STIs, but they do not eliminate the risk of every infection.</p>
 
+<p class="cta-inline-btn"><a class="btn btn-dark" href="/contact/">Schedule STI Testing in Mesa</a></p>
+
 <h2>Personalized Preventive Care in Mesa</h2>
 
 <p>A well woman exam should be about more than completing a checklist. At <a href="/">East Valley Naturopathic Doctors,</a> we take time to understand your health history, concerns, and goals so your preventive care can be individualized to you.</p>
@@ -65,3 +71,5 @@ sourceUrl: "New Pages/Combined Well Womans Exams .docx"
 <p>Whether you live in Mesa, Gilbert, Chandler, Tempe, Queen Creek, Scottsdale, or another East Valley community, our team is here to support your ongoing women's health needs.</p>
 
 <p>Schedule your well woman exam with East Valley Naturopathic Doctors in Mesa, AZ and take a proactive approach to your health.</p>
+
+<p class="cta-inline-btn"><a class="btn btn-dark" href="/contact/">Book Your Well Woman Exam</a></p>

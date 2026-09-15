@@ -6,7 +6,7 @@ wpTitle: "Uterine Fibroids"
 metaDescription: "Uterine fibroids can cause heavy menstrual bleeding, pelvic pain, pressure, and fatigue, affecting your comfort and quality of life. At East Valley…"
 imageFile: ""
 imageAlt: ""
-wordCount: 862
+wordCount: 871
 canonical: ""
 sourceUrl: "New Pages/Uterine Fibroids.docx"
 ---
@@ -21,6 +21,8 @@ sourceUrl: "New Pages/Uterine Fibroids.docx"
 <p>Fibroids are stimulated by estrogen or potent estrogen-like substances. We are not only exposed to our own production of estrogen, but to exogenous sources, estrogens found in our food and environment. Herbicides, pesticides, hormone-injected meats, and plastics can bind to the estrogen receptor and cause a fibroid to grow.</p>
 
 <p>At East Valley Naturopathic Doctors, we look at your individual health history and lifestyle when developing a personalized approach to fibroid support.</p>
+
+<p class="cta-inline-btn"><a class="btn btn-dark" href="/contact/">Schedule a Consultation</a></p>
 
 <h2>Uterine Fibroid Symptoms</h2>
 
@@ -69,6 +71,8 @@ sourceUrl: "New Pages/Uterine Fibroids.docx"
 <p>Another test that can be done is the Organic Acid Test, which assesses if there is an overgrowth of yeast, bacteria, deficiency in B vitamins, as well as other important metabolites.</p>
 
 <p>When appropriate, your provider can use these results to help develop a more personalized treatment plan.</p>
+
+<p class="cta-inline-btn"><a class="btn btn-dark" href="/contact/">Talk With East Valley Naturopathic Doctors</a></p>
 
 <h2>Uterine Fibroid Care in Mesa, Arizona</h2>
 
