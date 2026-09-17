@@ -14,8 +14,9 @@
 //       PLACEHOLDER — invented for the design mock. Names and quotes are not
 //       real patients. MUST be replaced with real, consented testimonials or
 //       removed before launch. See docs/OPEN-QUESTIONS.md Q14.
-//   * resources
-//       titles are real EVND content; images are stock placeholders.
+//   * optimization `href`
+//       hand-mapped to the closest real route (D106). The descriptions are
+//       still the template's — see OPEN-QUESTIONS Q53.
 
 export const conditions = [
   {
@@ -173,7 +174,7 @@ export const therapies = [
     "icon": "hand",
     "category": "Bodywork",
     "slug": "massage-myopractic-therapy",
-    "href": "/services/"
+    "href": "/physicians/jean-sutliff-stanley/"
   },
   {
     "name": "TruDOSE™ Platelet IV Therapy",
@@ -195,32 +196,38 @@ export const optimization = [
   {
     "name": "Hormone & Peptide Optimization",
     "desc": "Bio-identical hormones, peptide therapies (BPC-157, CJC/Ipamorelin, Semaglutide).",
-    "icon": "spark"
+    "icon": "spark",
+    "href": "/hormone-therapy/"
   },
   {
     "name": "Longevity & Anti-Aging",
     "desc": "NAD+ infusions, mitochondrial support, biological age testing and trending.",
-    "icon": "infinity"
+    "icon": "infinity",
+    "href": "/brain-regeneration-clinic/anti-aging/"
   },
   {
     "name": "Athletic Performance",
     "desc": "PRP, regenerative joint care, VO₂ work, and recovery protocols for active patients.",
-    "icon": "bolt"
+    "icon": "bolt",
+    "href": "/prp-and-prolotherapy/"
   },
   {
     "name": "Metabolic & Weight Health",
     "desc": "GLP-1 (Semaglutide) programs, insulin-resistance reversal, body composition.",
-    "icon": "scale"
+    "icon": "scale",
+    "href": "/weight-loss/"
   },
   {
     "name": "Cognitive Performance",
     "desc": "Neurofeedback brain training, nootropic stacking, sleep architecture work.",
-    "icon": "brain"
+    "icon": "brain",
+    "href": "/neurofeedback/"
   },
   {
     "name": "Aesthetic & Skin Health",
     "desc": "Microneedling, exosomes, IV glow protocols, hair restoration with PRP.",
-    "icon": "sparkle"
+    "icon": "sparkle",
+    "href": "/skinpen-microneedling/"
   }
 ] as const;
 
@@ -322,37 +329,6 @@ export const faqs = [
   {
     "q": "Do you treat patients out of state?",
     "a": "Established patients can do telehealth follow-ups across most US states. Initial visits and any in-office therapies must be in person at our Mesa, AZ clinic."
-  }
-] as const;
-
-export const resources = [
-  {
-    "kind": "E-book",
-    "title": "How to Feel Amazing in Menopause",
-    "author": "Dr. Jennifer Nevels",
-    "time": "32 min read",
-    "img": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&q=80&auto=format&fit=crop"
-  },
-  {
-    "kind": "Article",
-    "title": "The EVND Foundations Framework Explained",
-    "author": "Dr. Jason Porter",
-    "time": "8 min read",
-    "img": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=700&q=80&auto=format&fit=crop"
-  },
-  {
-    "kind": "Webinar",
-    "title": "Mold, Mycotoxins & the Modern Home",
-    "author": "Dr. Laura Badalamenti",
-    "time": "48 min watch",
-    "img": "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=700&q=80&auto=format&fit=crop"
-  },
-  {
-    "kind": "Article",
-    "title": "Semaglutide Done Right — Beyond the Hype",
-    "author": "EVND Team",
-    "time": "6 min read",
-    "img": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=700&q=80&auto=format&fit=crop"
   }
 ] as const;
 

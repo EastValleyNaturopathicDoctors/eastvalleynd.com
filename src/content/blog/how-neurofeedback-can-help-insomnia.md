@@ -24,7 +24,7 @@ According to the NIH, up to 70 million Americans cope with sleep disorders or ch
 
 <h3>RESEARCH SUPPORTING NEUROFEEDBACK FOR INSOMNIA</h3>
 
-<a href="https://www.researchgate.net/deref/https%253A%252F%252Facademic.oup.com%252Fbrain%252Farticle%252Fdoi%252F10.1093%252Fbrain%252Fawx011%252F3039235%252FBetter-than-sham-A-double-blind-placebo-controlled"><b>Better than sham? A double-blind placebo-controlled neurofeedback study in primary insomnia
+<a href="https://doi.org/10.1093/brain/awx011"><b>Better than sham? A double-blind placebo-controlled neurofeedback study in primary insomnia
 </b></a>Brain. 2017 February 23. DOI: https://doi.org/10.1093/brain/awx011
 
 Results: Contrasting objective EEG-derived measures, Neurofeedback training had a beneficial effect on subjective measures of sleep quality.

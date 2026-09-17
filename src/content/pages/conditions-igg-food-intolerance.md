@@ -75,7 +75,7 @@ A 25 year study reveals that 95% of the population has what is known as a Type I
 <p><a href="http://www.jaacap.com/article/S0890-8567(09)65685-9/abstract" target="_blank" rel="noopener">Reduced Natural Killer Cell activity in Autism</a></p>
 </li>
  	<li>
-<p><a href="https://www.ncbi.nlm.nih.gov/pubmed?cmd=Retrieve&amp;db=PubMed&amp;list_uids=10385847&amp;dopt=Citation" target="_blank" rel="noopener">Familial clustering of autoimmune disorders and evaluation of medical risk factors in autism</a></p>
+<p><a href="https://pubmed.ncbi.nlm.nih.gov/10385847/" target="_blank" rel="noopener">Familial clustering of autoimmune disorders and evaluation of medical risk factors in autism</a></p>
 </li>
  	<li>
 <p><a href="https://link.springer.com/article/10.1007%2FBF01531729" target="_blank" rel="noopener">Immune abnormalities in patients with autism</a></p>

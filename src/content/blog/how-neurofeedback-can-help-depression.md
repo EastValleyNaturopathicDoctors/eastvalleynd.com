@@ -36,7 +36,7 @@ Dialogues Clin Neurosci. 2014 Mar; 16(1): 103–112.
 
 Recent advances in imaging technology and in the understanding of neural circuits relevant to emotion, motivation, and depression have boosted interest and experimental work in neuromodulation for affective disorders. Real-time functional magnetic resonance imaging (fMRI) can be used to train patients in the self regulation of these circuits, and thus complement existing neurofeedback technologies based on electroencephalography (EEG). EEG neurofeedback for depression has mainly been based on models of altered hemispheric asymmetry. fMRI-based neurofeedback (fMRI-NF) can utilize functional localizer scans that allow the dynamic adjustment of the target areas or networks for self-regulation training to individual patterns of emotion processing. An initial application of fMRI-NF in depression has produced promising clinical results, and further clinical trials are under way. Challenges lie in the design of appropriate control conditions for rigorous clinical trials, and in the transfer of neurofeedback protocols from the laboratory to mobile devices to enhance the sustainability of any clinical benefits.
 
-<a href="https://www.researchgate.net/profile/D_Hammond/publication/260309936_Hammond_JAdultDevelop/links/0c960530b7c7e1b038000000.pdf">Neurofeedback Treatment of Depression and Anxiety</a>
+<a href="https://doi.org/10.1007/s10804-005-7029-5">Neurofeedback Treatment of Depression and Anxiety</a>
 
 Journal of Adult Development, Vol. 12, Nos. 2/3, August 2005 (C 2005)
 

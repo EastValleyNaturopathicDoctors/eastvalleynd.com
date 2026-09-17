@@ -126,7 +126,7 @@ Binders are always taken away from medications and supplements for at least an h
 
 <a href="https://springerplus.springeropen.com/articles/10.1186/2193-1801-3-346">Binding agents for Aflatoxin</a>
 
-<a href="https://www.researchgate.net/publication/7724614_Recent_advances_on_the_use_of_adsorbent_materials_for_detoxification_of_Fusarium_mycotoxins">Recent advances for detoxification of Fusarium mycotoxins</a>
+<a href="https://doi.org/10.1080/02652030500058312">Recent advances for detoxification of Fusarium mycotoxins</a>
 
 Cholestyramine as a binding agent of fumonisins
 <h3><b>Step 3: Address dysbiosis and fungal overgrowth in the sinuses and GI tract</b></h3>

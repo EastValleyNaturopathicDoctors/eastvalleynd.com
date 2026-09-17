@@ -19,7 +19,7 @@ import { optimization } from '../data/content';
       </div>
       <div class="opt-list">
         {optimization.map((o) => (
-          <a class="opt-item" href="/services/#optimize">
+          <a class="opt-item" href={o.href}>
             <div class="opt-icon"><Icon name={o.icon} size={20} /></div>
             <div>
               <h3>{o.name}</h3>

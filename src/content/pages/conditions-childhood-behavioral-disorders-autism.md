@@ -41,7 +41,7 @@ Research and experience have also found the removal of gluten, dairy, and even s
  	<li aria-level="1"><a href="http://www.whale.to/v/buttram.html">Measles-Mumps-Rubella (MMR) Vaccine as a Potential Cause of Encephalitis (Brain Inflammation) in Children</a></li>
  	<li aria-level="1"><a href="https://www.ncbi.nlm.nih.gov/pubmed/11895365">Genetic and immunologic considerations in autism</a></li>
  	<li aria-level="1"><a href="http://www.jaacap.com/article/S0890-8567(09)65685-9/abstract">Reduced Natural Killer Cell Activity in Autism</a></li>
- 	<li aria-level="1"><a href="https://www.ncbi.nlm.nih.gov/pubmed?cmd=Retrieve&amp;db=PubMed&amp;list_uids=10385847&amp;dopt=Citation">Familial clustering of autoimmune disorders and evaluation of medical risk factors in autism</a></li>
+ 	<li aria-level="1"><a href="https://pubmed.ncbi.nlm.nih.gov/10385847/">Familial clustering of autoimmune disorders and evaluation of medical risk factors in autism</a></li>
  	<li aria-level="1"><a href="https://link.springer.com/article/10.1007%2FBF01531729">Immune abnormalities in patients with autism</a></li>
  	<li aria-level="1"><a href="https://link.springer.com/article/10.1007%2FBF01531114">Depressed Lymphocyte responsiveness in autistic children</a></li>
 </ul>
