@@ -31,6 +31,7 @@ import manropeWoff2 from '@fontsource/manrope/files/manrope-latin-400-normal.wof
 import TopBar from '../components/TopBar.astro';
 import MainNav from '../components/MainNav.astro';
 import Footer from '../components/Footer.astro';
+import ActionBar from '../components/ActionBar.astro';
 import { site } from '../data/site';
 import preview from '../data/preview.json';
 
@@ -48,6 +49,8 @@ interface Props {
   canonicalPath?: string;
   /** Keep a page out of search results. Set on anything unfinished. */
   noindex?: boolean;
+  /** The phone action bar. Off on the appointment forms — see ActionBar.astro. */
+  actionBar?: boolean;
 }
 const {
   title,
@@ -56,6 +59,7 @@ const {
   ogImage = '/assets/evnd-logo.png',
   canonicalPath,
   noindex = false,
+  actionBar = true,
 } = Astro.props;
 
 // While the site is up for preview nothing is indexable, whatever the page
@@ -110,7 +114,7 @@ const schema = {
        used. -->
   <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
 </head>
-<body class={transparentNav ? 'has-dark-hero' : ''}>
+<body class:list={[transparentNav && 'has-dark-hero', actionBar && 'has-actionbar']}>
   <a href="#main" class="skip-link">Skip to content</a>
   <TopBar />
   <MainNav />
@@ -118,5 +122,6 @@ const schema = {
     <slot />
   </main>
   <Footer />
+  {actionBar && <ActionBar />}
 </body>
 </html>

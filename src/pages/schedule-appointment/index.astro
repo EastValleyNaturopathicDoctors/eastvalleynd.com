@@ -22,6 +22,7 @@ const bookable = (await getCollection('physicians'))
   .sort((a, b) => a.data.order - b.data.order);
 ---
 <Base
+  actionBar={false}
   title="Schedule an Appointment"
   description={`Request an appointment with East Valley Naturopathic Doctors in ${site.address.city}, ${site.address.state}. Established patients can book online; new patients, send a request or call ${site.phone}.`}>
   <PageHero

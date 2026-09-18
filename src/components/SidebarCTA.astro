@@ -1,0 +1,129 @@
+---
+/**
+ * The booking card that rides beside a leaf article on a wide screen — service,
+ * condition and lab pages that head no children, and every blog post. A page
+ * that heads a section already ends in its child cards and does not get one.
+ *
+ * Everything in it is the clinic's own detail from data/site.ts, and the
+ * sentence is the one InlineCTA and /schedule-appointment/ already use: no new
+ * claim about the clinic is made here (D81).
+ *
+ * Below 1100px there is no room for a second column, so the card is not shown:
+ * the mid-article prompt (D103) and, on a phone, the action bar do its job.
+ * Where the card *is* shown the mid-article prompt is hidden — the card is
+ * sticky, so the same offer is already on screen at every scroll position.
+ */
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { site, directionsHref } from '../data/site';
+const a = site.address;
+/** "9:00 am – 5:00 pm" -> "9 – 5" would lose the am/pm; just drop the ":00". */
+const short = (t: string) => t.replace(/:00/g, '');
+---
+<aside class="page-aside" aria-label="Book an appointment">
+  <div class="aside-card">
+    <p class="aside-title">Talk to a naturopathic doctor</p>
+    <p class="aside-body">Send a request and the front desk will call you back to confirm a time.</p>
+    <div class="aside-actions">
+      <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
+      <Button href={site.phoneHref} variant="ghost" icon="phone">{site.phone}</Button>
+    </div>
+
+    <dl class="aside-facts">
+      <div>
+        <dt><Icon name="pin" size={16} /><span class="sr-only">Address</span></dt>
+        <dd>
+          {a.street}<br />{a.city}, {a.state} {a.zip}
+          <a class="aside-link" href={directionsHref} target="_blank" rel="noopener">
+            Get directions <Icon name="arrow-up-right" size={13} />
+          </a>
+        </dd>
+      </div>
+      <div>
+        <dt><Icon name="clock" size={16} /><span class="sr-only">Hours</span></dt>
+        <dd>
+          <ul class="aside-hours">
+            {site.hours.map((h) => <li><span>{h.days.slice(0, 3)}</span><span>{short(h.time)}</span></li>)}
+          </ul>
+          <p class="aside-note">{site.lunch}</p>
+        </dd>
+      </div>
+    </dl>
+
+    <p class="aside-more">
+      <a href="/insurance-coverage/">Insurance</a>
+      <a href="/forms-and-handouts/">Forms &amp; handouts</a>
+      <a href="/contact/">Contact</a>
+    </p>
+  </div>
+</aside>
+
+<style is:global>
+/* --- Sidebar booking card ----------------------------------------------------
+   `.has-aside` is put on the body wrap by ContentPage and BlogPost. Under
+   1100px none of this applies and the wrap is the single centred column it
+   always was. */
+.page-aside { display: none; }
+
+@media (min-width: 1100px) {
+  .has-aside {
+    display: grid; grid-template-columns: minmax(0, 72ch) 320px;
+    justify-content: center; align-items: start;
+    gap: clamp(40px, 5vw, 84px);
+    /* `ch` in the track is measured in the wrap's font, not the article's —
+       match them, or the 72ch measure comes out 9% narrower than it was. */
+    font-size: 17.5px;
+  }
+  .has-aside > .cpage-body, .has-aside > .post-body { margin: 0; max-width: none; }
+  .has-aside .cta-inline { display: none; }
+  .page-aside { display: block; }
+}
+/* Sticky only when the whole card fits under the header; on a short window it
+   scrolls with the page rather than hiding its own bottom half. */
+@media (min-width: 1100px) and (min-height: 760px) {
+  .page-aside { position: sticky; top: 104px; }
+}
+
+.aside-card {
+  position: relative; overflow: hidden;
+  padding: 28px 26px 22px;
+  background: var(--bg-softer); border: 1px solid var(--line); border-radius: var(--radius-lg);
+}
+.aside-card::before {               /* the logo green, as a hairline across the top */
+  content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--grn);
+}
+.aside-title {
+  margin: 0 0 8px; font-family: var(--font-display); font-weight: 600;
+  font-size: 23px; letter-spacing: -0.015em; line-height: 1.15; color: var(--ink);
+  text-wrap: balance;
+}
+.aside-body { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+.aside-actions { display: grid; gap: 10px; margin: 20px 0 0; }
+.aside-actions .btn { justify-content: center; padding: 13px 18px; font-size: 14.5px; }
+.aside-actions .btn-ghost { background: #fff; font-family: var(--font-mono); font-size: 14px; }
+.aside-actions .btn-ghost:hover { background: var(--ink); }
+
+.aside-facts { margin: 22px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); display: grid; gap: 16px; }
+.aside-facts > div { display: grid; grid-template-columns: 16px 1fr; gap: 12px; }
+.aside-facts dt { color: var(--grn-2); padding-top: 2px; }
+.aside-facts dd { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.aside-link {
+  display: flex; align-items: center; gap: 5px; width: fit-content; margin-top: 4px;
+  font-weight: 600; color: var(--grn-2);
+}
+.aside-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+.aside-hours { list-style: none; margin: 0; padding: 0; font-variant-numeric: tabular-nums; }
+.aside-hours li { display: flex; justify-content: space-between; gap: 12px; }
+.aside-hours li span:first-child { color: var(--ink-3); }
+.aside-note { margin: 6px 0 0; font-size: 12.5px; color: var(--ink-3); }
+
+.aside-more {
+  display: flex; flex-wrap: wrap; gap: 6px 16px;
+  margin: 20px 0 0; padding: 16px 0 0; border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.aside-more a { color: var(--ink-3); }
+.aside-more a:hover { color: var(--grn-2); }
+
+@media print { .page-aside { display: none; } }
+</style>

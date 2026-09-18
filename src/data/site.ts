@@ -38,6 +38,12 @@ export const site = {
   heroVideoId: '7LQsiJHvqmg' as string | null,
 };
 
+/** The street address as a Google Maps query — the map embed and every directions link share it. */
+export const mapQuery = encodeURIComponent(
+  `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.zip}`);
+/** Google's documented Maps URL: opens the Maps app on a phone, turn-by-turn from wherever the visitor is. */
+export const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`;
+
 /**
  * Primary navigation now lives in src/data/nav.json, generated from the audit's
  * New Sitemap by extract/build_pages.py. Editing nav means editing the sheet

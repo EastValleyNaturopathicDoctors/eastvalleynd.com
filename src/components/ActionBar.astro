@@ -1,0 +1,89 @@
+---
+/**
+ * The phone's thumb bar: call, directions, contact — the three things someone
+ * looking up a clinic on a phone came to do, one tap from anywhere on the page.
+ * Rendered by Base on every page except the two appointment forms, where a bar
+ * fixed over an on-screen keyboard gets in the way of the thing being filled in.
+ *
+ * It floats clear of the bottom edge rather than docking to it, so it needs no
+ * `viewport-fit=cover` to stay off the iPhone home indicator. Plain links, no
+ * script: it works before, and without, any JavaScript.
+ *
+ * On /contact/ the third slot would link to the page it is on (D83), so it
+ * becomes Book there.
+ */
+import Icon from './Icon.astro';
+import { site, directionsHref } from '../data/site';
+
+const third = Astro.url.pathname === '/contact/'
+  ? { label: 'Book', href: '/schedule-appointment/', icon: 'calendar' }
+  : { label: 'Contact', href: '/contact/', icon: 'message' };
+---
+<nav class="actionbar" aria-label="Call, directions and contact">
+  <a class="actionbar-item is-call" href={site.phoneHref} aria-label={`Call ${site.phone}`}>
+    <Icon name="phone" size={18} stroke={1.9} /><span>Call</span>
+  </a>
+  <a class="actionbar-item" href={directionsHref} target="_blank" rel="noopener">
+    <Icon name="pin" size={18} stroke={1.9} /><span>Directions</span>
+  </a>
+  <a class="actionbar-item" href={third.href}>
+    <Icon name={third.icon} size={18} stroke={1.9} /><span>{third.label}</span>
+  </a>
+</nav>
+
+<style is:global>
+/* --- Mobile action bar -------------------------------------------------------
+   Phones only. 760px keeps it off a tablet and off a phone held sideways,
+   where 64px of a 390px-tall window is too much to give away. */
+.actionbar { display: none; }
+
+@media (max-width: 760px) {
+  .actionbar {
+    position: fixed; z-index: 55;           /* under the header (60) and its menu */
+    left: 10px; right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 4px;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(14, 19, 17, 0.9);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 14px 34px rgba(14, 19, 17, 0.32), 0 2px 6px rgba(14, 19, 17, 0.2);
+    /* `backwards`, not `both`: a forwards fill would hold `transform: none` and
+       beat the nav-locked rule below for the rest of the page's life. */
+    animation: actionbar-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+  .actionbar-item {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    min-height: 48px; padding: 0 8px;
+    border-radius: 999px;
+    color: #fff; font-size: 13.5px; font-weight: 600; letter-spacing: -0.005em;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .actionbar-item svg { flex: none; color: var(--grn); }
+  .actionbar-item:active { background: rgba(255, 255, 255, 0.12); transform: scale(0.96); }
+  .actionbar-item:focus-visible { outline-color: #fff; outline-offset: -3px; border-radius: 999px; }
+
+  /* Call is the one the practice most wants pressed: the logo green, filled. */
+  .actionbar-item.is-call { background: var(--grn); color: var(--ink); }
+  .actionbar-item.is-call svg { color: var(--ink); }
+  .actionbar-item.is-call:active { background: #7FCC54; }
+
+  /* The open menu has its own booking button and locks the page behind it. */
+  body.nav-locked .actionbar { transform: translateY(160%); opacity: 0; pointer-events: none; }
+
+  /* Room for the bar under the last line of the footer. */
+  body.has-actionbar .footer { padding-bottom: 96px; }
+}
+@media (max-width: 350px) {
+  .actionbar-item { font-size: 12.5px; gap: 5px; padding: 0 4px; }
+}
+@keyframes actionbar-in {
+  from { transform: translateY(160%); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+@media print { .actionbar { display: none; } }
+</style>

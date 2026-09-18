@@ -6,6 +6,7 @@ import PageImage from '../components/PageImage.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
+import SidebarCTA from '../components/SidebarCTA.astro';
 import { splitForCta } from '@/lib/midcta';
 import { trail as navTrail } from '@/lib/nav';
 import '../styles/section-cards.css';
@@ -22,6 +23,9 @@ const halves = splitForCta(entry.rendered?.html ?? '');
 const trail = navTrail(d.route);
 const parents = trail.slice(0, -1);
 const children = trail.at(-1)?.children ?? [];
+// A leaf page carries the booking card beside the article; a page that heads a
+// section ends in its child cards instead.
+const aside = children.length === 0;
 ---
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}>
   <article class="cpage">
@@ -44,12 +48,13 @@ const children = trail.at(-1)?.children ?? [];
       </div>
     )}
 
-    <div class="container cpage-body-wrap">
+    <div class:list={['container', 'cpage-body-wrap', aside && 'has-aside']}>
       <div class="cpage-body">
         {halves ? (
           <Fragment><Fragment set:html={halves[0]} /><InlineCTA topic={d.title} /><Fragment set:html={halves[1]} /></Fragment>
         ) : <Content />}
       </div>
+      {aside && <SidebarCTA />}
     </div>
 
     {children.length > 0 && (

@@ -8,6 +8,7 @@ import BlogImage from '../components/BlogImage.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
+import SidebarCTA from '../components/SidebarCTA.astro';
 import { splitForCta } from '@/lib/midcta';
 import { site } from '../data/site';
 
@@ -64,12 +65,13 @@ const schema = {
       </div>
     )}
 
-    <div class="container post-body-wrap">
+    <div class="container post-body-wrap has-aside">
       <div class="post-body">
         {halves ? (
           <Fragment><Fragment set:html={halves[0]} /><InlineCTA /><Fragment set:html={halves[1]} /></Fragment>
         ) : <Content />}
       </div>
+      <SidebarCTA />
     </div>
   </article>
 
