@@ -10,7 +10,7 @@ import { site } from '../data/site';
 interface Props { topic?: string }
 const { topic } = Astro.props;
 ---
-<aside class="cta-inline" id="talk" aria-label="Book an appointment">
+<aside class="cta-inline" id="talk" aria-label="Book an appointment" data-pagefind-ignore>
   <div class="cta-inline-text">
     <p class="cta-inline-title">
       {topic ? `Talk to a naturopathic doctor about ${topic}` : 'Talk to a naturopathic doctor'}

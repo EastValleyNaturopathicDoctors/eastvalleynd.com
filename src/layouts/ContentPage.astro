@@ -27,12 +27,13 @@ const children = trail.at(-1)?.children ?? [];
 // section ends in its child cards instead.
 const aside = children.length === 0;
 ---
-<Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}>
+<Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
+      searchSection={parents[0]?.label}>
   <article class="cpage">
     <header class="page-hero cpage-hero">
       <div class="container">
         {parents.length > 0 && (
-          <nav class="crumbs" aria-label="Breadcrumb">
+          <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore>
             {parents.map((p) => <a href={p.href}>{p.label}</a>)}
           </nav>
         )}
@@ -58,7 +59,7 @@ const aside = children.length === 0;
     </div>
 
     {children.length > 0 && (
-      <section class="section cpage-children">
+      <section class="section cpage-children" data-pagefind-ignore>
         <div class="container">
           <h2 class="h2">Explore {d.title}</h2>
           <div class="sec-grid" style="margin-top:26px">

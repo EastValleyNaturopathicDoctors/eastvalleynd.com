@@ -19,7 +19,7 @@ const docs = (await getCollection('physicians')).sort((a, b) => a.data.order - b
   <TrustStrip />
   <section class="section practitioners-section">
     <div class="container">
-      <div class="docs-list">
+      <div class="docs-list" data-pagefind-ignore>
         {docs.map((d, i) => (
           <PractitionerCard
             level="h2"

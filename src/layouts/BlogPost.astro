@@ -39,7 +39,7 @@ const schema = {
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
 };
 ---
-<Base title={d.title} description={d.metaDescription || d.excerpt}>
+<Base title={d.title} description={d.metaDescription || d.excerpt} searchSection="Blog">
   <article class="post">
     <header class="page-hero post-hero">
       <div class="container post-hero-inner">
@@ -75,7 +75,7 @@ const schema = {
     </div>
   </article>
 
-  <nav class="section post-pager" aria-label="More posts">
+  <nav class="section post-pager" aria-label="More posts" data-pagefind-ignore>
     <div class="container post-pager-inner">
       {prev ? (
         <a class="post-pager-link is-prev" href={`/${prev.data.slug}/`}>

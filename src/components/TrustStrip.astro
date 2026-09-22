@@ -8,7 +8,7 @@ const items = [
 // Doubled so the marquee loops seamlessly.
 const track = [...items, ...items];
 ---
-<div class="trust">
+<div class="trust" data-pagefind-ignore>
   <div class="trust-track">
     {track.map((t) => (
       <span class="trust-item"><Icon name="check" size={14} />{t}</span>

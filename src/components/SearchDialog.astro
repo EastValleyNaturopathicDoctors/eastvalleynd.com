@@ -1,0 +1,217 @@
+---
+/**
+ * Site search (D110). One <dialog>, rendered once per page by Base.astro and
+ * opened by the header's search button, the `/` key, or ⌘K / Ctrl+K.
+ *
+ * The engine is Pagefind: a static index built from the finished HTML after
+ * every build (scripts/search-index.mjs) and served from /pagefind/. Nothing
+ * runs on a server and no query leaves the visitor's browser. The script and
+ * index chunks are fetched only when the dialog is first opened, so a visitor
+ * who never searches downloads nothing for it.
+ *
+ * What can be found is decided in Base.astro (`data-pagefind-body` on <main>)
+ * and proved against sitemap.xml on every build — see the index script.
+ *
+ * Result excerpts come from Pagefind as text with <mark> around the matched
+ * words, derived from our own pages; that is the only HTML this inserts.
+ */
+import Icon from './Icon.astro';
+---
+<dialog class="search" id="siteSearch" aria-label="Search the site">
+  <form class="search-form" role="search" action="/" method="get">
+    <label for="siteSearchInput" class="sr-only">Search the site</label>
+    <span class="search-icon" aria-hidden="true"><Icon name="search" size={18} /></span>
+    <input id="siteSearchInput" class="search-input" type="search" name="q"
+           placeholder="Search conditions, treatments, labs, articles…"
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    <button type="button" class="search-close" data-search-close aria-label="Close search">
+      <Icon name="close" size={18} />
+    </button>
+  </form>
+  <p class="search-status" id="siteSearchStatus" aria-live="polite">
+    Every condition, service, lab and article on the site. Start typing.
+  </p>
+  <ol class="search-results" id="siteSearchResults" aria-label="Search results"></ol>
+</dialog>
+
+<script>
+  type PagefindResult = { data(): Promise<{ url: string; excerpt: string; meta: Record<string, string> }> };
+  type Pagefind = {
+    init(): Promise<void>;
+    debouncedSearch(q: string, opts?: object, ms?: number): Promise<{ results: PagefindResult[] } | null>;
+  };
+
+  const dialog = document.getElementById('siteSearch') as HTMLDialogElement | null;
+  const input = document.getElementById('siteSearchInput') as HTMLInputElement | null;
+  const status = document.getElementById('siteSearchStatus');
+  const list = document.getElementById('siteSearchResults');
+  const form = dialog?.querySelector('form');
+
+  if (dialog && input && status && list && form && typeof dialog.showModal === 'function') {
+    const MAX = 10;
+    const IDLE = status.textContent;
+    let engine: Promise<Pagefind> | null = null;
+
+    // Pagefind's loader is a plain ES module served from /pagefind/. The path
+    // is held in a variable so neither the bundler nor the type-checker tries
+    // to resolve a file that only exists after the build.
+    const PAGEFIND = '/pagefind/pagefind.js';
+    const load = () => (engine ??= (async () => {
+      const mod = (await import(/* @vite-ignore */ PAGEFIND)) as Pagefind;
+      await mod.init();
+      return mod;
+    })());
+
+    const open = () => {
+      if (dialog.open) return;
+      dialog.showModal();
+      input.focus();
+      input.select();
+      load().catch(() => { status.textContent = 'Search is not available right now.'; });
+    };
+    const close = () => dialog.close();
+
+    for (const b of document.querySelectorAll('[data-search-open]')) b.addEventListener('click', open);
+    for (const b of dialog.querySelectorAll('[data-search-close]')) b.addEventListener('click', close);
+
+    // Click on the backdrop (outside the dialog's own box) closes it.
+    dialog.addEventListener('click', (e) => {
+      const r = dialog.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) close();
+    });
+
+    // `/` from anywhere that is not a text field, and ⌘K / Ctrl+K.
+    document.addEventListener('keydown', (e) => {
+      const t = e.target as HTMLElement | null;
+      const typing = !!t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+      if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey && !e.altKey)) {
+        e.preventDefault();
+        open();
+      }
+    });
+
+    // Enter goes to the first result; there is no results page to submit to.
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const first = list.querySelector<HTMLAnchorElement>('a');
+      if (first) location.href = first.href;
+    });
+
+    // Results are built with DOM calls rather than an HTML string: the only
+    // markup inserted is Pagefind's excerpt, which is our own page text with
+    // <mark> around the matched words.
+    const el = (tag: string, cls: string, text?: string) => {
+      const e = document.createElement(tag);
+      e.className = cls;
+      if (text !== undefined) e.textContent = text;
+      return e;
+    };
+    const render = (hits: { url: string; excerpt: string; meta: Record<string, string> }[]) => {
+      list.replaceChildren(...hits.map((h) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = h.url;
+        const head = el('span', 'search-hit-head');
+        head.append(el('span', 'search-hit-title', h.meta.title ?? h.url));
+        if (h.meta.section) head.append(el('span', 'search-hit-section', h.meta.section));
+        const ex = el('span', 'search-hit-excerpt');
+        ex.innerHTML = h.excerpt;
+        a.append(head, ex);
+        li.append(a);
+        return li;
+      }));
+    };
+
+    let seq = 0;
+    input.addEventListener('input', async () => {
+      const q = input.value.trim();
+      const mine = ++seq;
+      if (!q) { list.replaceChildren(); status.textContent = IDLE; return; }
+      let pf: Pagefind;
+      try { pf = await load(); } catch { status.textContent = 'Search is not available right now.'; return; }
+      const res = await pf.debouncedSearch(q, {}, 200);
+      if (!res || mine !== seq) return;               // superseded by a newer keystroke
+      const hits = await Promise.all(res.results.slice(0, MAX).map((r) => r.data()));
+      if (mine !== seq) return;
+      const n = res.results.length;
+      status.textContent = n === 0
+        ? `Nothing on the site matches “${q}”. Try a condition, a treatment or a symptom.`
+        : `${n} ${n === 1 ? 'page' : 'pages'}${n > MAX ? `, showing the first ${MAX}` : ''}`;
+      render(hits);
+    });
+  }
+</script>
+
+<style is:global>
+/* --- Site search dialog ----------------------------------------------------
+   A card on wide screens, the whole viewport on a phone. */
+.search {
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(70vh, 640px);
+  margin: clamp(24px, 10vh, 96px) auto auto;
+  padding: 0;
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: var(--bg); color: var(--ink);
+  box-shadow: 0 24px 60px rgba(14, 19, 17, 0.22);
+  overflow: hidden;
+  display: none;
+}
+.search[open] { display: flex; flex-direction: column; }
+.search::backdrop { background: rgba(14, 19, 17, 0.45); backdrop-filter: blur(2px); }
+.search-form {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 8px 18px; border-bottom: 1px solid var(--line);
+}
+.search-icon { display: grid; place-items: center; color: var(--ink-3); flex: none; }
+.search-input {
+  flex: 1; min-width: 0; padding: 12px 0;
+  font: inherit; font-size: 17px; color: var(--ink);
+  background: none; border: 0; outline: none;
+  -webkit-appearance: none; appearance: none;
+}
+.search-input::placeholder { color: var(--ink-3); }
+.search-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.search-close {
+  display: grid; place-items: center; width: 40px; height: 40px; flex: none;
+  border-radius: 999px; color: var(--ink-3);
+}
+.search-close:hover { background: var(--bg-soft); color: var(--ink); }
+.search-status {
+  margin: 0; padding: 12px 18px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+.search-results {
+  list-style: none; margin: 0; padding: 0 8px 8px;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.search-results a {
+  display: block; padding: 12px 12px 13px; border-radius: var(--radius);
+  transition: background .15s;
+}
+.search-results a:hover, .search-results a:focus-visible { background: var(--bg-soft); outline: none; }
+.search-hit-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.search-hit-title { font-weight: 600; font-size: 16px; color: var(--ink); }
+.search-hit-section {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--grn-2);
+}
+.search-hit-excerpt {
+  display: block; margin-top: 4px;
+  font-size: 14px; line-height: 1.5; color: var(--ink-2);
+}
+.search-hit-excerpt mark { background: var(--grn-soft); color: var(--ink); border-radius: 3px; padding: 0 2px; }
+
+@media (max-width: 560px) {
+  .search {
+    width: 100vw; max-width: none; height: 100dvh; max-height: none;
+    margin: 0; border: 0; border-radius: 0;
+  }
+  .search-form { padding-left: 12px; }
+  .search-input { font-size: 16px; }   /* iOS zooms into anything smaller */
+}
+@media (prefers-reduced-motion: reduce) {
+  .search::backdrop { backdrop-filter: none; }
+}
+</style>

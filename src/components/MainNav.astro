@@ -138,6 +138,13 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
     </nav>
 
     <div class="mainnav-right">
+      {/* Opens the search dialog (SearchDialog.astro, rendered by Base). A
+          <button>, because it does nothing without JavaScript: the dialog is
+          the only search there is, and a link to nowhere is worse than no
+          control. */}
+      <button type="button" class="nav-search" data-search-open aria-label="Search the site" title="Search (press /)">
+        <Icon name="search" size={18} />
+      </button>
       {/* "Appointment" is dropped on phones (CSS) so the button still fits beside
           the logo and the hamburger. One text node, so a screen reader reads
           exactly what is shown. */}
@@ -394,10 +401,18 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
 .navlink.is-active { background: var(--ink); color: #fff; }
 .mainnav-right { display: flex; align-items: center; gap: 12px; }
 .hamburger { display: none; padding: 8px; }
+.nav-search {
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 999px; color: var(--ink-2);
+  transition: background .2s, color .2s;
+}
+.nav-search:hover { background: var(--bg-soft); color: var(--ink); }
+.nav-search:focus-visible { outline: 2px solid var(--grn-2); outline-offset: 2px; }
 
 @media (max-width: 980px) {
   .mainnav-links { display: none; }
   .hamburger { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; }
+  .nav-search { width: 44px; height: 44px; }
   /* The nav links are `display: none` here, which takes them out of the grid
      entirely — so the three-column track collapsed and the CTA and hamburger
      were laid out in the middle column, bunched against the logo with dead

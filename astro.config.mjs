@@ -1,4 +1,36 @@
 import { defineConfig } from 'astro/config';
+import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+/**
+ * Serve the search index under `astro dev`.
+ *
+ * Pagefind indexes the *built* HTML, so its files live in dist/pagefind/ and
+ * only exist after `npm run build` (scripts/search-index.mjs). The dev server
+ * knows nothing about dist/; this hands those files through so the search
+ * dialog works while developing. Stale until the next build, by design.
+ */
+function pagefindDev() {
+  const types = { '.js': 'text/javascript', '.json': 'application/json', '.wasm': 'application/wasm', '.css': 'text/css' };
+  return {
+    name: 'evnd-pagefind-dev',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = (req.url ?? '').split('?')[0];
+        if (!url.startsWith('/pagefind/')) return next();
+        const file = fileURLToPath(new URL('./dist' + url, import.meta.url));
+        if (!existsSync(file)) {
+          res.statusCode = 404;
+          res.end('No search index yet: run `npm run build` once.');
+          return;
+        }
+        res.setHeader('Content-Type', types[url.slice(url.lastIndexOf('.'))] ?? 'application/octet-stream');
+        res.end(readFileSync(file));
+      });
+    },
+  };
+}
 
 export default defineConfig({
   site: 'https://www.eastvalleynd.com',
@@ -48,4 +80,6 @@ export default defineConfig({
    * their intrinsic width.
    */
   image: { responsiveStyles: true, layout: 'constrained' },
+
+  vite: { plugins: [pagefindDev()] },
 });

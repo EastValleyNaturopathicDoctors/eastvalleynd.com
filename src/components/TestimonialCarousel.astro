@@ -41,7 +41,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 
 <!-- Both variants sit on the same dark band; `doc` only changes the cards. -->
 {items.length > 0 && (
-  <section class="section testi-section">
+  <section class="section testi-section" data-pagefind-ignore>
     <div class="container">
       <div class:list={['testi-wrap', carousel && 'testi-carousel']}>
         <div class="testi-head">

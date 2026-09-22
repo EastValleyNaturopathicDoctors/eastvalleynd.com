@@ -17,7 +17,7 @@ const section = find(root);
 const items = section?.children ?? [];
 if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section for "${root}"`);
 ---
-<div class="sec-grid">
+<div class="sec-grid" data-pagefind-ignore>
   {items.map((item) => {
     const kids = item.children;
     const shown = kids.slice(0, maxChildren);

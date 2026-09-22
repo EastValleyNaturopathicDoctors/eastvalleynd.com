@@ -20,7 +20,7 @@ const a = site.address;
 /** "9:00 am – 5:00 pm" -> "9 – 5" would lose the am/pm; just drop the ":00". */
 const short = (t: string) => t.replace(/:00/g, '');
 ---
-<aside class="page-aside" aria-label="Book an appointment">
+<aside class="page-aside" aria-label="Book an appointment" data-pagefind-ignore>
   <div class="aside-card">
     <p class="aside-title">Talk to a naturopathic doctor</p>
     <p class="aside-body">Send a request and the front desk will call you back to confirm a time.</p>

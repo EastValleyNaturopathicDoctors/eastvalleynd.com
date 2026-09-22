@@ -25,7 +25,7 @@ const [lead, ...rest] = posts;
     lede="Articles from the EVND physicians on chronic illness, hormones, detoxification, brain health and living well in the East Valley."
   />
 
-  <section class="section blog-index">
+  <section class="section blog-index" data-pagefind-ignore>
     <div class="container">
       {lead && (
         <a class="post-card is-lead" href={`/${lead.data.slug}/`}>

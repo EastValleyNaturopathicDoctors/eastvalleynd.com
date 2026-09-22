@@ -32,6 +32,7 @@ import TopBar from '../components/TopBar.astro';
 import MainNav from '../components/MainNav.astro';
 import Footer from '../components/Footer.astro';
 import ActionBar from '../components/ActionBar.astro';
+import SearchDialog from '../components/SearchDialog.astro';
 import { site } from '../data/site';
 import preview from '../data/preview.json';
 
@@ -51,6 +52,14 @@ interface Props {
   noindex?: boolean;
   /** The phone action bar. Off on the appointment forms — see ActionBar.astro. */
   actionBar?: boolean;
+  /**
+   * Whether the site search may return this page (D110). Defaults to true; a
+   * page that is `noindex` or canonicals elsewhere is never searchable
+   * whatever this says. Off on the homepage and the 404.
+   */
+  searchable?: boolean;
+  /** Shown beside the title in a search result — "Conditions", "Blog", … */
+  searchSection?: string;
 }
 const {
   title,
@@ -60,12 +69,24 @@ const {
   canonicalPath,
   noindex = false,
   actionBar = true,
+  searchable = true,
+  searchSection,
 } = Astro.props;
 
 // While the site is up for preview nothing is indexable, whatever the page
 // asked for. `nofollow` as well, so a crawler that reaches the preview host does
 // not walk it. See src/data/preview.json for how to turn this off.
 const robots = preview.noindex ? 'noindex, nofollow' : (noindex ? 'noindex, follow' : '');
+
+// The search index is built from the HTML: only a <main> carrying
+// `data-pagefind-body` is indexed, and once any page has it every page without
+// it is dropped. So the rule "searchable ⇔ in sitemap.xml" is enforced here and
+// proved after every build by scripts/search-index.mjs. The title and section
+// ride along as result metadata, read from the attributes named in brackets.
+const searched = searchable && !noindex && !canonicalPath;
+const searchMeta = searched
+  ? ['title[data-search-title]', searchSection && 'section[data-search-section]'].filter(Boolean).join(', ')
+  : undefined;
 
 const fullTitle = title === site.name ? title : `${title} — ${site.short}`;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
@@ -118,9 +139,14 @@ const schema = {
   <a href="#main" class="skip-link">Skip to content</a>
   <TopBar />
   <MainNav />
-  <main id="main">
+  <main id="main"
+        data-pagefind-body={searched ? '' : undefined}
+        data-pagefind-meta={searchMeta}
+        data-search-title={searched ? title : undefined}
+        data-search-section={searched ? searchSection : undefined}>
     <slot />
   </main>
+  <SearchDialog />
   <Footer />
   {actionBar && <ActionBar />}
 </body>
