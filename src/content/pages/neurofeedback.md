@@ -18,28 +18,19 @@ Neurofeedback therapy, or brain-specific biofeedback, is a technique used to ret
 Neurofeedback has proven efficacious in enhancing brain function and neural networks. It helps us perform at the top of our game in an increasingly challenging, stressful, and demanding world, one that often pushes us to – and even past – our limits. This gentle, noninvasive, brain-healing technology has the power to treat the symptoms and conditions that arise as we reach these limits: <a href="/depression-and-neurofeedback/">depression</a>, <a href="/anxiety-and-neurofeedback/">anxiety</a>, <a href="/adhd-and-neurofeedback/">lack of focus</a>, “brain fog,” reduced motivation, irritability, <a href="/insomnia-and-neurofeedback/">insomnia</a>, fatigue…. As our brain attempts to mobilize and perform under these sub-optimal conditions, it becomes exhausted, leading to alterations in our brain waves. These altered brain waves maintain the status quo and become locked in these dysfunctional patterns or loops, and we become stuck in habitual ways of thinking and behaviors that are detrimental to our health and quality of life. The ability to modify our neurological responses to external stressors and our environment becomes critical. Neurofeedback breaks through these locked loops or patterns, allowing us – our brains – to self-adjust, and restore optimal brain waves and function.
 
 Neurofeedback exercises our “neurological muscles,” retrains the brain, improves neuroplasticity, and allows the brain to reorganize, learn new patterns of behavior, and become de-habituated from “stuck” patterns that represent suboptimal processing. This therapy is proving to be beneficial in treating a wide range of difficult conditions otherwise unresponsive to conventional treatments: <a href="/neurofeedback/concussion-and-tramatic-brain-injury/">Traumatic Brain Injury (TBI)</a>, Post Traumatic Stress Disorder (PTSD), <a href="/neurofeedback/concussion-and-tramatic-brain-injury/">Post-Concussion Syndrome</a>, <a href="/anxiety-and-neurofeedback/">Anxiety</a>, <a href="/depression-and-neurofeedback/">Depression</a>, <a href="/conditions/childhood-behavioral-disorders/autism/">Autism</a>, and <a href="/adhd-and-neurofeedback/">Attention Deficit Disorders (ADD/ADHD)</a>. Neurofeedback therapy results in a healthier, more flexible, efficient, and higher-functioning brain. When the brain networks function optimally for that individual the nervous system begins more intelligently to self-regulate. These long-term benefits of neurofeedback are independent of age, comprehension, physical ability, and mental capacity.
-<h2>Concussion and Traumatic Brain Injury</h2>
+<ul class="wp-tilegrid">
+<li><a href="/neurofeedback/concussion-and-tramatic-brain-injury/" data-icon="neurology">Concussion and Traumatic Brain Injury</a></li>
+<li><a href="/how-neurofeedback-can-help-patients-with-autism/" data-icon="extension">Autism</a></li>
+<li><a href="/how-neurofeedback-helps-wth-reading-and-learning-disorders/" data-icon="school">Learning Disorders</a></li>
+<li><a href="/how-neurofeedback-can-help-cognitive-decline/" data-icon="monitor_heart">Stroke</a></li>
+<li><a href="/how-neurofeedback-can-help-depression/" data-icon="rainy">Depression</a></li>
+<li><a href="/how-neurofeedback-can-help-with-anxiety/" data-icon="thunderstorm">Anxiety</a></li>
+<li><a href="/the-benefits-of-neurofeedback-in-adhd-treatment/" data-icon="center_focus_strong">ADD/ADHD</a></li>
+<li><a href="/neurofeedback/neurofeedback-for-dementia-and-alzheimers/" data-icon="cognition">Alzheimer's and Dementia</a></li>
+<li><a href="/how-neurofeedback-can-help-insomnia/" data-icon="bedtime">Insomnia</a></li>
+<li><a href="/qeeg-brain-mapping/" data-icon="vital_signs">What is QEEG?</a></li>
+<li><a href="/neurofeedback/history-of-neurofeedback-and-biofeedback/" data-icon="history">Neurofeedback History</a></li>
+<li><a href="/can-i-do-neurofeedback-at-home/" data-icon="home">Home Training</a></li>
+<li><a href="/neurofeedback/pricing-packages/" data-icon="payments">Pricing &amp; Packages</a></li>
+</ul>
 
-<h2>Autism</h2>
-
-<h2>Learning Disorders</h2>
-
-<h2>Stroke</h2>
-
-<h2>Depression</h2>
-
-<h2>Anxiety</h2>
-
-<h2>ADD/ADHD</h2>
-
-<h2>Alzheimer's and Dementia</h2>
-
-<h2>Insomnia</h2>
-
-<h2>What is QEEG?</h2>
-
-<h2>Neurofeedback History</h2>
-
-<h2>Home Training</h2>
-
-<h2>Pricing &amp; Packages</h2>

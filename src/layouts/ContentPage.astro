@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { render } from 'astro:content';
 import Base from './Base.astro';
 import PageImage from '../components/PageImage.astro';
 import Eyebrow from '../components/Eyebrow.astro';
@@ -8,16 +7,19 @@ import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
 import SidebarCTA from '../components/SidebarCTA.astro';
 import { splitForCta } from '@/lib/midcta';
+import { injectTileIcons } from '@/lib/icons';
 import { trail as navTrail } from '@/lib/nav';
 import '../styles/section-cards.css';
 
 interface Props { entry: CollectionEntry<'pages'> }
 const { entry } = Astro.props;
 const d = entry.data;
-const { Content } = await render(entry);
-// Long bodies get a booking prompt part-way down rather than only under the
-// footer (D103). `rendered.html` is the same HTML <Content /> would emit.
-const halves = splitForCta(entry.rendered?.html ?? '');
+// `rendered.html` is the HTML <Content /> would emit: the bodies are migrated
+// HTML, not markdown. It is rendered from the string so the pipeline's tile
+// grids can carry their icons (D112) and long bodies can take a booking
+// prompt part-way down (D103).
+const html = injectTileIcons(entry.rendered?.html ?? '');
+const halves = splitForCta(html);
 
 // Breadcrumb and child links come from the same nav tree as the header.
 const trail = navTrail(d.route);
@@ -26,6 +28,10 @@ const children = trail.at(-1)?.children ?? [];
 // A leaf page carries the booking card beside the article; a page that heads a
 // section ends in its child cards instead.
 const aside = children.length === 0;
+// A body that carries its own tile grid linking every child (D112) is already
+// the section's menu; the card list would repeat it.
+const hasGrid = html.includes('wp-tilegrid');
+const showChildren = children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
 ---
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
       searchSection={parents[0]?.label}>
@@ -53,12 +59,12 @@ const aside = children.length === 0;
       <div class="cpage-body">
         {halves ? (
           <Fragment><Fragment set:html={halves[0]} /><InlineCTA topic={d.title} /><Fragment set:html={halves[1]} /></Fragment>
-        ) : <Content />}
+        ) : <Fragment set:html={html} />}
       </div>
       {aside && <SidebarCTA />}
     </div>
 
-    {children.length > 0 && (
+    {showChildren && (
       <section class="section cpage-children" data-pagefind-ignore>
         <div class="container">
           <h2 class="h2">Explore {d.title}</h2>
@@ -132,6 +138,34 @@ const aside = children.length === 0;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 }
 .cpage-body .wp-linklist a { text-decoration: none; font-weight: 500; }
+
+/* Tile grid recovered from a WPBakery icon menu (D112): icon + label, linked.
+   Three-up on a desktop; on a phone two compact rows so thirteen tiles are
+   about seven rows, not thirteen full-width cards. */
+.cpage-body .wp-tilegrid {
+  list-style: none; margin: 1.6em 0 1.8em; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;
+}
+.cpage-body .wp-tilegrid li { margin: 0; }
+.cpage-body .wp-tilegrid a {
+  display: flex; align-items: center; gap: 12px; min-height: 64px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg); color: var(--ink); text-decoration: none;
+  font-weight: 500; font-size: 15.5px; line-height: 1.25;
+  transition: border-color .18s, background .18s, color .18s, transform .18s;
+}
+.cpage-body .wp-tilegrid a:hover { border-color: var(--grn); background: var(--grn-soft); transform: translateY(-1px); }
+.cpage-body .wp-tile-icon {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 12px; background: var(--grn-soft); color: var(--grn-2);
+}
+.cpage-body .wp-tilegrid a:hover .wp-tile-icon { background: var(--grn); color: var(--ink); }
+@media (max-width: 560px) {
+  .cpage-body .wp-tilegrid { grid-template-columns: 1fr 1fr; gap: 8px; margin: 1.3em 0 1.5em; }
+  .cpage-body .wp-tilegrid a { min-height: 0; padding: 9px 10px; gap: 9px; font-size: 13.5px; }
+  .cpage-body .wp-tile-icon { width: 30px; height: 30px; border-radius: 9px; }
+  .cpage-body .wp-tile-icon svg { width: 18px; height: 18px; }
+}
 
 .cpage-children { padding-top: 0; }
 .cpage-children .sec-card-head span { color: var(--ink-3); font-size: 18px; }
