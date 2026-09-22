@@ -15,6 +15,6 @@
     "cannot ship to production unnoticed. Launching a site with noindex left on",
     "is the single most expensive mistake available here."
   ],
-  "noindex": true,
-  "reason": "Preview upload — site is not ready to be indexed (set 2026-09-08)."
+  "noindex": false,
+  "reason": "Cleared 2026-09-22 on Zac's instruction. Was on from 2026-09-08 for the SiteGround preview upload."
 }
