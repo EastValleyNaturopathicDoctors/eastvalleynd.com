@@ -1,42 +1,188 @@
 ---
+/**
+ * A section's index — Conditions, Services, About, Resources — read from the
+ * sitemap tree. Two bands, each uniform (D114):
+ *
+ *   1. PANELS for the children that head sub-pages, widest first. A panel's
+ *      width follows its size and its sub-pages run in columns inside it, so
+ *      a fifteen-page Specialty Labs stands about as tall as a three-page
+ *      Detox Programs, and every sub-page is listed — no "+N more".
+ *   2. TILES for the leaf pages: icon, name, equal height.
+ *
+ * The old single grid put a 66px card beside a 311px one and hid children
+ * behind a count. Rows are always full: a 12-column grid, spans of 12 / 6 / 4
+ * by tier, and a leftover panel in a row is widened to close it.
+ */
 import Icon from './Icon.astro';
-import { find } from '@/lib/nav';
-import '../styles/section-cards.css';
+import { find, type NavNode } from '@/lib/nav';
+import { sectionIcons, sectionIconDefault } from '@/data/section-icons';
 
 interface Props {
   /** Top-level section path, e.g. "/conditions/". */
   root: string;
-  /** Show each child's own sub-pages beneath it. */
+  /** Show each child's own sub-pages beneath it. Off → every item is a tile. */
   showChildren?: boolean;
-  /** Cap the sub-pages listed per card; the rest collapse into a count. */
-  maxChildren?: number;
+  /** Band headings, shown only when both bands render. */
+  panelsLabel?: string;
+  tilesLabel?: string;
 }
-const { root, showChildren = true, maxChildren = 5 } = Astro.props;
+const { root, showChildren = true, panelsLabel, tilesLabel } = Astro.props;
 
 const section = find(root);
 const items = section?.children ?? [];
 if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section for "${root}"`);
+
+const iconFor = (n: NavNode) => sectionIcons[n.href] ?? sectionIconDefault[root] ?? 'circle';
+
+const withKids = showChildren ? items.filter((n) => n.children.length > 0) : [];
+const leaves = showChildren ? items.filter((n) => n.children.length === 0) : items;
+
+// Tiers by size, largest first (stable within a tier: sitemap order).
+const tier = (n: NavNode) => (n.children.length >= 9 ? 12 : n.children.length >= 4 ? 6 : 4);
+const sorted = [...withKids].sort((a, b) => tier(b) - tier(a) || b.children.length - a.children.length);
+// Rows must be full. Spans are assigned tier by tier; a tier's remainder
+// widens the last panel(s) so nothing sits beside a hole.
+const panels: { node: NavNode; span: number }[] = [];
+for (const t of [12, 6, 4]) {
+  const group = sorted.filter((n) => tier(n) === t);
+  const per = 12 / t;                        // panels per row at this tier
+  const rem = group.length % per;
+  group.forEach((node, i) => {
+    let span = t;
+    if (rem && i >= group.length - rem) span = 12 / rem;   // 2 left of 3 → 6 each; 1 left → 12
+    panels.push({ node, span });
+  });
+}
+const cols = (span: number) => (span === 12 ? 3 : span === 6 ? 2 : 1);
+const bands = panels.length > 0 && leaves.length > 0;
 ---
-<div class="sec-grid" data-pagefind-ignore>
-  {items.map((item) => {
-    const kids = item.children;
-    const shown = kids.slice(0, maxChildren);
-    const extra = kids.length - shown.length;
-    return (
-      <div class="sec-card">
-        <a class="sec-card-head" href={item.href}>
-          <h2>{item.label}</h2>
-          <Icon name="arrow-up-right" size={16} />
-        </a>
-        {showChildren && kids.length > 0 && (
-          <ul class="sec-card-kids">
-            {shown.map((k) => <li><a href={k.href}>{k.label}</a></li>)}
-            {extra > 0 && (
-              <li class="sec-card-more"><a href={item.href}>+{extra} more</a></li>
-            )}
-          </ul>
-        )}
+<div class="six" data-pagefind-ignore>
+  {panels.length > 0 && (
+    <Fragment>
+      {bands && panelsLabel && <h2 class="six-band">{panelsLabel}</h2>}
+      <div class="six-panels">
+        {panels.map(({ node, span }) => (
+          <div class={`six-panel is-${span}`}>
+            <a class="six-head" href={node.href}>
+              <span class="six-icon"><Icon name={iconFor(node)} size={22} /></span>
+              <h3>{node.label}</h3>
+              <Icon name="arrow-up-right" size={16} class="six-arrow" />
+            </a>
+            <ul class={`six-kids cols-${cols(span)}`}>
+              {node.children.map((k) => <li><a href={k.href}>{k.label}</a></li>)}
+            </ul>
+          </div>
+        ))}
       </div>
-    );
-  })}
+    </Fragment>
+  )}
+  {leaves.length > 0 && (
+    <Fragment>
+      {bands && tilesLabel && <h2 class="six-band">{tilesLabel}</h2>}
+      <ul class="six-tiles">
+        {leaves.map((n) => (
+          <li>
+            <a href={n.href}>
+              <span class="six-icon"><Icon name={iconFor(n)} size={22} /></span>
+              <span class="six-tile-label">{n.label}</span>
+              <Icon name="arrow-up-right" size={15} class="six-arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Fragment>
+  )}
 </div>
+
+<style is:global>
+/* --- Section index: panels for sections, tiles for pages (D114) ---------- */
+.six-band {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+  margin: 0 0 14px;
+}
+.six-band + .six-band { margin-top: 0; }
+.six-panels + .six-band { margin-top: clamp(30px, 4vw, 44px); }
+
+.six-icon {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 12px; background: var(--grn-soft); color: var(--grn-2);
+  transition: background .18s, color .18s;
+}
+.six-arrow { flex: none; color: var(--ink-3); transition: color .2s, transform .2s; }
+
+/* Panels */
+.six-panels {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 20px);
+}
+.six-panel {
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 20px 22px 18px; background: var(--bg);
+  transition: border-color .2s, box-shadow .2s;
+}
+.six-panel:hover { border-color: var(--line-2); box-shadow: 0 12px 32px rgba(14, 19, 17, 0.07); }
+.six-panel.is-12 { grid-column: span 12; }
+.six-panel.is-6 { grid-column: span 6; }
+.six-panel.is-4 { grid-column: span 4; }
+.six-head { display: flex; align-items: center; gap: 14px; color: inherit; }
+.six-head h3 {
+  flex: 1; margin: 0;
+  font-family: var(--font-display); font-size: 20px; font-weight: 600;
+  letter-spacing: -0.012em; line-height: 1.2;
+}
+.six-head:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
+.six-head:hover .six-icon { background: var(--grn); color: var(--ink); }
+.six-kids {
+  list-style: none; margin: 14px 0 0; padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  display: grid; gap: 0 22px;
+}
+.six-kids.cols-1 { grid-template-columns: 1fr; }
+.six-kids.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.six-kids.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.six-kids a {
+  display: block; padding: 5px 0; font-size: 14.5px; color: var(--ink-2);
+  transition: color .15s;
+}
+.six-kids a:hover { color: var(--grn-2); }
+
+/* Tiles */
+.six-tiles {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+.six-tiles li { display: flex; }          /* every tile in a row takes the row's height */
+.six-tiles a {
+  flex: 1; display: flex; align-items: center; gap: 12px; min-height: 66px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg); color: var(--ink);
+  font-weight: 500; font-size: 15.5px; line-height: 1.25;
+  transition: border-color .18s, background .18s, transform .18s;
+}
+.six-tile-label { flex: 1; }
+.six-tiles a:hover { border-color: var(--grn); background: var(--grn-soft); transform: translateY(-1px); }
+.six-tiles a:hover .six-icon { background: var(--grn); color: var(--ink); }
+.six-tiles a:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
+
+@media (max-width: 980px) {
+  .six-panel.is-4 { grid-column: span 6; }
+  .six-kids.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .six-panel.is-6, .six-panel.is-4 { grid-column: span 12; }
+  .six-kids.cols-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .six-panel { padding: 16px 16px 14px; }
+  .six-head h3 { font-size: 18px; }
+  .six-kids.cols-2, .six-kids.cols-3, .six-kids.cols-1 { grid-template-columns: 1fr; }
+  .six-kids a { padding: 4px 0; }
+  .six-tiles { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .six-tiles a { min-height: 0; padding: 9px 10px; gap: 9px; font-size: 13.5px; }
+  .six-tiles .six-icon { width: 30px; height: 30px; border-radius: 9px; }
+  .six-tiles .six-icon svg { width: 18px; height: 18px; }
+  .six-tiles .six-arrow { display: none; }
+}
+</style>

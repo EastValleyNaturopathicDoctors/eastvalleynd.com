@@ -1,4 +1,5 @@
-/* Shared by: SectionIndex.astro, ContentPage.astro */
+/* Used by ContentPage.astro (a section page's child cards). SectionIndex has its
+   own panel/tile styles since D114. */
 
 /* --- Section index (Conditions, Services, …) --------------------------------
    Lists a section's real children from the sitemap, with each child's own
