@@ -1128,24 +1128,6 @@
             "children": []
           }
         ]
-      },
-      {
-        "label": "Insurance",
-        "href": "/insurance-coverage/",
-        "inMenu": true,
-        "children": []
-      },
-      {
-        "label": "Forms & Handouts",
-        "href": "/forms-and-handouts/",
-        "inMenu": true,
-        "children": []
-      },
-      {
-        "label": "Patient Portal",
-        "href": "/patient-portal/",
-        "inMenu": true,
-        "children": []
       }
     ]
   },
@@ -1432,7 +1414,7 @@
         ]
       },
       {
-        "label": "Insurane Coverage",
+        "label": "Insurance Coverage",
         "href": "/insurance-coverage/",
         "inMenu": true,
         "children": []
@@ -1440,6 +1422,12 @@
       {
         "label": "Patient Portal",
         "href": "/patient-portal/",
+        "inMenu": true,
+        "children": []
+      },
+      {
+        "label": "Forms & Handouts",
+        "href": "/forms-and-handouts/",
         "inMenu": true,
         "children": []
       },

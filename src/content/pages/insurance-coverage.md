@@ -1,5 +1,5 @@
 ---
-title: "Insurance"
+title: "Insurance Coverage"
 route: "/insurance-coverage/"
 slug: "insurance-coverage"
 wpTitle: "Insurance"
