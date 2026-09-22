@@ -1,10 +1,18 @@
 ---
 import Icon from './Icon.astro';
+import Button from './Button.astro';
 import SectionHead from './SectionHead.astro';
 import { conditions } from '../data/content';
+import { find } from '@/lib/nav';
 interface Props { limit?: number; showHead?: boolean; }
 const { limit, showHead = true } = Astro.props;
 const items = limit ? conditions.slice(0, limit) : conditions;
+// The eight cards are a sample. Say so, with the real count from the nav tree
+// (the sitemap's Conditions section), and put the way to the rest where the
+// eye lands after the grid — the small link in the section head was easy to
+// miss. Only rendered when the list is cut.
+const total = find('/conditions/')?.children.length ?? 0;
+const truncated = !!limit && total > items.length;
 ---
 <section class="section conditions-section" id="conditions">
   <div class="container">
@@ -12,7 +20,7 @@ const items = limit ? conditions.slice(0, limit) : conditions;
       <SectionHead
         eyebrow="Conditions we treat"
         blurb="Each condition links to a full page with our specific labs, therapies, and the doctors who lead that work at EVND."
-        ctaLabel="All conditions A–Z" ctaHref="/conditions/">
+        ctaLabel={truncated ? undefined : 'All conditions A–Z'} ctaHref="/conditions/">
         If conventional medicine has shrugged, <br />we are probably the next call.
       </SectionHead>
     )}
@@ -29,6 +37,12 @@ const items = limit ? conditions.slice(0, limit) : conditions;
         </a>
       ))}
     </div>
+    {truncated && (
+      <div class="cond-more">
+        <p>Showing {items.length} of {total} conditions we treat.</p>
+        <Button href="/conditions/" variant="dark" icon="arrow-right">See all {total} conditions</Button>
+      </div>
+    )}
   </div>
 </section>
 
@@ -94,4 +108,15 @@ const items = limit ? conditions.slice(0, limit) : conditions;
 
 @media (max-width: 1100px) { .cond-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 700px) { .cond-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* The way to the other conditions, after the sample. */
+.cond-more {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap;
+  margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line);
+}
+.cond-more p { margin: 0; color: var(--ink-3); font-size: 15px; }
+@media (max-width: 560px) {
+  .cond-more { flex-direction: column; align-items: stretch; text-align: center; margin-top: 20px; }
+  .cond-more .btn { justify-content: center; }
+}
 </style>
