@@ -6,14 +6,16 @@ interface Props {
   /** Keep the file's own aspect ratio and never enlarge it (D116); `width`
    *  is then only an upper bound and `height` is ignored. */
   natural?: boolean;
+  /** `stock` resolves the file in src/images/stock (Unsplash, D118). */
+  set?: 'pages' | 'stock';
   class?: string; loading?: 'lazy' | 'eager'; fetchpriority?: 'high' | 'auto' | 'low';
 }
-const { file, alt, width, height, natural = false, class: cls = '', loading = 'lazy', fetchpriority } = Astro.props;
+const { file, alt, width, height, natural = false, set = 'pages', class: cls = '', loading = 'lazy', fetchpriority } = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/images/pages/*.{jpg,jpeg,png,webp,avif,gif}', { eager: true }
+  '/src/images/{pages,stock}/*.{jpg,jpeg,png,webp,avif,gif}', { eager: true }
 );
-const mod = images[`/src/images/pages/${file}`];
-if (import.meta.env.DEV && file && !mod) console.warn(`<PageImage> missing src/images/pages/${file}`);
+const mod = images[`/src/images/${set}/${file}`];
+if (import.meta.env.DEV && file && !mod) console.warn(`<PageImage> missing src/images/${set}/${file}`);
 const meta = mod?.default;
 const w = natural && meta ? Math.min(width, meta.width) : width;
 const h = natural && meta ? Math.round((w * meta.height) / meta.width) : height;

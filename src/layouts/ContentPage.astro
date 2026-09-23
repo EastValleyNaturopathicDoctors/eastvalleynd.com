@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import Base from './Base.astro';
 import PageImage from '../components/PageImage.astro';
+import Icon from '../components/Icon.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
@@ -11,6 +12,8 @@ import { splitForCta } from '@/lib/midcta';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { trail as navTrail } from '@/lib/nav';
+import stockPhotos from '@/data/stock-photos.json';
+import { sectionIcons } from '@/data/section-icons';
 import '../styles/section-cards.css';
 
 interface Props { entry: CollectionEntry<'pages'> }
@@ -35,6 +38,14 @@ const aside = children.length === 0;
 const hasGrid = html.includes('wp-tilegrid');
 const showChildren = children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
+// A page WordPress gave no image carries an Unsplash photo instead, or a
+// branded panel where none fitted (D118). Its own image always wins.
+const stock = d.imageFile ? undefined : (stockPhotos.photos as Record<string, { file: string; alt: string }>)[d.route];
+const placeholder = !d.imageFile && !stock && stockPhotos.placeholders.includes(d.route);
+// The panel's icon: the page's own, else the nearest section's.
+const segs = d.route.split('/').filter(Boolean);
+const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
+  .map((r) => sectionIcons[r]).find(Boolean) ?? 'eco';
 ---
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
       searchSection={parents[0]?.label}>
@@ -55,6 +66,17 @@ const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
       <div class="container cpage-figure">
         <PageImage file={d.imageFile} alt={d.imageAlt || d.title}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+    {stock && (
+      <div class="container cpage-figure" data-pagefind-ignore>
+        <PageImage set="stock" file={stock.file} alt={stock.alt}
+                   width={1200} height={675} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+    {placeholder && (
+      <div class="container cpage-figure" aria-hidden="true" data-pagefind-ignore>
+        <div class="cpage-panel"><Icon name={panelIcon} size={56} /></div>
       </div>
     )}
     {hero === 'contained' && (
@@ -131,6 +153,16 @@ const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
   width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
   border-radius: var(--radius-lg);
 }
+/* Stand-in where no stock photo fitted (D118): the phone hero's dark gradient
+   (D12) and the section's icon, shorter than a photo so it reads as a band. */
+.cpage-panel {
+  display: grid; place-items: center; aspect-ratio: 21 / 9;
+  border-radius: var(--radius-lg); color: var(--grn);
+  background:
+    radial-gradient(120% 80% at 78% 8%, rgba(108, 190, 63, 0.16) 0%, rgba(108, 190, 63, 0) 60%),
+    linear-gradient(to bottom, #141A17 0%, #0E1311 60%, #0A0E0C 100%);
+}
+@media (max-width: 560px) { .cpage-panel { aspect-ratio: 16 / 9; } }
 
 .cpage-body-wrap { padding: clamp(34px, 4.6vw, 60px) var(--pad) clamp(20px, 3vw, 40px); }
 .cpage-body {

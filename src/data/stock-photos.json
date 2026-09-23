@@ -1,0 +1,849 @@
+{
+  "note": "Unsplash stock photos for content pages that have no WordPress image (D118). Hand-curated: objects and scenes only, never people, so nothing reads as an EVND clinician, patient or facility. Every one is on client question 36 to confirm or replace. A page's own WordPress image always wins over this. Files are in src/images/stock; re-fetch with extract/fetch_stock_photos.py.",
+  "license": "Unsplash License — https://unsplash.com/license",
+  "placeholders": [
+    "/specialty-labs/trio-smart-breath-test/"
+  ],
+  "photos": {
+    "/acupuncture/": {
+      "file": "unsplash-8wDm3cr48Xc.jpg",
+      "alt": "Fine acupuncture needles on a white surface",
+      "unsplash": "https://unsplash.com/photos/8wDm3cr48Xc",
+      "photographer": "Marianne Krohn",
+      "photographerUrl": "https://unsplash.com/@marianne_krohn",
+      "source": "photo-1529088512498-64b87b354b8f"
+    },
+    "/alpa-stim-treatment/": {
+      "file": "unsplash-KBn4-lyqRgQ.jpg",
+      "alt": "A stack of balanced stones on a rocky shore",
+      "unsplash": "https://unsplash.com/photos/KBn4-lyqRgQ",
+      "photographer": "Alejandro Piñero Amerio",
+      "photographerUrl": "https://unsplash.com/@vjgalaxy",
+      "source": "photo-1598826739205-d09823c3bc3d"
+    },
+    "/brain-regeneration-clinic/": {
+      "file": "unsplash-JkAxfH5ktpw.jpg",
+      "alt": "A translucent model of a human brain, lit from within",
+      "unsplash": "https://unsplash.com/photos/JkAxfH5ktpw",
+      "photographer": "Lisa Yount",
+      "photographerUrl": "https://unsplash.com/@lisaleo",
+      "source": "photo-1647613561332-3d88a6a0048e"
+    },
+    "/brain-regeneration-clinic/anti-aging/": {
+      "file": "unsplash-3KGF9R_0oHs.jpg",
+      "alt": "An anatomical model of a human brain, cut away to show its structure",
+      "unsplash": "https://unsplash.com/photos/3KGF9R_0oHs",
+      "photographer": "Robina Weermeijer",
+      "photographerUrl": "https://unsplash.com/@averey",
+      "source": "photo-1559757148-5c350d0d3c56"
+    },
+    "/brain-regeneration-clinic/insomnia/": {
+      "file": "unsplash-uPjUjh5Gy0A.jpg",
+      "alt": "A bedside lamp glowing on a nightstand in a dark bedroom",
+      "unsplash": "https://unsplash.com/photos/uPjUjh5Gy0A",
+      "photographer": "Alicia Christin Gerald",
+      "photographerUrl": "https://unsplash.com/@allysphotos",
+      "source": "photo-1774556443332-de783833a656"
+    },
+    "/brain-regeneration-clinic/long-covid-syndrome/": {
+      "file": "unsplash-SrASYZZpyjw.jpg",
+      "alt": "Fog drifting through a pine forest",
+      "unsplash": "https://unsplash.com/photos/SrASYZZpyjw",
+      "photographer": "Kyle Glenn",
+      "photographerUrl": "https://unsplash.com/@kylejglenn",
+      "source": "photo-1506452305024-9d3f02d1c9b5"
+    },
+    "/conditions/acne/": {
+      "file": "unsplash-dMjkQJs58uo.jpg",
+      "alt": "Pink skincare products laid out on a pale background",
+      "unsplash": "https://unsplash.com/photos/dMjkQJs58uo",
+      "photographer": "pmv chamara",
+      "photographerUrl": "https://unsplash.com/@pmvch",
+      "source": "photo-1583209814683-c023dd293cc6"
+    },
+    "/conditions/allergies/": {
+      "file": "unsplash-SGKQh9wNgAk.jpg",
+      "alt": "A dandelion seed head releasing seeds",
+      "unsplash": "https://unsplash.com/photos/SGKQh9wNgAk",
+      "photographer": "Herbert Goetsch",
+      "photographerUrl": "https://unsplash.com/@hg_photo",
+      "source": "photo-1544954412-78da2cfa1a0c"
+    },
+    "/conditions/allergies/sublingual-immunotherapy/": {
+      "file": "unsplash-IjcQV4wxPXU.jpg",
+      "alt": "A glass dropper drawing liquid from an amber bottle",
+      "unsplash": "https://unsplash.com/photos/IjcQV4wxPXU",
+      "photographer": "Cosmin Ursea",
+      "photographerUrl": "https://unsplash.com/@cosminursea",
+      "source": "photo-1690368972445-5e5b5d509742"
+    },
+    "/conditions/arthiritis/": {
+      "file": "unsplash-_W94Eb1iNYc.jpg",
+      "alt": "An anatomical model of a foot showing its bones and joints",
+      "unsplash": "https://unsplash.com/photos/_W94Eb1iNYc",
+      "photographer": "Anne Nygård",
+      "photographerUrl": "https://unsplash.com/@polarmermaid",
+      "source": "photo-1582380330092-636f9aff6aaf"
+    },
+    "/conditions/asthma/": {
+      "file": "unsplash-a_eATBvqlm8.jpg",
+      "alt": "An inhaler resting on white bedding",
+      "unsplash": "https://unsplash.com/photos/a_eATBvqlm8",
+      "photographer": "Sahej Brar",
+      "photographerUrl": "https://unsplash.com/@sahejbrar_",
+      "source": "photo-1637930030065-718e98132fbf"
+    },
+    "/conditions/autoimmune/": {
+      "file": "unsplash-65F0f5Pn80M.jpg",
+      "alt": "A microscope image of an immune cell",
+      "unsplash": "https://unsplash.com/photos/65F0f5Pn80M",
+      "photographer": "National Institute of Allergy and Infectious Diseases",
+      "photographerUrl": "https://unsplash.com/@niaid",
+      "source": "photo-1707079917481-b0d32393008b"
+    },
+    "/conditions/cancer-support/": {
+      "file": "unsplash-FsjdtF_6I5k.jpg",
+      "alt": "Sunlight shining through the leaves of a tree",
+      "unsplash": "https://unsplash.com/photos/FsjdtF_6I5k",
+      "photographer": "Brittany Lee",
+      "photographerUrl": "https://unsplash.com/@brittanys_meadow",
+      "source": "photo-1682315912291-26f4de2d0ae8"
+    },
+    "/conditions/childhood-behavioral-disorders/pandas/": {
+      "file": "unsplash-GQ327RPuxhI.jpg",
+      "alt": "Wooden alphabet and number blocks",
+      "unsplash": "https://unsplash.com/photos/GQ327RPuxhI",
+      "photographer": "Susan Holt Simpson",
+      "photographerUrl": "https://unsplash.com/@shs521",
+      "source": "photo-1568828668638-b1b4014d91a2"
+    },
+    "/conditions/chronic-fatigue/": {
+      "file": "unsplash-dPkn4562j3E.jpg",
+      "alt": "A cup of tea resting on rumpled bedding",
+      "unsplash": "https://unsplash.com/photos/dPkn4562j3E",
+      "photographer": "Sixteen Miles Out",
+      "photographerUrl": "https://unsplash.com/@sixteenmilesout",
+      "source": "photo-1512311734173-51a49c854e78"
+    },
+    "/conditions/chronic-pain/back-pain/": {
+      "file": "unsplash-OijVdM3Zx4I.jpg",
+      "alt": "An anatomical model of the lower spine",
+      "unsplash": "https://unsplash.com/photos/OijVdM3Zx4I",
+      "photographer": "CHUTTERSNAP",
+      "photographerUrl": "https://unsplash.com/@chuttersnap",
+      "source": "photo-1624716346720-6c96dfd07807"
+    },
+    "/conditions/chronic-pain/fibromyalgia/": {
+      "file": "unsplash-kA4FIx3N_hw.jpg",
+      "alt": "Smooth black massage stones",
+      "unsplash": "https://unsplash.com/photos/kA4FIx3N_hw",
+      "photographer": "Dima",
+      "photographerUrl": "https://unsplash.com/@weddia",
+      "source": "photo-1591020330942-e9c3bce82096"
+    },
+    "/conditions/chronic-pain/knee-pain/": {
+      "file": "unsplash-Iq7CXTzBNbQ.jpg",
+      "alt": "Anatomical models of knee joints",
+      "unsplash": "https://unsplash.com/photos/Iq7CXTzBNbQ",
+      "photographer": "CHUTTERSNAP",
+      "photographerUrl": "https://unsplash.com/@chuttersnap",
+      "source": "photo-1624716472114-a7c5f18ac832"
+    },
+    "/conditions/chronic-pain/migraines-and-tension-headaches/": {
+      "file": "unsplash-LRr2VIwWgC0.jpg",
+      "alt": "Light filtering through closed window blinds",
+      "unsplash": "https://unsplash.com/photos/LRr2VIwWgC0",
+      "photographer": "Wade Lambert",
+      "photographerUrl": "https://unsplash.com/@wade_lambert",
+      "source": "photo-1527030126234-095ace44080f"
+    },
+    "/conditions/chronic-pain/neck-pain/": {
+      "file": "unsplash-9W6BgX5hTvI.jpg",
+      "alt": "White pillows on a bed",
+      "unsplash": "https://unsplash.com/photos/9W6BgX5hTvI",
+      "photographer": "the blowup",
+      "photographerUrl": "https://unsplash.com/@theblowup",
+      "source": "photo-1600414428640-f78a67c2aa3b"
+    },
+    "/conditions/chronic-pain/plantar-fascitis/": {
+      "file": "unsplash-W_uDEmTq0po.jpg",
+      "alt": "A pair of running shoes",
+      "unsplash": "https://unsplash.com/photos/W_uDEmTq0po",
+      "photographer": "mostafa mahmoudi",
+      "photographerUrl": "https://unsplash.com/@mostafa_mahmoudi24",
+      "source": "photo-1637437757614-6491c8e915b5"
+    },
+    "/conditions/chronic-pain/sciatica-pain/": {
+      "file": "unsplash-RQuiTjveVIg.jpg",
+      "alt": "An X-ray of a human pelvis and hips",
+      "unsplash": "https://unsplash.com/photos/RQuiTjveVIg",
+      "photographer": "Rohit Choudhari",
+      "photographerUrl": "https://unsplash.com/@iamrohitchoudhari",
+      "source": "photo-1763198302745-57cb94135f11"
+    },
+    "/conditions/chronic-pain/shoulder-pain/": {
+      "file": "unsplash-IZOAOjvwhaM.jpg",
+      "alt": "Dumbbells and a resistance band on a wooden floor",
+      "unsplash": "https://unsplash.com/photos/IZOAOjvwhaM",
+      "photographer": "Kelly Sikkema",
+      "photographerUrl": "https://unsplash.com/@kellysikkema",
+      "source": "photo-1584735935682-2f2b69dff9d2"
+    },
+    "/conditions/chronic-pain/tmj-pain/": {
+      "file": "unsplash-gtoD_k0dSqM.jpg",
+      "alt": "An anatomical model of a human skull and jaw",
+      "unsplash": "https://unsplash.com/photos/gtoD_k0dSqM",
+      "photographer": "Anne Nygård",
+      "photographerUrl": "https://unsplash.com/@polarmermaid",
+      "source": "photo-1582380626754-bcf3185f1832"
+    },
+    "/conditions/chronic-pain/wrist-and-elbow-pain/": {
+      "file": "unsplash-8E1Yplw6Hho.jpg",
+      "alt": "A tennis racket and ball on a blue court",
+      "unsplash": "https://unsplash.com/photos/8E1Yplw6Hho",
+      "photographer": "Nathanaël Desmeules",
+      "photographerUrl": "https://unsplash.com/@nathanael240606",
+      "source": "photo-1617883861744-13b534e3b928"
+    },
+    "/conditions/diabetes/": {
+      "file": "unsplash-lB9arVo7v50.jpg",
+      "alt": "A blood glucose meter and lancing device",
+      "unsplash": "https://unsplash.com/photos/lB9arVo7v50",
+      "photographer": "isens usa",
+      "photographerUrl": "https://unsplash.com/@isensusa",
+      "source": "photo-1685485276914-6cefc2417c05"
+    },
+    "/conditions/eczema/": {
+      "file": "unsplash-QTGB4D8kDoc.jpg",
+      "alt": "A jar of moisturizing cream on a wooden surface",
+      "unsplash": "https://unsplash.com/photos/QTGB4D8kDoc",
+      "photographer": "Poko Skincare",
+      "photographerUrl": "https://unsplash.com/@pokoskincare",
+      "source": "photo-1629732047847-50219e9c5aef"
+    },
+    "/conditions/gastrointestinal-disorders/": {
+      "file": "unsplash-IGfIGP5ONV0.jpg",
+      "alt": "A bowl of fresh vegetables, chickpeas and avocado",
+      "unsplash": "https://unsplash.com/photos/IGfIGP5ONV0",
+      "photographer": "Anna Pelzer",
+      "photographerUrl": "https://unsplash.com/@annapelzer",
+      "source": "photo-1512621776951-a57141f2eefd"
+    },
+    "/conditions/gastrointestinal-disorders/candida-overgrowth/": {
+      "file": "unsplash-deVq3fftsBA.jpg",
+      "alt": "Supplement capsules on a wooden board",
+      "unsplash": "https://unsplash.com/photos/deVq3fftsBA",
+      "photographer": "Supliful - Supplements On Demand",
+      "photographerUrl": "https://unsplash.com/@supliful",
+      "source": "photo-1664956617273-c53cd7e5bb50"
+    },
+    "/conditions/gastrointestinal-disorders/inflammatory-bowel-disease/": {
+      "file": "unsplash-AODR1DIRjXg.jpg",
+      "alt": "A bowl of soup topped with fresh herbs",
+      "unsplash": "https://unsplash.com/photos/AODR1DIRjXg",
+      "photographer": "Zion C",
+      "photographerUrl": "https://unsplash.com/@jcs_chen",
+      "source": "photo-1785735364482-0979a960c625"
+    },
+    "/conditions/gastrointestinal-disorders/intestinal-permeability-and-gi-microbiome/": {
+      "file": "unsplash-JzY97tKL_oM.jpg",
+      "alt": "Three jars of fermented vegetables",
+      "unsplash": "https://unsplash.com/photos/JzY97tKL_oM",
+      "photographer": "Anshu A",
+      "photographerUrl": "https://unsplash.com/@anshu18",
+      "source": "photo-1693212454137-0d2909d79b27"
+    },
+    "/conditions/gastrointestinal-disorders/sibo/": {
+      "file": "unsplash-bye_nDbQqEw.jpg",
+      "alt": "An illustration of the human digestive system",
+      "unsplash": "https://unsplash.com/photos/bye_nDbQqEw",
+      "photographer": "Aakash Dhage",
+      "photographerUrl": "https://unsplash.com/@aakashdhage",
+      "source": "photo-1743767587835-7a80fe384236"
+    },
+    "/conditions/heart-care/": {
+      "file": "unsplash-Q3J1wmn7_8w.jpg",
+      "alt": "Two stethoscopes and a red heart",
+      "unsplash": "https://unsplash.com/photos/Q3J1wmn7_8w",
+      "photographer": "Marek Studzinski",
+      "photographerUrl": "https://unsplash.com/@jccards",
+      "source": "photo-1690787628851-d36e285c29b0"
+    },
+    "/conditions/heart-care/atrial-fibrillation/": {
+      "file": "unsplash-oCSol-lBtVA.jpg",
+      "alt": "A heartbeat trace on a monitor screen",
+      "unsplash": "https://unsplash.com/photos/oCSol-lBtVA",
+      "photographer": "Joshua Chehov",
+      "photographerUrl": "https://unsplash.com/@joshua_chehov",
+      "source": "photo-1682706841289-9d7ddf5eb999"
+    },
+    "/conditions/heart-care/carotid-ultrasound/": {
+      "file": "unsplash-Rv3C8YL-6ZI.jpg",
+      "alt": "Medical imaging equipment",
+      "unsplash": "https://unsplash.com/photos/Rv3C8YL-6ZI",
+      "photographer": "Stephen Andrews",
+      "photographerUrl": "https://unsplash.com/@porkbellysteve",
+      "source": "photo-1630531209363-d185bd1db780"
+    },
+    "/conditions/heart-care/cholesterol-and-cardiovascular-disease/": {
+      "file": "unsplash-RD0iQoLCkPo.jpg",
+      "alt": "Fresh green olives",
+      "unsplash": "https://unsplash.com/photos/RD0iQoLCkPo",
+      "photographer": "John Cameron",
+      "photographerUrl": "https://unsplash.com/@john_cameron",
+      "source": "photo-1698775942613-3e9fc114b2a1"
+    },
+    "/conditions/heart-care/coronary-artery-disease/": {
+      "file": "unsplash-MhFJNz_D8t4.jpg",
+      "alt": "An anatomical model of the human heart",
+      "unsplash": "https://unsplash.com/photos/MhFJNz_D8t4",
+      "photographer": "Ali Hajiluyi",
+      "photographerUrl": "https://unsplash.com/@pixeluyi",
+      "source": "photo-1623134915837-d2fdb4f59035"
+    },
+    "/conditions/heart-care/ct-calcium-score/": {
+      "file": "unsplash-U9IriDpTcg4.jpg",
+      "alt": "A CT scanner",
+      "unsplash": "https://unsplash.com/photos/U9IriDpTcg4",
+      "photographer": "David Trinks",
+      "photographerUrl": "https://unsplash.com/@dtrinksrph",
+      "source": "photo-1693264882139-6a308957c9ae"
+    },
+    "/conditions/heart-care/glycocalyx/": {
+      "file": "unsplash-djo3iNJpaOE.jpg",
+      "alt": "An illustration of red blood cells",
+      "unsplash": "https://unsplash.com/photos/djo3iNJpaOE",
+      "photographer": "Anirudh",
+      "photographerUrl": "https://unsplash.com/@lanirudhreddy",
+      "source": "photo-1638271522560-a247d127deb8"
+    },
+    "/conditions/heart-care/heart-palpitations/": {
+      "file": "unsplash-g3PsF4_y7ZY.jpg",
+      "alt": "A stethoscope on a light blue background",
+      "unsplash": "https://unsplash.com/photos/g3PsF4_y7ZY",
+      "photographer": "Etactics Inc",
+      "photographerUrl": "https://unsplash.com/@etactics",
+      "source": "photo-1655313719493-16ebe4906441"
+    },
+    "/conditions/heart-care/homocysteine-and-mthfr/": {
+      "file": "unsplash--qycBqByWIY.jpg",
+      "alt": "An illustration of DNA double helixes",
+      "unsplash": "https://unsplash.com/photos/-qycBqByWIY",
+      "photographer": "Warren Umoh",
+      "photographerUrl": "https://unsplash.com/@warrenumoh",
+      "source": "photo-1637929476734-bd7f5f78e40a"
+    },
+    "/conditions/heart-care/hypertension/": {
+      "file": "unsplash-f0h8EIdTXWo.jpg",
+      "alt": "A blood pressure cuff and stethoscope",
+      "unsplash": "https://unsplash.com/photos/f0h8EIdTXWo",
+      "photographer": "Immo Wegmann",
+      "photographerUrl": "https://unsplash.com/@tinkerman",
+      "source": "photo-1700832082152-0416a3ee5e60"
+    },
+    "/conditions/heart-care/peripheral-arterial-disease/": {
+      "file": "unsplash-sHq15rZgo1g.jpg",
+      "alt": "A walking path through green trees",
+      "unsplash": "https://unsplash.com/photos/sHq15rZgo1g",
+      "photographer": "Megan Lee",
+      "photographerUrl": "https://unsplash.com/@meganlee007",
+      "source": "photo-1624818145490-b385d0593e5d"
+    },
+    "/conditions/igg-food-intolerance/": {
+      "file": "unsplash-N4gtuEZ5gWc.jpg",
+      "alt": "A basket of assorted breads",
+      "unsplash": "https://unsplash.com/photos/N4gtuEZ5gWc",
+      "photographer": "mohamed hassouna",
+      "photographerUrl": "https://unsplash.com/@mhassouna931",
+      "source": "photo-1608198093002-ad4e005484ec"
+    },
+    "/conditions/infertility/": {
+      "file": "unsplash-McsNra2VRQQ.jpg",
+      "alt": "Pink cherry blossoms",
+      "unsplash": "https://unsplash.com/photos/McsNra2VRQQ",
+      "photographer": "AJ",
+      "photographerUrl": "https://unsplash.com/@ajny",
+      "source": "photo-1522383225653-ed111181a951"
+    },
+    "/conditions/long-covid-syndrome/": {
+      "file": "unsplash-YhhrVdYgICc.jpg",
+      "alt": "An anatomical illustration of human lungs",
+      "unsplash": "https://unsplash.com/photos/YhhrVdYgICc",
+      "photographer": "Aakash Dhage",
+      "photographerUrl": "https://unsplash.com/@aakashdhage",
+      "source": "photo-1743767587847-08c42b31cdec"
+    },
+    "/conditions/lyme-disease/": {
+      "file": "unsplash-R5mMNNf0vxU.jpg",
+      "alt": "A field of tall green grass",
+      "unsplash": "https://unsplash.com/photos/R5mMNNf0vxU",
+      "photographer": "Silvia Yohani",
+      "photographerUrl": "https://unsplash.com/@slvia___",
+      "source": "photo-1593352554060-2f818ce260f0"
+    },
+    "/conditions/mcas/": {
+      "file": "unsplash-gN8uXg--780.jpg",
+      "alt": "Pink and purple cell-like patterns",
+      "unsplash": "https://unsplash.com/photos/gN8uXg--780",
+      "photographer": "Yeyo Salas",
+      "photographerUrl": "https://unsplash.com/@yeyosalas",
+      "source": "photo-1625161470828-05a772c3cde5"
+    },
+    "/conditions/mental-health/": {
+      "file": "unsplash-_TSHXXo52hA.jpg",
+      "alt": "A wooden dock reaching into a still lake",
+      "unsplash": "https://unsplash.com/photos/_TSHXXo52hA",
+      "photographer": "Nik Shuliahin",
+      "photographerUrl": "https://unsplash.com/@tjump",
+      "source": "photo-1582341305248-af5d85a9c0cd"
+    },
+    "/conditions/mental-health/stress/": {
+      "file": "unsplash-rDwIXsgb2LY.jpg",
+      "alt": "A spiral raked into white sand",
+      "unsplash": "https://unsplash.com/photos/rDwIXsgb2LY",
+      "photographer": "Fabrizio Chiagano",
+      "photographerUrl": "https://unsplash.com/@fabriziochiagano",
+      "source": "photo-1567372704182-ec2ea042c937"
+    },
+    "/conditions/minor-dermatological-surgeries/": {
+      "file": "unsplash-AR1cMqsbqt4.jpg",
+      "alt": "Surgical instruments laid out on a sterile tray",
+      "unsplash": "https://unsplash.com/photos/AR1cMqsbqt4",
+      "photographer": "Jonathan Borba",
+      "photographerUrl": "https://unsplash.com/@jonathanborba",
+      "source": "photo-1727830968495-ea2798aaee35"
+    },
+    "/conditions/mntal-health/depression-anxiety/": {
+      "file": "unsplash-XYf5sOX7p6Y.jpg",
+      "alt": "Sunlight streaming through a window",
+      "unsplash": "https://unsplash.com/photos/XYf5sOX7p6Y",
+      "photographer": "Paulina K",
+      "photographerUrl": "https://unsplash.com/@paulinakolev",
+      "source": "photo-1604926069402-82124e09354c"
+    },
+    "/conditions/mntal-health/highly-sensitive-person/": {
+      "file": "unsplash-DX5r6BNoWVE.jpg",
+      "alt": "A soft orange and white feather",
+      "unsplash": "https://unsplash.com/photos/DX5r6BNoWVE",
+      "photographer": "Alexander Sinn",
+      "photographerUrl": "https://unsplash.com/@swimstaralex",
+      "source": "photo-1503164046765-c2dd32d51708"
+    },
+    "/conditions/mthfr/": {
+      "file": "unsplash-WOrgNVcptD8.jpg",
+      "alt": "Fresh leafy greens",
+      "unsplash": "https://unsplash.com/photos/WOrgNVcptD8",
+      "photographer": "Bailey Heedick",
+      "photographerUrl": "https://unsplash.com/@baileyheedick",
+      "source": "photo-1549736624-81a2ca809ad7"
+    },
+    "/conditions/osteoporosis/": {
+      "file": "unsplash-uaAONZd7Ibs.jpg",
+      "alt": "A single bone on a black background",
+      "unsplash": "https://unsplash.com/photos/uaAONZd7Ibs",
+      "photographer": "Matt Artz",
+      "photographerUrl": "https://unsplash.com/@mattartz",
+      "source": "photo-1637096979782-8425e35517ab"
+    },
+    "/conditions/pots/": {
+      "file": "unsplash-E2XGRnqfHdQ.jpg",
+      "alt": "A glass of water",
+      "unsplash": "https://unsplash.com/photos/E2XGRnqfHdQ",
+      "photographer": "engin akyurt",
+      "photographerUrl": "https://unsplash.com/@enginakyurt",
+      "source": "photo-1643114451704-8f44b1d1a681"
+    },
+    "/conditions/skin-conditions/": {
+      "file": "unsplash-N29JXkNO1xI.jpg",
+      "alt": "An aloe vera plant",
+      "unsplash": "https://unsplash.com/photos/N29JXkNO1xI",
+      "photographer": "pisauikan",
+      "photographerUrl": "https://unsplash.com/@pisauikan",
+      "source": "photo-1570295835271-04c05b4ed943"
+    },
+    "/conditions/small-fiber-neuropathy/": {
+      "file": "unsplash-wDH7c3pXkpY.jpg",
+      "alt": "A microscope image of a nerve cell",
+      "unsplash": "https://unsplash.com/photos/wDH7c3pXkpY",
+      "photographer": "Bioscience Image Library by Fayette Reynolds",
+      "photographerUrl": "https://unsplash.com/@berkshirecommunitycollege",
+      "source": "photo-1716833322990-acbeae5cc3eb"
+    },
+    "/conditions/womens-health/": {
+      "file": "unsplash-ARrM9jUl780.jpg",
+      "alt": "Pressed flowers on a white background",
+      "unsplash": "https://unsplash.com/photos/ARrM9jUl780",
+      "photographer": "Anna Sullivan",
+      "photographerUrl": "https://unsplash.com/@aesullivan2010",
+      "source": "photo-1527904219733-fddc74937915"
+    },
+    "/conditions/womens-health/breast-implant-illness/": {
+      "file": "unsplash-jPD9YpQ_31I.jpg",
+      "alt": "Pink peonies",
+      "unsplash": "https://unsplash.com/photos/jPD9YpQ_31I",
+      "photographer": "Nic Berlin",
+      "photographerUrl": "https://unsplash.com/@nicberlin",
+      "source": "photo-1640901646021-74984db23c54"
+    },
+    "/conditions/womens-health/hormonal-fluctuations-and-mood-disorders/": {
+      "file": "unsplash-NbgQfUvKFE0.jpg",
+      "alt": "Phases of the moon against a black sky",
+      "unsplash": "https://unsplash.com/photos/NbgQfUvKFE0",
+      "photographer": "Mark Tegethoff",
+      "photographerUrl": "https://unsplash.com/@tegethoff",
+      "source": "photo-1503416997304-7f8bf166c121"
+    },
+    "/conditions/womens-health/menopause/": {
+      "file": "unsplash-qEcWgrTG578.jpg",
+      "alt": "A cup of herbal tea surrounded by dried herbs",
+      "unsplash": "https://unsplash.com/photos/qEcWgrTG578",
+      "photographer": "Drew Jemmett",
+      "photographerUrl": "https://unsplash.com/@forleaves",
+      "source": "photo-1571934811356-5cc061b6821f"
+    },
+    "/conditions/womens-health/pcos/": {
+      "file": "unsplash-sJcZCXb1K_Q.jpg",
+      "alt": "A pile of flax seeds",
+      "unsplash": "https://unsplash.com/photos/sJcZCXb1K_Q",
+      "photographer": "Karyna Panchenko",
+      "photographerUrl": "https://unsplash.com/@karyna_panchenko",
+      "source": "photo-1642497393790-c5751b818e1b"
+    },
+    "/conditions/womens-health/pms/": {
+      "file": "unsplash-RmrQTzKNe2M.jpg",
+      "alt": "Soft knitted fabrics against warm lights",
+      "unsplash": "https://unsplash.com/photos/RmrQTzKNe2M",
+      "photographer": "freestocks",
+      "photographerUrl": "https://unsplash.com/@freestocks",
+      "source": "photo-1513885332241-c2799e2e7609"
+    },
+    "/conditions/womens-health/urinary-tract-infections/": {
+      "file": "unsplash-0TFxOkhFt14.jpg",
+      "alt": "Cranberries spilling from a glass jar",
+      "unsplash": "https://unsplash.com/photos/0TFxOkhFt14",
+      "photographer": "Rasa Kasparaviciene",
+      "photographerUrl": "https://unsplash.com/@gervele",
+      "source": "photo-1625989803651-f57135dc1d64"
+    },
+    "/conditions/womens-health/uterine-fibroids/": {
+      "file": "unsplash-Vs5aLVkgcRk.jpg",
+      "alt": "A halved pomegranate",
+      "unsplash": "https://unsplash.com/photos/Vs5aLVkgcRk",
+      "photographer": "Priyanka Singh",
+      "photographerUrl": "https://unsplash.com/@priyankasingh",
+      "source": "photo-1597854710119-dbb43d562f78"
+    },
+    "/conditions/womens-health/vaginal-infections/": {
+      "file": "unsplash-z71M3cfW40c.jpg",
+      "alt": "A bowl of yogurt with blueberries and granola",
+      "unsplash": "https://unsplash.com/photos/z71M3cfW40c",
+      "photographer": "Shayna Douglas",
+      "photographerUrl": "https://unsplash.com/@itsmaemedia",
+      "source": "photo-1633104060731-32143505bacc"
+    },
+    "/conditions/womens-health/well-woman-exams/": {
+      "file": "unsplash-7n2suA0AmjY.jpg",
+      "alt": "A clipboard and stethoscope",
+      "unsplash": "https://unsplash.com/photos/7n2suA0AmjY",
+      "photographer": "Sasun Bughdaryan",
+      "photographerUrl": "https://unsplash.com/@sasun1990",
+      "source": "photo-1777805865927-a6ee4c4eacb1"
+    },
+    "/detoxification/": {
+      "file": "unsplash-p5EiqkBYIEE.jpg",
+      "alt": "A glass of lemon water beside sliced lemons",
+      "unsplash": "https://unsplash.com/photos/p5EiqkBYIEE",
+      "photographer": "Francesca Hotchin",
+      "photographerUrl": "https://unsplash.com/@franhotchin",
+      "source": "photo-1507281549113-040fcfef650e"
+    },
+    "/detoxification/environmental-detox-program/": {
+      "file": "unsplash-ojFeqwArP2Y.jpg",
+      "alt": "A pine forest under a blue sky",
+      "unsplash": "https://unsplash.com/photos/ojFeqwArP2Y",
+      "photographer": "Kat Closon",
+      "photographerUrl": "https://unsplash.com/@katclos",
+      "source": "photo-1644676654534-abc4f62ceee1"
+    },
+    "/detoxification/heavy-metal-sources/": {
+      "file": "unsplash-f-IIhyONTrM.jpg",
+      "alt": "Corroded metal pipes",
+      "unsplash": "https://unsplash.com/photos/f-IIhyONTrM",
+      "photographer": "Ilya Yakubovich",
+      "photographerUrl": "https://unsplash.com/@yakubovich",
+      "source": "photo-1695143339807-89a3093982a7"
+    },
+    "/detoxification/stages-of-detoxification/": {
+      "file": "unsplash-mz2G6TU4TR4.jpg",
+      "alt": "A glass of green juice",
+      "unsplash": "https://unsplash.com/photos/mz2G6TU4TR4",
+      "photographer": "Daria Nepriakhina",
+      "photographerUrl": "https://unsplash.com/@epicantus",
+      "source": "photo-1623002071634-54590669fe3d"
+    },
+    "/forms-and-handouts/": {
+      "file": "unsplash-0LaBRkmH4fM.jpg",
+      "alt": "Paper forms on clipboards",
+      "unsplash": "https://unsplash.com/photos/0LaBRkmH4fM",
+      "photographer": "Arisa Chattasa",
+      "photographerUrl": "https://unsplash.com/@golfarisa",
+      "source": "photo-1562654501-a0ccc0fc3fb1"
+    },
+    "/gilbert-naturopathic-doctors/": {
+      "file": "unsplash-hr1smkEtjzI.jpg",
+      "alt": "An Arizona desert landscape at sunset",
+      "unsplash": "https://unsplash.com/photos/hr1smkEtjzI",
+      "photographer": "Dulcey Lima",
+      "photographerUrl": "https://unsplash.com/@dulceylima",
+      "source": "photo-1549318558-02fe75fc51d2"
+    },
+    "/heart-rate-variability-training/": {
+      "file": "unsplash-ZSo4axN3ZXI.jpg",
+      "alt": "Heart rhythm traces on a monitor",
+      "unsplash": "https://unsplash.com/photos/ZSo4axN3ZXI",
+      "photographer": "Joshua Chehov",
+      "photographerUrl": "https://unsplash.com/@joshua_chehov",
+      "source": "photo-1682706841281-f723c5bfcd83"
+    },
+    "/hormone-therapy/": {
+      "file": "unsplash-2c1orP6z2eo.jpg",
+      "alt": "An amber glass dropper bottle",
+      "unsplash": "https://unsplash.com/photos/2c1orP6z2eo",
+      "photographer": "Kadarius Seegars",
+      "photographerUrl": "https://unsplash.com/@kseegars",
+      "source": "photo-1608571702600-5a5419d31475"
+    },
+    "/hyperbaric-oxygen-therapy/faq/": {
+      "file": "unsplash-lNxMcE8mvIM.jpg",
+      "alt": "White clouds in a blue sky",
+      "unsplash": "https://unsplash.com/photos/lNxMcE8mvIM",
+      "photographer": "Kumiko SHIMIZU",
+      "photographerUrl": "https://unsplash.com/@shimikumi32",
+      "source": "photo-1531147646552-1eec68116469"
+    },
+    "/injection-therapy/slim-shot/": {
+      "file": "unsplash-M779tNeoSKc.jpg",
+      "alt": "A tape measure",
+      "unsplash": "https://unsplash.com/photos/M779tNeoSKc",
+      "photographer": "William Warby",
+      "photographerUrl": "https://unsplash.com/@wwarby",
+      "source": "photo-1703756291638-b1774ae3c186"
+    },
+    "/injection-therapy/super-slim-shot/": {
+      "file": "unsplash-xeTv9N2FjXA.jpg",
+      "alt": "A bowl of fresh salad",
+      "unsplash": "https://unsplash.com/photos/xeTv9N2FjXA",
+      "photographer": "Tania Melnyczuk",
+      "photographerUrl": "https://unsplash.com/@alphabetania",
+      "source": "photo-1607532941433-304659e8198a"
+    },
+    "/injection-therapy/vitamin-b12-shot/": {
+      "file": "unsplash-JnJylmuVofU.jpg",
+      "alt": "A syringe on a white background",
+      "unsplash": "https://unsplash.com/photos/JnJylmuVofU",
+      "photographer": "Олег Мороз",
+      "photographerUrl": "https://unsplash.com/@tengyart",
+      "source": "photo-1647853042468-a152e59ab9b2"
+    },
+    "/insurance-coverage/": {
+      "file": "unsplash-54bvLAWhWAM.jpg",
+      "alt": "A calculator and paperwork on a desk",
+      "unsplash": "https://unsplash.com/photos/54bvLAWhWAM",
+      "photographer": "maks_d",
+      "photographerUrl": "https://unsplash.com/@maks_d",
+      "source": "photo-1746221331496-a87689fc8eb9"
+    },
+    "/mens-health/": {
+      "file": "unsplash-7L9QtwXOhQU.jpg",
+      "alt": "A mountain peak under a blue sky",
+      "unsplash": "https://unsplash.com/photos/7L9QtwXOhQU",
+      "photographer": "Artur Stanulevich",
+      "photographerUrl": "https://unsplash.com/@artstanulevich",
+      "source": "photo-1598858715214-3d0f6219e267"
+    },
+    "/mens-health/andropause/": {
+      "file": "unsplash-E3F5VL5EGWg.jpg",
+      "alt": "Dumbbells and training shoes",
+      "unsplash": "https://unsplash.com/photos/E3F5VL5EGWg",
+      "photographer": "VD Photography",
+      "photographerUrl": "https://unsplash.com/@vdphotography",
+      "source": "photo-1648659487787-79db84e9b2e2"
+    },
+    "/mens-health/mens-health-programs/": {
+      "file": "unsplash-CPSjcuuV8E8.jpg",
+      "alt": "Rows of kettlebells",
+      "unsplash": "https://unsplash.com/photos/CPSjcuuV8E8",
+      "photographer": "Heidi Erickson",
+      "photographerUrl": "https://unsplash.com/@herickson7",
+      "source": "photo-1632077804406-188472f1a810"
+    },
+    "/mens-health/prostate-health/": {
+      "file": "unsplash-RB88SaWi0qc.jpg",
+      "alt": "A sliced squash and its seeds",
+      "unsplash": "https://unsplash.com/photos/RB88SaWi0qc",
+      "photographer": "Nick Collins",
+      "photographerUrl": "https://unsplash.com/@webdesignnewcastle",
+      "source": "photo-1533924049770-7c32435557c5"
+    },
+    "/mesa-naturopathic-doctors/": {
+      "file": "unsplash-feKSZQNBuzA.jpg",
+      "alt": "The Superstition Mountains in the Arizona desert",
+      "unsplash": "https://unsplash.com/photos/feKSZQNBuzA",
+      "photographer": "Andrew Ruiz",
+      "photographerUrl": "https://unsplash.com/@andrewruiz",
+      "source": "photo-1614019465575-16b8a61df7f1"
+    },
+    "/neurofeedback/history-of-neurofeedback-and-biofeedback/": {
+      "file": "unsplash-8JRFgK-CnrI.jpg",
+      "alt": "A vintage black-and-white photograph of a laboratory",
+      "unsplash": "https://unsplash.com/photos/8JRFgK-CnrI",
+      "photographer": "Smithsonian",
+      "photographerUrl": "https://unsplash.com/@smithsonian",
+      "source": "photo-1778867127717-8e55e8e9dea4"
+    },
+    "/ozone-therapy/": {
+      "file": "unsplash-Hk6E4UxjmGo.jpg",
+      "alt": "Bubbles floating against a dark background",
+      "unsplash": "https://unsplash.com/photos/Hk6E4UxjmGo",
+      "photographer": "Drew Beamer",
+      "photographerUrl": "https://unsplash.com/@dbeamer_jpg",
+      "source": "photo-1594035519981-62c9cef33ca9"
+    },
+    "/patient-portal/": {
+      "file": "unsplash-1SAnrIxw5OY.jpg",
+      "alt": "A laptop on a desk",
+      "unsplash": "https://unsplash.com/photos/1SAnrIxw5OY",
+      "photographer": "Kari Shea",
+      "photographerUrl": "https://unsplash.com/@karishea",
+      "source": "photo-1496181133206-80ce9b88a853"
+    },
+    "/photobiomodulation/": {
+      "file": "unsplash-g0tJD8e-yUE.jpg",
+      "alt": "Rows of glowing red lights",
+      "unsplash": "https://unsplash.com/photos/g0tJD8e-yUE",
+      "photographer": "Daniel Gregoire",
+      "photographerUrl": "https://unsplash.com/@danielgregoire",
+      "source": "photo-1579322558283-4d6ad9a7951f"
+    },
+    "/prp-and-prolotherapy/": {
+      "file": "unsplash-9k4Fglw6eFQ.jpg",
+      "alt": "Blood sample tubes in a rack",
+      "unsplash": "https://unsplash.com/photos/9k4Fglw6eFQ",
+      "photographer": "National Cancer Institute",
+      "photographerUrl": "https://unsplash.com/@nci",
+      "source": "photo-1581594693702-fbdc51b2763b"
+    },
+    "/qeeg-brain-mapping/": {
+      "file": "unsplash-ii6BOPjAtVY.jpg",
+      "alt": "An illustration of a human brain on a black background",
+      "unsplash": "https://unsplash.com/photos/ii6BOPjAtVY",
+      "photographer": "Shawn Day",
+      "photographerUrl": "https://unsplash.com/@whisperingshiba",
+      "source": "photo-1711409645921-ef3db0501f96"
+    },
+    "/save-our-veterans/": {
+      "file": "unsplash-1MkR9ehe9Fg.jpg",
+      "alt": "An American flag against the sky",
+      "unsplash": "https://unsplash.com/photos/1MkR9ehe9Fg",
+      "photographer": "chris robert",
+      "photographerUrl": "https://unsplash.com/@chris_robert",
+      "source": "photo-1719837235121-9b1dba350e8b"
+    },
+    "/specialty-labs/adrenal-function-testing/": {
+      "file": "unsplash-pwcKF7L4-no.jpg",
+      "alt": "A pipette filling a laboratory sample tray",
+      "unsplash": "https://unsplash.com/photos/pwcKF7L4-no",
+      "photographer": "Louis Reed",
+      "photographerUrl": "https://unsplash.com/@_louisreed",
+      "source": "photo-1532187863486-abf9dbad1b69"
+    },
+    "/specialty-labs/environmental-toxic-load-testing/": {
+      "file": "unsplash-Yl6VGTjWVkw.jpg",
+      "alt": "A laboratory flask of amber liquid",
+      "unsplash": "https://unsplash.com/photos/Yl6VGTjWVkw",
+      "photographer": "Raghav Bhasin",
+      "photographerUrl": "https://unsplash.com/@myphotocave",
+      "source": "photo-1595500381966-eee2034aae48"
+    },
+    "/specialty-labs/folate-receptor-antibody-test-frat/": {
+      "file": "unsplash-Ab9Ee6LXLqw.jpg",
+      "alt": "A laboratory pipette",
+      "unsplash": "https://unsplash.com/photos/Ab9Ee6LXLqw",
+      "photographer": "Fulvio Ciccolo",
+      "photographerUrl": "https://unsplash.com/@scentspiracy",
+      "source": "photo-1618828729232-347c3160c820"
+    },
+    "/specialty-labs/galleri-cancer-screening/": {
+      "file": "unsplash-ZkPzHtmk2ng.jpg",
+      "alt": "Blood sample tubes",
+      "unsplash": "https://unsplash.com/photos/ZkPzHtmk2ng",
+      "photographer": "mostafa jamei",
+      "photographerUrl": "https://unsplash.com/@mostafa_jamei",
+      "source": "photo-1656337426953-554b8e5b50f5"
+    },
+    "/specialty-labs/heavy-metals/": {
+      "file": "unsplash-IotATrNf1aA.jpg",
+      "alt": "Wooden blocks printed with periodic-table elements",
+      "unsplash": "https://unsplash.com/photos/IotATrNf1aA",
+      "photographer": "David Ballew",
+      "photographerUrl": "https://unsplash.com/@daveballew",
+      "source": "photo-1582089319119-a788d9f9d976"
+    },
+    "/specialty-labs/micorbiome-panel/": {
+      "file": "unsplash-BumDz1FZmv4.jpg",
+      "alt": "Bacterial colonies growing in a petri dish",
+      "unsplash": "https://unsplash.com/photos/BumDz1FZmv4",
+      "photographer": "masakazu sasaki",
+      "photographerUrl": "https://unsplash.com/@masakz",
+      "source": "photo-1703500584838-ba17cd6c1b5f"
+    },
+    "/specialty-labs/mold-and-mycotoxin/": {
+      "file": "unsplash-IbNuthxvUM8.jpg",
+      "alt": "Mold on a wall",
+      "unsplash": "https://unsplash.com/photos/IbNuthxvUM8",
+      "photographer": "Hydra 4x",
+      "photographerUrl": "https://unsplash.com/@hydra4x",
+      "source": "photo-1708895240122-418c6902685e"
+    },
+    "/specialty-labs/nasal-bacteria-culture-marcons-testing/": {
+      "file": "unsplash-RNBhx5TNdDw.jpg",
+      "alt": "Sample collection tubes",
+      "unsplash": "https://unsplash.com/photos/RNBhx5TNdDw",
+      "photographer": "Testalize.me",
+      "photographerUrl": "https://unsplash.com/@testalizeme",
+      "source": "photo-1599556147785-480f85376373"
+    },
+    "/specialty-labs/organic-acid-test/": {
+      "file": "unsplash--lulun7F32c.jpg",
+      "alt": "Test tubes of colored liquids in a rack",
+      "unsplash": "https://unsplash.com/photos/-lulun7F32c",
+      "photographer": "Ryan Zazueta",
+      "photographerUrl": "https://unsplash.com/@iza_y_ah",
+      "source": "photo-1694230155228-cdde50083573"
+    },
+    "/specialty-labs/parasite-testing/": {
+      "file": "unsplash-FUw4bGuv9X4.jpg",
+      "alt": "A laboratory microscope",
+      "unsplash": "https://unsplash.com/photos/FUw4bGuv9X4",
+      "photographer": "Indra Projects",
+      "photographerUrl": "https://unsplash.com/@indraprojects",
+      "source": "photo-1698808342955-500cb9b9a25e"
+    },
+    "/specialty-labs/plasmalogens/": {
+      "file": "unsplash-DRchVK5apjw.jpg",
+      "alt": "Softgel capsules",
+      "unsplash": "https://unsplash.com/photos/DRchVK5apjw",
+      "photographer": "Leohoho",
+      "photographerUrl": "https://unsplash.com/@leohoho",
+      "source": "photo-1624362772755-4d5843e67047"
+    },
+    "/weight-loss/": {
+      "file": "unsplash-Z5ViTNhtPRs.jpg",
+      "alt": "A carrot beside a tape measure",
+      "unsplash": "https://unsplash.com/photos/Z5ViTNhtPRs",
+      "photographer": "charlesdeluvio",
+      "photographerUrl": "https://unsplash.com/@charlesdeluvio",
+      "source": "photo-1531171673193-06ab3c43e4a5"
+    }
+  }
+}
