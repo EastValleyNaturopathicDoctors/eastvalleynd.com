@@ -23,7 +23,7 @@ const a = site.address;
       </div>
       <div class="book-meta">
         <div><Icon name="map" size={16} /><span>{a.street}<br />{a.city}, {a.state} {a.zip}</span></div>
-        <div><Icon name="calendar" size={16} /><span>{site.hours.map((h) => `${h.days} ${h.time}`).join(' · ')}</span></div>
+        <div><Icon name="calendar" size={16} /><span>{site.hours.map((h) => `${h.days} ${h.time}`).join(' · ')}<br />{site.lunch}</span></div>
         <div><Icon name="heart" size={16} /><span>HSA/FSA accepted<br />Self-pay packages available</span></div>
       </div>
     </div>

@@ -16,8 +16,9 @@ export const site = {
   fax: '(480) 985-0029',
   /** From the clinic's own SMS privacy policy and terms (published 2026-08-03). */
   email: 'patientcare@eastvalleynd.com',
-  address: { street: '5416 E. Southern Ave, Ste 110', city: 'Mesa', state: 'AZ', zip: '85206' },
-  /** From the live /contact/ page (last edited 2025-05-26). */
+  address: { street: '5416 E. Southern Ave. Ste 110', city: 'Mesa', state: 'AZ', zip: '85206' },
+  /** From the live /contact/ page (last edited 2025-05-26); confirmed by Zac
+   *  2026-09-23 with the address, phone, fax and lunch closure (D125). */
   hours: [
     { days: 'Monday', time: '9:00 am – 5:00 pm' },
     { days: 'Tuesday', time: '9:00 am – 3:00 pm' },
@@ -26,6 +27,8 @@ export const site = {
     { days: 'Friday', time: '9:00 am – 5:00 pm' },
   ],
   lunch: 'Closed for lunch 12:00 – 1:00 pm daily',
+  /** The same lunch closure, machine-readable, for the schema's opening hours. */
+  lunchBreak: { from: '12:00', to: '13:00' },
   since: 2008,
   /** The template dated this "— May 2026"; dropped as stale (D124). A tail
    *  after an em dash still works: TopBar hides it on phones. */

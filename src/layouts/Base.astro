@@ -108,7 +108,30 @@ const schema = {
     addressCountry: 'US',
   },
   medicalSpecialty: 'Naturopathic',
+  faxNumber: site.fax,
+  openingHoursSpecification: openingHours(),
 };
+
+/** "9:00 am – 5:00 pm" per day -> schema.org hours, split around the lunch
+ *  closure so Google doesn't show the clinic as open at 12:30 (D125). */
+function openingHours() {
+  const to24 = (t: string) => {
+    const m = t.trim().match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/i);
+    if (!m) return '';
+    let h = Number(m[1]) % 12;
+    if (m[3].toLowerCase() === 'pm') h += 12;
+    return `${String(h).padStart(2, '0')}:${m[2]}`;
+  };
+  const { from, to } = site.lunchBreak;
+  return site.hours.flatMap(({ days, time }) => {
+    const [opens, closes] = time.split('–').map(to24);
+    if (!opens || !closes) return [];
+    const spans = opens < from && closes > to ? [[opens, from], [to, closes]] : [[opens, closes]];
+    return spans.map(([o, c]) => ({
+      '@type': 'OpeningHoursSpecification', dayOfWeek: days, opens: o, closes: c,
+    }));
+  });
+}
 ---
 <!doctype html>
 <html lang="en">
