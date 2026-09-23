@@ -1,7 +1,7 @@
 ---
 title: "Highly Sensitive Person"
-route: "/conditions/mntal-health/highly-sensitive-person/"
-slug: "conditions-mntal-health-highly-sensitive-person"
+route: "/conditions/mental-health/highly-sensitive-person/"
+slug: "conditions-mental-health-highly-sensitive-person"
 wpTitle: "Highly Sensitive Person Protocols"
 metaDescription: "EVND provides comprehensive highly sensitive person protocols helping you to better understand and lighten the mental load."
 imageFile: ""

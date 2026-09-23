@@ -6,7 +6,7 @@
 export const sectionIcons: Record<string, string> = {
   // Services
   '/acupuncture/': 'acupuncture',
-  '/alpa-stim-treatment/': 'electric_bolt',
+  '/alpha-stim-treatment/': 'electric_bolt',
   '/photobiomodulation/': 'light_mode',
   '/brain-regeneration-clinic/': 'neurology',
   '/detoxification/': 'eco',
@@ -29,7 +29,7 @@ export const sectionIcons: Record<string, string> = {
   // Conditions
   '/conditions/adrenal-fatigue/': 'battery_alert',
   '/conditions/allergies-eczema-asthma-mcas/': 'allergies',
-  '/conditions/arthiritis/': 'rheumatology',
+  '/conditions/arthritis/': 'rheumatology',
   '/conditions/autoimmune/': 'immunology',
   '/conditions/cancer-support/': 'oncology',
   '/conditions/childhood-behavioral-disorders/': 'child_care',

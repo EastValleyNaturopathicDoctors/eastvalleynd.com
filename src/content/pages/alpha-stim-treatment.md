@@ -1,7 +1,7 @@
 ---
 title: "Alpha-Stim® Treatment in Mesa, AZ"
-route: "/alpa-stim-treatment/"
-slug: "alpa-stim-treatment"
+route: "/alpha-stim-treatment/"
+slug: "alpha-stim-treatment"
 wpTitle: "Alpha-Stim® Treatment in Mesa, AZ"
 metaDescription: "Looking for Alpha-Stim® treatment in Mesa, Arizona? East Valley Naturopathic Doctors offers individualized naturopathic care that may incorporate Alpha-Stim®…"
 imageFile: ""

@@ -1,7 +1,7 @@
 ---
 title: "Depression and Anxiety Treatment"
-route: "/conditions/mntal-health/depression-anxiety/"
-slug: "conditions-mntal-health-depression-anxiety"
+route: "/conditions/mental-health/depression-anxiety/"
+slug: "conditions-mental-health-depression-anxiety"
 wpTitle: "Depression and Anxiety Treatment"
 metaDescription: "Although depression and anxiety show up differently from person to person, many of the same natural therapies help with both, so we treat them together as…"
 imageFile: ""

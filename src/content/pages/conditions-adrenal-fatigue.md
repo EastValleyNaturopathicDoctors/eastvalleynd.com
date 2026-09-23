@@ -77,6 +77,6 @@ booking: []
 
 <h2>Restore Your Energy with Our Adrenal Rejuvenation Program</h2>
 
-<p>At East Valley Naturopathic Doctors in Mesa, Arizona, our <a href="/conditions/adrenal-rejuvination-program/">Adrenal Rejuvenation Program</a> is designed for patients experiencing chronic fatigue, burnout, persistent stress, or symptoms of adrenal dysfunction. Rather than focusing on symptoms alone, the program addresses the underlying contributors to adrenal imbalance through comprehensive testing, individualized treatment protocols, nutritional support, targeted supplementation, lifestyle recommendations, and ongoing guidance from our experienced naturopathic physicians.</p>
+<p>At East Valley Naturopathic Doctors in Mesa, Arizona, our <a href="/conditions/adrenal-rejuvenation-program/">Adrenal Rejuvenation Program</a> is designed for patients experiencing chronic fatigue, burnout, persistent stress, or symptoms of adrenal dysfunction. Rather than focusing on symptoms alone, the program addresses the underlying contributors to adrenal imbalance through comprehensive testing, individualized treatment protocols, nutritional support, targeted supplementation, lifestyle recommendations, and ongoing guidance from our experienced naturopathic physicians.</p>
 
 <p>If you're ready to regain your energy, improve your resilience to stress, and get back to feeling like yourself again, <a href="/contact/">contact East Valley Naturopathic Doctors today</a> to learn whether our Adrenal Rejuvenation Program is right for you.</p>

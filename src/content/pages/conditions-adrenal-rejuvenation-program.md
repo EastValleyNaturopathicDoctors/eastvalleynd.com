@@ -1,10 +1,10 @@
 ---
-title: "Adrenal Rejuvination Program"
-route: "/conditions/adrenal-rejuvination-program/"
-slug: "conditions-adrenal-rejuvination-program"
+title: "Adrenal Rejuvenation Program"
+route: "/conditions/adrenal-rejuvenation-program/"
+slug: "conditions-adrenal-rejuvenation-program"
 wpTitle: "Adrenal Rejuvination Program"
 metaDescription: "Revitalize your adrenals with the Adrenal Rejuvenation Program at East Valley Naturopathic Doctors. Tailored strategies for optimal energy and overall well-being."
-imageFile: "conditions-adrenal-rejuvination-program.jpg"
+imageFile: "conditions-adrenal-rejuvenation-program.jpg"
 imageWidth: 2560
 imageAlt: "Happy young woman in the outdoors."
 wordCount: 325

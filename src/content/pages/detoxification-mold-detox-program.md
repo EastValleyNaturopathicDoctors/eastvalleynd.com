@@ -47,7 +47,7 @@ booking: []
 <li aria-level="1"><a href="/conditions/chronic-fatigue/">Fatigue</a></li>
 <li aria-level="1">Weight gain</li>
 <li aria-level="1"><a href="/brain-regeneration-clinic/alzheimers-and-dementia/">Cognitive impairment</a></li>
-<li aria-level="1"><a href="/conditions/mntal-health/depression-anxiety/">Anxiety and depression</a></li>
+<li aria-level="1"><a href="/conditions/mental-health/depression-anxiety/">Anxiety and depression</a></li>
 <li aria-level="1">Night sweats</li>
 <li aria-level="1">Body Temperature dysregulation</li>
 <li aria-level="1">Dizziness, balance issues</li>
@@ -56,7 +56,7 @@ booking: []
 <li aria-level="1">Chronic sinus congestion</li>
 <li aria-level="1">Coughing, chest pain, shortness of breath</li>
 <li aria-level="1">Asthma and allergies</li>
-<li aria-level="1"><a href="/conditions/arthiritis/">Joint pain</a></li>
+<li aria-level="1"><a href="/conditions/arthritis/">Joint pain</a></li>
 <li aria-level="1">Hair loss</li>
 <li aria-level="1">Abdominal pain, nausea, diarrhea</li>
 <li aria-level="1">Skin sensitivity to light touch</li>

@@ -86,7 +86,7 @@
       },
       {
         "label": "Alpha-Stim® Treatment",
-        "href": "/alpa-stim-treatment/",
+        "href": "/alpha-stim-treatment/",
         "inMenu": true,
         "children": []
       },
@@ -410,7 +410,7 @@
           },
           {
             "label": "Neurofeedback for Concussion & Traumatic Brain Injury",
-            "href": "/neurofeedback/concussion-and-tramatic-brain-injury/",
+            "href": "/neurofeedback/concussion-and-traumatic-brain-injury/",
             "inMenu": false,
             "children": []
           },
@@ -507,7 +507,7 @@
         "inMenu": true,
         "children": [
           {
-            "label": "Adrendal Function Testing",
+            "label": "Adrenal Function Testing",
             "href": "/specialty-labs/adrenal-function-testing/",
             "inMenu": false,
             "children": []
@@ -556,7 +556,7 @@
           },
           {
             "label": "Microbiome Panel",
-            "href": "/specialty-labs/micorbiome-panel/",
+            "href": "/specialty-labs/microbiome-panel/",
             "inMenu": false,
             "children": []
           },
@@ -623,8 +623,8 @@
         "inMenu": true,
         "children": [
           {
-            "label": "Adrenal Rejuvination Program",
-            "href": "/conditions/adrenal-rejuvination-program/",
+            "label": "Adrenal Rejuvenation Program",
+            "href": "/conditions/adrenal-rejuvenation-program/",
             "inMenu": false,
             "children": []
           }
@@ -675,8 +675,8 @@
         ]
       },
       {
-        "label": "Arthiritis",
-        "href": "/conditions/arthiritis/",
+        "label": "Arthritis",
+        "href": "/conditions/arthritis/",
         "inMenu": true,
         "children": []
       },
@@ -792,8 +792,8 @@
             "children": []
           },
           {
-            "label": "Plantar Fascitis",
-            "href": "/conditions/chronic-pain/plantar-fascitis/",
+            "label": "Plantar Fasciitis",
+            "href": "/conditions/chronic-pain/plantar-fasciitis/",
             "inMenu": false,
             "children": []
           },
@@ -1001,13 +1001,13 @@
         "children": [
           {
             "label": "Depression & Anxiety",
-            "href": "/conditions/mntal-health/depression-anxiety/",
+            "href": "/conditions/mental-health/depression-anxiety/",
             "inMenu": false,
             "children": []
           },
           {
             "label": "Highly Sensitive Person",
-            "href": "/conditions/mntal-health/highly-sensitive-person/",
+            "href": "/conditions/mental-health/highly-sensitive-person/",
             "inMenu": false,
             "children": []
           },

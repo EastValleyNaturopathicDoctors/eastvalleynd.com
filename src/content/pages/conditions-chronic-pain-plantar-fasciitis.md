@@ -1,7 +1,7 @@
 ---
-title: "Plantar Fascitis"
-route: "/conditions/chronic-pain/plantar-fascitis/"
-slug: "conditions-chronic-pain-plantar-fascitis"
+title: "Plantar Fasciitis"
+route: "/conditions/chronic-pain/plantar-fasciitis/"
+slug: "conditions-chronic-pain-plantar-fasciitis"
 wpTitle: "Plantar Fasciitis"
 metaDescription: "Ankle, foot, and plantar pain are easily treatable with regenerative injections(PRP, Prolotherapy, Amniotic Liquid Allograft) which have the ability to restore normal and full ankle and foot function permanently"
 imageFile: ""

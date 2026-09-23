@@ -1,0 +1,84 @@
+---
+/**
+ * Privacy Policy (D121). Two parts:
+ *  1. How this website handles information — written for the new site and
+ *     true of it as built: no analytics, no advertising cookies, search that
+ *     runs in the browser, third-party booking/forms/video/map. If analytics
+ *     are added at launch, the "Collected automatically" section must change
+ *     the same day.
+ *  2. The clinic's SMS Messaging Data Privacy Policy, word for word from the
+ *     old /privacy/ (extract/build_legal_pages.py). A carrier checks this URL
+ *     when registering the texting campaign; do not reword it here.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import { site } from '../data/site';
+import legal from '../data/legal-wp.json';
+const sms = legal.privacy;
+const a = site.address;
+---
+<LegalPage title="Privacy Policy" updated="Website sections updated September 2026"
+           description="How East Valley Naturopathic Doctors' website handles your information, and the privacy policy for our SMS appointment messages.">
+  <p>This page explains what information this website collects, what we do with it, and your
+  choices. It has two parts: how the <a href="#website">website</a> handles information, and the
+  privacy policy for our <a href="#sms">SMS messaging program</a>.</p>
+
+  <p class="legal-note"><strong>Your medical records are covered separately.</strong> Health
+  information you share as a patient is protected by federal law (HIPAA) and handled as described
+  in our Notice of Privacy Practices, which we provide at your first visit. You can ask for a copy
+  at any time by calling <a href={site.phoneHref}>{site.phone}</a>.</p>
+
+  <h2 id="website">This website</h2>
+
+  <h3>Information you give us</h3>
+  <p>You share information with us when you call, email, book an appointment, fill in a form or
+  use the patient portal. We use it to answer you, schedule your care and run the practice.</p>
+  <p>Some of these tools are run for us by other companies, which handle your information under
+  their own privacy policies as well as ours:</p>
+  <ul>
+    <li><strong>Online booking</strong> — Acuity Scheduling and Practice Fusion (Patient Fusion).</li>
+    <li><strong>Online forms</strong> — Tally.</li>
+    <li><strong>Patient portal</strong> — FollowMyHealth.</li>
+  </ul>
+  <p>Please don't send detailed medical information through general email or our contact form.
+  Call us, or use the patient portal once you are a patient.</p>
+
+  <h3>Information collected automatically</h3>
+  <p>This website does not use advertising cookies or analytics tracking. If that ever changes,
+  we will update this page first.</p>
+  <p>Like almost every website, the servers that deliver these pages keep short-lived technical
+  logs — your IP address, browser type and the pages requested — to keep the site running and
+  secure.</p>
+  <p>The site search runs entirely in your browser. What you type into it is not sent to us.</p>
+
+  <h3>Embedded content from other sites</h3>
+  <p>Some pages include content served by other companies: videos from YouTube (in its
+  privacy-enhanced mode), a Google map on our contact page, and booking tools on some service
+  pages. When that content loads or you interact with it, those companies may collect information
+  under their own privacy policies.</p>
+
+  <h3>How we use and share information</h3>
+  <p>We use information to provide care, respond to you, schedule appointments and operate this
+  website. <strong>We do not sell your personal information.</strong> We share it only with the
+  service providers above, as needed to provide care, or when the law requires it.</p>
+
+  <h3>Children</h3>
+  <p>This website is not directed at children under 13. Parents and guardians book and manage care
+  for their children.</p>
+
+  <h3>Links to other websites</h3>
+  <p>Our articles link to research and other outside websites. We are not responsible for their
+  content or privacy practices.</p>
+
+  <h3>Changes to this policy</h3>
+  <p>We may update this page. The date at the top shows when the website sections last changed.</p>
+
+  <h3>Contact us</h3>
+  <p>{site.name}<br />
+  {a.street}, {a.city}, {a.state} {a.zip}<br />
+  <a href={site.phoneHref}>{site.phone}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+  <h2 id="sms">SMS messaging program</h2>
+  <p>This is our SMS Messaging Data Privacy Policy as published. The full program terms are on our
+  <a href="/messaging-terms/">SMS Messaging Terms &amp; Conditions</a> page.</p>
+  <div class="legal-verbatim" set:html={sms.html} />
+</LegalPage>

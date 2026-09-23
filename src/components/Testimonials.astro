@@ -1,7 +1,22 @@
 ---
+/**
+ * Patient testimonials on / and /about/ (D122). These are the reviews the
+ * clinic itself published on its practitioners' WordPress pages (D15), each
+ * credited to the practitioner it was written about — not the design mock's
+ * four invented patients, which are gone. Only reviews short enough for the
+ * display-size band are used here; every one also appears in full on its
+ * practitioner's page. Review text is not copied from Google: the link sends
+ * readers to the listing itself.
+ */
+import { getCollection } from 'astro:content';
 import TestimonialCarousel from './TestimonialCarousel.astro';
-import { testimonials } from '../data/content';
-// NOTE: placeholder content — see src/data/content.ts provenance header.
-// These four are invented and must not ship (OPEN-QUESTIONS Q14).
+import { googleReviewsUrl } from '../data/site';
+
+const MAX_WORDS = 90;
+const docs = (await getCollection('physicians')).sort((a, b) => a.data.order - b.data.order);
+const items = docs.flatMap((d) => d.data.testimonials
+  .filter((t) => t.name && t.quote.split(/\s+/).length <= MAX_WORDS)
+  .map((t) => ({ quote: t.quote, name: t.name, context: `Patient of ${d.data.name}` })));
 ---
-<TestimonialCarousel items={testimonials} eyebrow="Patient stories" variant="feature" />
+<TestimonialCarousel items={items} eyebrow="Patient stories" variant="feature"
+                     more={{ label: 'Read our reviews on Google', href: googleReviewsUrl }} />

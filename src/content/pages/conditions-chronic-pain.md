@@ -75,7 +75,7 @@ booking: []
 
 <p>The major weight bearing joints of the body, in descending order are the sacroiliac joint, hip joint, knee, and ankle. The ankle carries the brunt or weight of the whole body. With a history of any ankle strains or sprains, regular activity involving running, or lack of adequate arch support, ankle pain, plantar fasciitis, or foot pain can develop.</p>
 
-<p class="wp-more"><a href="/conditions/chronic-pain/plantar-fascitis/">Learn more about Plantar Fascitis</a></p>
+<p class="wp-more"><a href="/conditions/chronic-pain/plantar-fasciitis/">Learn more about Plantar Fasciitis</a></p>
 
 <h3>Wrist and Elbow Pain</h3>
 

@@ -1,0 +1,78 @@
+---
+/**
+ * Terms of Use (D121), at the old site's /terms-conditions/ URL. Replaces the
+ * old page, which was a generic generator template that described things this
+ * site does not have (user comments, advertising partners' cookies). Written
+ * to be true of the new site; should be reviewed by the clinic's counsel.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import { site } from '../data/site';
+const a = site.address;
+---
+<LegalPage title="Terms of Use" updated="Updated September 2026"
+           description="The terms for using East Valley Naturopathic Doctors' website, including the limits of the health information it contains.">
+  <p>These terms apply to your use of this website. By using it, you agree to them. If you don't
+  agree, please don't use the site.</p>
+
+  <h2>Health information is not medical advice</h2>
+  <p>Everything on this website — articles, condition and treatment pages, videos and webinars — is
+  general information for education. It is not medical advice, and it is not a substitute for an
+  examination, diagnosis or treatment by a qualified health care provider who knows your history.</p>
+  <ul>
+    <li><strong>Reading this website does not make you our patient.</strong> A provider–patient
+    relationship begins only when you are seen by one of our practitioners.</li>
+    <li>Talk to your own provider before starting, stopping or changing any treatment, supplement
+    or medication.</li>
+    <li>Treatments described here may not be right for you, and results vary from person to person.</li>
+    <li>Some articles are several years old. Medical knowledge changes, and an older article may not
+    reflect current research.</li>
+  </ul>
+  <p class="legal-note"><strong>In an emergency, call 911</strong> or go to the nearest emergency
+  room. Do not use this website, email, forms or text messages for urgent medical needs.</p>
+
+  <h2>Appointments and online tools</h2>
+  <p>Online booking, forms and the patient portal are provided by other companies (see our
+  <a href="/privacy/">Privacy Policy</a>), and their own terms apply when you use them.</p>
+  <p>If you receive text messages from us, our <a href="/messaging-terms/">SMS Messaging Terms &amp;
+  Conditions</a> apply.</p>
+
+  <h2>Photographs</h2>
+  <p>Photographs of our practitioners are of our own team. Some other photographs on this site are
+  licensed stock images used for illustration. They do not show our patients, staff or clinic.</p>
+
+  <h2>Accuracy</h2>
+  <p>We work to keep this website accurate and current, but we can't guarantee that every page is
+  complete or up to date. Services, providers, hours and fees can change. Call us to confirm
+  anything that matters to your decision.</p>
+
+  <h2>Links to other websites</h2>
+  <p>We link to research, government resources and other outside websites for your reference. We
+  don't control those sites and aren't responsible for their content, availability or privacy
+  practices. A link is not an endorsement.</p>
+
+  <h2>Our content</h2>
+  <p>The text, graphics, logos and other content on this website belong to {site.name} or to the
+  people who licensed them to us. You're welcome to view, print and share pages for personal,
+  non-commercial use. Please don't republish, sell or copy our content for other purposes without
+  our written permission. Linking to our pages is always fine.</p>
+
+  <h2>Using the site</h2>
+  <p>Please don't try to disrupt the website, get into parts of it that aren't public, or use it
+  for anything unlawful.</p>
+
+  <h2>Limitation of liability</h2>
+  <p>This website is provided “as is.” To the fullest extent the law allows, {site.name} is not
+  liable for any loss or damage arising from your use of the website or reliance on its content.
+  Nothing in these terms limits any right you have that cannot be limited by law.</p>
+
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of the State of Arizona.</p>
+
+  <h2>Changes to these terms</h2>
+  <p>We may update these terms. The date at the top shows when they last changed.</p>
+
+  <h2>Contact us</h2>
+  <p>{site.name}<br />
+  {a.street}, {a.city}, {a.state} {a.zip}<br />
+  <a href={site.phoneHref}>{site.phone}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+</LegalPage>

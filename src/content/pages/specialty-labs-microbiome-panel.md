@@ -1,7 +1,7 @@
 ---
 title: "Microbiome Panel"
-route: "/specialty-labs/micorbiome-panel/"
-slug: "specialty-labs-micorbiome-panel"
+route: "/specialty-labs/microbiome-panel/"
+slug: "specialty-labs-microbiome-panel"
 wpTitle: "US Biotek GI Microbiome Panels"
 metaDescription: "Explore US BioTek GI Microbiome Panels at East Valley ND. Learn how advanced gut health testing can uncover root causes and guide treatment."
 imageFile: ""

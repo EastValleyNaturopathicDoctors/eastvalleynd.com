@@ -1,5 +1,6 @@
 ---
 import Eyebrow from './Eyebrow.astro';
+import Icon from './Icon.astro';
 
 /**
  * Every set of testimonials on the site renders through this component, so the
@@ -27,9 +28,11 @@ interface Props {
   items: readonly Testimonial[];
   eyebrow: string;
   variant?: 'feature' | 'doc';
+  /** A link under the quotes — "Read our reviews on Google". */
+  more?: { label: string; href: string };
 }
 
-const { items, eyebrow, variant = 'feature' } = Astro.props;
+const { items, eyebrow, variant = 'feature', more } = Astro.props;
 
 const CAROUSEL_ABOVE = 3;
 const carousel = items.length > CAROUSEL_ABOVE;
@@ -72,6 +75,11 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
             </blockquote>
           ))}
         </div>
+        {more && (
+          <p class="testi-more">
+            <a href={more.href} rel="noopener" target="_blank">{more.label}<Icon name="arrow-right" size={16} /></a>
+          </p>
+        )}
       </div>
     </div>
   </section>
@@ -122,8 +130,10 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 .testi-section { background: var(--ink); color: #fff; padding: clamp(80px, 10vw, 140px) 0; }
 .testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
 .testi-wrap { display: flex; flex-direction: column; gap: 48px; }
-.testi-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-.testi-nav { display: flex; gap: 6px; }
+.testi-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; }
+.testi-nav { display: flex; flex-wrap: wrap; gap: 6px; }
+/* Six stories are 270px of dots: under the eyebrow on a phone, not past the edge. */
+@media (max-width: 560px) { .testi-nav span { width: 22px; } }
 .testi-nav button { padding: 6px; }
 .testi-nav span { display: block; width: 28px; height: 2px; background: rgba(255,255,255,0.2); transition: background .2s; }
 .testi-nav button.is-on span { background: var(--grn); }
@@ -148,6 +158,13 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 }
 .testi-quote footer { display: flex; gap: 16px; align-items: baseline; font-size: 14px; color: rgba(255,255,255,0.75); }
 .testi-quote footer b { color: #fff; font-weight: 600; }
+.testi-more { margin: clamp(28px, 4vw, 44px) 0 0; }
+.testi-more a {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;
+  color: #fff; border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 3px;
+  transition: border-color .2s, gap .2s;
+}
+.testi-more a:hover { border-color: var(--grn); gap: 11px; }
 @keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* Real patient reviews carried over from the WordPress bio pages. */

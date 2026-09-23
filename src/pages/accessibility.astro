@@ -1,0 +1,47 @@
+---
+/**
+ * Accessibility statement (D121). New — the old site had none. Every
+ * "what we've done" line is true of the site as built (skip link, focus
+ * outlines, reduced motion, AA text contrast from the --grn-2 change, the
+ * keyboard-operable menu buttons, alt text, captions left to YouTube). It
+ * says "aim", not "conform": no formal WCAG audit has been done.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import { site } from '../data/site';
+---
+<LegalPage title="Accessibility" updated="Updated September 2026"
+           description="East Valley Naturopathic Doctors wants everyone to be able to use this website. What we've done, what we know still falls short, and how to reach us.">
+  <p>We want everyone to be able to use this website, including people who use screen readers,
+  keyboards, magnification or other assistive technology. We aim to meet the Web Content
+  Accessibility Guidelines (WCAG) 2.2 at level AA.</p>
+
+  <h2>What we've done</h2>
+  <ul>
+    <li>Every page can be used with a keyboard, including the menus, and starts with a
+    “Skip to content” link.</li>
+    <li>Links and buttons show a clear outline when they have keyboard focus.</li>
+    <li>Text and link colors were chosen to meet WCAG AA contrast.</li>
+    <li>Images carry text descriptions; purely decorative images are hidden from screen readers.</li>
+    <li>If your device is set to reduce motion, the homepage video and animations are turned off.</li>
+    <li>Pages use real headings, lists and landmarks, so they can be navigated by structure.</li>
+    <li>The layout adapts to phones and to zoomed text without scrolling sideways.</li>
+  </ul>
+
+  <h2>What we know isn't perfect yet</h2>
+  <ul>
+    <li>Some older PDF forms and handouts were created years ago and may not work well with screen
+    readers.</li>
+    <li>Online booking, forms, the patient portal, maps and videos are provided by other companies,
+    and we can't fully control how accessible they are.</li>
+    <li>Some older articles include images that contain text.</li>
+  </ul>
+  <p>If anything on this site gets in your way, we'll help you another way — by phone, or with the
+  information in a format that works for you.</p>
+
+  <h2>Tell us about a problem</h2>
+  <p>Please let us know which page and what went wrong:</p>
+  <ul>
+    <li>Call <a href={site.phoneHref}>{site.phone}</a></li>
+    <li>Email <a href={`mailto:${site.email}`}>{site.email}</a></li>
+  </ul>
+</LegalPage>

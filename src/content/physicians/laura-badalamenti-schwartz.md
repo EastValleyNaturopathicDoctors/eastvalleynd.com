@@ -41,7 +41,7 @@ booking:
 
 <h2>Mood Disorders</h2>
 
-<p><a href="/conditions/mntal-health/depression-anxiety/">Depression and anxiety</a>, anger/Irritability</p>
+<p><a href="/conditions/mental-health/depression-anxiety/">Depression and anxiety</a>, anger/Irritability</p>
 
 <h2>FATIGUE</h2>
 

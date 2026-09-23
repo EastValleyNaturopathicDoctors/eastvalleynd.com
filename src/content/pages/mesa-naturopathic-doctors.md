@@ -41,7 +41,7 @@ booking: []
 
 <h3>Depression &amp; Anxiety</h3>
 
-<p>Mental health concerns such as <a href="/conditions/mntal-health/depression-anxiety/">depression and anxiety</a> can significantly impact daily life. Our naturopathic approach integrates neurotransmitter testing, nutritional support, herbal medicine, and mind-body therapies. By addressing underlying issues such as gut health, inflammation, and stress, we help patients achieve emotional balance naturally. Our goal is to empower individuals with the tools and knowledge needed to maintain long-term mental wellness.</p>
+<p>Mental health concerns such as <a href="/conditions/mental-health/depression-anxiety/">depression and anxiety</a> can significantly impact daily life. Our naturopathic approach integrates neurotransmitter testing, nutritional support, herbal medicine, and mind-body therapies. By addressing underlying issues such as gut health, inflammation, and stress, we help patients achieve emotional balance naturally. Our goal is to empower individuals with the tools and knowledge needed to maintain long-term mental wellness.</p>
 
 <h3>Insomnia &amp; Sleep Disorders</h3>
 

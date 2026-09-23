@@ -1,0 +1,40 @@
+---
+/**
+ * Good Faith Estimate notice (D121). The text is the clinic's own notice as
+ * published at /wp-content/uploads/2022/01/Good-Faith-Estimate-Notice.docx.pdf,
+ * which is itself the federal No Surprises Act standard notice. Only the
+ * closing "how to ask us" paragraph is new.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import { site } from '../data/site';
+const pdf = '/wp-content/uploads/2022/01/Good-Faith-Estimate-Notice.docx.pdf';
+---
+<LegalPage title="Good Faith Estimate" updated="Notice under the federal No Surprises Act"
+           description="Your right to a Good Faith Estimate of what your care will cost if you don't have insurance or are not using it, and how to ask East Valley Naturopathic Doctors for one.">
+  <h2>You have the right to receive a “Good Faith Estimate” explaining how much your medical care will cost.</h2>
+  <p>Under the law, health care providers need to give <strong>patients who don’t have insurance or
+  who are not using insurance</strong> an estimate of the bill for medical items and services
+  before those items and services are provided.</p>
+  <ul>
+    <li>You have the right to receive a Good Faith Estimate for the total expected cost of any
+    health care items or services upon request or when scheduling such items or services. This
+    includes related costs like medical tests, prescription drugs, and equipment.</li>
+    <li>If you schedule a healthcare item or service at least 3 business days in advance, make sure
+    your healthcare provider or facility gives you a Good Faith Estimate in writing within 1
+    business day after scheduling. If you schedule a healthcare item or service at least 10
+    business days in advance, make sure your healthcare provider or facility gives you a Good Faith
+    Estimate in writing within 3 business days after scheduling. You can also ask any healthcare
+    provider or facility for a Good Faith Estimate before you schedule an item or service. If you
+    do, make sure the healthcare provider or facility gives you a Good Faith Estimate in writing
+    within 3 business days after you ask.</li>
+    <li>If you receive a bill that is at least $400 more than your Good Faith Estimate, you can
+    dispute the bill.</li>
+    <li>Make sure to save a copy or picture of your Good Faith Estimate.</li>
+  </ul>
+  <p>For questions or more information about your right to a Good Faith Estimate, visit
+  <a href="https://www.cms.gov/nosurprises">www.cms.gov/nosurprises</a>.</p>
+
+  <h2>Asking us for an estimate</h2>
+  <p>Call us at <a href={site.phoneHref}>{site.phone}</a>, or ask when you schedule. This notice
+  is also available as a <a href={pdf}>printable PDF</a>.</p>
+</LegalPage>

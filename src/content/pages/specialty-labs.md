@@ -29,7 +29,7 @@ booking: []
 
 <p>Adrenal function testing assesses how well the adrenal glands manage stress by measuring key hormones like cortisol and DHEA-S. Chronic stress can lead to adrenal exhaustion, progressing through stages where cortisol levels first rise, then eventually drop, causing hormone imbalances and fatigue. This testing helps identify the body's adrenal health and guides treatment to restore balance and support overall wellness. </p>
 
-<p class="wp-more"><a href="/specialty-labs/adrenal-function-testing/">Learn more about Adrendal Function Testing</a></p>
+<p class="wp-more"><a href="/specialty-labs/adrenal-function-testing/">Learn more about Adrenal Function Testing</a></p>
 
 <h2>ASD Insight™ by NeuroQure</h2>
 
@@ -139,7 +139,7 @@ booking: []
 
 <p>US Biotek's GI Microbiome Panels assess gut health, immune function, and digestion. The GI Basic Profile measures 104 markers, while the GI Standard Profile adds short-chain fatty acids, inflammation, and immunology markers. The GI Advanced Profile includes cultures for live yeast, pathogens, and bacteria, along with antimicrobial sensitivity testing, helping to tailor treatment. These tests are valuable for diagnosing issues like IBS, food sensitivities, and nutritional deficiencies. </p>
 
-<p class="wp-more"><a href="/specialty-labs/micorbiome-panel/">Learn more about Microbiome Panel</a></p>
+<p class="wp-more"><a href="/specialty-labs/microbiome-panel/">Learn more about Microbiome Panel</a></p>
 
 <h2>Estrogen Metabolism Index</h2>
 

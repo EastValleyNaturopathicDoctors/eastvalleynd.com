@@ -41,7 +41,7 @@ booking: []
 
 <h3>Depression &amp; Anxiety Relief</h3>
 
-<p>Mental health conditions such as <a href="/conditions/mntal-health/depression-anxiety/">depression and anxiety</a> can significantly impact daily life for many in Gilbert. Rather than relying solely on pharmaceuticals, we offer a holistic approach that includes neurotransmitter testing, nutritional support, herbal medicine, and mind-body techniques. Our goal is to balance brain chemistry naturally while addressing underlying causes such as gut health, inflammation, and stress, helping Gilbert patients find lasting relief.</p>
+<p>Mental health conditions such as <a href="/conditions/mental-health/depression-anxiety/">depression and anxiety</a> can significantly impact daily life for many in Gilbert. Rather than relying solely on pharmaceuticals, we offer a holistic approach that includes neurotransmitter testing, nutritional support, herbal medicine, and mind-body techniques. Our goal is to balance brain chemistry naturally while addressing underlying causes such as gut health, inflammation, and stress, helping Gilbert patients find lasting relief.</p>
 
 <h3>Insomnia &amp; Sleep Disorders</h3>
 

@@ -1,0 +1,15 @@
+---
+/**
+ * SMS Messaging Terms & Conditions (D121) — the clinic's own text, word for
+ * word from the old /messaging-terms/ (extract/build_legal_pages.py). A
+ * carrier checks this URL when registering the texting campaign; do not
+ * reword it here. Change it in WordPress-era source or with the clinic.
+ */
+import LegalPage from '../layouts/LegalPage.astro';
+import legal from '../data/legal-wp.json';
+const t = legal.messagingTerms;
+---
+<LegalPage title="SMS Messaging Terms & Conditions" updated="Effective July 30, 2026"
+           description="Terms for East Valley Naturopathic Doctors' SMS appointment reminders and care messages: how to opt in, message frequency, costs, and how to opt out.">
+  <div set:html={t.html} />
+</LegalPage>

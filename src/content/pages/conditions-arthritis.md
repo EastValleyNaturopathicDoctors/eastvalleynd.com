@@ -1,7 +1,7 @@
 ---
-title: "Arthiritis"
-route: "/conditions/arthiritis/"
-slug: "conditions-arthiritis"
+title: "Arthritis"
+route: "/conditions/arthritis/"
+slug: "conditions-arthritis"
 wpTitle: "Arthritis Treatment Program"
 metaDescription: "Experience relief with the Arthritis Treatment Program at East Valley Naturopathic Doctors. Personalized strategies for managing arthritis and promoting joint health."
 imageFile: ""

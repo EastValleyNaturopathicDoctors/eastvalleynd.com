@@ -31,7 +31,7 @@ booking: [{"label": "Schedule Appointment", "url": "https://app.acuityscheduling
 <li>Cognitive Decline</li>
 <li>Concussions</li>
 <li>Dental Implants</li>
-<li><a href="/conditions/mntal-health/depression-anxiety/">Depression</a></li>
+<li><a href="/conditions/mental-health/depression-anxiety/">Depression</a></li>
 <li>Diabetes</li>
 <li>Erectile Dysfunction</li>
 <li>Fetal Alcohol Syndrome</li>

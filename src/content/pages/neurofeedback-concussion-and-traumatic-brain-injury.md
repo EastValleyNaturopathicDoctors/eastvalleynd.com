@@ -1,10 +1,10 @@
 ---
 title: "Neurofeedback for Concussion & Traumatic Brain Injury"
-route: "/neurofeedback/concussion-and-tramatic-brain-injury/"
-slug: "neurofeedback-concussion-and-tramatic-brain-injury"
+route: "/neurofeedback/concussion-and-traumatic-brain-injury/"
+slug: "neurofeedback-concussion-and-traumatic-brain-injury"
 wpTitle: "Neurofeedback for Concussion & Traumatic Brain Injury"
 metaDescription: "Find out how we use neurofeedback at EVND to help treat concussion and traumatic brain injury and if it might help you!"
-imageFile: "neurofeedback-concussion-and-tramatic-brain-injury.jpg"
+imageFile: "neurofeedback-concussion-and-traumatic-brain-injury.jpg"
 imageWidth: 800
 imageAlt: ""
 wordCount: 1948

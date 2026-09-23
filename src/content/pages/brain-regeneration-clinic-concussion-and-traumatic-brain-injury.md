@@ -44,7 +44,7 @@ booking: []
 <p>Chronic head injuries with a history of blast injuries, falls, sports injuries, and vehicular accidents, can leave lasting deficits that may not be immediately noticeable. Our brain recovery programs begin with a baseline brain mapping known as a QEEG. QEEG brain mapping evaluates hyper and hypo functioning of the various brain waves including Delta, Theta, Alpha, and Beta. The brain waves provide a functional description of cognitive functioning, mood regulation, and even localized brain inflammation. Once we have established a baseline for brain activity and completed cognitive testing we begin therapy with a combined approach utilizing Neurofeedback therapy, Hyperbaric Oxygen therapy, FSM or Brain Photobiomodulation. These combined therapies promote brain recovery by increasing oxygen, reducing inflammation, and healing nerve pathways in ways unmatched by any other course of treatment.</p>
 
 <ul class="wp-doclist">
-<li><a href="/neurofeedback/concussion-and-tramatic-brain-injury/">Neurofeedback Therapy</a></li>
+<li><a href="/neurofeedback/concussion-and-traumatic-brain-injury/">Neurofeedback Therapy</a></li>
 <li><a href="/hyperbaric-oxygen-therapy/">Hyperbaric Oxygen Therapy (HBOT)</a></li>
 <li><a href="/photobiomodulation/">Brain Photobiomodulation</a></li>
 <li><a href="/frequency-specific-microcurrent-therapy/">FSM Therapy</a></li>

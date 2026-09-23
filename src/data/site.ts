@@ -14,6 +14,8 @@ export const site = {
   phone: '(480) 985-0000',
   phoneHref: 'tel:4809850000',
   fax: '(480) 985-0029',
+  /** From the clinic's own SMS privacy policy and terms (published 2026-08-03). */
+  email: 'patientcare@eastvalleynd.com',
   address: { street: '5416 E. Southern Ave, Ste 110', city: 'Mesa', state: 'AZ', zip: '85206' },
   /** From the live /contact/ page (last edited 2025-05-26). */
   hours: [
@@ -104,5 +106,16 @@ export const footerCols = [
   ]},
 ];
 
-/** Empty until the legal pages exist in the sitemap — see Q20. */
-export const footerLegal: { label: string; href: string }[] = [];
+/** The clinic's Google Business listing, by its stable CID (checked 2026-09-23:
+ *  "East Valley Naturopathic Doctors", 5416 E Southern Ave #110, 4.9 stars). */
+export const googleReviewsUrl = 'https://maps.google.com/?cid=9077796893388264113';
+
+/** The policy pages (D121). /privacy/, /terms-conditions/ and /messaging-terms/
+ *  keep the old site's URLs — the SMS program's registration points at two. */
+export const footerLegal: { label: string; href: string }[] = [
+  { label: 'Privacy Policy', href: '/privacy/' },
+  { label: 'Terms of Use', href: '/terms-conditions/' },
+  { label: 'SMS Terms', href: '/messaging-terms/' },
+  { label: 'Good Faith Estimate', href: '/good-faith-estimate/' },
+  { label: 'Accessibility', href: '/accessibility/' },
+];

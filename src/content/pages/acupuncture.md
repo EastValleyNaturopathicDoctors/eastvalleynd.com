@@ -115,7 +115,7 @@ sourceUrl: "New Pages/LP_ Acupuncture Page.docx"
 
 <p>Stress affects nearly every system in the body.</p>
 
-<p><a href="/conditions/insomnia/">Insomnia</a>, irritability, <a href="/conditions/mntal-health/depression-anxiety/">anxiety, and depression</a> are conditions many patients seek acupuncture treatment for because it promotes relaxation while helping regulate the nervous system.</p>
+<p><a href="/conditions/insomnia/">Insomnia</a>, irritability, <a href="/conditions/mental-health/depression-anxiety/">anxiety, and depression</a> are conditions many patients seek acupuncture treatment for because it promotes relaxation while helping regulate the nervous system.</p>
 
 <p>Patients often notice improvements in:</p>
 

@@ -10,10 +10,6 @@
 //       names + titles from the design; PHOTOS are the real 2023 clinic
 //       headshots pulled from extract/export/media/. Any practitioner with
 //       img: '' has no photo on file yet and renders initials.
-//   * testimonials
-//       PLACEHOLDER — invented for the design mock. Names and quotes are not
-//       real patients. MUST be replaced with real, consented testimonials or
-//       removed before launch. See docs/OPEN-QUESTIONS.md Q14.
 //   * optimization `href`
 //       hand-mapped to the closest real route (D106). The descriptions are
 //       still the template's — see OPEN-QUESTIONS Q53.
@@ -282,28 +278,8 @@ export const practitioners = [
   }
 ] as const;
 
-export const testimonials = [
-  {
-    "quote": "After three years of being told my labs were 'normal,' EVND found the actual issue in eight weeks. I have my life back.",
-    "name": "Megan R.",
-    "context": "Chronic Fatigue · 6 months in care"
-  },
-  {
-    "quote": "The TruDOSE platelet therapy got me out of a wheelchair after my stroke. The team here treats the whole person, not the chart.",
-    "name": "David L.",
-    "context": "Stroke Recovery · 1 year in care"
-  },
-  {
-    "quote": "My Semaglutide program at EVND was paired with real labs and a real plan — not a clinic conveyor belt. Down 42 lbs, sustainably.",
-    "name": "Priya K.",
-    "context": "Metabolic Optimization"
-  },
-  {
-    "quote": "I came in for performance, stayed for the longevity work. NAD+, peptides, biological age testing — they made it all make sense.",
-    "name": "Marcus T.",
-    "context": "Longevity & Performance"
-  }
-] as const;
+// The design mock's four testimonials were invented and are gone (D122);
+// src/components/Testimonials.astro renders the clinic's real, published ones.
 
 export const faqs = [
   {

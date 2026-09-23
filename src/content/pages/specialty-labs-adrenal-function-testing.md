@@ -1,5 +1,5 @@
 ---
-title: "Adrendal Function Testing"
+title: "Adrenal Function Testing"
 route: "/specialty-labs/adrenal-function-testing/"
 slug: "specialty-labs-adrenal-function-testing"
 wpTitle: "Adrenal Function Testing"
