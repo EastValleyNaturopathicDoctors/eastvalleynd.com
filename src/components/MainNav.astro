@@ -95,7 +95,7 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
             <a href={item.href} class:list={['navlink', active && 'is-active']}
                aria-current={isSame(item.href, here) ? 'page' : undefined}>{label(item)}</a>
             <button type="button" class="subtoggle" aria-expanded="false"
-                    aria-label={`Show ${label(item)} menu`}><Icon name="chevron-down" size={13} /></button>
+                    aria-label={`Show ${label(item)} menu`}><Icon name="chevron-down" size={16} /></button>
 
             <div class:list={['subnav', mega && 'subnav-mega']}>
               <ul class="subnav-list">
@@ -464,12 +464,18 @@ body.nav-locked { overflow: hidden; }
 /* The pill wraps the link and its chevron together — the chevron is part of
    the control, not a separate thing floating beside it. The <a> and the
    <button> stay separate elements: one navigates, one opens the panel. */
+/* Measured so the chevron reads as part of its label and every pill is even:
+   label to chevron 7px, 14px of air inside both ends of every pill (matching
+   Home, which has no chevron), 32px between every pair of items. The glyph
+   sits about 4px inside its 16px box, hence the 3px and 10px. The chevron was
+   13px in the paler --ink-3, 11px off its label, so it read as loose clutter
+   and the items looked unevenly spaced. */
 .navitem.has-sub {
   position: relative; display: inline-flex; align-items: center; gap: 0;
-  padding-right: 8px; border-radius: 999px;
+  padding-right: 10px; border-radius: 999px;
   transition: background .2s;
 }
-.navitem.has-sub > .navlink { padding-right: 6px; }
+.navitem.has-sub > .navlink { padding-right: 3px; }
 .navitem.has-sub > .navlink:hover { background: none; }
 .navitem.has-sub:hover { background: var(--bg-soft); }
 .navitem.has-sub:hover > .navlink { color: var(--ink); }
@@ -479,7 +485,7 @@ body.nav-locked { overflow: hidden; }
 .navitem.has-sub .subtoggle {
   display: inline-grid; place-items: center;
   width: 16px; height: 16px; border-radius: 50%;
-  color: var(--ink-3); transition: transform .18s ease, color .18s;
+  color: var(--ink-2); transition: transform .18s ease, color .18s;
 }
 .navitem.has-sub:hover .subtoggle,
 .navitem.has-sub.is-open .subtoggle { color: var(--ink); }
