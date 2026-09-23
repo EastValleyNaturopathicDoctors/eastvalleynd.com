@@ -6,7 +6,9 @@ import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
 import SidebarCTA from '../components/SidebarCTA.astro';
+import BodyHtml from '../components/BodyHtml.astro';
 import { splitForCta } from '@/lib/midcta';
+import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { trail as navTrail } from '@/lib/nav';
 import '../styles/section-cards.css';
@@ -32,6 +34,7 @@ const aside = children.length === 0;
 // the section's menu; the card list would repeat it.
 const hasGrid = html.includes('wp-tilegrid');
 const showChildren = children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
+const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
 ---
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
       searchSection={parents[0]?.label}>
@@ -48,20 +51,31 @@ const showChildren = children.length > 0 && !(hasGrid && children.every((c) => h
       </div>
     </header>
 
-    {d.imageFile && (
+    {hero === 'wide' && (
       <div class="container cpage-figure">
         <PageImage file={d.imageFile} alt={d.imageAlt || d.title}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}
+    {hero === 'contained' && (
+      <div class="container cpage-figure is-contained">
+        <PageImage file={d.imageFile} alt={d.imageAlt || d.title} natural
+                   width={960} height={0} loading="eager" fetchpriority="high" />
+      </div>
+    )}
 
     <div class:list={['container', 'cpage-body-wrap', aside && 'has-aside']}>
-      <div class="cpage-body">
+      <div class="cpage-body prose">
+        {hero === 'inset' && (
+          <figure class="cpage-inset">
+            <PageImage file={d.imageFile} alt={d.imageAlt || d.title} natural width={420} height={0} loading="eager" />
+          </figure>
+        )}
         {halves ? (
-          <Fragment><Fragment set:html={halves[0]} /><InlineCTA topic={d.title} /><Fragment set:html={halves[1]} /></Fragment>
-        ) : <Fragment set:html={html} />}
+          <Fragment><BodyHtml html={halves[0]} /><InlineCTA topic={d.title} booking={d.booking} /><BodyHtml html={halves[1]} /></Fragment>
+        ) : <BodyHtml html={html} />}
       </div>
-      {aside && <SidebarCTA />}
+      {aside && <SidebarCTA booking={d.booking} topic={d.title} />}
     </div>
 
     {showChildren && (
@@ -95,7 +109,7 @@ const showChildren = children.length > 0 && !(hasGrid && children.every((c) => h
 .crumbs {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
   margin-bottom: 18px;
-  font-family: var(--font-mono); font-size: 11.5px;
+  font-family: var(--font-mono); font-size: 12px;
   letter-spacing: 0.06em; text-transform: uppercase;
 }
 .crumbs a { color: var(--ink-3); }
@@ -103,6 +117,16 @@ const showChildren = children.length > 0 && !(hasGrid && children.every((c) => h
 .crumbs a + a::before { content: '/'; margin-right: 8px; color: var(--line-2); }
 
 .cpage-figure { margin-top: clamp(18px, 2.6vw, 30px); }
+/* A mid-sized featured image at its own width, uncropped (D116). */
+.cpage-figure.is-contained { display: flex; justify-content: center; }
+.cpage-figure.is-contained img { width: auto; max-width: 100%; max-height: min(420px, 60vh); aspect-ratio: auto; object-fit: contain; }
+/* A small one beside the opening paragraphs rather than stretched across the page. */
+.cpage-inset { float: right; margin: 0.3em 0 1em 1.6em; max-width: min(42%, 320px); }
+.cpage-inset img { margin: 0; border-radius: var(--radius); width: 100%; height: auto; }
+@media (max-width: 560px) {
+  .cpage-inset { float: none; margin: 0 auto 1.4em; max-width: 100%; display: flex; justify-content: center; }
+  .cpage-inset img { width: auto; max-width: 100%; }
+}
 .cpage-figure img {
   width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
   border-radius: var(--radius-lg);

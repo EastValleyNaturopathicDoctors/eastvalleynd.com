@@ -5,15 +5,18 @@ slug: "transcranial-direct-current-stimulation"
 wpTitle: "Transcranial Direct Current Stimulation"
 metaDescription: "Explore transcranial direct current stimulation (tDCS) at East Valley for enhancing brain function and mental well-being. Learn more.\""
 imageFile: "transcranial-direct-current-stimulation.jpg"
+imageWidth: 1920
 imageAlt: "neurofeedback therapy"
 wordCount: 56
 canonical: ""
 interim: false
 sourceId: 5822
 sourceUrl: "/transcranial-direct-current-stimulation/"
+booking: [{"label": "Schedule Appointment", "url": "https://app.acuityscheduling.com/schedule.php?owner=18291275&owner=18291275&appointmentType=55553097"}]
 ---
 
-Transcranial direct current stimulation (tDCS) is a non-invasive brain stimulation considered to have the potential to improve cognitive impairment in patients ranging from neurodevelopmental disorders(ADHD), mood disorders, traumatic brain injuries to mild cognitive impairment (MCI) and Alzheimer’s disease (AD).
+<p>Transcranial direct current stimulation (tDCS) is a non-invasive brain stimulation considered to have the potential to improve cognitive impairment in patients ranging from neurodevelopmental disorders(ADHD), mood disorders, traumatic brain injuries to mild cognitive impairment (MCI) and Alzheimer’s disease (AD).</p>
+
 <ul class="wp-tilegrid">
 <li><a href="/transcranial-direct-current-stimulation/concussion-and-traumatic-brain-injury/" data-icon="neurology">Concussion and Traumatic Brain Injury</a></li>
 <li><a href="/transcranial-direct-current-stimulation/dementia-and-alzheimers/" data-icon="cognition">Dementia and Alzheimer's</a></li>
@@ -24,4 +27,3 @@ Transcranial direct current stimulation (tDCS) is a non-invasive brain stimulati
 <li><a href="/transcranial-direct-current-stimulation/autism/" data-icon="extension">Autism</a></li>
 <li><a href="/transcranial-direct-current-stimulation/long-covid/" data-icon="coronavirus">Long COVID</a></li>
 </ul>
-

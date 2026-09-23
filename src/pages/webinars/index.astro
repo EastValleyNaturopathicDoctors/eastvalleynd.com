@@ -48,28 +48,6 @@ const CHANNEL = 'https://www.youtube.com/@eastvalleynaturopathicdoct5601';
   <BookCTA />
 </Base>
 
-<script>
-  // Swap the poster for a real player on click. Nothing is requested from
-  // YouTube until this runs.
-  document.querySelectorAll<HTMLElement>('.video-frame').forEach((frame) => {
-    const btn = frame.querySelector('.video-play');
-    btn?.addEventListener('click', () => {
-      const id = frame.dataset.videoId;
-      if (!id) return;
-      const iframe = document.createElement('iframe');
-      iframe.src =
-        `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-      iframe.title = frame.dataset.videoTitle ?? 'Webinar';
-      iframe.allow =
-        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      iframe.allowFullscreen = true;
-      iframe.loading = 'lazy';
-      frame.replaceChildren(iframe);
-      frame.classList.add('is-playing');
-      iframe.focus();
-    });
-  });
-</script>
 
 <style is:global>
 /* --- Webinars ---------------------------------------------------------------

@@ -16,6 +16,14 @@
 import Button from './Button.astro';
 import Icon from './Icon.astro';
 import { site, directionsHref } from '../data/site';
+interface Props {
+  /** The page's own online booking, recovered from its WordPress Acuity
+   *  button (D115). When present it is the primary action. */
+  booking?: { label: string; url: string }[];
+  topic?: string;
+}
+const { booking = [], topic } = Astro.props;
+const book = booking[0];
 const a = site.address;
 /** "9:00 am – 5:00 pm" -> "9 – 5" would lose the am/pm; just drop the ":00". */
 const short = (t: string) => t.replace(/:00/g, '');
@@ -23,10 +31,25 @@ const short = (t: string) => t.replace(/:00/g, '');
 <aside class="page-aside" aria-label="Book an appointment" data-pagefind-ignore>
   <div class="aside-card">
     <p class="aside-title">Talk to a naturopathic doctor</p>
-    <p class="aside-body">Send a request and the front desk will call you back to confirm a time.</p>
-    <div class="aside-actions">
-      <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
-      <Button href={site.phoneHref} variant="ghost" icon="phone">{site.phone}</Button>
+    {book ? (
+      <p class="aside-body">Pick a time online, or send a request and the front desk will call you back.</p>
+    ) : (
+      <p class="aside-body">Send a request and the front desk will call you back to confirm a time.</p>
+    )}
+    <div class:list={['aside-actions', book && 'has-booking']}>
+      {book ? (
+        <Fragment>
+          <Button href={book.url} variant="dark" icon="calendar" target="_blank" rel="noopener"
+                  aria-label={topic ? `Book ${topic} online (opens the scheduler)` : undefined}>Book online</Button>
+          <Button href="/new-patient-appointment-request/" variant="ghost" icon="arrow-right">Request an appointment</Button>
+          <a class="aside-phone" href={site.phoneHref}><Icon name="phone" size={15} />{site.phone}</a>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
+          <Button href={site.phoneHref} variant="ghost" icon="phone">{site.phone}</Button>
+        </Fragment>
+      )}
     </div>
 
     <dl class="aside-facts">
@@ -59,6 +82,12 @@ const short = (t: string) => t.replace(/:00/g, '');
 </aside>
 
 <style is:global>
+.aside-phone {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 6px 0 0; font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+}
+.aside-phone:hover { color: var(--grn-2); }
+.aside-phone svg { color: var(--grn-2); }
 /* --- Sidebar booking card ----------------------------------------------------
    `.has-aside` is put on the body wrap by ContentPage and BlogPost. Under
    1100px none of this applies and the wrap is the single centred column it
@@ -102,6 +131,8 @@ const short = (t: string) => t.replace(/:00/g, '');
 .aside-actions .btn { justify-content: center; padding: 13px 18px; font-size: 14.5px; }
 .aside-actions .btn-ghost { background: #fff; font-family: var(--font-mono); font-size: 14px; }
 .aside-actions .btn-ghost:hover { background: var(--ink); }
+/* With online booking the ghost button is the request link, not the phone number. */
+.aside-actions.has-booking .btn-ghost { font-family: var(--font-sans); font-size: 14.5px; }
 
 .aside-facts { margin: 22px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); display: grid; gap: 16px; }
 .aside-facts > div { display: grid; grid-template-columns: 16px 1fr; gap: 12px; }

@@ -55,6 +55,9 @@ const blog = defineCollection({
     /** Filename in src/images/blog — resolved by BlogImage.astro. */
     imageFile: z.string().default(''),
     imageAlt: z.string().default(''),
+    /** Intrinsic width of that file; the layout shows a small one at its own
+     *  size rather than stretching it across the page (D116). 0 = unknown. */
+    imageWidth: z.number().default(0),
     wordCount: z.number().default(0),
     /** Keep / Update / no-decision, from the blog sheet. */
     decision: z.string().default(''),
@@ -80,6 +83,11 @@ const pages = defineCollection({
     metaDescription: z.string().default(''),
     imageFile: z.string().default(''),
     imageAlt: z.string().default(''),
+    /** Intrinsic width of the hero file (D116). 0 = unknown. */
+    imageWidth: z.number().default(0),
+    /** Service-specific online booking recovered from the WordPress page's
+     *  Acuity buttons (D115), shown in the page's booking card. */
+    booking: z.array(z.object({ label: z.string().default('Book online'), url: z.string() })).default([]),
     wordCount: z.number().default(0),
     /** Set when two sitemap rows deliberately render the same record — the
      *  page still exists, but points search engines at the primary one. */

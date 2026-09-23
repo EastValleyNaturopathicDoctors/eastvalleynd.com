@@ -22,8 +22,12 @@ interface Props {
   youtubeTitle?: string;
   posterFile?: string;
   loading?: 'lazy' | 'eager';
+  /** 'h3' in a grid of videos (webinars); 'p' inside an article, where a
+   *  caption must not enter the document outline (D115). */
+  titleTag?: 'h3' | 'p';
 }
-const { id, title, youtubeTitle = '', posterFile = '', loading = 'lazy' } = Astro.props;
+const { id, title, youtubeTitle = '', posterFile = '', loading = 'lazy', titleTag = 'h3' } = Astro.props;
+const TitleTag = titleTag;
 
 const posters = import.meta.glob<{ default: ImageMetadata }>(
   '/src/images/webinars/*.{jpg,jpeg,png,webp}', { eager: true }
@@ -46,12 +50,36 @@ if (import.meta.env.DEV && posterFile && !poster) {
       <span class="sr-only">Play “{title}”</span>
     </button>
   </div>
-  <h3 class="video-title">{title}</h3>
+  <TitleTag class="video-title">{title}</TitleTag>
   <a class="video-link" href={`https://www.youtube.com/watch?v=${id}`}
      target="_blank" rel="noopener">
     Watch on YouTube <Icon name="arrow-up-right" size={13} />
   </a>
 </article>
+
+<script>
+  // Swap the poster for a real player on click. Nothing is requested from
+  // YouTube until this runs. Lives here, not on a page, so every page that
+  // renders a facade gets it — the webinars page and migrated bodies (D115).
+  document.querySelectorAll<HTMLElement>('.video-frame').forEach((frame) => {
+    const btn = frame.querySelector('.video-play');
+    btn?.addEventListener('click', () => {
+      const id = frame.dataset.videoId;
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src =
+        `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+      iframe.title = frame.dataset.videoTitle ?? 'Video';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.loading = 'lazy';
+      frame.replaceChildren(iframe);
+      frame.classList.add('is-playing');
+      iframe.focus();
+    });
+  });
+</script>
 
 <style is:global>
 .video-card { display: flex; flex-direction: column; }
@@ -93,7 +121,7 @@ if (import.meta.env.DEV && posterFile && !poster) {
 }
 .video-link {
   display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
-  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.05em;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--ink-3);
 }
 .video-link:hover { color: var(--grn-2); }

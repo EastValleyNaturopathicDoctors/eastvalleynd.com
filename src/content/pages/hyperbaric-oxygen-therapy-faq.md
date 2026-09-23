@@ -5,105 +5,241 @@ slug: "hyperbaric-oxygen-therapy-faq"
 wpTitle: "HBOT FAQ"
 metaDescription: "Interested in learning more about Hyperbaric Oxygen Therapy and its potential benefits for you? Click here for tons of info!"
 imageFile: ""
+imageWidth: 0
 imageAlt: ""
 wordCount: 3459
 canonical: ""
 interim: false
 sourceId: 3638
 sourceUrl: "/hbot-faq/"
+booking: [{"label": "Schedule Appointment", "url": "https://app.acuityscheduling.com/schedule.php?owner=18291275&calendarID=3249896"}]
 ---
 
-Oxygen Therapy (HBOT) is a prescribed medical treatment in which a person is exposed to increased atmospheric pressure inside an enclosed soft or metal chamber. The typical pressure reaches between 1.1 and 3.5 atmospheres, which can also be expressed as 3 to 12 pounds per square inch. The increase in pressure allows more oxygen to reach the cells of the body resulting in many therapeutic benefits including increased energy and tissue function, new blood vessel formation, tissue regeneration, and anti-inflammatory effects. Hyperbaric Oxygen Therapy utilizes filtered pressurized ambient air to dissolve oxygen directly into the plasma, cerebral and spinal fluids, with the benefit of flooding tissues and vital organs with oxygen. Hyperbaric Therapy promotes healing at the cellular level, which in turn, affects healthy tissue formation followed by improvements in organ function and overall general health.The most common uses of Hyperbaric Therapy often fall under the care of integrative physicians and are considered ‘off-label’. Patients seek Hyperbaric Therapy for a multitude of diagnoses and conditions including Autism, strokes, cognitive decline, traumatic brain injury, wound healing, inflammatory bowel disease, anti-aging, athletic enhancement, Diabetes, Lyme disease, Cerebral Palsy, rheumatoid arthritis, and Alzheimer’s disease. References for specific instances in which studies have been performed are available. Recommendation of Hyperbaric Therapy is based on the knowledge, training, and expertise of the individual physician with consideration of the patient’s illness and capacity for a positive healing response.
+<h2>FAQ: Hyperbaric Oxygen Therapy (HBOT)</h2>
 
-The only ‘treatable’ conditions that have been approved by the FDA are the 15 that are listed below:
+<details class="wp-toggle">
+<summary>What is Hyperbaric Oxygen Therapy (aka ``HBOT”)?</summary>
+<p>Hyperbaric Oxygen Therapy (HBOT) is a prescribed medical treatment in which a person is exposed to increased atmospheric pressure inside an enclosed soft or metal chamber. The typical pressure reaches between 1.1 and 3.5 atmospheres, which can also be expressed as 3 to 12 pounds per square inch. The increase in pressure allows more oxygen to reach the cells of the body resulting in many therapeutic benefits including increased energy and tissue function, new blood vessel formation, tissue regeneration, and anti-inflammatory effects. Hyperbaric Oxygen Therapy utilizes filtered pressurized ambient air to dissolve oxygen directly into the plasma, cerebral and spinal fluids, with the benefit of flooding tissues and vital organs with oxygen. Hyperbaric Therapy promotes healing at the cellular level, which in turn, affects healthy tissue formation followed by improvements in organ function and overall general health.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>What Conditions Does HBOT Treat?</summary>
+<p>The most common uses of Hyperbaric Therapy often fall under the care of integrative physicians and are considered ‘off-label’. Patients seek Hyperbaric Therapy for a multitude of diagnoses and conditions including Autism, strokes, cognitive decline, traumatic brain injury, wound healing, inflammatory bowel disease, anti-aging, athletic enhancement, Diabetes, Lyme disease, Cerebral Palsy, rheumatoid arthritis, and Alzheimer’s disease. References for specific instances in which studies have been performed are available. Recommendation of Hyperbaric Therapy is based on the knowledge, training, and expertise of the individual physician with consideration of the patient’s illness and capacity for a positive healing response.</p>
+<p>The only ‘treatable’ conditions that have been approved by the FDA are the 15 that are listed below:</p>
 <ol>
- 	<li>Decompression Sickness</li>
- 	<li>Gas Embolism</li>
- 	<li>CO and Cyanide Poisoning</li>
- 	<li>Gas Gangrene</li>
- 	<li>Selected Aerobic and Anaerobic Soft Tissue Infections</li>
- 	<li>Osteomyelitis</li>
- 	<li>Intracranial Abscess</li>
- 	<li>Management of Fungal Disease</li>
- 	<li>Radiation Injury to Tissue</li>
- 	<li>Exceptional Blood Loss/Anemia</li>
- 	<li>Crush Injury/Compartment Syndrome</li>
- 	<li>Ischemia-Reperfusion Injuries</li>
- 	<li>Skin Grafts and Flaps</li>
- 	<li>Healing in Selected Problem Wounds</li>
- 	<li>Treatment of Thermal Burns.</li>
+<li>Decompression Sickness</li>
+<li>Gas Embolism</li>
+<li>CO and Cyanide Poisoning</li>
+<li>Gas Gangrene</li>
+<li>Selected Aerobic and Anaerobic Soft Tissue Infections</li>
+<li>Osteomyelitis</li>
+<li>Intracranial Abscess</li>
+<li>Management of Fungal Disease</li>
+<li>Radiation Injury to Tissue</li>
+<li>Exceptional Blood Loss/Anemia</li>
+<li>Crush Injury/Compartment Syndrome</li>
+<li>Ischemia-Reperfusion Injuries</li>
+<li>Skin Grafts and Flaps</li>
+<li>Healing in Selected Problem Wounds</li>
+<li>Treatment of Thermal Burns.</li>
 </ol>
-YES! Hyperbaric Therapy is being studied for its anti-aging benefits, Stem Cell activation benefits, brain health, and even recovery from exercise or injuries. It is highly recommended that you speak to your HBOT provider about having a general screening to participate in hyperbaric oxygen therapy. As low as the risks are, this will help to minimize any potential problems that you may have while learning of the possible benefits.Mild HBOT is Hyperbaric Oxygen Therapy done in a soft chamber and allows pressures up to 1.5 Atmospheres. Pressures higher than 1.5 Atmospheres require a hard or metal chamber. Mild HBOT therapy has proven to be as beneficial as higher pressure chambers for many “off label” conditions and with an even more impressive safety record. We primarily use mild Hyperbaric Oxygen Therapy.YES! The hyperbaric chamber uses filtered ambient air, so there is no risk of oxygen toxicity to the body even with regular use. The chamber can be depressurized and opened from the inside. Once inside the chamber, both visual and verbal communication is possible with the outside. Most people report a comfortable, relaxing experience and emerge from the chamber feeling refreshed. Hyperbaric Oxygen Therapy is a non-invasive, non-pharmaceutical treatment, with no dangerous side effects reported.Many studies are finding that the lower pressures found with mHBOT therapy are showing as much and sometimes more benefit compared to the higher pressures. In addition in mHBOT has a proven safety record. The only current FDA approved treatment with mHBOT is for altitude sickness. All other reasons for using mHBOT are considered off-label. However, mHBOT provides the body with a significantly high amount of extra oxygen, which is proving to be both safe and beneficial for a variety of health concerns.The mild hyperbaric chamber is filled with compressed ambient air from 3 to 6 pounds per square inch (1.3-1.5 ATA max). The increased pressure allows the blood plasma and other liquids of the body to absorb additional oxygen thus greatly increasing oxygen uptake by the cells, tissues, glands, organs, brain, and fluids of the body. The resulting uptake of oxygen allows for increased distribution of oxygen to needed areas, resulting in the reduction of swelling or inflammation. Additionally, oxygen is utilized by the body for revitalizing cell functions, to improve the health of cells, tissues, and organs. The human body is capable of healing itself when it has what it needs; with Oxygen being at the top of the list.According to Henry’s Law of Physics, an increase in atmospheric pressure allows for more gas to be dissolved into any given liquid. Oxygen, the 8th element on the Periodic Table, exists as a gas at room temperature. The human body is composed almost completely of water. Gas under pressure will dissolve in water, blood, and plasma, including all body fluids surrounding cells, tissues, and organs.No. It is the pressure that plays the most critical role in the effective dosage of HBOT. This is due to extra oxygen being dissolved in the blood plasma when under pressure, which travels to deeper areas in the body where blood flow and oxygen levels are limited. An oxygen bar only delivers higher oxygen concentrations and does not pressurize the oxygen. Therefore, it cannot deliver the same effects as you can experience through hyperbaric oxygen therapy. Only HBOT will be able to force significantly more oxygen into the blood plasma, according to Henry’s Law.No dangerous side effects have been reported with Mild Hyperbaric Oxygen Therapy. However, there are a few things to keep in mind when preparing for your first session in a chamber: 1. Some people experience mild discomfort to the ears when pressurizing the chamber, much like the ascending part of an airplane ride. 2. Some people following their first few sessions experience slight fatigue as the body sweeps itself clear of toxic debris that has built up in the body. This is safe and necessary.The chamber will seem smaller when deflated than it is when fully pressurized. Within one minute the chamber will inflate completely, allowing enough room for an adult to sit upright or lie fully extended. After the chamber inflates, it will begin to pressurize. This is the time when you may experience pressure in your ears. The easiest way to relieve any discomfort this may cause is to equalize your ears using one or more of the following methods:
+</details>
+
+<details class="wp-toggle">
+<summary>Can I use Hyperbaric Therapy for general health and wellness?</summary>
+<p>YES! Hyperbaric Therapy is being studied for its anti-aging benefits, Stem Cell activation benefits, brain health, and even recovery from exercise or injuries. It is highly recommended that you speak to your HBOT provider about having a general screening to participate in hyperbaric oxygen therapy. As low as the risks are, this will help to minimize any potential problems that you may have while learning of the possible benefits.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>What is mild Hyperbaric Oxygen Therapy (mHBOT)?</summary>
+<p>Mild HBOT is Hyperbaric Oxygen Therapy done in a soft chamber and allows pressures up to 1.5 Atmospheres. Pressures higher than 1.5 Atmospheres require a hard or metal chamber. Mild HBOT therapy has proven to be as beneficial as higher pressure chambers for many “off label” conditions and with an even more impressive safety record. We primarily use mild Hyperbaric Oxygen Therapy.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Is mild Hyperbaric Oxygen Therapy safe?</summary>
+<p>YES! The hyperbaric chamber uses filtered ambient air, so there is no risk of oxygen toxicity to the body even with regular use. The chamber can be depressurized and opened from the inside. Once inside the chamber, both visual and verbal communication is possible with the outside. Most people report a comfortable, relaxing experience and emerge from the chamber feeling refreshed. Hyperbaric Oxygen Therapy is a non-invasive, non-pharmaceutical treatment, with no dangerous side effects reported.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Is mild Hyperbaric Oxygen (mHBOT) Therapy strong enough?</summary>
+<p>Many studies are finding that the lower pressures found with mHBOT therapy are showing as much and sometimes more benefit compared to the higher pressures. In addition in mHBOT has a proven safety record. The only current FDA approved treatment with mHBOT is for altitude sickness. All other reasons for using mHBOT are considered off-label. However, mHBOT provides the body with a significantly high amount of extra oxygen, which is proving to be both safe and beneficial for a variety of health concerns.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>How does Hyperbaric Oxygen Therapy work?</summary>
+<p>The mild hyperbaric chamber is filled with compressed ambient air from 3 to 6 pounds per square inch (1.3-1.5 ATA max). The increased pressure allows the blood plasma and other liquids of the body to absorb additional oxygen thus greatly increasing oxygen uptake by the cells, tissues, glands, organs, brain, and fluids of the body. The resulting uptake of oxygen allows for increased distribution of oxygen to needed areas, resulting in the reduction of swelling or inflammation. Additionally, oxygen is utilized by the body for revitalizing cell functions, to improve the health of cells, tissues, and organs. The human body is capable of healing itself when it has what it needs; with Oxygen being at the top of the list.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Why does Hyperbaric Oxygen Therapy work?</summary>
+<p>According to Henry’s Law of Physics, an increase in atmospheric pressure allows for more gas to be dissolved into any given liquid. Oxygen, the 8th element on the Periodic Table, exists as a gas at room temperature. The human body is composed almost completely of water. Gas under pressure will dissolve in water, blood, and plasma, including all body fluids surrounding cells, tissues, and organs.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Is it true that I can get the same effects by going to an oxygen bar?</summary>
+<p>No. It is the pressure that plays the most critical role in the effective dosage of HBOT. This is due to extra oxygen being dissolved in the blood plasma when under pressure, which travels to deeper areas in the body where blood flow and oxygen levels are limited. An oxygen bar only delivers higher oxygen concentrations and does not pressurize the oxygen. Therefore, it cannot deliver the same effects as you can experience through hyperbaric oxygen therapy. Only HBOT will be able to force significantly more oxygen into the blood plasma, according to Henry’s Law.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Are there any side effects with Hyperbaric Oxygen Therapy?</summary>
+<p>No dangerous side effects have been reported with Mild Hyperbaric Oxygen Therapy. However, there are a few things to keep in mind when preparing for your first session in a chamber: 1. Some people experience mild discomfort to the ears when pressurizing the chamber, much like the ascending part of an airplane ride. 2. Some people following their first few sessions experience slight fatigue as the body sweeps itself clear of toxic debris that has built up in the body. This is safe and necessary.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>What can I expect to happen during my Hyperbaric session?</summary>
+<p>The chamber will seem smaller when deflated than it is when fully pressurized. Within one minute the chamber will inflate completely, allowing enough room for an adult to sit upright or lie fully extended. After the chamber inflates, it will begin to pressurize. This is the time when you may experience pressure in your ears. The easiest way to relieve any discomfort this may cause is to equalize your ears using one or more of the following methods:</p>
 <ol>
- 	<li>Close your mouth and firmly clamp your nose shut with your fingers and thumb. Blow gently, as if you were blowing your nose, but keep nose and mouth closed. You will have the feeling of the air coming out through your ears when you have done this procedure correctly, and this should relieve the pressure.</li>
- 	<li>Yawn. Stretching your mouth as wide as possible, even stretching your tongue out. This will cause the sinus passages surrounding your ears to drain and relieve the pressure.</li>
- 	<li>If you are the parent of a small child who is having trouble with their ears during pressurization, try massaging the area just below the ears and right behind the jaw. A baby who still uses a bottle or pacifier should be given either of these, but if your child is likely to spill drinks in the chamber please try to monitor them with liquids.</li>
- 	<li>Children who do not understand or obey commands can clear their ears by chewing. Gummi Bears, fruit leathers, or similar chewy foods will help their ears to clear naturally.</li>
- 	<li>Sit upright. Turn your head completely to the right, then completely to the left. Repeat earlier steps until the ears are cleared.</li>
- 	<li>It is advisable that you wear comfortable, loose clothing. (Pantyhose and other tight garments may contribute to feelings of claustrophobia.)</li>
- 	<li>Bring something to read, as the sessions last about 60 minutes.</li>
- 	<li>Do not drink large amounts of fluids before entering the chamber.</li>
- 	<li>Do not wear perfume or cologne when you are coming for your session. We do have individuals who are sensitive to chemicals that might enter the chamber after you.</li>
+<li>Close your mouth and firmly clamp your nose shut with your fingers and thumb. Blow gently, as if you were blowing your nose, but keep nose and mouth closed. You will have the feeling of the air coming out through your ears when you have done this procedure correctly, and this should relieve the pressure.</li>
+<li>Yawn. Stretching your mouth as wide as possible, even stretching your tongue out. This will cause the sinus passages surrounding your ears to drain and relieve the pressure.</li>
+<li>If you are the parent of a small child who is having trouble with their ears during pressurization, try massaging the area just below the ears and right behind the jaw. A baby who still uses a bottle or pacifier should be given either of these, but if your child is likely to spill drinks in the chamber please try to monitor them with liquids.</li>
+<li>Children who do not understand or obey commands can clear their ears by chewing. Gummi Bears, fruit leathers, or similar chewy foods will help their ears to clear naturally.</li>
+<li>Sit upright. Turn your head completely to the right, then completely to the left. Repeat earlier steps until the ears are cleared.</li>
+<li>It is advisable that you wear comfortable, loose clothing. (Pantyhose and other tight garments may contribute to feelings of claustrophobia.)</li>
+<li>Bring something to read, as the sessions last about 60 minutes.</li>
+<li>Do not drink large amounts of fluids before entering the chamber.</li>
+<li>Do not wear perfume or cologne when you are coming for your session. We do have individuals who are sensitive to chemicals that might enter the chamber after you.</li>
 </ol>
-YES, if it is a soft chamber. Mild hyperbaric chambers utilizing oxygen concentrators are considered to be safe for electronics and have been deployed in this manner for the last 20 years without any incidents. With higher pressure hyperbaric chambers and where such chambers are pressurized with pure oxygen, electronics are not allowed to be inside a hyperbaric chamber. At East Valley Naturopathic Doctors we utilize only soft chambers with oxygen concentrators for maximum safety. (Oxygen concentrators are mechanical pumps that take normal ambient air and concentrate the oxygen between 92-96% and deliver it via nasal cannula or mask while the patient is in the chamber).The sessions last around 60 minutes.The normal atmospheric pressure of 1 ATA allows for 6 pounds per day of inhaled oxygen. Breathing pure oxygen at 2 Atmospheres (under pressure) gives 10 times the regular amount of oxygen (2 x 100% pure oxygen vs. 21% normal atmospheric oxygen). Thus in one hour, humans under pressure can inhale 2.4 pounds of oxygen! Red blood cells instantly fill with oxygen and the extra oxygen dissolves directly into the blood fluid. In a few minutes, this extra oxygen begins to build up tissue oxygen levels far above normal.YES. Oxygen toxicity is a condition that can result from the harmful effects of breathing molecular oxygen (O2) under increased pressures. The primary locations which can be affected are the central nervous system and/or the lungs. The two main variables leading to oxygen toxicity are ‘pressure’ and ‘time.’ If the pressure is kept below 2.0 ATA and the time is kept to 60 min, then the risk of oxygen toxicity is extremely low. All symptoms of oxygen toxicity are reversible in the majority of cases when it arises. Great precautions are taken to ensure such incidents are avoided.40 sessions are considered a trial run to determine if Hyperbaric Therapy will have a positive impact on you.No. Keep in mind that the ‘40 hour protocol’ is the gold standard for many of the physiological benefits that have been observed with HBOT. However, the actual physiological benefits (for HBOT) can be seen in just a few sessions. Most physiological benefits will begin within the first few sessions of HBOT. It has been well documented that the antioxidant and protective role of HOBT is immediate and demonstrated within 24 hours of just one hyperbaric session. Further, the anti-inflammatory response is also very quick and a strong physiological response has been shown within 4 days of hyperbaric therapy. Many studies have reported HBOT to produce a strong pain-relieving effect after just 5 to 10 sessions. HBOT’s effects on promoting new blood vessel formation (angiogenesis) can revive or renew skin and tissues of all types, in just 10 to 20 sessions. From our data, here is a general summary:
+</details>
+
+<details class="wp-toggle">
+<summary>Can I take electronics inside the chamber?</summary>
+<p>YES, if it is a soft chamber. Mild hyperbaric chambers utilizing oxygen concentrators are considered to be safe for electronics and have been deployed in this manner for the last 20 years without any incidents. With higher pressure hyperbaric chambers and where such chambers are pressurized with pure oxygen, electronics are not allowed to be inside a hyperbaric chamber. At East Valley Naturopathic Doctors we utilize only soft chambers with oxygen concentrators for maximum safety. (Oxygen concentrators are mechanical pumps that take normal ambient air and concentrate the oxygen between 92-96% and deliver it via nasal cannula or mask while the patient is in the chamber).</p>
+</details>
+
+<details class="wp-toggle">
+<summary>How long does a Hyperbaric session last?</summary>
+<p>The sessions last around 60 minutes.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>How much oxygen do I get?</summary>
+<p>The normal atmospheric pressure of 1 ATA allows for 6 pounds per day of inhaled oxygen. Breathing pure oxygen at 2 Atmospheres (under pressure) gives 10 times the regular amount of oxygen (2 x 100% pure oxygen vs. 21% normal atmospheric oxygen). Thus in one hour, humans under pressure can inhale 2.4 pounds of oxygen! Red blood cells instantly fill with oxygen and the extra oxygen dissolves directly into the blood fluid. In a few minutes, this extra oxygen begins to build up tissue oxygen levels far above normal.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Can I overdose on oxygen while doing Hyperbaric Therapy?</summary>
+<p>YES. Oxygen toxicity is a condition that can result from the harmful effects of breathing molecular oxygen (O2) under increased pressures. The primary locations which can be affected are the central nervous system and/or the lungs. The two main variables leading to oxygen toxicity are ‘pressure’ and ‘time.’ If the pressure is kept below 2.0 ATA and the time is kept to 60 min, then the risk of oxygen toxicity is extremely low. All symptoms of oxygen toxicity are reversible in the majority of cases when it arises. Great precautions are taken to ensure such incidents are avoided.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>How many sessions of Hyperbaric Therapy do I need?</summary>
+<p>40 sessions are considered a trial run to determine if Hyperbaric Therapy will have a positive impact on you.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Do I need to do 40 Hyperbaric Therapy sessions?</summary>
+<p>No. Keep in mind that the ‘40 hour protocol’ is the gold standard for many of the physiological benefits that have been observed with HBOT. However, the actual physiological benefits (for HBOT) can be seen in just a few sessions. Most physiological benefits will begin within the first few sessions of HBOT. It has been well documented that the antioxidant and protective role of HOBT is immediate and demonstrated within 24 hours of just one hyperbaric session. Further, the anti-inflammatory response is also very quick and a strong physiological response has been shown within 4 days of hyperbaric therapy. Many studies have reported HBOT to produce a strong pain-relieving effect after just 5 to 10 sessions. HBOT’s effects on promoting new blood vessel formation (angiogenesis) can revive or renew skin and tissues of all types, in just 10 to 20 sessions. From our data, here is a general summary:</p>
 <ul>
- 	<li>1-5 sessions: Improve cellular energy and during this time tissue functioning may be optimized. Those with residual carbon monoxide (ie smokers) or with mild anemia can show immediate benefits with cellular energy.</li>
- 	<li>5-10 sessions: Typically used for acute injuries with soft tissue damage, particularly if there is pain involved.</li>
- 	<li>10-20 sessions: More serious acute injuries or chronic injuries.</li>
- 	<li>20-40 sessions: Commonly used for major tissue damages and when new tissue is required (through HBOT’s regenerative stem cell properties).</li>
+<li>1-5 sessions: Improve cellular energy and during this time tissue functioning may be optimized. Those with residual carbon monoxide (ie smokers) or with mild anemia can show immediate benefits with cellular energy.</li>
+<li>5-10 sessions: Typically used for acute injuries with soft tissue damage, particularly if there is pain involved.</li>
+<li>10-20 sessions: More serious acute injuries or chronic injuries.</li>
+<li>20-40 sessions: Commonly used for major tissue damages and when new tissue is required (through HBOT’s regenerative stem cell properties).</li>
 </ul>
-Yes. You should NOT go into the chamber if you have been drinking alcohol or taking recreational drugs, if you have ear canal problems or an ear infection, or if you are experiencing flu or cold symptoms. A history of pneumothorax or the use of certain medications may also preclude you from using this therapy.Oxygen-induced seizures are very rare (1/10,000) and are typically seen at higher pressures above 2.0 ATA. It should be noted that this is not epilepsy and will not cause further seizure activity, but instead is a one-time single episode that is treated by discontinuing the oxygen sessions. Most of these seizures have been shown to be related to low blood sugars or an elevation in body temperature. Experienced chamber operators should be able to minimize the potential risks of seizure. In saying that, many individuals with epilepsy, particularly children, have successfully used hyperbaric oxygen therapy to reduce seizure activity. This has been demonstrated both clinically and also in research studies. One study showed 82% of participants improved in seizure activity with 68% showing a significant effect in reducing seizures with hyperbaric oxygenation therapy.Yes, children can safely undergo hyperbaric therapy. There is no age restriction, but we do recommend that a parent or legal guardian also be present in the chamber during the Hyperbaric session. Acute Otitis media (ear infection) would be a common exclusion criterion until the infection has resolved.We will make a recommendation for you based on your needs after an initial evaluation, but will typically consist of daily sessions starting at 20-40 over 4-8 weeks.Sessions vary in cost according to the package purchased but start at $100/sessionYes, and that is why we like to focus on ‘physiological benefits’ as opposed to medical conditions. In saying that, it is highly recommended that you speak to your HBOT provider about having a general screening for being inside of a hyperbaric chamber (i.e., being “fit for Hyperbaric”). As low as the risks are, this will help to minimize any potential problems that you may have.It is not recommended to sleep inside a hyperbaric chamber for extended periods of time, even if it is a low-pressure chamber. Though there are people who have reported sleeping inside the chamber and promoting its benefits, we have many safety concerns for this type of practice and it is only a matter of time before a serious incident could occur. To ensure the highest level of safety, HBOT is generally not recommended for more than 60 to 90 minutes per session.Every person is different and some will see immediate benefits and others may not notice them at all until completion of their series of hyperbaric sessions. In terms of the ‘40 hour protocol’, it is not uncommon for the majority of the benefits to be reported up to 4 weeks following its completion.
+</details>
 
-East Valley Naturopathic Doctors is not contracted with any insurance companies and therefore all our services are paid out of pocket at the time of service. However, we can make superbills for patients, which(according to the policy of each insurance company) you may be able to submit to your insurance company for possible reimbursement.
+<details class="wp-toggle">
+<summary>Are there any reasons a person should NOT go into the chamber?</summary>
+<p>Yes. You should NOT go into the chamber if you have been drinking alcohol or taking recreational drugs, if you have ear canal problems or an ear infection, or if you are experiencing flu or cold symptoms. A history of pneumothorax or the use of certain medications may also preclude you from using this therapy.</p>
+</details>
 
-No, there is no valid support for this claim. There are many reports stating this myth, however, they all originate from one statement in the textbook Hyperbaric Medicine, page 143. Not only is there no reference for this statement, but there is no clinical data or research supporting this claim.
+<details class="wp-toggle">
+<summary>Will using the chamber cause seizures?</summary>
+<p>Oxygen-induced seizures are very rare (1/10,000) and are typically seen at higher pressures above 2.0 ATA. It should be noted that this is not epilepsy and will not cause further seizure activity, but instead is a one-time single episode that is treated by discontinuing the oxygen sessions. Most of these seizures have been shown to be related to low blood sugars or an elevation in body temperature. Experienced chamber operators should be able to minimize the potential risks of seizure. In saying that, many individuals with epilepsy, particularly children, have successfully used hyperbaric oxygen therapy to reduce seizure activity. This has been demonstrated both clinically and also in research studies. One study showed 82% of participants improved in seizure activity with 68% showing a significant effect in reducing seizures with hyperbaric oxygenation therapy.</p>
+</details>
 
-<h2>Untreated Pneumothorax</h2>
-The only absolute contraindication for HBOT is untreated pneumothorax (collapsed lung). Pneumothorax is a complication, which can be caused by breath-holding during decompression. A chest x-ray may be necessary to rule out pneumothorax if a patient’s medical history includes: a history of spontaneous pneumothorax, thoracic surgery, or chest injury.
-<h2>Pulmonary Barotrauma</h2>
-Pulmonary barotrauma or damage to the lungs is a rare condition that can occur during decompression. Patients with airway obstruction have an increased risk for pulmonary barotrauma during decompression. Patients must be cautioned against breath holding during decompression. Any history of pulmonary barotrauma as a result of HBOT may also exclude you from further treatment. Pulmonary Barotrauma is more likely to occur in higher pressures above 2.5 ATA, which are not currently utilized in our clinic.
-<h2>Emphysema with CO2 Retention (COPD)</h2>
-Generally speaking, COPD can be a concern at very high pressures, particularly in some cases of severe emphysema. However, when you look deeper into COPD, you will find chronic inflammation plays a key role in the progression of the disease. For this reason, repetitive hyperbaric oxygen therapy at lower pressures has become increasingly deployed, with favorable outcomes and clinical improvement. Thus, lower pressures can provide both good and safe outcome benefits. It is always good to make sure you get approval from your doctor before starting HBOT.
-<h2>Oxygen Seizures</h2>
-The incidence of seizures is reported in 0.01% of 28,700 treatments and never has been reported at less than 2.0 ATA for less than one hour. If a history exists for oxygen seizures lower pressures and shorter sessions may be warranted.
-<h2>Pregnancy (emergency only)</h2>
-It is not generally advised to undergo hyperbaric therapy if you are pregnant. Some people feel that there is a benefit, according to research done in Russia. However, until further safety studies are performed, it is not advisable to be inside a hyperbaric chamber during pregnancy.
-<h2>High Fevers (uncontrolled)</h2>
-Uncontrolled high fevers may be an indication of an active bacterial infection which will favor more oxygen and worsen the patient’s condition or infection. It is not advisable to use HBOT during an active bacterial infection.
-<h2>History of or concern for ear barotrauma</h2>
-Increased pressure in Hyperbaric Therapy can put more pressure on the ears or sinus cavities. Middle ear barotrauma is the most common side effect of HBOT therapy. Difficulty in clearing the ears causes “popping” in the ears leading to pain. It is prevented in most clients by teaching maneuvers such as yawning or chewing to release pressure. HBOT is not recommended with current ear infections or those with difficulty clearing pressure in the ear canals as when flying.
-<h2>Sinus Pain, Upper Respiratory Infections and Chronic Sinusitis</h2>
-A potential risk for increased sinus pressure (aka sinus squeeze) is more likely with an active upper respiratory or sinus infection. The incidence is less frequent than middle ear barotraumas. Antihistamines, decongestants, and/or nasal sprays may be helpful in reducing symptoms if taken before treatments. It may be recommended to temporarily suspend treatment until the infection or pressure is abated. With slow compression and decompression usually, there are no problems.
-<h2>Myopia and Cataract</h2>
-Myopia (nearsightedness) is a reversible complication of repeated exposure to HBOT. Even when progressive myopia does occur during a series of HBOT therapies, after treatment the visual acuity changes reverse completely. Acceleration of growth in existing cataracts is a complication of chronic long-term exposure at pressures over 2 ATA, however, published reports, as well as extensive clinical experience, indicate that new cataracts do not develop within the series of 30 to 50 therapies that are commonly used in the USA.
-<h2>Patent Foramen Ovale</h2>
-If your family has a history of Patent Foramen Ovale (hole-in-heart), there is an increased risk of decompression sickness. Please let your physician know if you have a history of PFO or decompression sickness with recreational diving.
-<h2>Dental Work</h2>
-Dental barotrauma occurs from increased pressures damaging the tooth dentin. All dental work including root canals, temporary caps, and fillings must be complete, otherwise, the risk for dental baro-trauma is possible.
-<h2>Implanted Devices</h2>
-All implanted devices must be able to undergo pressure. We will contact the manufacturer of the device and obtain information.
-<h2>Flying or Diving</h2>
-No flying or diving is permitted within 24 hours of Hyperbaric Oxygen Therapy.
-<h2>Claustrophobia</h2>
-Claustrophobia, which appears to be present in about 2% of the general population, may cause some degree of confinement anxiety. However, our chambers are very large which reduces the occurrence of claustrophobia. We take measures to ensure you feel comfortable. The chamber can be depressurized and opened from the inside. Once inside the chamber, both visual and verbal communication is possible with the outside. Most people report a comfortable, relaxing experience and emerge from the chamber feeling refreshed.
+<details class="wp-toggle">
+<summary>Can children use the Hyperbaric chamber?</summary>
+<p>Yes, children can safely undergo hyperbaric therapy. There is no age restriction, but we do recommend that a parent or legal guardian also be present in the chamber during the Hyperbaric session. Acute Otitis media (ear infection) would be a common exclusion criterion until the infection has resolved.</p>
+</details>
 
-The effects of some medications may be reduced or enhanced as a result of Hyperbaric Oxygen Therapy. The following are some of the potential medications influenced by HBOT.
+<details class="wp-toggle">
+<summary>How frequently should I schedule my Hyperbaric sessions?</summary>
+<p>We will make a recommendation for you based on your needs after an initial evaluation, but will typically consist of daily sessions starting at 20-40 over 4-8 weeks.</p>
+</details>
 
-<strong>Insulin:</strong> Reduction in insulin may be required during HBOT. Monitoring is required. Hypoglycemic clients will require blood monitoring and proper diet.
+<details class="wp-toggle">
+<summary>How much do sessions cost?</summary>
+<p>Sessions vary in cost according to the package purchased but start at $100/session</p>
+</details>
 
-<strong>Antabuse:</strong> Disulfiram (Antabuse) is known to block S.O.D.
+<details class="wp-toggle">
+<summary>Can I use HBOT for general health and wellness?</summary>
+<p>Yes, and that is why we like to focus on ‘physiological benefits’ as opposed to medical conditions. In saying that, it is highly recommended that you speak to your HBOT provider about having a general screening for being inside of a hyperbaric chamber (i.e., being “fit for Hyperbaric”). As low as the risks are, this will help to minimize any potential problems that you may have.</p>
+</details>
 
-<strong>Chemotherapy Agents:</strong> Some chemotherapy agents may need to clear at least 3 days before doing HBOT. Normal pulmonary function is required to participate in HBOT. Testing may be required if compromised due to therapy. Chemotherapy agents include: Doxorubicin (Adriamycin), Bleomycin, and Cis-platinumHyperbaric Oxygen Therapy sessions last 60 minutes. Schedule Hyperbaric Oxygen Therapy daily for the number of sessions recommended by your physician and/or based on the purchased package. Consider a baseline Hyperbaric Brain Map or QEEG before starting Hyperbaric Oxygen Therapy to evaluate concerns and observe benefit overtime.
-<h2>References and further reading for Hyperbaric Therapy</h2>
+<details class="wp-toggle">
+<summary>Can I sleep overnight in a Hyperbaric chamber?</summary>
+<p>It is not recommended to sleep inside a hyperbaric chamber for extended periods of time, even if it is a low-pressure chamber. Though there are people who have reported sleeping inside the chamber and promoting its benefits, we have many safety concerns for this type of practice and it is only a matter of time before a serious incident could occur. To ensure the highest level of safety, HBOT is generally not recommended for more than 60 to 90 minutes per session.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>How long before I can see benefits with Hyperbaric Therapy?</summary>
+<p>Every person is different and some will see immediate benefits and others may not notice them at all until completion of their series of hyperbaric sessions. In terms of the ‘40 hour protocol’, it is not uncommon for the majority of the benefits to be reported up to 4 weeks following its completion.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Does insurance cover treatments?</summary>
+<p>East Valley Naturopathic Doctors is not contracted with any insurance companies and therefore all our services are paid out of pocket at the time of service. However, we can make superbills for patients, which(according to the policy of each insurance company) you may be able to submit to your insurance company for possible reimbursement.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Can Hyperbaric Therapy cause mold or bacteria to form?</summary>
+<p>No, there is no valid support for this claim. There are many reports stating this myth, however, they all originate from one statement in the textbook Hyperbaric Medicine, page 143. Not only is there no reference for this statement, but there is no clinical data or research supporting this claim.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>What conditions may exclude me from Hyperbaric Therapy?</summary>
+<h3>Untreated Pneumothorax</h3>
+<p>The only absolute contraindication for HBOT is untreated pneumothorax (collapsed lung). Pneumothorax is a complication, which can be caused by breath-holding during decompression. A chest x-ray may be necessary to rule out pneumothorax if a patient’s medical history includes: a history of spontaneous pneumothorax, thoracic surgery, or chest injury.</p>
+<h3>Pulmonary Barotrauma</h3>
+<p>Pulmonary barotrauma or damage to the lungs is a rare condition that can occur during decompression. Patients with airway obstruction have an increased risk for pulmonary barotrauma during decompression. Patients must be cautioned against breath holding during decompression. Any history of pulmonary barotrauma as a result of HBOT may also exclude you from further treatment. Pulmonary Barotrauma is more likely to occur in higher pressures above 2.5 ATA, which are not currently utilized in our clinic.</p>
+<h3>Emphysema with CO2 Retention (COPD)</h3>
+<p>Generally speaking, COPD can be a concern at very high pressures, particularly in some cases of severe emphysema. However, when you look deeper into COPD, you will find chronic inflammation plays a key role in the progression of the disease. For this reason, repetitive hyperbaric oxygen therapy at lower pressures has become increasingly deployed, with favorable outcomes and clinical improvement. Thus, lower pressures can provide both good and safe outcome benefits. It is always good to make sure you get approval from your doctor before starting HBOT.</p>
+<h3>Oxygen Seizures</h3>
+<p>The incidence of seizures is reported in 0.01% of 28,700 treatments and never has been reported at less than 2.0 ATA for less than one hour. If a history exists for oxygen seizures lower pressures and shorter sessions may be warranted.</p>
+<h3>Pregnancy (emergency only)</h3>
+<p>It is not generally advised to undergo hyperbaric therapy if you are pregnant. Some people feel that there is a benefit, according to research done in Russia. However, until further safety studies are performed, it is not advisable to be inside a hyperbaric chamber during pregnancy.</p>
+<h3>High Fevers (uncontrolled)</h3>
+<p>Uncontrolled high fevers may be an indication of an active bacterial infection which will favor more oxygen and worsen the patient’s condition or infection. It is not advisable to use HBOT during an active bacterial infection.</p>
+<h3>History of or concern for ear barotrauma</h3>
+<p>Increased pressure in Hyperbaric Therapy can put more pressure on the ears or sinus cavities. Middle ear barotrauma is the most common side effect of HBOT therapy. Difficulty in clearing the ears causes “popping” in the ears leading to pain. It is prevented in most clients by teaching maneuvers such as yawning or chewing to release pressure. HBOT is not recommended with current ear infections or those with difficulty clearing pressure in the ear canals as when flying.</p>
+<h3>Sinus Pain, Upper Respiratory Infections and Chronic Sinusitis</h3>
+<p>A potential risk for increased sinus pressure (aka sinus squeeze) is more likely with an active upper respiratory or sinus infection. The incidence is less frequent than middle ear barotraumas. Antihistamines, decongestants, and/or nasal sprays may be helpful in reducing symptoms if taken before treatments. It may be recommended to temporarily suspend treatment until the infection or pressure is abated. With slow compression and decompression usually, there are no problems.</p>
+<h3>Myopia and Cataract</h3>
+<p>Myopia (nearsightedness) is a reversible complication of repeated exposure to HBOT. Even when progressive myopia does occur during a series of HBOT therapies, after treatment the visual acuity changes reverse completely. Acceleration of growth in existing cataracts is a complication of chronic long-term exposure at pressures over 2 ATA, however, published reports, as well as extensive clinical experience, indicate that new cataracts do not develop within the series of 30 to 50 therapies that are commonly used in the USA.</p>
+<h3>Patent Foramen Ovale</h3>
+<p>If your family has a history of Patent Foramen Ovale (hole-in-heart), there is an increased risk of decompression sickness. Please let your physician know if you have a history of PFO or decompression sickness with recreational diving.</p>
+<h3>Dental Work</h3>
+<p>Dental barotrauma occurs from increased pressures damaging the tooth dentin. All dental work including root canals, temporary caps, and fillings must be complete, otherwise, the risk for dental baro-trauma is possible.</p>
+<h3>Implanted Devices</h3>
+<p>All implanted devices must be able to undergo pressure. We will contact the manufacturer of the device and obtain information.</p>
+<h3>Flying or Diving</h3>
+<p>No flying or diving is permitted within 24 hours of Hyperbaric Oxygen Therapy.</p>
+<h3>Claustrophobia</h3>
+<p>Claustrophobia, which appears to be present in about 2% of the general population, may cause some degree of confinement anxiety. However, our chambers are very large which reduces the occurrence of claustrophobia. We take measures to ensure you feel comfortable. The chamber can be depressurized and opened from the inside. Once inside the chamber, both visual and verbal communication is possible with the outside. Most people report a comfortable, relaxing experience and emerge from the chamber feeling refreshed.</p>
+</details>
+
+<details class="wp-toggle">
+<summary>Are there any medications that may impede or affected by Hyperbaric Therapy?</summary>
+<p>The effects of some medications may be reduced or enhanced as a result of Hyperbaric Oxygen Therapy. The following are some of the potential medications influenced by HBOT.</p>
+<p><strong>Insulin:</strong> Reduction in insulin may be required during HBOT. Monitoring is required. Hypoglycemic clients will require blood monitoring and proper diet.</p>
+<p><strong>Antabuse:</strong> Disulfiram (Antabuse) is known to block S.O.D.</p>
+<p><strong>Chemotherapy Agents:</strong> Some chemotherapy agents may need to clear at least 3 days before doing HBOT. Normal pulmonary function is required to participate in HBOT. Testing may be required if compromised due to therapy. Chemotherapy agents include: Doxorubicin (Adriamycin), Bleomycin, and Cis-platinum</p>
+</details>
+
+<p>Hyperbaric Oxygen Therapy sessions last 60 minutes. Schedule Hyperbaric Oxygen Therapy daily for the number of sessions recommended by your physician and/or based on the purchased package. Consider a baseline Hyperbaric Brain Map or QEEG before starting Hyperbaric Oxygen Therapy to evaluate concerns and observe benefit overtime.</p>
+
+<h3>References and further reading for Hyperbaric Therapy</h3>
+
 <ul>
- 	<li>Textbook of Hyperbaric Medicine, K.K. Jain, M.D., Vol. 1, 2, 3</li>
- 	<li>Hyperbaric Medicine Practice, Eric Kindwall, M.D.</li>
- 	<li>Care of the Patient Receiving Hyperbaric Oxygen Therapy,</li>
- 	<li>Manual of Patient Care Standards. 1988. Norkool, D.</li>
- 	<li>Hyperbaric Oxygen Therapy: A Committee Report 1999. UHMS</li>
- 	<li>Fitness to Dive. DAN (Divers Alert Network)</li>
- 	<li>UHMS (Undersea Hyperbaric Medicine Society)</li>
- 	<li>IHMA (International Hyperbaric Medicine Association)</li>
- 	<li>IBUM (International Board of Undersea Medicine)</li>
- 	<li>National Board of Diving and Hyperbaric Medical Technology</li>
+<li>Textbook of Hyperbaric Medicine, K.K. Jain, M.D., Vol. 1, 2, 3</li>
+<li>Hyperbaric Medicine Practice, Eric Kindwall, M.D.</li>
+<li>Care of the Patient Receiving Hyperbaric Oxygen Therapy,</li>
+<li>Manual of Patient Care Standards. 1988. Norkool, D.</li>
+<li>Hyperbaric Oxygen Therapy: A Committee Report 1999. UHMS</li>
+<li>Fitness to Dive. DAN (Divers Alert Network)</li>
+<li>UHMS (Undersea Hyperbaric Medicine Society)</li>
+<li>IHMA (International Hyperbaric Medicine Association)</li>
+<li>IBUM (International Board of Undersea Medicine)</li>
+<li>National Board of Diving and Hyperbaric Medical Technology</li>
 </ul>

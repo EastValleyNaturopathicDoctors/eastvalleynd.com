@@ -1,10 +1,12 @@
 ---
 import { jsonLd } from '@/lib/schema';
 import type { CollectionEntry } from 'astro:content';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import BlogImage from '../components/BlogImage.astro';
+import BodyHtml from '../components/BodyHtml.astro';
+import { heroMode } from '@/lib/hero';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
@@ -16,8 +18,9 @@ interface Props { entry: CollectionEntry<'blog'> }
 const { entry } = Astro.props;
 const d = entry.data;
 const slug = d.slug;
-const { Content } = await render(entry);
-const halves = splitForCta(entry.rendered?.html ?? '');   // mid-article booking prompt, D103
+const html = entry.rendered?.html ?? '';
+const halves = splitForCta(html);   // mid-article booking prompt, D103
+const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';   // D116
 
 const all = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const i = all.findIndex((e) => e.data.slug === slug);
@@ -58,18 +61,29 @@ const schema = {
       </div>
     </header>
 
-    {d.imageFile && (
+    {hero === 'wide' && (
       <div class="container post-figure">
         <BlogImage file={d.imageFile} alt={d.imageAlt || d.title}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}
+    {hero === 'contained' && (
+      <div class="container post-figure is-contained">
+        <BlogImage file={d.imageFile} alt={d.imageAlt || d.title} natural
+                   width={960} height={0} loading="eager" fetchpriority="high" />
+      </div>
+    )}
 
     <div class="container post-body-wrap has-aside">
-      <div class="post-body">
+      <div class="post-body prose">
+        {hero === 'inset' && (
+          <figure class="cpage-inset">
+            <BlogImage file={d.imageFile} alt={d.imageAlt || d.title} natural width={420} height={0} loading="eager" />
+          </figure>
+        )}
         {halves ? (
-          <Fragment><Fragment set:html={halves[0]} /><InlineCTA /><Fragment set:html={halves[1]} /></Fragment>
-        ) : <Content />}
+          <Fragment><BodyHtml html={halves[0]} /><InlineCTA /><BodyHtml html={halves[1]} /></Fragment>
+        ) : <BodyHtml html={html} />}
       </div>
       <SidebarCTA />
     </div>
@@ -122,6 +136,14 @@ const schema = {
 }
 
 .post-figure { margin: clamp(20px, 3vw, 34px) auto 0; }
+.post-figure.is-contained { display: flex; justify-content: center; }
+.post-figure.is-contained img { width: auto; max-width: 100%; max-height: min(420px, 60vh); aspect-ratio: auto; object-fit: contain; }
+.cpage-inset { float: right; margin: 0.3em 0 1em 1.6em; max-width: min(42%, 320px); }
+.cpage-inset img { margin: 0 !important; border-radius: var(--radius); width: 100%; height: auto; }
+@media (max-width: 560px) {
+  .cpage-inset { float: none; margin: 0 auto 1.4em; max-width: 100%; display: flex; justify-content: center; }
+  .cpage-inset img { width: auto; max-width: 100%; }
+}
 .post-figure img {
   width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
   border-radius: var(--radius-lg);
@@ -163,7 +185,7 @@ const schema = {
 }
 .post-pager-link { display: inline-flex; align-items: center; gap: 12px; max-width: 40%; }
 .post-pager-link small {
-  display: block; font-family: var(--font-mono); font-size: 11px;
+  display: block; font-family: var(--font-mono); font-size: 12px;
   text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3);
 }
 .post-pager-link span { font-weight: 500; }

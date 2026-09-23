@@ -145,6 +145,8 @@ const schema = {
 .doc-bio { max-width: 74ch; }
 .doc-bio-body { font-size: 17px; line-height: 1.62; color: var(--ink-2); }
 .doc-bio-body > :first-child { margin-top: 0; }
+.doc-bio-body { overflow-wrap: break-word; }
+.doc-bio-body a { overflow-wrap: anywhere; }   /* long citation URLs on a phone */
 .doc-bio-body p { margin: 0 0 1.15em; }
 .doc-bio-body h2, .doc-bio-body h3, .doc-bio-body h4 {
   font-family: var(--font-display); color: var(--ink);
@@ -168,7 +170,7 @@ const schema = {
 }
 .doc-pager-link { display: inline-flex; align-items: center; gap: 12px; }
 .doc-pager-link small {
-  display: block; font-family: var(--font-mono); font-size: 11px;
+  display: block; font-family: var(--font-mono); font-size: 12px;
   text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3);
 }
 .doc-pager-link.is-prev svg { transform: rotate(180deg); }

@@ -7,18 +7,29 @@
 import Button from './Button.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
-interface Props { topic?: string }
-const { topic } = Astro.props;
+interface Props {
+  topic?: string;
+  /** The page's own online booking (D115); primary when present. */
+  booking?: { label: string; url: string }[];
+}
+const { topic, booking = [] } = Astro.props;
+const book = booking[0];
 ---
 <aside class="cta-inline" id="talk" aria-label="Book an appointment" data-pagefind-ignore>
   <div class="cta-inline-text">
     <p class="cta-inline-title">
       {topic ? `Talk to a naturopathic doctor about ${topic}` : 'Talk to a naturopathic doctor'}
     </p>
-    <p class="cta-inline-body">Send a request and the front desk will call you back to confirm a time.</p>
+    <p class="cta-inline-body">{book
+      ? 'Pick a time online, or send a request and the front desk will call you back.'
+      : 'Send a request and the front desk will call you back to confirm a time.'}</p>
   </div>
   <div class="cta-inline-actions">
-    <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
+    {book
+      ? <Button href={book.url} variant="dark" icon="calendar" target="_blank" rel="noopener"
+                aria-label={topic ? `Book ${topic} online (opens the scheduler)` : undefined}>Book online</Button>
+      : <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>}
+    {book && <a class="cta-inline-phone" href="/new-patient-appointment-request/">Or send a request</a>}
     <a class="cta-inline-phone" href={site.phoneHref}><Icon name="phone" size={15} />{site.phone}</a>
   </div>
 </aside>
