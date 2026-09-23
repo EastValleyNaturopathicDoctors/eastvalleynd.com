@@ -288,7 +288,7 @@ export const faqs = [
   },
   {
     "q": "Do you accept insurance?",
-    "a": "We accept several major insurance plans for office visits and labs. Many of our therapies (IV, PRP, HBOT, peptides) are out-of-network or self-pay. We provide superbills and HSA/FSA-compatible receipts. See our Insurance page or call (480) 985-0000 for benefits verification."
+    "a": "EVND is not contracted with any insurance plans, and Medicare does not cover naturopathic medicine. Some PPO plans may reimburse part of the cost as out-of-network care. We provide superbills and HSA/FSA-compatible receipts. See our Insurance page or call (480) 985-0000."
   },
   {
     "q": "What should I expect at my first visit?",
@@ -312,7 +312,7 @@ export const process = [
   {
     "step": "01",
     "title": "Tell us your story",
-    "body": "A 90-minute intake with one of our NMDs — the kind of conversation you have not had with a doctor before."
+    "body": "A 60–90 minute intake with one of our NMDs — the kind of conversation you have not had with a doctor before."
   },
   {
     "step": "02",

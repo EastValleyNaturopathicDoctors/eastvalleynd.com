@@ -27,7 +27,9 @@ export const site = {
   ],
   lunch: 'Closed for lunch 12:00 – 1:00 pm daily',
   since: 2008,
-  status: 'Accepting new patients — May 2026',
+  /** The template dated this "— May 2026"; dropped as stale (D124). A tail
+   *  after an em dash still works: TopBar hides it on phones. */
+  status: 'Accepting new patients',
 
   /**
    * YouTube id for the hero background. Set to null to run poster-only.
