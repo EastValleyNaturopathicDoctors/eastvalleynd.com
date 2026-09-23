@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import PageImage from '@/components/PageImage.astro';
+import { stockFor } from '@/lib/stock';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import BlogImage from '@/components/BlogImage.astro';
@@ -29,9 +31,14 @@ const [lead, ...rest] = posts;
     <div class="container">
       {lead && (
         <a class="post-card is-lead" href={`/${lead.data.slug}/`}>
-          {lead.data.imageFile && (
+          {lead.data.imageFile ? (
             <div class="post-card-media">
               <BlogImage file={lead.data.imageFile} alt={lead.data.imageAlt || lead.data.title}
+                         width={900} height={560} loading="eager" />
+            </div>
+          ) : stockFor(`/${lead.data.slug}/`) && (
+            <div class="post-card-media">
+              <PageImage set="stock" file={stockFor(`/${lead.data.slug}/`)!.file} alt={stockFor(`/${lead.data.slug}/`)!.alt}
                          width={900} height={560} loading="eager" />
             </div>
           )}
@@ -54,7 +61,9 @@ const [lead, ...rest] = posts;
               {p.data.imageFile
                 ? <BlogImage file={p.data.imageFile} alt={p.data.imageAlt || p.data.title}
                              width={640} height={400} />
-                : <span class="post-card-placeholder" aria-hidden="true"><Icon name="leaf" size={26} /></span>}
+                : stockFor(`/${p.data.slug}/`)
+                  ? <PageImage set="stock" file={stockFor(`/${p.data.slug}/`)!.file} alt={stockFor(`/${p.data.slug}/`)!.alt} width={640} height={400} />
+                  : <span class="post-card-placeholder" aria-hidden="true"><Icon name="leaf" size={26} /></span>}
             </div>
             <div class="post-card-body">
               <div class="post-card-meta">

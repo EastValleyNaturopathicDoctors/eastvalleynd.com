@@ -1,4 +1,6 @@
 ---
+import PageImage from './PageImage.astro';
+import { stockSlot } from '@/lib/stock';
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
@@ -8,7 +10,7 @@ const a = site.address;
 <section class="section book-section" id="book" data-pagefind-ignore>
   <div class="container book-wrap">
     <div class="book-bg">
-      <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1800&q=80&auto=format&fit=crop" alt="" loading="lazy" />
+      <PageImage set="stock" file={stockSlot('section:booking')!.file} alt="" width={1800} height={1000} />
       <div class="book-overlay"></div>
     </div>
     <div class="book-text">

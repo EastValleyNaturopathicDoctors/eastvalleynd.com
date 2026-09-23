@@ -7,6 +7,8 @@ import Icon from '../components/Icon.astro';
 import BlogImage from '../components/BlogImage.astro';
 import BodyHtml from '../components/BodyHtml.astro';
 import { heroMode } from '@/lib/hero';
+import PageImage from '../components/PageImage.astro';
+import { stockFor } from '@/lib/stock';
 import Eyebrow from '../components/Eyebrow.astro';
 import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
@@ -21,6 +23,8 @@ const slug = d.slug;
 const html = entry.rendered?.html ?? '';
 const halves = splitForCta(html);   // mid-article booking prompt, D103
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';   // D116
+// A post WordPress gave no image opens on an Unsplash photo (D119).
+const stock = hero === 'none' ? stockFor(`/${d.slug}/`) : undefined;
 
 const all = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const i = all.findIndex((e) => e.data.slug === slug);
@@ -64,6 +68,12 @@ const schema = {
     {hero === 'wide' && (
       <div class="container post-figure">
         <BlogImage file={d.imageFile} alt={d.imageAlt || d.title}
+                   width={1200} height={675} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+    {stock && (
+      <div class="container post-figure" data-pagefind-ignore>
+        <PageImage set="stock" file={stock.file} alt={stock.alt}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}

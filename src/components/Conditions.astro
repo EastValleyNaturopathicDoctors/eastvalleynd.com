@@ -4,6 +4,8 @@ import Button from './Button.astro';
 import SectionHead from './SectionHead.astro';
 import { conditions } from '../data/content';
 import { find } from '@/lib/nav';
+import PageImage from './PageImage.astro';
+import { stockSlot } from '@/lib/stock';
 interface Props { limit?: number; showHead?: boolean; }
 const { limit, showHead = true } = Astro.props;
 const items = limit ? conditions.slice(0, limit) : conditions;
@@ -27,7 +29,9 @@ const truncated = !!limit && total > items.length;
     <div class="cond-grid">
       {items.map((c, i) => (
         <a href={c.href} class="cond-card" style={`--i:${i}`}>
-          <img src={c.img} alt="" loading="lazy" decoding="async" />
+          {stockSlot(`card:${c.slug}`)
+            ? <PageImage set="stock" file={stockSlot(`card:${c.slug}`)!.file} alt="" width={600} height={750} />
+            : <img src={c.img} alt="" loading="lazy" decoding="async" />}
           <div class="cond-overlay"></div>
           <div class="cond-body">
             <span class="cond-tag">{c.tag}</span>

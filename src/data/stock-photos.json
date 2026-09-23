@@ -1,10 +1,26 @@
 {
-  "note": "Unsplash stock photos for content pages that have no WordPress image (D118). Hand-curated: objects and scenes only, never people, so nothing reads as an EVND clinician, patient or facility. Every one is on client question 36 to confirm or replace. A page's own WordPress image always wins over this. Files are in src/images/stock; re-fetch with extract/fetch_stock_photos.py.",
+  "note": "Unsplash stock photos for content pages that have no WordPress image (D118). Hand-curated: objects and scenes only, never people, so nothing reads as an EVND clinician, patient or facility. Every one is on client question 36 to confirm or replace. A page's own WordPress image always wins over this. Files are in src/images/stock; re-fetch with extract/fetch_stock_photos.py. `components` holds the homepage condition cards and the template sections' photos (D119), same rule, self-hosted.",
   "license": "Unsplash License — https://unsplash.com/license",
   "placeholders": [
     "/specialty-labs/trio-smart-breath-test/"
   ],
   "photos": {
+    "/10-tips-for-naturally-reducing-stress/": {
+      "file": "unsplash-PiVZUFpsx1Q.jpg",
+      "alt": "A cup of chamomile tea with the flowers floating in it",
+      "unsplash": "https://unsplash.com/photos/PiVZUFpsx1Q",
+      "photographer": "Maria Klichik",
+      "photographerUrl": "https://unsplash.com/@switchinglanes",
+      "source": "photo-1719004322362-d230dc138bee"
+    },
+    "/5-steps-to-minimize-cancer-contraction/": {
+      "file": "unsplash-Cj39o8ekpjE.jpg",
+      "alt": "Purple, yellow and white cauliflower heads",
+      "unsplash": "https://unsplash.com/photos/Cj39o8ekpjE",
+      "photographer": "Unjay Markiewicz",
+      "photographerUrl": "https://unsplash.com/@unjay",
+      "source": "photo-1683723616147-44545defdc9e"
+    },
     "/acupuncture/": {
       "file": "unsplash-8wDm3cr48Xc.jpg",
       "alt": "Fine acupuncture needles on a white surface",
@@ -13,6 +29,14 @@
       "photographerUrl": "https://unsplash.com/@marianne_krohn",
       "source": "photo-1529088512498-64b87b354b8f"
     },
+    "/allergies/": {
+      "file": "unsplash-dQsQl-A-Srw.jpg",
+      "alt": "Cherry blossom against a blue sky",
+      "unsplash": "https://unsplash.com/photos/dQsQl-A-Srw",
+      "photographer": "Jake Weirick",
+      "photographerUrl": "https://unsplash.com/@weirick",
+      "source": "photo-1523318840068-3e8c0f998509"
+    },
     "/alpa-stim-treatment/": {
       "file": "unsplash-KBn4-lyqRgQ.jpg",
       "alt": "A stack of balanced stones on a rocky shore",
@@ -20,6 +44,14 @@
       "photographer": "Alejandro Piñero Amerio",
       "photographerUrl": "https://unsplash.com/@vjgalaxy",
       "source": "photo-1598826739205-d09823c3bc3d"
+    },
+    "/are-your-personal-care-products-toxic/": {
+      "file": "unsplash-sCFL6R7loQk.jpg",
+      "alt": "Skincare bottles and tubes on a pink surface",
+      "unsplash": "https://unsplash.com/photos/sCFL6R7loQk",
+      "photographer": "pmv chamara",
+      "photographerUrl": "https://unsplash.com/@pmvch",
+      "source": "photo-1631730486572-226d1f595b68"
     },
     "/brain-regeneration-clinic/": {
       "file": "unsplash-JkAxfH5ktpw.jpg",
@@ -37,6 +69,14 @@
       "photographerUrl": "https://unsplash.com/@averey",
       "source": "photo-1559757148-5c350d0d3c56"
     },
+    "/brain-regeneration-clinic/depression-and-anxiety/": {
+      "file": "unsplash-5G2G59V6IXg.jpg",
+      "alt": "Sunlight falling across a path through a forest",
+      "unsplash": "https://unsplash.com/photos/5G2G59V6IXg",
+      "photographer": "Michael Krahn",
+      "photographerUrl": "https://unsplash.com/@michael_g_krahn",
+      "source": "photo-1596238120156-5973b6839240"
+    },
     "/brain-regeneration-clinic/insomnia/": {
       "file": "unsplash-uPjUjh5Gy0A.jpg",
       "alt": "A bedside lamp glowing on a nightstand in a dark bedroom",
@@ -52,6 +92,22 @@
       "photographer": "Kyle Glenn",
       "photographerUrl": "https://unsplash.com/@kylejglenn",
       "source": "photo-1506452305024-9d3f02d1c9b5"
+    },
+    "/choosing-a-non-toxic-sunscreen-for-you-and-your-family/": {
+      "file": "unsplash-tTWlWxcPeM4.jpg",
+      "alt": "A red beach umbrella against a bright blue sky",
+      "unsplash": "https://unsplash.com/photos/tTWlWxcPeM4",
+      "photographer": "Andrey Câmara",
+      "photographerUrl": "https://unsplash.com/@andreycamara",
+      "source": "photo-1662508160321-23a0d326731c"
+    },
+    "/common-causes-and-treatment-of-depression/": {
+      "file": "unsplash-0jE8ynV4mis.jpg",
+      "alt": "Rows of colour-capped sample tubes in a laboratory rack",
+      "unsplash": "https://unsplash.com/photos/0jE8ynV4mis",
+      "photographer": "Testalize.me",
+      "photographerUrl": "https://unsplash.com/@testalizeme",
+      "source": "photo-1606206591513-adbfbdd7a177"
     },
     "/conditions/acne/": {
       "file": "unsplash-dMjkQJs58uo.jpg",
@@ -116,6 +172,14 @@
       "photographer": "Susan Holt Simpson",
       "photographerUrl": "https://unsplash.com/@shs521",
       "source": "photo-1568828668638-b1b4014d91a2"
+    },
+    "/conditions/childhood-medical-disorders/": {
+      "file": "unsplash-MhI69q6QrNI.jpg",
+      "alt": "A teddy bear wearing a stethoscope",
+      "unsplash": "https://unsplash.com/photos/MhI69q6QrNI",
+      "photographer": "Pauli Nie",
+      "photographerUrl": "https://unsplash.com/@paulify",
+      "source": "photo-1763294905876-2c1a41ddfd64"
     },
     "/conditions/chronic-fatigue/": {
       "file": "unsplash-dPkn4562j3E.jpg",
@@ -581,6 +645,22 @@
       "photographerUrl": "https://unsplash.com/@epicantus",
       "source": "photo-1623002071634-54590669fe3d"
     },
+    "/dr-porter-request-appointment-page/": {
+      "file": "unsplash-mBRtqyC_Iq0.jpg",
+      "alt": "A desk calendar beside a potted plant",
+      "unsplash": "https://unsplash.com/photos/mBRtqyC_Iq0",
+      "photographer": "Blessing Ri",
+      "photographerUrl": "https://unsplash.com/@blessingeffect",
+      "source": "photo-1611302457661-d24c21494f2a"
+    },
+    "/foods-that-can-worsen-adhd-symptoms/": {
+      "file": "unsplash-qrxcs-03V28.jpg",
+      "alt": "A pile of brightly coloured sugared gumdrops",
+      "unsplash": "https://unsplash.com/photos/qrxcs-03V28",
+      "photographer": "Alex kristanas",
+      "photographerUrl": "https://unsplash.com/@devdvr",
+      "source": "photo-1666274694243-9997eb427237"
+    },
     "/forms-and-handouts/": {
       "file": "unsplash-0LaBRkmH4fM.jpg",
       "alt": "Paper forms on clipboards",
@@ -605,6 +685,14 @@
       "photographerUrl": "https://unsplash.com/@joshua_chehov",
       "source": "photo-1682706841281-f723c5bfcd83"
     },
+    "/high-dose-vitamin-c-kills-cancer/": {
+      "file": "unsplash-7r1HxvVC7AY.jpg",
+      "alt": "Sliced oranges, grapefruit and limes",
+      "unsplash": "https://unsplash.com/photos/7r1HxvVC7AY",
+      "photographer": "Bruna Branco",
+      "photographerUrl": "https://unsplash.com/@brunabranco",
+      "source": "photo-1546548970-71785318a17b"
+    },
     "/hormone-therapy/": {
       "file": "unsplash-2c1orP6z2eo.jpg",
       "alt": "An amber glass dropper bottle",
@@ -613,6 +701,30 @@
       "photographerUrl": "https://unsplash.com/@kseegars",
       "source": "photo-1608571702600-5a5419d31475"
     },
+    "/how-dirty-is-your-soap/": {
+      "file": "unsplash-DlZD4V2j9oM.jpg",
+      "alt": "Two handmade soap bars, one tied with string",
+      "unsplash": "https://unsplash.com/photos/DlZD4V2j9oM",
+      "photographer": "freestocks",
+      "photographerUrl": "https://unsplash.com/@freestocks",
+      "source": "photo-1584305574647-0cc949a2bb9f"
+    },
+    "/how-do-we-maximize-cellular-oxygenation/": {
+      "file": "unsplash-lCw4SUonwMU.jpg",
+      "alt": "Flaxseeds scattered on a white surface",
+      "unsplash": "https://unsplash.com/photos/lCw4SUonwMU",
+      "photographer": "Karyna Panchenko",
+      "photographerUrl": "https://unsplash.com/@karyna_panchenko",
+      "source": "photo-1642497393440-4b5cc5f03ff5"
+    },
+    "/how-neurofeedback-can-help-with-traumatic-brain-injures/": {
+      "file": "unsplash-BDKid0yJcAk.jpg",
+      "alt": "A sheet of brain scan images on a light box",
+      "unsplash": "https://unsplash.com/photos/BDKid0yJcAk",
+      "photographer": "National Cancer Institute",
+      "photographerUrl": "https://unsplash.com/@nci",
+      "source": "photo-1631563019676-dade0dbdb8fc"
+    },
     "/hyperbaric-oxygen-therapy/faq/": {
       "file": "unsplash-lNxMcE8mvIM.jpg",
       "alt": "White clouds in a blue sky",
@@ -620,6 +732,22 @@
       "photographer": "Kumiko SHIMIZU",
       "photographerUrl": "https://unsplash.com/@shimikumi32",
       "source": "photo-1531147646552-1eec68116469"
+    },
+    "/infertility/": {
+      "file": "unsplash-ruQHpukrN7c.jpg",
+      "alt": "Young seedlings growing in soft morning light",
+      "unsplash": "https://unsplash.com/photos/ruQHpukrN7c",
+      "photographer": "Francesco Gallarotti",
+      "photographerUrl": "https://unsplash.com/@gallarotti",
+      "source": "photo-1457530378978-8bac673b8062"
+    },
+    "/injection-therapy/": {
+      "file": "unsplash-KMvoHcB-w5g.jpg",
+      "alt": "Glass vials and ampoules, in black and white",
+      "unsplash": "https://unsplash.com/photos/KMvoHcB-w5g",
+      "photographer": "National Cancer Institute",
+      "photographerUrl": "https://unsplash.com/@nci",
+      "source": "photo-1576671081837-49000212a370"
     },
     "/injection-therapy/slim-shot/": {
       "file": "unsplash-M779tNeoSKc.jpg",
@@ -693,6 +821,22 @@
       "photographerUrl": "https://unsplash.com/@andrewruiz",
       "source": "photo-1614019465575-16b8a61df7f1"
     },
+    "/multiple-chemical-sensitivity/": {
+      "file": "unsplash-9gzU1mtTzWM.jpg",
+      "alt": "A spray bottle of blue cleaning fluid beside a roll of paper towel",
+      "unsplash": "https://unsplash.com/photos/9gzU1mtTzWM",
+      "photographer": "Crystal Chabot",
+      "photographerUrl": "https://unsplash.com/@cchabot",
+      "source": "photo-1550963295-019d8a8a61c5"
+    },
+    "/natural-solutions-to-painful-periods/": {
+      "file": "unsplash-0p1iYK3ep-I.jpg",
+      "alt": "A mug of tea with fresh ginger and lemon on a wooden board",
+      "unsplash": "https://unsplash.com/photos/0p1iYK3ep-I",
+      "photographer": "Milada Vigerova",
+      "photographerUrl": "https://unsplash.com/@milada_vigerova",
+      "source": "photo-1678890565859-a2dadf52a48f"
+    },
     "/neurofeedback/history-of-neurofeedback-and-biofeedback/": {
       "file": "unsplash-8JRFgK-CnrI.jpg",
       "alt": "A vintage black-and-white photograph of a laboratory",
@@ -716,6 +860,14 @@
       "photographer": "Kari Shea",
       "photographerUrl": "https://unsplash.com/@karishea",
       "source": "photo-1496181133206-80ce9b88a853"
+    },
+    "/pesticide-exposure-linked-to-attention-deficit-and-hyperactivity-disorder/": {
+      "file": "unsplash-YbBWmI4hZys.jpg",
+      "alt": "A crop sprayer working across a green field",
+      "unsplash": "https://unsplash.com/photos/YbBWmI4hZys",
+      "photographer": "James Baltz",
+      "photographerUrl": "https://unsplash.com/@jimbob63",
+      "source": "photo-1627920768905-575535d6dd2e"
     },
     "/photobiomodulation/": {
       "file": "unsplash-g0tJD8e-yUE.jpg",
@@ -837,6 +989,62 @@
       "photographerUrl": "https://unsplash.com/@leohoho",
       "source": "photo-1624362772755-4d5843e67047"
     },
+    "/testosterone-deficiency-linked-to-depression-and-lack-of-motivation/": {
+      "file": "unsplash-JWK2H-2qz1Y.jpg",
+      "alt": "A loaded barbell on a dark gym floor",
+      "unsplash": "https://unsplash.com/photos/JWK2H-2qz1Y",
+      "photographer": "Paweł Bulwan",
+      "photographerUrl": "https://unsplash.com/@pbulwan",
+      "source": "photo-1672344048213-76b6e77304bd"
+    },
+    "/the-benefits-of-vitamin-d-for-depression/": {
+      "file": "unsplash-r8r2I7FsaIE.jpg",
+      "alt": "Sunlight falling through tall windows into a room",
+      "unsplash": "https://unsplash.com/photos/r8r2I7FsaIE",
+      "photographer": "Amel Majanovic",
+      "photographerUrl": "https://unsplash.com/@just_amelo",
+      "source": "photo-1563693998336-93c10e5d8f91"
+    },
+    "/the-best-cookware-for-non-toxic-cooking/": {
+      "file": "unsplash-RSpq9P2vttE.jpg",
+      "alt": "Stainless steel pots on a stovetop, in black and white",
+      "unsplash": "https://unsplash.com/photos/RSpq9P2vttE",
+      "photographer": "Justus Menke",
+      "photographerUrl": "https://unsplash.com/@justusmenke",
+      "source": "photo-1604414499020-f9ac575bc5ec"
+    },
+    "/the-breast-cancer-screening-test-everyone-should-know-about/": {
+      "file": "unsplash-eV71DIUSzNM.jpg",
+      "alt": "A pink awareness ribbon among pink roses",
+      "unsplash": "https://unsplash.com/photos/eV71DIUSzNM",
+      "photographer": "Estúdio Bloom",
+      "photographerUrl": "https://unsplash.com/@estudiobloom",
+      "source": "photo-1575853168674-9222301f4f42"
+    },
+    "/the-dangers-of-common-household-cleaners-and-safe-alternatives/": {
+      "file": "unsplash-n5qirFAe6rQ.jpg",
+      "alt": "Lemons beside a bottle of homemade lemon cleaner",
+      "unsplash": "https://unsplash.com/photos/n5qirFAe6rQ",
+      "photographer": "Precious Plastic Melbourne",
+      "photographerUrl": "https://unsplash.com/@preciousplasticmelbourne",
+      "source": "photo-1583907659441-addbe699e921"
+    },
+    "/the-environmental-impact-on-fertility/": {
+      "file": "unsplash-9vcEn3BJyy8.jpg",
+      "alt": "Small fragments of coloured plastic",
+      "unsplash": "https://unsplash.com/photos/9vcEn3BJyy8",
+      "photographer": "Marc Newberry",
+      "photographerUrl": "https://unsplash.com/@downrightpunch",
+      "source": "photo-1576037728058-ab2c538ac8d0"
+    },
+    "/treat-your-cold-and-flu-symptoms-naturally-this-season/": {
+      "file": "unsplash-StMkapA93O4.jpg",
+      "alt": "A pot of chicken and vegetable soup",
+      "unsplash": "https://unsplash.com/photos/StMkapA93O4",
+      "photographer": "jurien huggins",
+      "photographerUrl": "https://unsplash.com/@jurienh",
+      "source": "photo-1627880872609-f7ddd76616c2"
+    },
     "/weight-loss/": {
       "file": "unsplash-Z5ViTNhtPRs.jpg",
       "alt": "A carrot beside a tape measure",
@@ -844,6 +1052,115 @@
       "photographer": "charlesdeluvio",
       "photographerUrl": "https://unsplash.com/@charlesdeluvio",
       "source": "photo-1531171673193-06ab3c43e4a5"
+    },
+    "/what-causes-vaginal-infections/": {
+      "file": "unsplash-13UugSL9q7A.jpg",
+      "alt": "Bacterial colonies growing in a petri dish",
+      "unsplash": "https://unsplash.com/photos/13UugSL9q7A",
+      "photographer": "Michael Schiffer",
+      "photographerUrl": "https://unsplash.com/@michael_schiffer_design",
+      "source": "photo-1535127022272-dbe7ee35cf33"
+    }
+  },
+  "components": {
+    "card:autism-adhd-pans-pandas": {
+      "file": "unsplash-Rd01U0tPmQI.jpg",
+      "alt": "Wooden alphabet blocks stacked on a table",
+      "unsplash": "https://unsplash.com/photos/Rd01U0tPmQI",
+      "photographer": "Susan Holt Simpson",
+      "photographerUrl": "https://unsplash.com/@shs521",
+      "source": "photo-1558907353-ceb54f3882ed",
+      "size": "900x1125"
+    },
+    "card:women-s-health": {
+      "file": "unsplash-GhzYsSaqdjo.jpg",
+      "alt": "Pink peonies in a white ceramic jug",
+      "unsplash": "https://unsplash.com/photos/GhzYsSaqdjo",
+      "photographer": "Larisa Birta",
+      "photographerUrl": "https://unsplash.com/@larisabirta",
+      "source": "photo-1593501712755-a488ed71e96b",
+      "size": "900x1125"
+    },
+    "card:chronic-fatigue-me-cfs": {
+      "file": "unsplash-NSDC6XTcF3M.jpg",
+      "alt": "A mug of coffee on a windowsill at dawn",
+      "unsplash": "https://unsplash.com/photos/NSDC6XTcF3M",
+      "photographer": "Sixteen Miles Out",
+      "photographerUrl": "https://unsplash.com/@sixteenmilesout",
+      "source": "photo-1639527924475-33f4af52a080",
+      "size": "900x1125"
+    },
+    "card:mold-exposure": {
+      "file": "unsplash-kPK_DjUEJ5U.jpg",
+      "alt": "Black mold spreading across the corner of a white wall",
+      "unsplash": "https://unsplash.com/photos/kPK_DjUEJ5U",
+      "photographer": "Olena Shmahalo",
+      "photographerUrl": "https://unsplash.com/@theoperatingsystem",
+      "source": "photo-1579830780149-0a7a0d8114ea",
+      "size": "900x1125"
+    },
+    "card:lyme-disease": {
+      "file": "unsplash-vtZVXuoQVbw.jpg",
+      "alt": "A tick on a green leaf",
+      "unsplash": "https://unsplash.com/photos/vtZVXuoQVbw",
+      "photographer": "Erik Karits",
+      "photographerUrl": "https://unsplash.com/@erik_karits",
+      "source": "photo-1638520608156-562d418169eb",
+      "size": "900x1125"
+    },
+    "card:gastrointestinal-disorders": {
+      "file": "unsplash-jUPOXXRNdcA.jpg",
+      "alt": "A bowl of greens, egg, radish and avocado on a wooden table",
+      "unsplash": "https://unsplash.com/photos/jUPOXXRNdcA",
+      "photographer": "Brooke Lark",
+      "photographerUrl": "https://unsplash.com/@brookelark",
+      "source": "photo-1490645935967-10de6ba17061",
+      "size": "900x1125"
+    },
+    "card:anxiety-depression": {
+      "file": "unsplash-xP_AGmeEa6s.jpg",
+      "alt": "The sun rising over a hill",
+      "unsplash": "https://unsplash.com/photos/xP_AGmeEa6s",
+      "photographer": "Jordan Wozniak",
+      "photographerUrl": "https://unsplash.com/@j_wozy",
+      "source": "photo-1494548162494-384bba4ab999",
+      "size": "900x1125"
+    },
+    "section:optimization": {
+      "file": "unsplash-Xx1Mddhazmo.jpg",
+      "alt": "A kettlebell on a gym floor, in black and white",
+      "unsplash": "https://unsplash.com/photos/Xx1Mddhazmo",
+      "photographer": "With Mahdy",
+      "photographerUrl": "https://unsplash.com/@withmahdy",
+      "source": "photo-1653647358769-c0465db60293",
+      "size": "1200x1400"
+    },
+    "card:men-s-health": {
+      "file": "unsplash-20jX9b35r_M.jpg",
+      "alt": "An empty gym with treadmills and weight machines, in black and white",
+      "unsplash": "https://unsplash.com/photos/20jX9b35r_M",
+      "photographer": "Risen Wang",
+      "photographerUrl": "https://unsplash.com/@risennnnn",
+      "source": "photo-1571902943202-507ec2618e8f",
+      "size": "900x1125"
+    },
+    "section:trudose": {
+      "file": "unsplash-RS0-h_pyByk.jpg",
+      "alt": "Blister packs of assorted pills and capsules",
+      "unsplash": "https://unsplash.com/photos/RS0-h_pyByk",
+      "photographer": "Roberto Sorin",
+      "photographerUrl": "https://unsplash.com/@roberto_sorin",
+      "source": "photo-1631549916768-4119b2e5f926",
+      "size": "1200x1500"
+    },
+    "section:booking": {
+      "file": "unsplash-yo01Z-9HQAw.jpg",
+      "alt": "A stethoscope on a white surface, in black and white",
+      "unsplash": "https://unsplash.com/photos/yo01Z-9HQAw",
+      "photographer": "Hush Naidoo Jade Photography",
+      "photographerUrl": "https://unsplash.com/@hush52",
+      "source": "photo-1505751172876-fa1923c5c528",
+      "size": "1800x1000"
     }
   }
 }

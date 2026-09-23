@@ -12,7 +12,7 @@ import { splitForCta } from '@/lib/midcta';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { trail as navTrail } from '@/lib/nav';
-import stockPhotos from '@/data/stock-photos.json';
+import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
 import '../styles/section-cards.css';
 
@@ -40,8 +40,9 @@ const showChildren = children.length > 0 && !(hasGrid && children.every((c) => h
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
 // A page WordPress gave no image carries an Unsplash photo instead, or a
 // branded panel where none fitted (D118). Its own image always wins.
-const stock = d.imageFile ? undefined : (stockPhotos.photos as Record<string, { file: string; alt: string }>)[d.route];
-const placeholder = !d.imageFile && !stock && stockPhotos.placeholders.includes(d.route);
+// Also when the page's own image is an icon-sized thumbnail D116 hides (D119).
+const stock = hero === 'none' ? stockFor(d.route) : undefined;
+const placeholder = hero === 'none' && !stock && stockPlaceholders.includes(d.route);
 // The panel's icon: the page's own, else the nearest section's.
 const segs = d.route.split('/').filter(Boolean);
 const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
