@@ -4,7 +4,11 @@ import heroPoster from '@/images/site/hero-team.jpg';
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
+import { getCollection } from 'astro:content';
 import { site } from '../data/site';
+// Counted from the roster, so it can't drift from /physicians/ (D126). Not
+// "licensed": the roster includes a holistic nutrition practitioner.
+const practitioners = (await getCollection('physicians')).length;
 ---
 <section class="hero" id="home">
   <!--
@@ -41,7 +45,7 @@ import { site } from '../data/site';
         </a>
       </div>
       <div class="hero-meta">
-        <div><b>6</b><span>licensed clinicians</span></div>
+        <div><b>{practitioners}</b><span>practitioners</span></div>
         <div><b>18,000+</b><span>patients treated</span></div>
         <div><b>4.9★</b><span>Google rating</span></div>
       </div>
