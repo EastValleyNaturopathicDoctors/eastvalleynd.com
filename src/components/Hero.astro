@@ -1,27 +1,19 @@
 ---
-import { Image } from 'astro:assets';
-import heroPoster from '@/images/site/hero-team.jpg';
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import { getCollection } from 'astro:content';
-import { site } from '../data/site';
 // Counted from the roster, so it can't drift from /physicians/ (D126). Not
 // "licensed": the roster includes a holistic nutrition practitioner.
 const practitioners = (await getCollection('physicians')).length;
 ---
 <section class="hero" id="home">
-  <!--
-    The poster always renders. When a video id is set, the iframe is injected on
-    top of it at runtime — so there is no black gap while YouTube loads, and
-    anyone with prefers-reduced-motion keeps the still image instead of an
-    autoplaying background video.
-  -->
-  <div class="hero-bg has-poster" id="heroBg" data-video-id={site.heroVideoId ?? ''}>
-    {/* The largest paint on the site. Through astro:assets it ships as WebP at
-        the width the viewport actually needs, instead of one 336 KB JPEG. */}
-    <Image class="hero-poster" src={heroPoster} alt="" widths={[640, 960, 1280, 1920, 2560]}
-           sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />
+  {/* A generated, slowly flowing field in the brand greens (D128), drawn live
+      with WebGL in place of the old YouTube background. The gradient on
+      .hero-bg is what shows before the first frame, without WebGL, and in
+      print; reduced-motion visitors get one still frame. */}
+  <div class="hero-bg" id="heroBg">
+    <canvas class="hero-flow" aria-hidden="true"></canvas>
     <div class="hero-overlay"></div>
   </div>
 
@@ -91,31 +83,107 @@ const practitioners = (await getCollection('physicians')).length;
 </section>
 
 <script>
+  /* Domain-warped noise (fbm feeding fbm feeding fbm): the field folds and
+     drifts like ink in water. Rendered at a fraction of the screen's
+     resolution — the image is soft by nature, so nobody can tell — and only
+     while the hero is on screen and the tab is visible. */
   const bg = document.getElementById('heroBg');
-  const id = bg?.dataset.videoId;
-  const wantsMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Below 900px the copy fills the hero and the video is never really seen —
-  // not worth the YouTube payload on a phone. Skip injecting it entirely so
-  // the poster scrim stays correct too.
-  const wideEnough = window.matchMedia('(min-width: 901px)').matches;
+  const canvas = bg?.querySelector<HTMLCanvasElement>('.hero-flow');
+  const gl = canvas?.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
 
-  if (bg && id && wantsMotion && wideEnough) {
-    const params = new URLSearchParams({
-      autoplay: '1', mute: '1', loop: '1', playlist: id,
-      controls: '0', showinfo: '0', modestbranding: '1',
-      playsinline: '1', rel: '0', iv_load_policy: '3', disablekb: '1',
-    });
-    const frame = document.createElement('iframe');
-    frame.title = 'EVND clinic background video';
-    frame.src = `https://www.youtube-nocookie.com/embed/${id}?${params}`;
-    frame.allow = 'autoplay; encrypted-media';
-    frame.setAttribute('frameborder', '0');
-    frame.setAttribute('aria-hidden', 'true');
-    frame.tabIndex = -1;
-    // Fade in once it has had a moment to start, so we never flash black.
-    frame.addEventListener('load', () => bg.classList.add('video-ready'));
-    bg.insertBefore(frame, bg.querySelector('.hero-overlay'));
-    bg.classList.add('has-video');
+  const VERT = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const FRAG = `
+    precision mediump float;
+    uniform vec2 res; uniform float t;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float n(vec2 p){
+      vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+      return mix(mix(h(i), h(i+vec2(1,0)), f.x), mix(h(i+vec2(0,1)), h(i+vec2(1,1)), f.x), f.y);
+    }
+    float fbm(vec2 p){
+      float v = 0., a = .5; mat2 r = mat2(.8, .6, -.6, .8);
+      for (int i = 0; i < 5; i++){ v += a*n(p); p = r*p*2.03 + 7.1; a *= .5; }
+      return v;
+    }
+    void main(){
+      vec2 uv = gl_FragCoord.xy / res;
+      vec2 p = (gl_FragCoord.xy - .5*res) / res.y * 1.05;
+      float T = t * .045;
+      vec2 q = vec2(fbm(p + vec2(0., T)), fbm(p + vec2(5.2, 1.3) - T*.8));
+      vec2 s = vec2(fbm(p + 3.2*q + vec2(1.7, 9.2) + T*1.2), fbm(p + 3.2*q + vec2(8.3, 2.8) - T));
+      float f = fbm(p + 3.4*s);
+      vec3 ink    = vec3(.055, .075, .067);   // --ink
+      vec3 deep   = vec3(.06, .20, .12);
+      vec3 forest = vec3(.16, .42, .20);
+      vec3 leaf   = vec3(.42, .75, .25);      // --grn
+      vec3 teal   = vec3(.06, .30, .30);
+      vec3 col = mix(ink, deep, clamp(f*f*2.2, 0., 1.));
+      col = mix(col, forest, smoothstep(.45, 1.05, length(q)) * .85);
+      col = mix(col, teal, smoothstep(.45, .85, s.y) * .45);
+      col = mix(col, leaf, smoothstep(.55, .9, f) * .7);
+      col *= .62 + .6*uv.x;                   // quieter on the left, under the copy
+      col *= 1. - .3*pow(1. - uv.y, 2.);      // settle toward the path cards
+      col += (h(gl_FragCoord.xy + t) - .5) / 255.;  // dither: no banding in the darks
+      gl_FragColor = vec4(col, 1.);
+    }`;
+
+  function build(g: WebGLRenderingContext) {
+    const sh = (type: number, src: string) => {
+      const x = g.createShader(type)!; g.shaderSource(x, src); g.compileShader(x);
+      return g.getShaderParameter(x, g.COMPILE_STATUS) ? x : null;
+    };
+    const v = sh(g.VERTEX_SHADER, VERT), f = sh(g.FRAGMENT_SHADER, FRAG);
+    if (!v || !f) return null;
+    const prog = g.createProgram()!;
+    g.attachShader(prog, v); g.attachShader(prog, f); g.linkProgram(prog);
+    if (!g.getProgramParameter(prog, g.LINK_STATUS)) return null;
+    g.useProgram(prog);
+    g.bindBuffer(g.ARRAY_BUFFER, g.createBuffer());
+    g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), g.STATIC_DRAW);
+    const loc = g.getAttribLocation(prog, 'p');
+    g.enableVertexAttribArray(loc);
+    g.vertexAttribPointer(loc, 2, g.FLOAT, false, 0, 0);
+    return { res: g.getUniformLocation(prog, 'res'), t: g.getUniformLocation(prog, 't') };
+  }
+
+  const u = gl && build(gl);
+  if (bg && canvas && gl && u) {
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Soft by design, so draw it at about half the CSS size and let the
+    // browser scale it up; nobody can tell, and the GPU does a quarter of the work.
+    const scale = () => (window.innerWidth < 900 ? 0.45 : 0.5);
+    const t0 = performance.now() - 40000;   // start mid-flow, not from a blank seed
+    const size = () => {
+      const w = Math.max(1, Math.round(canvas.clientWidth * scale()));
+      const h = Math.max(1, Math.round(canvas.clientHeight * scale()));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h);
+      }
+      gl.uniform2f(u.res, w, h);
+    };
+    const draw = (now: number) => {
+      size();
+      gl.uniform1f(u.t, (now - t0) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+
+    let raf = 0, onScreen = true;
+    const loop = (now: number) => { draw(now); raf = requestAnimationFrame(loop); };
+    const run = () => {
+      if (still || raf || !onScreen || document.hidden) return;
+      raf = requestAnimationFrame(loop);
+    };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+
+    draw(performance.now());
+    bg.classList.add('flow-ready');
+    if (!still) {
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen ? run() : stop(); })
+        .observe(bg);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : run()));
+      run();
+    }
+    window.addEventListener('resize', () => { if (!raf) draw(performance.now()); }, { passive: true });
   }
 </script>
 
@@ -127,21 +195,30 @@ const practitioners = (await getCollection('physicians')).length;
   overflow: hidden;
 }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
-.hero-bg iframe {
-  position: absolute;
-  /* center an oversized iframe to fill */
-  top: 50%; left: 50%;
-  width: 178vw; height: 100vw;
-  min-width: 100%; min-height: 100%;
-  transform: translate(-50%, -50%) scale(1.05);
-  pointer-events: none;
-  border: 0;
+/* Before the first frame, without WebGL, and in print: the brand's dark gradient. */
+.hero-bg {
+  background:
+    radial-gradient(120% 80% at 78% 8%, rgba(108, 190, 63, 0.16) 0%, rgba(108, 190, 63, 0) 60%),
+    linear-gradient(to bottom, #141A17 0%, #0E1311 60%, #0A0E0C 100%);
+}
+.hero-flow {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; opacity: 0; transition: opacity 900ms ease;
+}
+.flow-ready .hero-flow { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero-flow { transition: none; } }
+/* On a phone the copy runs the full width, so the lighter right-hand currents
+   sit under words too: an even veil keeps them readable. */
+@media (max-width: 900px) {
+  .hero-overlay { background: linear-gradient(to bottom, rgba(14, 19, 17, 0.38), rgba(14, 19, 17, 0.62)); }
 }
 .hero-overlay {
   position: absolute; inset: 0;
+  /* The field already darkens toward the copy; this keeps the headline and the
+     stat row comfortably legible whatever the flow is doing under them. */
   background:
-    linear-gradient(180deg, rgba(14,19,17,0.45) 0%, rgba(14,19,17,0.75) 60%, rgba(14,19,17,0.92) 100%),
-    linear-gradient(90deg, rgba(14,19,17,0.6), rgba(14,19,17,0.1));
+    linear-gradient(95deg, rgba(14, 19, 17, 0.55) 0%, rgba(14, 19, 17, 0.28) 45%, rgba(14, 19, 17, 0) 75%),
+    linear-gradient(to bottom, rgba(14, 19, 17, 0) 55%, rgba(14, 19, 17, 0.6) 100%);
 }
 .hero-inner {
   position: relative; z-index: 2;
@@ -284,61 +361,4 @@ const practitioners = (await getCollection('physicians')).length;
   .hero-meta { gap: 24px; flex-wrap: wrap; }
 }
 
-/* Hero poster — stands in for the background video when no id is configured.
-   The template's overlay is tuned for dark video footage; a bright group photo
-   needs a directional scrim so the headline stays legible without flattening
-   the image to black. */
-.hero-poster {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: 60% 22%;
-}
-.hero-bg.has-poster .hero-overlay {
-  background:
-    /* Directional scrim: dark under the copy, clearing toward the right so the
-       team photo reads. Tuned against the 2019 group shot at 1440px. */
-    linear-gradient(95deg,
-      rgba(14, 19, 17, 0.93) 0%,
-      rgba(14, 19, 17, 0.82) 28%,
-      rgba(14, 19, 17, 0.45) 54%,
-      rgba(14, 19, 17, 0.18) 100%),
-    /* Bottom fade so the stat row and path cards keep their contrast. */
-    linear-gradient(to bottom,
-      rgba(14, 19, 17, 0) 50%,
-      rgba(14, 19, 17, 0.55) 100%);
-}
-@media (max-width: 900px) {
-  /* The hero is ~1200px tall in portrait against a 2:1 photo — any crop lands on
-     a single face and reads as a mistake. Drop the image and use the brand dark
-     gradient instead: deliberate, and zero image payload on a phone.
-     Revisit if we ever shoot a portrait-oriented hero. */
-  .hero-poster { display: none; }
-  .hero-bg.has-poster {
-    background:
-      radial-gradient(120% 80% at 78% 8%, rgba(108, 190, 63, 0.16) 0%, rgba(108, 190, 63, 0) 60%),
-      linear-gradient(to bottom, #141A17 0%, #0E1311 60%, #0A0E0C 100%);
-  }
-  .hero-bg.has-poster .hero-overlay { background: none; }
-}
-
-/* --- Hero video layering ---------------------------------------------------
-   DOM order inside .hero-bg is: poster → iframe → overlay. All are absolutely
-   positioned with auto z-index, so paint order follows the DOM: the video sits
-   over the poster, and the scrim sits over both.
-
-   The iframe fades in on load, leaving the poster visible until YouTube has
-   actually painted a frame — otherwise the hero flashes black on slow links. */
-.hero-bg iframe {
-  opacity: 0;
-  transition: opacity 700ms ease;
-}
-.hero-bg.video-ready iframe { opacity: 1; }
-
-/* Once the video is up, go back to the template's scrim — it was tuned for dark
-   footage, and the directional poster scrim is too light over moving video. */
-.hero-bg.has-poster.video-ready .hero-overlay {
-  background:
-    linear-gradient(180deg, rgba(14, 19, 17, 0.45) 0%, rgba(14, 19, 17, 0.75) 60%, rgba(14, 19, 17, 0.92) 100%),
-    linear-gradient(90deg, rgba(14, 19, 17, 0.60), rgba(14, 19, 17, 0.10));
-}
 </style>

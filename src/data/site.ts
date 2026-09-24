@@ -34,15 +34,6 @@ export const site = {
    *  after an em dash still works: TopBar hides it on phones. */
   status: 'Accepting new patients',
 
-  /**
-   * YouTube id for the hero background. Set to null to run poster-only.
-   * (The id that shipped with the design template, bI7cEIT5gJQ, was dead.)
-   * The poster always renders underneath: it covers the iframe's load gap and
-   * is the sole background for reduced-motion users, who never get the video.
-   * The poster itself is imported by Hero.astro from src/images/site/ so it
-   * goes through the image pipeline — a path string here could not.
-   */
-  heroVideoId: '7LQsiJHvqmg' as string | null,
 };
 
 /** The street address as a Google Maps query — the map embed and every directions link share it. */
