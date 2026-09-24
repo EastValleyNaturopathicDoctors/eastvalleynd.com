@@ -65,17 +65,12 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
 ---
 <header class="mainnav" id="mainnav">
   <div class="container mainnav-inner">
-    {/* Two lockups on a 4s loop: the EVND monogram, then the name spelled out.
-        Both SVGs carry the same 1020x246 viewBox, so they render at identical
-        size and the swap moves nothing on the page. The first sits in normal
-        flow and sets the box; the second is laid over it and they crossfade.
-        `alt=""` on both because the link already carries the accessible name —
-        otherwise a screen reader meets the logo twice. */}
+    {/* EVND unfolding into East Valley Naturopathic Doctors and back (D127):
+        one self-animating SVG, built by extract/build_logo.py from the two
+        lockups in Logos/. No script; under reduced motion it holds on EVND.
+        `alt=""` because the link already carries the accessible name. */}
     <a href="/" class="logo-link" aria-label="EVND home">
-      <span class="logo-rotator">
-        <img src="/assets/EVND.svg" alt="" width="183" height="44" class="is-on" loading="eager" />
-        <img src="/assets/EVND-long.svg" alt="" width="183" height="44" loading="eager" />
-      </span>
+      <img src="/assets/EVND-animated.svg" alt="" width="183" height="44" loading="eager" />
     </a>
 
     <nav class="mainnav-links" aria-label="Primary">
@@ -216,24 +211,6 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
   const toggle = document.getElementById('navToggle')!;
   const panel = document.getElementById('mobileNav') as HTMLElement;
 
-  // Logo lockups on a 4s loop, starting on the compact EVND monogram. Motion
-  // for its own sake, so it is dropped entirely under prefers-reduced-motion —
-  // the first lockup simply stays put. `is-live` tells the stylesheet the script
-  // is driving it; without that class the first image is visible on its own, so
-  // a failed script leaves a logo rather than an empty gap.
-  const rotator = nav.querySelector<HTMLElement>('.logo-rotator');
-  const lockups = rotator ? Array.from(rotator.querySelectorAll('img')) : [];
-  if (rotator && lockups.length > 1
-      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    rotator.classList.add('is-live');
-    let shown = 0;
-    setInterval(() => {
-      lockups[shown].classList.remove('is-on');
-      shown = (shown + 1) % lockups.length;
-      lockups[shown].classList.add('is-on');
-    }, 4000);
-  }
-
   // `is-scrolled` shrinks the header. Two things kept this cheap to get wrong:
   // toggling the class on every scroll event invalidates style even when the
   // value has not changed, and calling it synchronously at load forced a full
@@ -371,23 +348,9 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
    height follow the real ratio, and `contain` guarantees a logo is never
    cropped whatever size it is asked for. */
 .logo-link img { height: 44px; width: auto; object-fit: contain; }
-/* Two lockups crossfading in place. The first <img> stays in normal flow so it
-   sets the box — which means the existing height rules, including the shrink on
-   `is-scrolled`, keep working untouched. The second is laid exactly over it;
-   both SVGs share a 1020x246 viewBox, so it lands on the same footprint and the
-   swap moves nothing beside it. */
-.logo-rotator { position: relative; display: inline-block; line-height: 0; }
-/* aspect-ratio: the trace flagged the SVG as an unsized image (0.0005 CLS).
-   `height: 44px; width: auto` only knows the width once the file has loaded;
-   the ratio reserves it up front. Both lockups share the 1020x246 viewBox. */
-.logo-rotator img { opacity: 0; transition: opacity .5s ease; aspect-ratio: 1020 / 246; }
-.logo-rotator img + img { position: absolute; left: 0; top: 0; }
-.logo-rotator img.is-on { opacity: 1; }
-/* No script, no rotation: the first lockup must still be visible. */
-.logo-rotator:not(.is-live) img:first-child { opacity: 1; }
-@media (prefers-reduced-motion: reduce) {
-  .logo-rotator img { transition: none; }
-}
+/* aspect-ratio: the trace flagged the SVG as an unsized image (0.0005 CLS);
+   `height: 44px; width: auto` only knows the width once the file has loaded. */
+.logo-link img { aspect-ratio: 1020 / 246; }
 .mainnav-links { display: flex; gap: 4px; justify-content: center; }
 .navlink {
   padding: 9px 14px;
