@@ -1,0 +1,178 @@
+---
+title: "Autism — Childhood Behavioral Disorders"
+route: "/conditions/childhood-behavioral-disorders/autism/"
+slug: "conditions-childhood-behavioral-disorders-autism"
+wpTitle: "Autism Spectrum Disorders"
+metaDescription: "EVND's goal is to support the brain's health for those who are diagnosed with autism spectrum disorders. Call us today to learn more!"
+imageFile: "conditions-childhood-behavioral-disorders-autism.jpg"
+imageWidth: 2560
+imageAlt: ""
+wordCount: 4003
+canonical: ""
+interim: false
+sourceId: 3504
+sourceUrl: "/specialties/autism/"
+booking: []
+---
+
+<h2>Autism Spectrum Disorder</h2>
+
+<p class="wp-download"><a href="/wp-content/uploads/2026/01/Autism-Booklet-.pdf">The EVND Autism Program Guidebook</a></p>
+
+<figure class="wp-video" data-video="U2A43yhmrZ4"></figure>
+
+<p>Autism or autism spectrum disorder (ASD) is a developmental disorder that appears in children generally within the first few years of life. Autism can manifest in unique and variable ways which is why it’s referred to as a “spectrum” disorder. Challenges with social skills, repetitive behaviors, emotional outbursts, speech and nonverbal communications are common concerns. There are many subtypes of autism and each person will have their own strengths and challenges. Our approach to Autism is inherently personalized to the needs of each patient.</p>
+
+<p>Coinciding with the rising epidemic of children being diagnosed with Autism Spectrum Disorder, is the increasing clinical experience and growing body of research, supporting the reversal of common autistic symptoms. Applying the principals of Naturopathic medicine to heal the body results in improving behavior, social engagement, eye contact, empathy, speech, attention, and sleep. The treatment approach for children on the Autism Spectrum can be described through the visual diagram below. Foundationally the brain is a "tender peach" and thus it is very sensitive to disruption in typical neurodevelopmental patterns, that in the presence of excessive inflammation, growth is retarded or regresses. Inflammation that presents in the brain causes dysregulation of the developing neurons and neural connections called nodes, effectively arresting neurologic development. Inflammation in the brain will cause stress in the whole body, including the leading system that modulates inflammation , the immune system. If the immune system is the original source of inflammation that is flooding the brain, we can have a duel effect with inflammation causing further brain dysregulation by stimulation of the fight or flight response via the limbic system, which will lead to an increase in brain porosity and immune over stimulation increasing brain inflammation even more. The end result is inflammation resulting from excessive immune stimulation which further dysregulates the immune system as well as disrupting the typical developmental and genetically programmed neural connections that allow us to mature socially and intelligently according to our individual natural design.</p>
+
+<p><img src="/images/page-inline/2025-01-Autism-Path-1.png" alt="" /></p>
+
+<p>Since inflammation is understood to be the root aggravator of autistic symptoms, then investigation into the root causes of inflammation followed by carefully tailored treatment should produce improvements. The root causes or sources of inflammation begins most often in the gut in the presence of gut dysbiosis. Gut dysbiosis is the result of IgG food intolerances(not quite allergies, but they cause leaky gut), interacting at the intestinal lining, increasing inflammation and causing a "leaky gut" syndrome. This leaky gut syndrome is further inflamed in the presence of parasites, candida overgrowth, mycotoxins, pathogenic bacteria, and insufficient "friendly" bacteria (probiotics). An overly strained or stimulated immune system will then be more reactive to additional external threats or toxins such as adjuvants (aluminum) in vaccines, experimental or an abundance of vaccines, viral infections, exposure to plastics, phthalates, BPA, dyes, preservatives, and mold toxins. Genetics play a significant role here as well in three leading ways. First, genetic variations or single nucleotide polymorphisms (SNP's) result in challenges in absorbing nutrients that support mitochondrial function and detoxification. Under the stress of  increasing inflammation and the resultant increase in free radical activity, depleted mitochondrial activity will lead to poor cellular performance and reduced development in the sensitive energy demanding neural pathways of the brain. Secondly, SNP's associated with poor quality of detoxification toward any variety of environmental toxins put further stress on the cell's activities due to free radical formation and inflammation further aggravating "leaky gut" and brain porosity. Thirdly, there are genetic SNPS's related to autism spectrum disorder which increase the risk generally with a growing body of research finding natural and prescription supports potentially modulating to genetic propensities.</p>
+
+<p>Once we understand the root causes of inflammation, with many arising in the gut, we can begin to reboot, balance, and calm the gut microbiome. This requires testing and treating for parasites, yeast candida, microbiome deficiencies and imbalances. Focusing on healing the gut through healing the gut microbiome also requires a change in the diet. Our patients are encouraged to work with a holistic nutritionist to remove common food allergens as well as reducing food additives, dyes, and preservatives.  Our highly educated team can also coach families in their efforts to reduce environmental burden of common toxic chemicals found in most homes. Further testing is available to evaluate for toxic metals and environmental toxins to customize detox protocols that reduce chronic inflammation and calm an inflamed immune system.</p>
+
+<p>To support healing of the gut and brain further, we follow the path toward regenerative brain therapies. Once we have treated root causes of immune dysregulation and inflammation, a patient is now ready to further heal and stimulate growth of neural connections in and between the gut and brain. Leading therapies in this regard include Hyperbaric Oxygen therapy, Photobiomodulation therapy, and Neurofeedback therapy. Combined, these therapies represent 120+ years of brain research and regeneration. The model we present is here provides both a modern theoretical approach that has been developed over decades of clinical practice and research.</p>
+
+<h3><b>Sources of Inflammation and Immune Dysregulation</b></h3>
+
+<p>The foundation for decision making is formed by gathering pertinent labs consistent with current research as to the root causes of inflammation starting with the gut. Testing will focus on infections, toxins, bacterial imbalances, intestinal barriers, and nutrient absorption. Recommended labs for the gut include <strong>microbiome stool testing, organic acid urine testing, parasites, IgG food intolerances, and mold toxin exposures</strong>. Many other labs can be run as well that are associated with inflammation outside of the gut-brain axis.The following labs support subtypes of Autism that when treated can greatly improve autism symptoms irregardless of commonly prescribed therapies.</p>
+
+<h4><b>HLA-DR Mold Sensitivity (CIRS)</b></h4>
+
+<p>People who carry a certain allele of the human HLA gene are highly susceptible to mold toxicity and infections (overgrowth). Their bodies are not as capable of removing mold toxins and thus have chronic symptoms related to mold exposure. Mold exposure symptoms are diverse and multi-systemic affecting the whole body. Genetic testing can help us to know if the patient is more susceptible to mold toxins. Treatments can then be administered to help the body combat the symptoms related to mold exposure.</p>
+
+<h4><b>Urine Mycotoxins</b></h4>
+
+<p>We can also test for mycotoxins within the patient's urine to determine if the patient is suffering from mold exposure past or present. HLA Mold positive patients will be negatively impacted by the recirculating biotoxin load from mold exposure. Urine Mycotoxin testing is the most reliable method for determining past or current biotoxin exposure. </p>
+
+<h4><b>PANS/PANDAS</b></h4>
+
+<p>The proper diagnosis and treatment of PANs and PANDAS can be remarkable. These pediatric conditions resulting from a variety of infections and toxins with resultant antibodies affecting the brain produce a myriad of intense symptoms uncommon in young patients. Sadly medicine for the whole has missed this valuable diagnosis which leads to severe inflammation in the brain resulting in the symptoms of anxiety, oppositional defiant disorder, autism spectrum, tics, and attention issues resulting in cognitive difficulty.</p>
+
+<h4><b>Lyme and Bartonella Infections</b></h4>
+
+<p>Lyme Disease and its most common co-infection Bartonella have been found to be present in a small subset of autistic children. Lyme and Bartonella infections are known to produce inflammation in the brain resulting in all the symptoms we recognize or describe as autism today.</p>
+
+<h4><b>IgG Dietary Food Intolerances</b></h4>
+
+<p>Research and experience have also found the removal of gluten, dairy, and even soy, in the diet of an autistic child, results in a reduction of inflammation and often significant observable improvements within a few weeks in 91% of Autistic children. Gluten and dairy are also known to be linked to leaky gut, mast cell disorders, folate deficiency, food addictions, and elevation of the toxic neurotransmitter glutamate. All of the potential food reactions will intensify the symptoms of Autism and can also slow the progress of other treatments and therapies such as Neurofeedback and HBOT.<a href="/conditions/igg-food-intolerance/"> IgG Food Intolerance Testing</a> can be helpful in proving the presence and intensity of these food reactions as well as other uncommon food intolerances that can irritate the gut-brain barrier. Without testing, a trial period of avoiding gluten, dairy, and soy, can provide observable evidence of benefit in numerous areas in just a few weeks. Many resources are present within the Autism community to help with dietary implementation.<a href="https://tacanow.org/family-resources/top-reasons-to-implement-a-gluten-free-casein-free-diet/"> Click here to visit the TACAnow.org</a> for additional resources on the why and how of the GFCFSF diet.</p>
+
+<h4>Autism Studies of Food Sensitivities</h4>
+
+<ul>
+<li aria-level="1"><a href="https://www.researchgate.net/publication/228480436_Immunodeficiency_Gastrointestinal_Candidiasis_Wheat_and_Dairy_Sensitivity_Abnormal_Urine_Arabinose_and_Autism_A_Case_Study">Immunodeficiency, Gastrointestinal Candidiasis, Wheat and Dairy Sensitivity, Abnormal Urine Arabinose, and Autism: A Case Study</a></li>
+<li aria-level="1"><a href="https://link.springer.com/article/10.1007%2FBF02815207">Immunogenetic studies in autism and related disorders</a></li>
+<li aria-level="1"><a href="http://www.cmj.hr/2004/45/6/15578810.pdf">Increased serum albumin, gamma globulin, immunoglobulin IgG, and IgG2 and IgG4 in autism</a></li>
+<li aria-level="1"><a href="http://www.whale.to/v/buttram.html">Measles-Mumps-Rubella (MMR) Vaccine as a Potential Cause of Encephalitis (Brain Inflammation) in Children</a></li>
+<li aria-level="1"><a href="https://www.ncbi.nlm.nih.gov/pubmed/11895365">Genetic and immunologic considerations in autism</a></li>
+<li aria-level="1"><a href="http://www.jaacap.com/article/S0890-8567(09)65685-9/abstract">Reduced Natural Killer Cell Activity in Autism</a></li>
+<li aria-level="1"><a href="https://pubmed.ncbi.nlm.nih.gov/10385847/">Familial clustering of autoimmune disorders and evaluation of medical risk factors in autism</a></li>
+<li aria-level="1"><a href="https://link.springer.com/article/10.1007%2FBF01531729">Immune abnormalities in patients with autism</a></li>
+<li aria-level="1"><a href="https://link.springer.com/article/10.1007%2FBF01531114">Depressed Lymphocyte responsiveness in autistic children</a></li>
+</ul>
+
+<h4><b>Oxidative Lab Assessment</b></h4>
+
+<p>Oxidation is a chemical reaction necessary to good health. However, many disease conditions result in excessive oxidation with insufficient natural antioxidant protectors resulting in the release of free radicals and undesirable chemical reactions. Free radicals are able to damage proteins, membranes, DNA, and produce excessive inflammation. Autism is linked to oxidative stress as a result of free radicals from toxic metals, smog, pesticides, biotoxins, infections, radiation, and chemical waste products.</p>
+
+<p>There are many biochemical features of autism as a result of oxidative stress in the brain and body. We test for deficiencies of certain nutrients, minerals, and biomarkers that can affect normal free radical control and healthy brain function. Our goal is to support the brain's already existing mechanisms for oxidative management. Here are a few of the things we test for and why.</p>
+
+<h4><b>Zinc</b></h4>
+
+<p>Zinc is the most common depleted nutrient found in mental health diseases, including autism. Zinc is a component of more than 200 enzymes functioning as antioxidants, converting B-6 to PLP, supporting the synthesis of neurotransmitters, and inhibiting NMDA receptors. In addition, Zinc is valuable in building reserves of Metallothionein which blocks and aids in the removal of toxic metals as they try to cross the gastrointestinal and brain barriers. Optimized levels of zinc bring significant improvements to patients and is a powerful generator of superoxide dismutase(SOD), our body’s most important free radical fighter.</p>
+
+<h4><b>Vitamin B-6 deficiency</b></h4>
+
+<p>Vitamin B-6 deficiency is the second most common biochemical feature of autism. Vitamin B-6 is involved in at least 80 known biochemical pathways in the body. Both zinc and vitamin B-6 are vital for the efficient synthesis of neurotransmitters such as serotonin, dopamine, and GABA. Vitamin B6 deficiency has been associated with irritability, depression, poor short-term memory, and psychosis. Vitamin B6 is also involved in the optimization of methylation pathways with some patients needing much more than the recommended RDA because of genetic disorders and oxidative burden and resultant loss in urine with or without Pyrrole disease.</p>
+
+<h4>Glutathione</h4>
+
+<p>Glutathione is a protein within the brain involved in protecting tissues and cells from reactive oxygen species such as free radicals and heavy metals. The brain is constantly producing reactive oxygen species through normal functions of metabolism. Low levels of glutathione can allow brain tissue to be more susceptible to oxidative stress and damage which can worsen neurological symptoms.</p>
+
+<h4><b>Cysteine</b></h4>
+
+<p>Cysteine is an amino acid and one of the building blocks of glutathione. Cysteine deficiency will lead to glutathione deficiency and result in the same symptoms.</p>
+
+<h4><b>Selenium</b></h4>
+
+<p>Selenium is a non-metal chemical element. It can serve many purposes within the brain. It aids in glutathione activity and can affect hormonal and neurotransmitter activity. It is also effective at combating the neurotoxicity of certain metals. A deficiency in selenium can affect any one of these aspects, with the additional activity of helping regenerate our most potent free radical fighter, SuperOxide Dismutase(SOD).</p>
+
+<h4><b>Magnesium</b></h4>
+
+<p>Magnesium is another mineral that is vital to healthy brain function. It plays a role in over 300 enzymatic reactions in the body and brain. It aids in muscle contractions, DNA and RNA synthesis, efficient nerve signaling, and protecting neuronal cells from oxidative stress.</p>
+
+<h4><b>Methylation Lab Assessment</b></h4>
+
+<p>Methylation can be defined as the addition of a methyl group(CH3) to an atom or a molecule. As a biochemical process of significant importance in human functioning, it is essential to physical and mental health. Methylation influences a person’s personality and traits. Some traits can be positive attributes and others can be associated with serious disorders of mood regulation and cognition, including autism.</p>
+
+<p>The new field of epigenetics, which deals with modifications of gene expression rather than changes in the genetic code, is increasing our understanding of autism. Pathways of methylation are the most recent discoveries in epigenetics, with growing evidence suggesting autism may be influenced by epigenetic factors and that autism expression correlates with certain gene expressions. Although 70% of the population exhibits normal methylation, approximately 22% are undermethylated and 8% over-methylated, producing mental and behavioral disorders as a result.</p>
+
+<p>The major area of concern in epigenetics is the balancing activity between methylation and acetylation. Methylation and acetylation refer to chemical groups placed on DNA that either “tighten” or “loosen” the DNA. Tighter DNA restricts gene expression while looser DNA promotes it. In the brain, there are transport proteins that remove neurotransmitters (serotonin, dopamine, norepinephrine, etc.) from the synapse for later reuse. Higher levels of these transport proteins lead to lower levels of neurotransmitter activity in the brain. People who are undermethylated, or who have loose DNA, express these transport proteins at higher rates thus lowering their neurotransmitter activity. On the other end, people who are over-methylated have too few transport proteins and too much neurotransmitter activity. Patients with autism are usually found to be undermethylated which means decreased neurotransmitter activity.</p>
+
+<p>Tests can be done to determine the patient's methylation status. Therapies can then be applied which aim to normalize methylation and acetylation levels. Lab testing may include analysis of direct methylation pathways or histamine levels(an indirect method), which evaluate over-methylation or undermethylation status.</p>
+
+<h4><b>Toxicities Lab Assessment</b></h4>
+
+<p>Along with testing for deficiencies of vital minerals and nutrients, we also test for toxic exposures that can overload the system leading to oxidative stress. These tests help us determine if there is something else at play that’s worsening a patient’s symptoms or preventing their treatments from working. These are the things we look for:</p>
+
+<h4><b>Copper Overload</b></h4>
+
+<p>Excess copper has been linked to neurological symptoms including schizophrenia, bipolar disorder, postpartum depression, ADHD, and autism. Copper is used to convert dopamine to norepinephrine and epinephrine. Too much copper then leads to an excess of these two chemicals which causes neurological symptoms. Copper also has other functions within the brain that can be affected by having too much, including depression of Zinc levels and oxidative stress.</p>
+
+<h4><b>Copper/Zinc ratio</b></h4>
+
+<p>Copper and Zinc levels are usually inversely related. Where we see high levels of copper, we also see low levels of zinc. Increasing zinc helps the body decrease copper. Normalizing the ratio of copper to zinc is an important area of treatment that is helpful to the autistic population.</p>
+
+<h4><b>Ceruloplasmin</b></h4>
+
+<p>The function of this protein is associated with unbound copper levels in the body. Ceruloplasmin is the major copper-carrying compound in the body and helps remove excess copper. Low levels of ceruloplasmin mean that there are high amounts of unbound copper in the bloodstream. Unbound copper can then accumulate within the body and begin to cause symptoms. Elevated ceruloplasmin can combat this effect.</p>
+
+<h4><b>Toxic Metals</b></h4>
+
+<p>Accumulation of toxic heavy metals, such as mercury, lead, copper, cadmium, and a host of other metals in the body can lead to severe neurological symptoms. Exposure to these metals can come from food, water, inhalation, contact with chemicals, and the environment to name a few ways. By knowing what heavy metals are affecting the patient,<a href="/detoxification/"> we can help the patient begin to detoxify</a>.</p>
+
+<h4><b>Detoxification in Autism</b></h4>
+
+<p>The following information provides specific protocols for detoxification of a child on the “Autism Spectrum.” The ideas and principles for detoxification build upon the nutrient and immune support discussed previously and provide a foundation for the next steps involving detox work. The diagnosis should have already been made and other pertinent laboratory data gathered to evaluate for oxidative stress, methylation pathways, toxicities, and sources of inflammation. Once a patient begins to support immune and detoxification pathways with the proper supplements and diet, a detox program can be implemented. Detox protocols utilizing Infrared Sauna and Detox Foot Baths have set durations and programs with rental Detox Foot Baths available.</p>
+
+<h4><b>Detox and Methylation Nutrient Support</b></h4>
+
+<p>Start with dosing the following nutrient powder specifically designed based on research to support underlying challenges in the Autism spectrum. Some children with Autism have also shown positive responses with the addition of fiber and fish oil supplements.</p>
+
+<ul>
+<li aria-level="1">Spectrum Needs. Dose 2 scoops 2 times daily</li>
+<li aria-level="1">Fiber Choice gummy. Dose 2-4 gummies daily under 8yo</li>
+<li aria-level="1">Nordic Omega-3 Fishies. Dose 2 fishies daily under 8yo</li>
+</ul>
+
+<h4><b>Detox Footbaths</b></h4>
+
+<p>This is an excellent tool that can aid the body in liberating chemicals and metals from the body and can be very safe for even small children. We prefer the use of Footbath for the removal of toxic metals instead of IV or oral chelation therapy which can be very demanding on the bodies of small children. We recommend between 2-7 sessions a week for benefit in the removal of heavy metals, and glyphosate. Each session takes 30 minutes. To better understand all of the health benefits of Detox Footbath therapy<a href="/detoxification/"> click here</a>.  <b>The </b><a href="https://www.autism.org/autism-treatment-evaluation-checklist/"><b>Autism Treatment Evaluation Checklist (ATEC)</b></a><b> has been used as an evaluation tool and showed a significant reduction in symptoms when using the IonCleanse Foot Bath.</b></p>
+
+<h4><b>Hydrate to Eliminate!</b></h4>
+
+<p>Hydration is extremely important when moving toxins out of the body. We recommend that you put great effort into drinking plenty of filtered water during this time. Also to properly detoxify regular bowel movements at least 1x a day is necessary and if you are having difficulty achieving this or have chronic digestive issues it would be best to establish yourself with one of our physicians to get to the root issue and help correct this before proceeding with detoxification.</p>
+
+<h3><strong>Brain Treatment Options for Autism Spectrum</strong></h3>
+
+<p>Autism researchers have begun to discover multiple areas of dysfunction within nodal areas and overall connectivity of the brain. Some researchers have found anatomical abnormalities in the amygdala-fusiform system indicating poor connectivity between brain regions. Researchers from Harvard have found areas of poor development and synaptic connections in the primitive brain of autistic children. Others have found poor maturation of the cortex, particularly narrowing in the mini column array of cells. Some have observed oxidative damage. Research has also found short, undeveloped brain cells in the cerebellum, pineal gland, hippocampus, and amygdala, with a poverty of dendrites and synaptic connections in autistic children, all leading to a reduced ability for learning, speech, and socialization.</p>
+
+<p>When areas of the brain are affected very specific dysregulations are expected. For example, when the cerebellum is affected, individuals may exhibit odd, repetitive movements. When the amygdala is affected we can expect difficulty in developing social skills. With concerns of speech, we can expect possible problems in the hippocampus which partners with Broca’s area and Wernicke’s area. In addition, research strongly suggests that autistic brains show significant inflammation inhibiting brain development and leading to irritability, speech delay, cognitive delay, and sleep disorders.</p>
+
+<p>Our initial treatment strategy will be to rule out and treat the root causes of autism, whether they are current or past, with the goal of recovering the patient through improving oxidative therapies, optimizing methylation pathways, reducing toxicities, and resolving inflammatory sources. As valuable as these ideas are, they do not predict the establishment of new or optimal brain pathways. In essence, an Autistic brain has been “concussed” by the events as described previously. In order to fully recover the patient and improve upon his or her abilities, we need to reset the brain back to where it belongs before it was injured. This requires therapies that target the brain specifically. The two therapies observed to be the best in doing just that are Neurofeedback Therapy and <a href="/hyperbaric-oxygen-therapy/">Hyperbaric Oxygen Therapy(HBOT)</a>. Both therapies have growing evidence of clinical effectiveness both in research and clinical cases. Both therapies are described below.</p>
+
+<h4><strong>Neurofeedback in Autism</strong></h4>
+
+<p>As a neurodevelopmental disorder, the challenges of autism are observable on a <a href="/qeeg-brain-mapping/">QEEG or brain map</a>. Brain maps are able to describe individual differences in brain patterns that coincide with the challenges observed in autistic children and adults. Distinct patterns within the Delta, Theta, Alpha, and Beta brain waves are able to predict emotional, social, and mental functional challenges.</p>
+
+<p>Although there is no specific cure for autism, <a href="/neurofeedback/">neurofeedback is emerging as an effective treatment for patients with autism</a>, that has proven its success in scientific and clinical research. Neurofeedback therapy utilizes the brain’s neuroplasticity to rewire new, efficient, and coherent patterns, which optimize brain functioning. These newly developed wiring patterns in specific areas of the brain help the patient socialize, communicate, and control behavior. Neurofeedback therapy improves the balance between the different brain waves which correlates with improvement in autistic symptoms. We know from experience with autistic patients, that neurofeedback does indeed improve patient’s lives, which is also corroborated by extensive research. The protocols for Neurofeedback are created for each patient based on<a href="/qeeg-brain-mapping/"> individual brain maps (QEEG) available to all patients</a>.</p>
+
+<h4><strong>Hyperbaric Oxygen Therapy in Autism</strong></h4>
+
+<p>Physiological abnormalities have consistently been observed in a number of individuals within the autism spectrum, including cerebral hypoperfusion, inflammation, and mitochondrial dysfunction secondary to oxidative damage. Cerebral hypoperfusion (decreased blood flow to the brain) was shown to be the promoter for certain symptoms of autism such as repetitive behaviors, inflexible routine, underdeveloped language skills, and difficulty expressing and recognizing emotions as well as facial cues and gestures. Theories on hyperbaric therapy suggest that increasing oxygen saturation to areas of low oxygen in the brain as a result of chemical, toxic, inflammatory, or physical trauma, can reinvigorate and return neurons back to normal functioning. In one experiment conducted with 108 children, 50 sessions run for an hour each were performed with results showing at least 60% improvement of perfusion in all parts of the brain.</p>
+
+<p>Autism studies have discovered inflammation as a characteristic finding in those on the autism spectrum. Inflammation was commonly found present in the brain as well as the gastrointestinal system. This observation has been corroborated by hundreds of similar studies performed. In all these studies, markers for inflammation were measured, followed by hyperbaric therapy, with a marked reduction in inflammatory markers, as well as overall inflammation. Improvements of behavior were also observed to be directly correlated with the reduction of inflammation.</p>
+
+<p>Mitochondria are organelles within the cell whose primary role is to produce adenosine triphosphate (ATP), which is the energy currency of the body. If the mitochondria are dysfunctional then it will produce low levels of ATP which means low amounts of energy available for the body to accomplish its normal functions. This low energy, along with the harmful byproducts produced by the dysfunctional mitochondria, is suspected to give rise to Autism and autism-like symptoms. Mitochondrial dysfunction has been found in autism patients with evidence to support this claim. Mitochondrial damage has been proposed to be secondary to oxidative stress, a combination of too many free radicals and not enough resources to quench them. Fortunately, this same research found that subjects who were treated with <a href="/hyperbaric-oxygen-therapy/">Hyperbaric Oxygen Therapy</a>, whether they had mitochondrial dysfunction or not, increased ATP production, with their dysfunctional mitochondria being destroyed and healthy new mitochondria being generated. Research also confirms many other benefits of using  <a href="/hyperbaric-oxygen-therapy/">HBOT for individuals with Autism.  </a>Hyperbaric Oxygen Therapy is offered in 60-minute increments up to 80 sessions as recommended by the research.</p>
+
+<p>We hope this is helpful for you and invite you to not get overwhelmed with what you think you’re not doing or don’t know. We welcome you to call us with any questions or concerns you may have about Autism and the treatments we offer.</p>
