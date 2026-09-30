@@ -6,6 +6,7 @@ import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import BlogImage from '../components/BlogImage.astro';
 import BodyHtml from '../components/BodyHtml.astro';
+import LongReadToc from '../components/LongReadToc.astro';
 import { heroMode } from '@/lib/hero';
 import PageImage from '../components/PageImage.astro';
 import { stockFor } from '@/lib/stock';
@@ -14,13 +15,16 @@ import BookCTA from '../components/BookCTA.astro';
 import InlineCTA from '../components/InlineCTA.astro';
 import SidebarCTA from '../components/SidebarCTA.astro';
 import { splitForCta } from '@/lib/midcta';
+import { longReadFor } from '@/lib/longread';
 import { site } from '../data/site';
 
 interface Props { entry: CollectionEntry<'blog'> }
 const { entry } = Astro.props;
 const d = entry.data;
 const slug = d.slug;
-const html = entry.rendered?.html ?? '';
+const body = entry.rendered?.html ?? '';
+const long = longReadFor(body, d.wordCount);   // contents rail, D131
+const html = long ? long.html : body;
 const halves = splitForCta(html);   // mid-article booking prompt, D103
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';   // D116
 // A post WordPress gave no image opens on an Unsplash photo (D119).
@@ -47,7 +51,8 @@ const schema = {
 };
 ---
 <Base title={d.title} description={d.metaDescription || d.excerpt} searchSection="Blog">
-  <article class="post">
+  {long && <div class="lr-progress" aria-hidden="true"></div>}
+  <article class:list={['post', long && 'is-long']}>
     <header class="page-hero post-hero">
       <div class="container post-hero-inner">
         <Eyebrow><a href="/blog/">Blog</a></Eyebrow>
@@ -84,8 +89,9 @@ const schema = {
       </div>
     )}
 
-    <div class="container post-body-wrap has-aside">
+    <div class:list={['container', 'post-body-wrap', 'has-aside', long && 'has-rail']}>
       <div class="post-body prose">
+        {long && <LongReadToc items={long.toc} variant="panel" />}
         {hero === 'inset' && (
           <figure class="cpage-inset">
             <BlogImage file={d.imageFile} alt={d.imageAlt || d.title} natural width={420} height={0} loading="eager" />
@@ -95,7 +101,12 @@ const schema = {
           <Fragment><BodyHtml html={halves[0]} /><InlineCTA /><BodyHtml html={halves[1]} /></Fragment>
         ) : <BodyHtml html={html} />}
       </div>
-      <SidebarCTA />
+      {long ? (
+        <div class="lr-rail">
+          <LongReadToc items={long.toc} variant="rail" />
+          <SidebarCTA compact />
+        </div>
+      ) : <SidebarCTA />}
     </div>
   </article>
 

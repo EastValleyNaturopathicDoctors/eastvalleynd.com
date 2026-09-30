@@ -1,0 +1,232 @@
+---
+/**
+ * "On this page" for a long read (D131). The same list is drawn twice: a
+ * sticky rail beside the article on a wide screen, and a collapsed panel at
+ * the top of the article below 1100px. A small script marks the section being
+ * read in both.
+ *
+ * Headings come from lib/longread.ts: h2s at the top level, the h3s under
+ * each nested beneath it.
+ */
+import type { TocItem } from '@/lib/longread';
+interface Props { items: TocItem[]; variant: 'rail' | 'panel' }
+const { items, variant } = Astro.props;
+
+type Group = { item: TocItem; kids: TocItem[] };
+const groups: Group[] = [];
+for (const it of items) {
+  if (it.level === 2 || groups.length === 0) groups.push({ item: it, kids: [] });
+  else groups.at(-1)!.kids.push(it);
+}
+const count = items.length;
+---
+{variant === 'rail' ? (
+  <nav class="lr-toc lr-toc-rail" aria-label="On this page" data-pagefind-ignore>
+    <p class="lr-toc-title">On this page</p>
+    <ol class="lr-toc-list">
+      {groups.map((g) => (
+        <li>
+          <a href={`#${g.item.id}`} class:list={[g.item.caps && 'is-caps']}>{g.item.text}</a>
+          {g.kids.length > 0 && (
+            <ol>{g.kids.map((k) => <li><a href={`#${k.id}`} class:list={[k.caps && 'is-caps']}>{k.text}</a></li>)}</ol>
+          )}
+        </li>
+      ))}
+    </ol>
+  </nav>
+) : (
+  <details class="lr-toc lr-toc-panel" data-pagefind-ignore>
+    <summary><span>On this page</span><span class="lr-toc-count">{count} sections</span></summary>
+    <nav aria-label="On this page">
+      <ol class="lr-toc-list">
+        {groups.map((g) => (
+          <li>
+            <a href={`#${g.item.id}`} class:list={[g.item.caps && 'is-caps']}>{g.item.text}</a>
+            {g.kids.length > 0 && (
+              <ol>{g.kids.map((k) => <li><a href={`#${k.id}`} class:list={[k.caps && 'is-caps']}>{k.text}</a></li>)}</ol>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </details>
+)}
+
+<script>
+  // Mark the section being read. One observer for the page, however many lists.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.lr-toc a[href^="#"]')];
+  const ids = [...new Set(links.map((a) => a.hash.slice(1)))];
+  const heads = ids.map((id) => document.getElementById(id)).filter((h): h is HTMLElement => !!h);
+  if (heads.length) {
+    const rail = document.querySelector<HTMLElement>('.lr-toc-rail');
+    let current = '';
+    const mark = (id: string) => {
+      if (id === current) return;
+      current = id;
+      for (const a of links) {
+        if (a.hash === `#${id}`) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      }
+      // Keep the marked entry in view inside the rail, without moving the page.
+      const on = rail?.querySelector<HTMLElement>(`a[href="#${CSS.escape(id)}"]`);
+      if (rail && on) {
+        const r = rail.getBoundingClientRect(), o = on.getBoundingClientRect();
+        if (o.top < r.top + 40 || o.bottom > r.bottom - 40) rail.scrollTop += o.top - r.top - r.height / 3;
+      }
+    };
+    const update = () => {
+      // The last heading that has passed a line a little under the header.
+      let id = heads[0].id;
+      for (const h of heads) { if (h.getBoundingClientRect().top < 140) id = h.id; else break; }
+      mark(id);
+    };
+    let queued = false;
+    addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; update(); });
+    }, { passive: true });
+    update();
+    // Picking a section from the phone panel closes it.
+    for (const a of document.querySelectorAll<HTMLAnchorElement>('.lr-toc-panel a')) {
+      a.addEventListener('click', () => a.closest('details')?.removeAttribute('open'));
+    }
+  }
+</script>
+
+<style is:global>
+.lr-toc-title {
+  margin: 0 0 12px; font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+}
+/* `.lr-toc` in front: the phone panel sits inside the article, whose list and
+   link rules would otherwise indent and underline it. */
+.lr-toc .lr-toc-list, .lr-toc .lr-toc-list ol { list-style: none; margin: 0; padding: 0; }
+.lr-toc .lr-toc-list li { margin: 0; }
+.lr-toc .lr-toc-list > li + li { margin-top: 2px; }
+.lr-toc .lr-toc-list a {
+  text-decoration: none;
+  display: block; padding: 6px 10px 6px 12px; border-left: 2px solid var(--line);
+  font-size: 14px; line-height: 1.35; color: var(--ink-2);
+  transition: color .15s, border-color .15s, background .15s;
+}
+.lr-toc .lr-toc-list > li > a { font-weight: 600; color: var(--ink); }
+.lr-toc .lr-toc-list ol a { padding-left: 24px; font-size: 13.5px; }
+.lr-toc .lr-toc-list a.is-caps { font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; }
+.lr-toc .lr-toc-list a:hover { color: var(--grn-2); border-left-color: var(--grn); }
+.lr-toc .lr-toc-list a[aria-current] { color: var(--ink); border-left-color: var(--grn-2); background: var(--grn-soft); }
+
+/* Wide screens: the rail's list scrolls on its own when it is taller than the window. */
+.lr-toc-rail { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
+
+/* Below 1100px: a collapsed panel at the top of the article. */
+.lr-toc-panel {
+  margin: 0 0 2em; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-softer);
+}
+.lr-toc-panel summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 18px; cursor: pointer; list-style: none;
+  font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--ink);
+}
+.lr-toc-panel summary::-webkit-details-marker { display: none; }
+.lr-toc-panel summary::after {
+  content: ''; flex: none; width: 8px; height: 8px; margin-left: 4px;
+  border-right: 2px solid var(--ink-3); border-bottom: 2px solid var(--ink-3);
+  transform: translateY(-2px) rotate(45deg); transition: transform .18s;
+}
+.lr-toc-panel[open] summary::after { transform: translateY(2px) rotate(225deg); }
+.lr-toc-count { margin-left: auto; font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--ink-3); }
+.lr-toc-panel nav { padding: 0 14px 16px; max-height: 60vh; overflow-y: auto; }
+@media (min-width: 1100px) { .lr-toc-panel { display: none; } }
+@media print { .lr-toc { display: none; } }
+
+/* --- Long reads (D131) ------------------------------------------------------
+   Content pages and posts that qualify (lib/longread.ts): a contents rail, reading time, a progress line,
+   numbered sections, and the migrated tables, footnotes and reference list
+   set as what they are. The words are untouched (lib/longread.ts). */
+.lr-meta {
+  display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 16px 0 0;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.lr-meta span + span::before { content: '·'; margin-right: 18px; color: var(--line-2); }
+
+.lr-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .lr-progress {
+    display: block; position: fixed; inset: 0 0 auto; height: 3px; z-index: 70;
+    background: var(--grn); transform-origin: 0 50%; transform: scaleX(0);
+    animation: lr-grow linear both; animation-timeline: scroll(root);
+  }
+  @keyframes lr-grow { to { transform: scaleX(1); } }
+}
+@media (prefers-reduced-motion: reduce) { .lr-progress { display: none; } }
+
+/* The rail: contents above a compact booking card, together sticky under the
+   header; the list scrolls inside it when it is the taller of the two. */
+.lr-rail { display: none; }
+@media (min-width: 1100px) {
+  .has-rail {
+    display: grid; grid-template-columns: minmax(0, 72ch) 320px;
+    justify-content: center; align-items: start;
+    gap: clamp(40px, 5vw, 84px); font-size: 17.5px;
+  }
+  .has-rail > .prose { margin: 0; max-width: none; }
+  .lr-rail {
+    display: flex; flex-direction: column; gap: 22px;
+    position: sticky; top: 104px; max-height: calc(100vh - 124px);
+  }
+  .lr-rail .page-aside { position: static; flex: none; }
+}
+
+.is-long .prose :is(h2, h3, h4) { scroll-margin-top: 110px; }
+/* Sections numbered 01, 02 … and set apart with a rule. */
+.is-long .prose { counter-reset: lr-sec; }
+.is-long .prose h2 {
+  counter-increment: lr-sec;
+  margin-top: 2.6em; padding-top: 1.3em; border-top: 1px solid var(--line);
+}
+.is-long .prose h2::before {
+  content: counter(lr-sec, decimal-leading-zero); display: block; margin-bottom: 10px;
+  font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; letter-spacing: 0.08em; color: var(--grn-2);
+}
+/* The first section needs no rule above it. (The list's script can land
+   between the phone panel and the heading.) */
+.is-long .prose > h2:first-child,
+.is-long .prose > :is(.lr-toc-panel, .lr-toc-panel + script) + h2 { margin-top: 0; padding-top: 0; border-top: 0; }
+.is-long .prose > h2:first-child + p,
+.is-long .prose > :is(.lr-toc-panel, .lr-toc-panel + script) + h2 + p {
+  font-size: 1.12em; line-height: 1.6; color: var(--ink);
+}
+/* Titles the source typed in capitals read as labels, not shouting. */
+.is-long .prose .lr-subhead.is-caps {
+  font-size: clamp(15px, 1.4vw, 17px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--grn-2);
+}
+.is-long .prose sup.fn {
+  font-size: 0.62em; line-height: 0; vertical-align: super; margin-left: 1px;
+  font-variant-numeric: tabular-nums; color: var(--ink-3);
+}
+.is-long .prose .lr-refs {
+  margin: 0 0 1.2em; padding-top: 0.4em; font-size: 13.5px; line-height: 1.45; color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+.is-long .prose .lr-refs p { margin: 0 0 0.4em; break-inside: avoid; }
+@media (min-width: 760px) { .is-long .prose .lr-refs { columns: 2; column-gap: 32px; } }
+/* Dose charts: two columns of a name and an amount. */
+/* The table box scrolls on a phone (BodyHtml); its body fills the column, and
+   the fixed WordPress column widths are let go. */
+.is-long .prose table tbody { display: table; width: 100%; }
+.is-long .prose table col { width: auto; }
+.is-long .prose td:first-child:not(:last-child) { width: 62%; }
+.is-long .prose table {
+  width: 100%; border: 1px solid var(--line);
+  border-radius: var(--radius); font-size: 15px; border-collapse: separate; border-spacing: 0;
+}
+.is-long .prose td { border: 0; border-bottom: 1px solid var(--line); padding: 10px 16px; vertical-align: top; }
+.is-long .prose tr:last-child td { border-bottom: 0; }
+.is-long .prose tr:nth-child(even) td { background: var(--bg-softer); }
+.is-long .prose td p { margin: 0; }
+.is-long .prose td:first-child { color: var(--ink); font-weight: 500; }
+.is-long .prose td:last-child:not(:first-child) { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.cpage-children .sec-card-head span { color: var(--ink-3); font-size: 18px; }
+</style>

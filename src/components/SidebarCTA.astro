@@ -21,14 +21,17 @@ interface Props {
    *  button (D115). When present it is the primary action. */
   booking?: { label: string; url: string }[];
   topic?: string;
+  /** Beside a long read's contents list (D131): the offer only, without the
+   *  address, hours and links, so both fit under the header. */
+  compact?: boolean;
 }
-const { booking = [], topic } = Astro.props;
+const { booking = [], topic, compact = false } = Astro.props;
 const book = booking[0];
 const a = site.address;
 /** "9:00 am – 5:00 pm" -> "9 – 5" would lose the am/pm; just drop the ":00". */
 const short = (t: string) => t.replace(/:00/g, '');
 ---
-<aside class="page-aside" aria-label="Book an appointment" data-pagefind-ignore>
+<aside class:list={['page-aside', compact && 'is-compact']} aria-label="Book an appointment" data-pagefind-ignore>
   <div class="aside-card">
     <p class="aside-title">Talk to a naturopathic doctor</p>
     {book ? (
@@ -155,6 +158,11 @@ const short = (t: string) => t.replace(/:00/g, '');
 }
 .aside-more a { color: var(--ink-3); }
 .aside-more a:hover { color: var(--grn-2); }
+
+/* Compact: under a long read's contents list the facts are dropped (D131). */
+.page-aside.is-compact .aside-facts, .page-aside.is-compact .aside-more { display: none; }
+.page-aside.is-compact .aside-card { padding: 22px 22px 20px; }
+.page-aside.is-compact .aside-title { font-size: 20px; }
 
 @media print { .page-aside { display: none; } }
 </style>
