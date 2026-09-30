@@ -1,0 +1,3 @@
+# Files in dist/ that Cloudflare should not upload or serve.
+# .htaccess is the Apache copy of the redirects; Cloudflare reads _redirects instead.
+.htaccess

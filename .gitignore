@@ -4,6 +4,7 @@
 node_modules/
 dist/
 .astro/
+.wrangler/
 
 # Editors and OS
 .DS_Store

@@ -1,0 +1,13 @@
+// Cloudflare Workers config: a static site, no server code. `npm run build`
+// writes dist/, and `npx wrangler deploy` uploads it as the Worker's assets.
+{
+  "name": "eastvalleynd-com",
+  "compatibility_date": "2026-09-30",
+  "assets": {
+    "directory": "./dist",
+    // Unknown URLs get dist/404.html with a real 404 status.
+    "not_found_handling": "404-page",
+    // Astro builds /page/index.html; /page redirects to /page/ (trailingSlash: 'always').
+    "html_handling": "auto-trailing-slash"
+  }
+}

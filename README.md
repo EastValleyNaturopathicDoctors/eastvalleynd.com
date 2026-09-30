@@ -39,7 +39,10 @@ npm run check     # type-check
 - **Content in `src/content/` and several files in `public/` and `src/data/` are generated** by the
   migration pipeline, which is kept outside this repository with the WordPress backup. Edits made
   here by hand to those files are overwritten the next time the pipeline runs.
-- **Redirects:** `public/_redirects` (Netlify / Cloudflare Pages) and `public/.htaccess` (Apache) hold
-  the same ~650 rules from the old site. On Apache, the server must allow `.htaccess` overrides or
-  every redirect silently fails. www and https redirects belong in the host's settings.
+- **Hosting:** Cloudflare Workers, serving `dist/` as static files (`wrangler.jsonc`). Cloudflare
+  builds and deploys on every push to `main`.
+- **Redirects:** `public/_redirects` (Cloudflare) and `public/.htaccess` (Apache) hold the ~650
+  rules from the old site. Cloudflare can't match `?query` URLs in `_redirects`; the two that need
+  it are listed at the end of the file and belong in Cloudflare Redirect Rules. www and https
+  redirects belong in the host's settings.
 - **Indexing:** `src/data/preview.json` switches the whole site to `noindex`. It is off.
