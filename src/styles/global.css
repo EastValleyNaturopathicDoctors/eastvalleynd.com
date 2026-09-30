@@ -78,6 +78,9 @@ em { font-style: normal; color: var(--grn-2); }
 /* Eyebrow */
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
+  /* Its own width even as the child of a flex column or grid, which would
+     otherwise stretch the pill across the column. */
+  width: fit-content; max-width: 100%;
   font-family: var(--font-mono); font-size: 12px; font-weight: 500;
   letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--ink-3);
