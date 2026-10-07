@@ -48,6 +48,14 @@ const children = live(trail.at(-1)?.children ?? []);
 // A leaf page carries the booking card beside the article; a page that heads a
 // section ends in its child cards instead.
 const aside = children.length === 0;
+// A section page has no card beside it, so one the mid-body split skipped
+// takes the card once at the end of its body, ahead of the child cards, with
+// the hub's own scheduler (tracker C4). A short leaf page does not: there it
+// would sit right on the booking band. A long section page's rail carries the
+// compact card under its contents list, as a long leaf page's does, and so
+// also hides the mid-body card where the rail is on screen.
+const endCard = !aside && !halves;
+const sideCard = aside || !!long;
 // A body that carries its own tile grid linking every child (D112), or a hub's
 // linked entry list (tracker P1), is already the section's menu; the card list
 // would repeat it.
@@ -119,7 +127,7 @@ const duplicate = isDuplicate(d.route);
       </div>
     )}
 
-    <div class:list={['container', 'cpage-body-wrap', aside && 'has-aside', long && 'has-rail']}>
+    <div class:list={['container', 'cpage-body-wrap', sideCard && 'has-aside', long && 'has-rail']}>
       <div class="cpage-body prose">
         {long && <LongReadToc items={long.toc} variant="panel" />}
         {hero === 'inset' && (
@@ -130,11 +138,12 @@ const duplicate = isDuplicate(d.route);
         {halves ? (
           <Fragment><BodyHtml html={halves[0]} /><InlineCTA topic={d.title} booking={d.booking} /><BodyHtml html={halves[1]} /></Fragment>
         ) : <BodyHtml html={html} />}
+        {endCard && <InlineCTA topic={d.title} booking={d.booking} />}
       </div>
       {long ? (
         <div class="lr-rail">
           <LongReadToc items={long.toc} variant="rail" />
-          {aside && <SidebarCTA booking={d.booking} topic={d.title} compact />}
+          <SidebarCTA booking={d.booking} topic={d.title} compact />
         </div>
       ) : aside && <SidebarCTA booking={d.booking} topic={d.title} />}
     </div>

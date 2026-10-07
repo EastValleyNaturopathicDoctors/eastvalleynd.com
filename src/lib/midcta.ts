@@ -9,19 +9,24 @@
  * the HTML there so the layout can render a component between the halves.
  *
  * Returns null when the body is short (the footer CTA is near enough), when
- * no heading sits at a usable depth, or when the copy already carries its own
- * CTA buttons (`cta-inline`, from the decks' brace directives — see D103).
+ * no heading sits at a usable depth, or when the copy already carries a
+ * booking card (`cta-inline`, see D103). Only that exact class counts: a deck
+ * button (`cta-inline-btn`) is often a link to a sibling page, such as FSM's
+ * "FSM & PTSD", and must not cost the page its card (tracker C4).
  */
 function words(html: string): number {
   const text = html.replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ');
   return text.split(/\s+/).filter(Boolean).length;
 }
 
+/** `cta-inline` as a whole class name, not as the start of `cta-inline-btn`. */
+const OWN_CARD = /class="(?:[^"]*\s)?cta-inline[\s"]/;
+
 export function splitForCta(
   html: string,
   { minWords = 700, leadWords = 250, tailWords = 200, fallbackAt = 0.4 } = {},
 ): [string, string] | null {
-  if (!html || html.includes('cta-inline')) return null;
+  if (!html || OWN_CARD.test(html)) return null;
   const total = words(html);
   if (total < minWords) return null;
 
