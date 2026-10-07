@@ -1,12 +1,32 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Foundations from '../components/Foundations.astro';
 import Practitioners from '../components/Practitioners.astro';
-import SectionIndex from '../components/SectionIndex.astro';
+import SectionHead from '../components/SectionHead.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import BookCTA from '../components/BookCTA.astro';
+import Icon from '../components/Icon.astro';
+import teamPhoto from '../images/site/hero-team.jpg';
+import hbotRoom from '../images/site/clinic-hyperbaric-room.jpg';
+import hbotChamber from '../images/site/clinic-hyperbaric-chamber.jpg';
+import microcurrent from '../images/site/clinic-microcurrent.jpg';
+
+/**
+ * The clinic's own photos from the WordPress site, never stock: this page is
+ * about the people and the place. Copied into src/images/site so a regenerated
+ * page image can't swap one out from under its caption.
+ */
+const clinic = [
+  { src: hbotRoom, href: '/hyperbaric-oxygen-therapy/', caption: 'Hyperbaric oxygen therapy',
+    alt: 'A Vitaeris 320 hyperbaric chamber beside its oxygen concentrator in a treatment room' },
+  { src: hbotChamber, href: '/hyperbaric-oxygen-therapy/', caption: 'Sealing the chamber',
+    alt: 'A staff member in scrubs zipping a hyperbaric chamber closed' },
+  { src: microcurrent, href: '/frequency-specific-microcurrent-therapy/', caption: 'Frequency Specific Microcurrent',
+    alt: 'A patient resting on a treatment table, leads running to microcurrent units' },
+];
 ---
 <Base
   title="About EVND"
@@ -16,14 +36,31 @@ import BookCTA from '../components/BookCTA.astro';
     title="Eighteen years of treating the cause, not the chart."
     lede="East Valley Naturopathic Doctors opened in Mesa in 2008. Seven licensed clinicians, one in-house clinic, and a framework — EVND Foundations — refined across thousands of complex cases."
   />
+  <div class="about-team">
+    <div class="container">
+      <Image src={teamPhoto} alt="The East Valley Naturopathic Doctors team" width={1600}
+             class="about-team-photo" loading="eager" fetchpriority="high" />
+    </div>
+  </div>
   <TrustStrip />
   <Foundations />
 
-  <section class="section">
+  <section class="section about-clinic" data-pagefind-ignore>
     <div class="container">
-      <h2 class="h2">More about EVND</h2>
-      <p class="lede" style="margin:14px 0 30px">Our mission, our approach to naturopathic medicine, and the people behind it.</p>
-      <SectionIndex root="/about/" />
+      <SectionHead
+        eyebrow="Inside the clinic"
+        blurb="IV suite, regenerative injection room, HBOT chamber and neurofeedback lab, all under one roof in Mesa."
+        ctaLabel="All services" ctaHref="/services/">
+        Where the treatment happens.
+      </SectionHead>
+      <div class="clinic-grid">
+        {clinic.map((p, i) => (
+          <figure class:list={['clinic-tile', i === 0 && 'is-lead']}>
+            <Image src={p.src} alt={p.alt} width={i === 0 ? 1400 : 900} />
+            <figcaption><a href={p.href}>{p.caption}<Icon name="arrow-right" size={14} /></a></figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -31,3 +68,44 @@ import BookCTA from '../components/BookCTA.astro';
   <Testimonials />
   <BookCTA />
 </Base>
+
+<style is:global>
+/* The team photo straddles the hero's lower edge, so the hero gives up its own.
+   flow-root keeps the lede's bottom margin inside the hero's background. */
+.page-hero:has(+ .about-team) { border-bottom: 0; padding-bottom: 0; display: flow-root; }
+.about-team {
+  padding: clamp(32px, 4vw, 56px) 0 clamp(48px, 6vw, 80px);
+  background: linear-gradient(var(--bg-softer) 50%, #fff 50%);
+}
+.about-team-photo { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); }
+
+.about-clinic { background: var(--bg-soft); }
+.clinic-grid {
+  display: grid; grid-template-columns: 1.6fr 1fr;
+  gap: clamp(12px, 1.6vw, 20px);
+  margin-top: clamp(36px, 4vw, 56px);
+}
+.clinic-tile { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-sunk); }
+.clinic-tile img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
+/* The lead photo fills both rows; the two on the right set their height. */
+.clinic-tile.is-lead { grid-row: span 2; }
+.clinic-tile.is-lead img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; object-position: 45% 50%; }
+.clinic-tile figcaption { position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; }
+.clinic-tile figcaption a {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.95);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink);
+}
+.clinic-tile figcaption svg { color: var(--grn-2); flex-shrink: 0; transition: transform .2s; }
+.clinic-tile figcaption a:hover svg { transform: translateX(3px); }
+
+@media (max-width: 900px) {
+  .clinic-grid { grid-template-columns: 1fr; }
+  .clinic-tile.is-lead { grid-row: auto; }
+  .clinic-tile.is-lead img { position: static; height: auto; aspect-ratio: 3/2; }
+}
+</style>
