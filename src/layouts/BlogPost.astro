@@ -7,7 +7,7 @@ import Icon from '../components/Icon.astro';
 import BlogImage from '../components/BlogImage.astro';
 import BodyHtml from '../components/BodyHtml.astro';
 import LongReadToc from '../components/LongReadToc.astro';
-import { heroMode } from '@/lib/hero';
+import { heroMode, isOff169, opensWithMedia } from '@/lib/hero';
 import PageImage from '../components/PageImage.astro';
 import { stockFor } from '@/lib/stock';
 import Eyebrow from '../components/Eyebrow.astro';
@@ -19,6 +19,7 @@ import { longReadFor } from '@/lib/longread';
 import { cleanLinks } from '@/lib/links';
 import { tidyProse } from '@/lib/prose';
 import { site } from '../data/site';
+import { blogImageMeta } from '@/lib/blogimage';
 
 interface Props { entry: CollectionEntry<'blog'> }
 const { entry } = Astro.props;
@@ -29,8 +30,13 @@ const long = longReadFor(body, d.wordCount);   // contents rail, D131
 const html = long ? long.html : body;
 const halves = splitForCta(html);   // mid-article booking prompt, D103
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';   // D116
-// A post WordPress gave no image opens on an Unsplash photo (D119).
-const stock = hero === 'none' ? stockFor(`/${d.slug}/`) : undefined;
+// A wide image clearly not 16:9 shows whole in the frame, not cropped through
+// its lettering (tracker I5).
+const meta = d.imageFile ? blogImageMeta(d.imageFile) : undefined;
+const whole = hero === 'wide' && !!meta && isOff169(meta.width, meta.height);
+// A post WordPress gave no image opens on an Unsplash photo (D119), unless the
+// body opens with its own video or picture (tracker I5).
+const stock = hero === 'none' && !opensWithMedia(html) ? stockFor(`/${d.slug}/`) : undefined;
 
 const all = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const i = all.findIndex((e) => e.data.slug === slug);
@@ -72,22 +78,24 @@ const schema = {
       </div>
     </header>
 
-    {hero === 'wide' && (
+    {hero === 'wide' && !whole && (
       <div class="container post-figure">
         <BlogImage file={d.imageFile} alt={d.imageAlt || d.title}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}
     {stock && (
-      <div class="container post-figure" data-pagefind-ignore>
+      <div class="container post-figure is-stock" data-pagefind-ignore>
         <PageImage set="stock" file={stock.file} alt={stock.alt}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}
-    {hero === 'contained' && (
-      <div class="container post-figure is-contained">
-        <BlogImage file={d.imageFile} alt={d.imageAlt || d.title} natural
-                   width={960} height={0} loading="eager" fetchpriority="high" />
+    {(hero === 'contained' || whole) && (
+      <div class:list={['container', 'post-figure', 'is-contained', whole && 'is-whole']}>
+        <div class="cpage-frame">
+          <BlogImage file={d.imageFile} alt={d.imageAlt || d.title} natural
+                     width={whole ? 1200 : 960} height={0} loading="eager" fetchpriority="high" />
+        </div>
       </div>
     )}
 
@@ -161,6 +169,19 @@ const schema = {
 .post-figure { margin: clamp(20px, 3vw, 34px) auto 0; }
 .post-figure.is-contained { display: flex; justify-content: center; }
 .post-figure.is-contained img { width: auto; max-width: 100%; max-height: min(420px, 60vh); aspect-ratio: auto; object-fit: contain; }
+/* The same tinted frame as a content page's smaller images (tracker I5). A
+   whole wide image fills the frame's width and stops at most of a screen. */
+.cpage-frame {
+  display: flex; align-items: center; justify-content: center; width: 100%;
+  padding: clamp(10px, 2.4vw, 32px); background: var(--bg-soft); border-radius: var(--radius-lg);
+}
+.post-figure .cpage-frame img { border-radius: var(--radius); }
+.post-figure.is-whole img { max-height: min(640px, 72vh); }
+@media (min-width: 720px) {
+  .post-figure.is-contained:not(.is-whole) .cpage-frame { aspect-ratio: 21 / 9; }
+  .post-figure.is-contained:not(.is-whole) .cpage-frame img { max-height: min(100%, 420px); }
+  .post-figure.is-stock img { aspect-ratio: 21 / 9; }
+}
 .cpage-inset { float: right; margin: 0.3em 0 1em 1.6em; max-width: min(42%, 320px); }
 .cpage-inset img { margin: 0 !important; border-radius: var(--radius); width: 100%; height: auto; }
 @media (max-width: 560px) {
