@@ -18,6 +18,10 @@
  * excluded on purpose (its sections are template copy still under client
  * question 36, and nobody searches for the homepage). Any drift — a stub
  * leaking in, a PDF, a page that lost its body attribute — fails the build.
+ * The one other exception is read from the built pages themselves: a page
+ * still in sitemap.xml whose canonical link names another page (one on its
+ * way out, tracker R4) is not its own search entry. Those are listed on every
+ * build until the sitemap drops them.
  */
 import * as pagefind from 'pagefind';
 import { readdir, readFile, rm } from 'node:fs/promises';
@@ -42,9 +46,14 @@ const { index, errors: createErrors } = await pagefind.createIndex({ verbose: fa
 if (createErrors?.length) { console.error(createErrors.join('\n')); process.exit(1); }
 
 let added = 0;
+/** Built pages whose canonical link names a different URL. */
+const canonicalAway = new Set();
 for await (const file of htmlFiles(DIST)) {
   const sourcePath = path.relative(DIST, file);
   const content = await readFile(file, 'utf8');
+  const own = '/' + sourcePath.split(path.sep).join('/').replace(/(^|\/)index\.html$/, '$1');
+  const canon = content.match(/<link rel="canonical" href="https?:\/\/[^/]+([^"]*)"/)?.[1];
+  if (canon && canon !== own) canonicalAway.add(own);
   const { errors } = await index.addHTMLFile({ sourcePath, content });
   if (errors?.length) { console.error(sourcePath, errors.join('\n')); process.exit(1); }
   added++;
@@ -81,12 +90,15 @@ const listed = new Set(
     .map((m) => m[1].replace(/^https?:\/\/[^/]+/, ''))
     .filter((u) => !NOT_SEARCHED.has(u)),
 );
+const away = [...listed].filter((u) => canonicalAway.has(u)).sort();
+for (const u of away) listed.delete(u);
 
 const leaked = [...indexed].filter((u) => !listed.has(u)).sort();
 const missing = [...listed].filter((u) => !indexed.has(u)).sort();
 
 console.log(`search index   : ${indexed.size} pages indexed of ${added} HTML files scanned`);
 console.log(`sitemap.xml    : ${listed.size} searchable urls (${NOT_SEARCHED.size} excluded on purpose: ${[...NOT_SEARCHED].join(', ')})`);
+for (const u of away) console.warn(`  CANONICAL ${u}  — in sitemap.xml but canonical to another page; the sitemap should drop it`);
 if (leaked.length || missing.length) {
   for (const u of leaked) console.error(`  LEAKED   ${u}  — indexed but not in sitemap.xml`);
   for (const u of missing) console.error(`  MISSING  ${u}  — in sitemap.xml but not indexed`);

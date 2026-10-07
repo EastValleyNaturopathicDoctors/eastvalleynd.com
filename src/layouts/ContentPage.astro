@@ -23,6 +23,7 @@ import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
 import { compactHeroes } from '@/data/compact-heroes';
+import { retiredPages } from '@/data/retired-pages';
 import '../styles/section-cards.css';
 
 interface Props { entry: CollectionEntry<'pages'> }
@@ -93,9 +94,11 @@ const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/'
 // A page that repeats another stays out of search engines until it redirects
 // there; its canonical already names the page kept (tracker R2).
 const duplicate = isDuplicate(d.route);
+// An old page on its way out does too, canonical to its replacement (tracker R4).
+const retiredTo = retiredPages[d.route];
 ---
-<Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
-      noindex={duplicate} searchSection={parents[0]?.label}>
+<Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || retiredTo}
+      noindex={duplicate || !!retiredTo} searchSection={parents[0]?.label}>
   {long && <div class="lr-progress" aria-hidden="true"></div>}
   <article class:list={['cpage', long && 'is-long', ontoBand && 'onto-band']}>
     <header class="page-hero cpage-hero">
