@@ -14,7 +14,7 @@ import { longReadFor, readingTime } from '@/lib/longread';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
-import { trail as navTrail, live } from '@/lib/nav';
+import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
 import '../styles/section-cards.css';
@@ -55,9 +55,12 @@ const placeholder = hero === 'none' && !stock && stockPlaceholders.includes(d.ro
 const segs = d.route.split('/').filter(Boolean);
 const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
   .map((r) => sectionIcons[r]).find(Boolean) ?? 'eco';
+// A page that repeats another stays out of search engines until it redirects
+// there; its canonical already names the page kept (tracker R2).
+const duplicate = isDuplicate(d.route);
 ---
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
-      searchSection={parents[0]?.label}>
+      noindex={duplicate} searchSection={parents[0]?.label}>
   {long && <div class="lr-progress" aria-hidden="true"></div>}
   <article class:list={['cpage', long && 'is-long']}>
     <header class="page-hero cpage-hero">

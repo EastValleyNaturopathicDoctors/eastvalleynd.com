@@ -9,6 +9,7 @@
  */
 import navJson from '@/data/nav.json';
 import stubJson from '@/data/stub-routes.json';
+import { duplicatePages } from '@/data/duplicate-pages';
 
 export type NavNode = {
   label: string;
@@ -82,7 +83,19 @@ export function childrenOf(path: string): NavNode[] {
 const STUBS = new Set(stubJson.routes.map((r) => norm(r.path)));
 export const isStub = (href: string): boolean => STUBS.has(norm(href));
 
-/** `nodes` without placeholders, at every depth — what menus, cards and counts show. */
+/**
+ * Duplicate pages (tracker R2): a route whose body repeats another page, as
+ * listed in `duplicate-pages.ts`. `keeperOf` is where a link to it should go —
+ * the page it repeats — and any other href comes back unchanged.
+ */
+export const isDuplicate = (href: string): boolean => Object.keys(duplicatePages).some((d) => isSame(d, href));
+export const keeperOf = (href: string): string =>
+  Object.entries(duplicatePages).find(([from]) => isSame(from, href))?.[1] ?? href;
+
+/**
+ * `nodes` without placeholders, at every depth — what menus, cards and counts
+ * show. A duplicate keeps its card but opens the page it repeats (tracker R2).
+ */
 export function live(nodes: NavNode[]): NavNode[] {
-  return nodes.filter((n) => !isStub(n.href)).map((n) => ({ ...n, children: live(n.children) }));
+  return nodes.filter((n) => !isStub(n.href)).map((n) => ({ ...n, href: keeperOf(n.href), children: live(n.children) }));
 }

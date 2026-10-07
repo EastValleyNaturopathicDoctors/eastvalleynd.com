@@ -14,6 +14,8 @@
  *     mailto link; any other address-less `<a>` is unwrapped like an empty one.
  *   - links to a placeholder page (tracker N1) — pointed at the finished
  *     page on the same topic (src/data/stub-fallbacks.ts), or unwrapped.
+ *   - links to a page that repeats another (tracker R2) — pointed at the page
+ *     kept (src/data/duplicate-pages.ts).
  *
  * Each rule is one entry in FIXES, run in order on every link, so a new rule
  * is one more function. The permanent fix
@@ -23,7 +25,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { site } from '@/data/site';
 import { stubFallbacks } from '@/data/stub-fallbacks';
-import { isStub, isSame } from '@/lib/nav';
+import { isStub, isSame, keeperOf } from '@/lib/nav';
 
 /** One `<a>` from the body. `attrs` keep their order; null = valueless attribute. */
 export interface Link {
@@ -101,6 +103,13 @@ export const FIXES: LinkFix[] = [
     dropAttr(l, 'target');
     const rel = (attr(l, 'rel') ?? '').split(/\s+/).filter((r) => r && r !== 'noopener' && r !== 'noreferrer');
     if (rel.length) setAttr(l, 'rel', rel.join(' ')); else dropAttr(l, 'rel');
+  },
+  // A duplicate page: the page it repeats. Same body, so a #section still lands.
+  (l) => {
+    const to = internal(attr(l, 'href') ?? '');
+    if (!to) return;
+    const dest = keeperOf(to.path);
+    if (dest !== to.path) setAttr(l, 'href', dest + to.query + to.hash);
   },
   // A placeholder page: its stand-in, or just the words when it has none.
   // Before the self-link rule, so a stand-in that is this very page goes too.
