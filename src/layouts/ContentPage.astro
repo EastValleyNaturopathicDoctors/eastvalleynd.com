@@ -14,6 +14,7 @@ import { longReadFor, readingTime } from '@/lib/longread';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
+import { linkHubEntries, hasHubLinks } from '@/lib/hublinks';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
@@ -25,8 +26,9 @@ const d = entry.data;
 // `rendered.html` is the HTML <Content /> would emit: the bodies are migrated
 // HTML, not markdown. It is rendered from the string so the pipeline's tile
 // grids can carry their icons (D112) and long bodies can take a booking
-// prompt part-way down (D103). Its links are tidied first (tracker L3).
-const body = injectTileIcons(cleanLinks(entry.rendered?.html ?? '', d.route));
+// prompt part-way down (D103). A hub's entry list gets back the links it lost
+// (tracker P1), then all links are tidied (tracker L3).
+const body = injectTileIcons(cleanLinks(linkHubEntries(entry.rendered?.html ?? '', d.route), d.route));
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);
@@ -41,9 +43,10 @@ const children = live(trail.at(-1)?.children ?? []);
 // A leaf page carries the booking card beside the article; a page that heads a
 // section ends in its child cards instead.
 const aside = children.length === 0;
-// A body that carries its own tile grid linking every child (D112) is already
-// the section's menu; the card list would repeat it.
-const hasGrid = html.includes('wp-tilegrid');
+// A body that carries its own tile grid linking every child (D112), or a hub's
+// linked entry list (tracker P1), is already the section's menu; the card list
+// would repeat it.
+const hasGrid = html.includes('wp-tilegrid') || hasHubLinks(d.route);
 const showChildren = children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
 // A page WordPress gave no image carries an Unsplash photo instead, or a
@@ -209,6 +212,10 @@ const duplicate = isDuplicate(d.route);
 .cpage-body ul, .cpage-body ol { margin: 0 0 1.2em; padding-left: 1.3em; }
 .cpage-body li { margin-bottom: 0.45em; }
 .cpage-body a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
+/* A hub entry's linked heading (tracker P1) still reads as a heading; its
+   "Learn More" words carry the usual link style. */
+.cpage-body h3 > a.hub-link { color: inherit; text-decoration: none; }
+.cpage-body h3 > a.hub-link:hover { color: var(--grn-2); text-decoration: underline; text-underline-offset: 3px; }
 .cpage-body strong { color: var(--ink); }
 .cpage-body img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 1.4em 0; }
 .cpage-body table { width: 100%; border-collapse: collapse; margin: 1.4em 0; font-size: 15px; }
