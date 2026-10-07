@@ -13,6 +13,7 @@ import { splitForCta } from '@/lib/midcta';
 import { longReadFor, readingTime } from '@/lib/longread';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
+import { cleanLinks } from '@/lib/links';
 import { trail as navTrail } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
@@ -24,8 +25,8 @@ const d = entry.data;
 // `rendered.html` is the HTML <Content /> would emit: the bodies are migrated
 // HTML, not markdown. It is rendered from the string so the pipeline's tile
 // grids can carry their icons (D112) and long bodies can take a booking
-// prompt part-way down (D103).
-const body = injectTileIcons(entry.rendered?.html ?? '');
+// prompt part-way down (D103). Its links are tidied first (tracker L3).
+const body = injectTileIcons(cleanLinks(entry.rendered?.html ?? '', d.route));
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);

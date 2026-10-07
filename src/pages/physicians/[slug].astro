@@ -1,6 +1,6 @@
 ---
 import { jsonLd } from '@/lib/schema';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import Button from '../../components/Button.astro';
@@ -8,6 +8,8 @@ import Eyebrow from '../../components/Eyebrow.astro';
 import BookCTA from '../../components/BookCTA.astro';
 import TeamPhoto from '../../components/TeamPhoto.astro';
 import TestimonialCarousel from '../../components/TestimonialCarousel.astro';
+import BodyHtml from '../../components/BodyHtml.astro';
+import { cleanLinks } from '@/lib/links';
 import { site } from '../../data/site';
 
 export async function getStaticPaths() {
@@ -25,7 +27,9 @@ export async function getStaticPaths() {
 
 const { entry, prev, next } = Astro.props;
 const d = entry.data;
-const { Content } = await render(entry);
+// The bio renders from its HTML string, like the content pages, so its links
+// go through the same clean-up (tracker L3).
+const bio = cleanLinks(entry.rendered?.html ?? '', `/physicians/${d.slug}/`);
 const initials = d.name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
 
 const schema = {
@@ -89,7 +93,7 @@ const schema = {
   <section class="section doc-bio-section">
     <div class="container doc-bio">
       <article class="doc-bio-body">
-        <Content />
+        <BodyHtml html={bio} />
       </article>
     </div>
   </section>
