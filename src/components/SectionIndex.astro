@@ -14,7 +14,7 @@
  * by tier, and a leftover panel in a row is widened to close it.
  */
 import Icon from './Icon.astro';
-import { find, type NavNode } from '@/lib/nav';
+import { find, live, type NavNode } from '@/lib/nav';
 import { sectionIcons, sectionIconDefault } from '@/data/section-icons';
 
 interface Props {
@@ -29,7 +29,8 @@ interface Props {
 const { root, showChildren = true, panelsLabel, tilesLabel } = Astro.props;
 
 const section = find(root);
-const items = section?.children ?? [];
+// Placeholder pages get no panel, tile or sub-page link (tracker N1).
+const items = live(section?.children ?? []);
 if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section for "${root}"`);
 
 const iconFor = (n: NavNode) => sectionIcons[n.href] ?? sectionIconDefault[root] ?? 'circle';

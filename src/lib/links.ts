@@ -12,14 +12,18 @@
  *     the link goes, the words stay;
  *   - an `<a>` with no address whose text is an email address — made a
  *     mailto link; any other address-less `<a>` is unwrapped like an empty one.
+ *   - links to a placeholder page (tracker N1) — pointed at the finished
+ *     page on the same topic (src/data/stub-fallbacks.ts), or unwrapped.
  *
- * Each rule is one entry in FIXES, run in order on every link, so a later
- * rule (a placeholder fallback, say) is one more function. The permanent fix
+ * Each rule is one entry in FIXES, run in order on every link, so a new rule
+ * is one more function. The permanent fix
  * belongs in the content pipeline; this keeps the built pages right until then.
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { site } from '@/data/site';
+import { stubFallbacks } from '@/data/stub-fallbacks';
+import { isStub, isSame } from '@/lib/nav';
 
 /** One `<a>` from the body. `attrs` keep their order; null = valueless attribute. */
 export interface Link {
@@ -97,6 +101,15 @@ export const FIXES: LinkFix[] = [
     dropAttr(l, 'target');
     const rel = (attr(l, 'rel') ?? '').split(/\s+/).filter((r) => r && r !== 'noopener' && r !== 'noreferrer');
     if (rel.length) setAttr(l, 'rel', rel.join(' ')); else dropAttr(l, 'rel');
+  },
+  // A placeholder page: its stand-in, or just the words when it has none.
+  // Before the self-link rule, so a stand-in that is this very page goes too.
+  (l) => {
+    const to = internal(attr(l, 'href') ?? '');
+    if (!to || !isStub(to.path)) return;
+    const dest = Object.entries(stubFallbacks).find(([from]) => isSame(from, to.path))?.[1];
+    if (!dest) return 'unwrap';
+    setAttr(l, 'href', dest + to.query);   // its #section belonged to the placeholder
   },
   // A link to the page it sits on, or to the homepage on the clinic's name.
   (l, { route }) => {

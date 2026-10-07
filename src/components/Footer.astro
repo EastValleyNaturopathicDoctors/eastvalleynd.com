@@ -3,8 +3,11 @@ import { Image } from 'astro:assets';
 import logo from '@/images/site/evnd-logo.png';
 import Icon from './Icon.astro';
 import { site, footerCols, footerLegal } from '../data/site';
+import { isStub } from '@/lib/nav';
 const year = new Date().getFullYear();
 const a = site.address;
+// A placeholder page drops out of its column until its copy arrives (tracker N1).
+const cols = footerCols.map((c) => ({ ...c, links: c.links.filter((l) => !isStub(l.href)) }));
 ---
 <footer class="footer">
   <div class="container footer-top">
@@ -16,7 +19,7 @@ const a = site.address;
         <span><Icon name="map" size={14} />{a.street}, {a.city} {a.state} {a.zip}</span>
       </div>
     </div>
-    {footerCols.map((c) => (
+    {cols.map((c) => (
       <div class="footer-col">
         {/* h2, not h5: these follow whatever the page body ended on, and an
             h2 is the only level that cannot skip from any of them. The footer

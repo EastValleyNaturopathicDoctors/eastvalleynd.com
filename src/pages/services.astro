@@ -5,10 +5,11 @@ import SectionIndex from '../components/SectionIndex.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import TruDOSE from '../components/TruDOSE.astro';
 import BookCTA from '../components/BookCTA.astro';
-import { find } from '@/lib/nav';
+import { find, live } from '@/lib/nav';
 
 const section = find('/services/');
-const count = section?.children.length ?? 0;
+// Counts what the index below shows: placeholders are not listed (tracker N1).
+const count = live(section?.children ?? []).length;
 ---
 <Base
   title="Services & Therapies"

@@ -8,6 +8,7 @@
  * `norm()`, and walked the tree by hand — six copies of the same three ideas.
  */
 import navJson from '@/data/nav.json';
+import stubJson from '@/data/stub-routes.json';
 
 export type NavNode = {
   label: string;
@@ -69,4 +70,19 @@ export function contains(node: NavNode, path: string): boolean {
 /** The children of a section, for the index cards and the mega menu. */
 export function childrenOf(path: string): NavNode[] {
   return find(path)?.children ?? [];
+}
+
+/**
+ * Placeholder pages (tracker N1): routes in `stub-routes.json` whose copy has
+ * not arrived. They stay in the tree, so breadcrumbs and their own pages still
+ * work, but nothing that offers a reader somewhere to go should list them.
+ * Read from the generated file, so each page comes back on its own the build
+ * after its content lands.
+ */
+const STUBS = new Set(stubJson.routes.map((r) => norm(r.path)));
+export const isStub = (href: string): boolean => STUBS.has(norm(href));
+
+/** `nodes` without placeholders, at every depth — what menus, cards and counts show. */
+export function live(nodes: NavNode[]): NavNode[] {
+  return nodes.filter((n) => !isStub(n.href)).map((n) => ({ ...n, children: live(n.children) }));
 }

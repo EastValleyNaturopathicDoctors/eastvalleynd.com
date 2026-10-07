@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import Button from './Button.astro';
-import { nav, isSame, contains, type NavNode } from '@/lib/nav';
+import { nav, isSame, contains, isStub, type NavNode } from '@/lib/nav';
 import { site } from '@/data/site';
 
 const here = Astro.url.pathname;
@@ -60,8 +60,10 @@ const HEADER_EXCLUDE = new Set(['/contact/', '/schedule-appointment/']);
 const ARCHIVE = new Set(['/blog/']);
 
 const label = (n: NavNode) => NAV_LABELS[n.href] ?? n.label;
-const kidsOf = (n: NavNode) => (ARCHIVE.has(n.href) ? [] : n.children);
-const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
+// Placeholder pages are left out of the menus and their counts (tracker N1).
+// `contains` still walks the full tree, so a placeholder's section stays lit.
+const kidsOf = (n: NavNode) => (ARCHIVE.has(n.href) ? [] : n.children.filter((c) => !isStub(c.href)));
+const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href) && !isStub(n.href));
 ---
 <header class="mainnav" id="mainnav">
   <div class="container mainnav-inner">

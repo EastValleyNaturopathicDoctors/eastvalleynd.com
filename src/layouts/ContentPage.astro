@@ -14,7 +14,7 @@ import { longReadFor, readingTime } from '@/lib/longread';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
-import { trail as navTrail } from '@/lib/nav';
+import { trail as navTrail, live } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
 import '../styles/section-cards.css';
@@ -33,10 +33,11 @@ const long = longReadFor(body, d.wordCount);
 const html = long ? long.html : body;
 const halves = splitForCta(html);
 
-// Breadcrumb and child links come from the same nav tree as the header.
+// Breadcrumb and child links come from the same nav tree as the header. The
+// breadcrumb keeps the full tree; the child cards skip placeholders (tracker N1).
 const trail = navTrail(d.route);
 const parents = trail.slice(0, -1);
-const children = trail.at(-1)?.children ?? [];
+const children = live(trail.at(-1)?.children ?? []);
 // A leaf page carries the booking card beside the article; a page that heads a
 // section ends in its child cards instead.
 const aside = children.length === 0;

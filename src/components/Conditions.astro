@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import Button from './Button.astro';
 import SectionHead from './SectionHead.astro';
 import { conditions } from '../data/content';
-import { find } from '@/lib/nav';
+import { find, live } from '@/lib/nav';
 import PageImage from './PageImage.astro';
 import { stockSlot } from '@/lib/stock';
 interface Props { limit?: number; showHead?: boolean; }
@@ -12,8 +12,9 @@ const items = limit ? conditions.slice(0, limit) : conditions;
 // The eight cards are a sample. Say so, with the real count from the nav tree
 // (the sitemap's Conditions section), and put the way to the rest where the
 // eye lands after the grid — the small link in the section head was easy to
-// miss. Only rendered when the list is cut.
-const total = find('/conditions/')?.children.length ?? 0;
+// miss. Only rendered when the list is cut. Placeholders are not counted, as
+// on /conditions/ itself (tracker N1).
+const total = live(find('/conditions/')?.children ?? []).length;
 const truncated = !!limit && total > items.length;
 ---
 <section class="section conditions-section" id="conditions">

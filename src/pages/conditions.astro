@@ -5,10 +5,11 @@ import SectionIndex from '../components/SectionIndex.astro';
 import TruDOSE from '../components/TruDOSE.astro';
 import FAQ from '../components/FAQ.astro';
 import BookCTA from '../components/BookCTA.astro';
-import { find } from '@/lib/nav';
+import { find, live } from '@/lib/nav';
 
 const section = find('/conditions/');
-const count = section?.children.length ?? 0;
+// Counts what the index below shows: placeholders are not listed (tracker N1).
+const count = live(section?.children ?? []).length;
 ---
 <Base
   title="Conditions We Treat"
