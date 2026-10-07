@@ -1,3 +1,10 @@
 # Files in dist/ that Cloudflare should not upload or serve.
 # .htaccess is the Apache copy of the redirects; Cloudflare reads _redirects instead.
 .htaccess
+# " 2" / " 3" copies that iCloud sync makes beside a file or folder ("index 2.html",
+# "sitemap 2.xml", "plaquex 2"). scripts/stray-copies.mjs deletes them after the
+# build, but iCloud can add more before a deploy (tracker R3).
+* [0-9]
+* [0-9].*
+* [0-9][0-9]
+* [0-9][0-9].*
