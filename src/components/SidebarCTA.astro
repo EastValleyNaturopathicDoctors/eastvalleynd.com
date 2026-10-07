@@ -109,6 +109,8 @@ const short = (t: string) => t.replace(/:00/g, '');
   }
   .has-aside > .cpage-body, .has-aside > .post-body { margin: 0; max-width: none; }
   .has-aside .cta-inline { display: none; }
+  /* So is a body's closing request button and its heading (tracker C10). */
+  .has-aside .closing-ask { display: none; }
   .page-aside { display: block; }
 }
 /* Sticky only when the whole card fits under the header; on a short window it

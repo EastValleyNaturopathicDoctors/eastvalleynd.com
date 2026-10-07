@@ -16,6 +16,7 @@ import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
 import { linkHubEntries, hasHubLinks } from '@/lib/hublinks';
+import { closingAsk } from '@/lib/closing';
 import { takePrimaryAction } from '@/lib/primaryaction';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
@@ -37,7 +38,9 @@ const { html: body, action } = takePrimaryAction(
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);
-const html = long ? long.html : body;
+// A body that ends by asking for the booking marks that closing, so the
+// layout does not stack its own offers on it (tracker C10).
+const { html, ask } = closingAsk(long ? long.html : body);
 const halves = splitForCta(html);
 
 // Breadcrumb and child links come from the same nav tree as the header. The
@@ -53,14 +56,19 @@ const aside = children.length === 0;
 // the hub's own scheduler (tracker C4). A short leaf page does not: there it
 // would sit right on the booking band. A long section page's rail carries the
 // compact card under its contents list, as a long leaf page's does, and so
-// also hides the mid-body card where the rail is on screen.
-const endCard = !aside && !halves;
+// also hides the mid-body card where the rail is on screen. A body that already
+// ends on its own request button keeps that instead, unless the hub has its
+// own scheduler for the card to offer (tracker C10).
+const endCard = !aside && !halves && !(ask === 'button' && !d.booking.length);
 const sideCard = aside || !!long;
 // A body that carries its own tile grid linking every child (D112), or a hub's
 // linked entry list (tracker P1), is already the section's menu; the card list
 // would repeat it.
 const hasGrid = html.includes('wp-tilegrid') || hasHubLinks(d.route);
 const showChildren = children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
+// "Ready to Get Started? Request an appointment below": the band is that
+// section's action, so it follows without the usual gap (tracker C10).
+const ontoBand = ask === 'lead' && !endCard && !showChildren;
 const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
 // A page WordPress gave no image carries an Unsplash photo instead, or a
 // branded panel where none fitted (D118). Its own image always wins.
@@ -78,7 +86,7 @@ const duplicate = isDuplicate(d.route);
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || undefined}
       noindex={duplicate} searchSection={parents[0]?.label}>
   {long && <div class="lr-progress" aria-hidden="true"></div>}
-  <article class:list={['cpage', long && 'is-long']}>
+  <article class:list={['cpage', long && 'is-long', ontoBand && 'onto-band']}>
     <header class="page-hero cpage-hero">
       <div class="container">
         {parents.length > 0 && (
@@ -278,4 +286,8 @@ const duplicate = isDuplicate(d.route);
 }
 
 .cpage-children { padding-top: 0; }
+/* A body closing on "…below" sits close on the booking band (tracker C10). */
+.cpage.onto-band .cpage-body > :last-child { margin-bottom: 0; }
+.cpage.onto-band .cpage-body-wrap { padding-bottom: 0; }
+.cpage.onto-band + .book-section { padding-top: clamp(24px, 3vw, 36px); }
 </style>

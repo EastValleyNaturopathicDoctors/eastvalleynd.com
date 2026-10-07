@@ -4,6 +4,12 @@ import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import { site } from '../data/site';
 import { faqs } from '../data/content';
+interface Props {
+  /** The booking button under the intro. Off where the booking band follows
+   *  directly and would repeat it (tracker C10). */
+  showCta?: boolean;
+}
+const { showCta = true } = Astro.props;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -21,7 +27,7 @@ const schema = {
       <Eyebrow>Common questions</Eyebrow>
       <h2 class="h2">The honest answers we wish every new patient already knew.</h2>
       <p>Can't find what you're looking for? Call <a href={site.phoneHref}>{site.phone}</a> or send the front desk a message — a real person replies within a business day.</p>
-      <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Book a new-patient visit</Button>
+      {showCta && <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Book a new-patient visit</Button>}
     </div>
     <div class="faq-list">
       {faqs.map((f, i) => (
@@ -47,6 +53,7 @@ const schema = {
 }
 .faq-left .h2 { margin: 12px 0 18px; }
 .faq-left p { color: var(--ink-2); margin: 0 0 24px; }
+.faq-left p:last-child { margin-bottom: 0; }
 /* `:not(.btn)`: the FAQ column also holds the "Book online" button, and this
    rule was winning over .btn-dark's white text — green on near-black, the one
    contrast failure Lighthouse could still find on the homepage. */
