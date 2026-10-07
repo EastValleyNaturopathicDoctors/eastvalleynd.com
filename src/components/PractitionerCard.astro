@@ -7,11 +7,30 @@ interface Props {
   /** h3 under the homepage's "Practitioners" h2; h2 on /physicians/, where the
    *  cards sit directly under the page's h1 and an h3 would skip a level. */
   level?: 'h2' | 'h3';
+  /** 'row' is the compact list on the homepage and /about/; 'tile' is the
+   *  larger-headshot card on /physicians/, the full team page (tracker R8). */
+  variant?: 'row' | 'tile';
 }
-const { name, credentials, slug, imageFile = '', summary = '', index = 0, level = 'h3' } = Astro.props;
+const { name, credentials, slug, imageFile = '', summary = '', index = 0, level = 'h3', variant = 'row' } = Astro.props;
 const Heading = level;
 const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
 ---
+{variant === 'tile' ? (
+<a class="doc-tile" href={`/physicians/${slug}/`}>
+  <div class="doc-tile-photo">
+    {imageFile
+      ? <TeamPhoto file={imageFile} alt={name} width={640} height={640}
+          loading={index < 3 ? 'eager' : 'lazy'} />
+      : <span class="doc-initials" aria-hidden="true">{initials}</span>}
+  </div>
+  <div class="doc-tile-body">
+    <Heading>{name}</Heading>
+    <span class="doc-tile-creds">{credentials}</span>
+    {summary && <p>{summary}</p>}
+    <span class="doc-cta"><span>View profile</span><Icon name="arrow-up-right" size={14} /></span>
+  </div>
+</a>
+) : (
 <a class="doc-row" href={`/physicians/${slug}/`}>
   <div class="doc-num">{String(index + 1).padStart(2, '0')}</div>
   <div class="doc-name">
@@ -26,6 +45,7 @@ const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join
   </div>
   <span class="doc-cta"><span>View profile</span><Icon name="arrow-up-right" size={14} /></span>
 </a>
+)}
 
 <style is:global>
 .practitioners-section { background: #fff; }
@@ -110,5 +130,50 @@ const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join
   .docs-list a.doc-row .doc-focus { grid-row: 2; grid-column: 2 / -1; padding-left: 0; font-size: 14.5px; }
   .docs-list a.doc-row .doc-cta { grid-row: 3; grid-column: 2 / -1; justify-self: start; }
   .docs-list a.doc-row .doc-name h2, .docs-list a.doc-row .doc-name h3 { font-size: 19px; }
+}
+
+/* --- Team page tiles (tracker R8) -------------------------------------------
+   /physicians/ was a third copy of the homepage list. Here each practitioner
+   gets a large headshot in colour, the full summary excerpt, and the same
+   whole-card link to the profile. The first row loads eagerly: it is in the
+   first screen on a laptop. */
+.docs-grid {
+  display: grid; gap: clamp(28px, 3vw, 40px) clamp(20px, 2.4vw, 32px);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.doc-tile { display: flex; flex-direction: column; color: inherit; }
+.doc-tile-photo {
+  aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden;
+  background: var(--bg-soft);
+}
+.doc-tile-photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+  transition: transform .5s cubic-bezier(.2,.7,.3,1);
+}
+.doc-tile:hover .doc-tile-photo img { transform: scale(1.04); }
+.doc-tile-photo .doc-initials {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  background: var(--grn-soft); color: var(--grn-2);
+  font-family: var(--font-display); font-size: clamp(40px, 5vw, 64px); font-weight: 600;
+}
+.doc-tile-body { display: flex; flex-direction: column; flex: 1; padding-top: 18px; }
+.doc-tile-body h2, .doc-tile-body h3 {
+  font-family: var(--font-display); font-size: 24px; font-weight: 600;
+  letter-spacing: -0.015em; line-height: 1.15; margin: 0; transition: color .2s;
+}
+.doc-tile:hover .doc-tile-body h2, .doc-tile:hover .doc-tile-body h3 { color: var(--grn-2); }
+.doc-tile-creds {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
+  color: var(--ink-3); margin-top: 6px;
+}
+.doc-tile-body p { margin: 14px 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+/* The summary takes up the slack, so the links line up along a row of cards. */
+.doc-tile-body p { flex-grow: 1; }
+.doc-tile .doc-cta { align-self: flex-start; margin-top: 20px; }
+.doc-tile:hover .doc-cta { background: var(--ink); color: #fff; border-color: var(--ink); }
+/* One column on a phone: a landscape crop keeps a full-width headshot from
+   filling the whole screen. */
+@media (max-width: 600px) {
+  .doc-tile-photo { aspect-ratio: 4 / 3; }
 }
 </style>

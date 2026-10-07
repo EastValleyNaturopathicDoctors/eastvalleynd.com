@@ -3,10 +3,12 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import PractitionerCard from '../../components/PractitionerCard.astro';
-import TrustStrip from '../../components/TrustStrip.astro';
 import BookCTA from '../../components/BookCTA.astro';
 
 const docs = (await getCollection('physicians')).sort((a, b) => a.data.order - b.data.order);
+// The full team page: larger headshots than the compact list on the homepage
+// and /about/, and no TrustStrip, which a visitor coming from either of those
+// has already passed (tracker R8).
 ---
 <Base
   title="Our Practitioners"
@@ -16,13 +18,12 @@ const docs = (await getCollection('physicians')).sort((a, b) => a.data.order - b
     title="Seven clinicians. One way of practicing medicine."
     lede="Board-licensed NMDs in the state of Arizona, plus licensed massage, nutrition and skincare practitioners. Each brings a distinct specialty."
   />
-  <TrustStrip />
   <section class="section practitioners-section">
     <div class="container">
-      <div class="docs-list" data-pagefind-ignore>
+      <div class="docs-grid" data-pagefind-ignore>
         {docs.map((d, i) => (
           <PractitionerCard
-            level="h2"
+            level="h2" variant="tile"
             name={d.data.name} credentials={d.data.credentials} slug={d.data.slug}
             imageFile={d.data.imageFile} summary={d.data.summary} index={i}
           />
