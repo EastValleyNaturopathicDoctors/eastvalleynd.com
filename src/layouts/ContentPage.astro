@@ -9,12 +9,14 @@ import InlineCTA from '../components/InlineCTA.astro';
 import SidebarCTA from '../components/SidebarCTA.astro';
 import BodyHtml from '../components/BodyHtml.astro';
 import LongReadToc from '../components/LongReadToc.astro';
+import Button from '../components/Button.astro';
 import { splitForCta } from '@/lib/midcta';
 import { longReadFor, readingTime } from '@/lib/longread';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
 import { linkHubEntries, hasHubLinks } from '@/lib/hublinks';
+import { takePrimaryAction } from '@/lib/primaryaction';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
@@ -27,8 +29,11 @@ const d = entry.data;
 // HTML, not markdown. It is rendered from the string so the pipeline's tile
 // grids can carry their icons (D112) and long bodies can take a booking
 // prompt part-way down (D103). A hub's entry list gets back the links it lost
-// (tracker P1), then all links are tidied (tracker L3).
-const body = injectTileIcons(cleanLinks(linkHubEntries(entry.rendered?.html ?? '', d.route), d.route));
+// (tracker P1), then all links are tidied (tracker L3). A page whose body
+// opens with the button most visitors came for shows it in the hero instead,
+// as the page's main button (tracker P2).
+const { html: body, action } = takePrimaryAction(
+  injectTileIcons(cleanLinks(linkHubEntries(entry.rendered?.html ?? '', d.route), d.route)), d.route);
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);
@@ -78,6 +83,13 @@ const duplicate = isDuplicate(d.route);
         {long && (
           <p class="lr-meta" data-pagefind-ignore>
             <span>{readingTime(d.wordCount)}</span><span>{long.toc.length} sections</span>
+          </p>
+        )}
+        {action && (
+          <p class="cpage-action">
+            {action.newTab
+              ? <Button href={action.href} size="lg" icon="arrow-up-right" target="_blank" rel="noopener">{action.label}</Button>
+              : <Button href={action.href} size="lg">{action.label}</Button>}
           </p>
         )}
       </div>
@@ -154,6 +166,8 @@ const duplicate = isDuplicate(d.route);
    WordPress copy and should read identically. */
 .cpage-hero { border-bottom: none; padding-bottom: clamp(20px, 3vw, 32px); }
 .cpage-hero .h1 { max-width: 20ch; font-size: clamp(34px, 4.6vw, 62px); }
+/* The page's main button under the title (tracker P2); the arrow marks a new tab. */
+.cpage-action { margin: clamp(18px, 2.4vw, 26px) 0 0; }
 
 .crumbs {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px;

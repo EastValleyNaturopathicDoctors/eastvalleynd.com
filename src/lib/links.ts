@@ -16,6 +16,8 @@
  *     page on the same topic (src/data/stub-fallbacks.ts), or unwrapped.
  *   - links to a page that repeats another (tracker R2) — pointed at the page
  *     kept (src/data/duplicate-pages.ts).
+ *   - phone numbers written as plain text — made tel links, the number shown
+ *     exactly as written (tracker P2; linkPhones below).
  *
  * Each rule is one entry in FIXES, run in order on every link, so a new rule
  * is one more function. The permanent fix
@@ -129,14 +131,29 @@ export const FIXES: LinkFix[] = [
   },
 ];
 
+/** A US number as the copy writes it: "(480) 906-2534" or "480-906-2534". */
+const PHONE = /\(\d{3}\)\s?\d{3}-\d{4}\b|\b\d{3}[-.]\d{3}[-.]\d{4}\b/g;
+
 /**
- * The body with FIXES applied to every `<a>`. `route` is the page's own path
- * ("/neurofeedback/"). Links no rule touched are left byte for byte.
+ * Plain-text phone numbers as tel links (tracker P2): a phone can dial them,
+ * the words stay as written. Only text between tags is touched, never an
+ * attribute or a number that already sits inside a link.
+ */
+export function linkPhones(html: string): string {
+  return html.split(/(<a\b[\s\S]*?<\/a>|<[^>]*>)/i).map((part, i) =>
+    i % 2 ? part : part.replace(PHONE, (n) => `<a href="tel:${n.replace(/\D/g, '')}">${n}</a>`),
+  ).join('');
+}
+
+/**
+ * The body with FIXES applied to every `<a>`, then its plain-text phone
+ * numbers linked. `route` is the page's own path ("/neurofeedback/"). Links no
+ * rule touched are left byte for byte.
  */
 export function cleanLinks(html: string, route: string, fixes: LinkFix[] = FIXES): string {
   if (!html) return html;
   const ctx = { route };
-  return html.replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (whole, rawAttrs: string, inner: string) => {
+  return linkPhones(html.replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (whole, rawAttrs: string, inner: string) => {
     const attrs: Link['attrs'] = [...rawAttrs.matchAll(/([^\s=]+)(?:="([^"]*)")?/g)]
       .map((m) => [m[1].toLowerCase(), m[2] ?? null]);
     const link: Link = { attrs, inner, text: inner.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() };
@@ -145,5 +162,5 @@ export function cleanLinks(html: string, route: string, fixes: LinkFix[] = FIXES
     if (JSON.stringify(link.attrs) === before) return whole;
     const out = link.attrs.map(([n, v]) => (v === null ? ` ${n}` : ` ${n}="${v}"`)).join('');
     return `<a${out}>${inner}</a>`;
-  });
+  }));
 }
