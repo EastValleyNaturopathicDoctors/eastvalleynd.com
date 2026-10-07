@@ -6,6 +6,8 @@ import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import { site } from '../data/site';
 const a = site.address;
+/** As SidebarCTA: "9:00 am – 5:00 pm" -> "9 am – 5 pm". */
+const short = (t: string) => t.replace(/:00/g, '');
 ---
 <section class="section book-section" id="book" data-pagefind-ignore>
   <div class="container book-wrap">
@@ -22,8 +24,19 @@ const a = site.address;
         <Button href="/new-patient-appointment-request/" variant="outline-light" icon="calendar" size="lg">Book online</Button>
       </div>
       <div class="book-meta">
-        <div><Icon name="map" size={16} /><span>{a.street}<br />{a.city}, {a.state} {a.zip}</span></div>
-        <div><Icon name="calendar" size={16} /><span>{site.hours.map((h) => `${h.days} ${h.time}`).join(' · ')}<br />{site.lunch}</span></div>
+        <div><Icon name="pin" size={16} /><span>{a.street}<br />{a.city}, {a.state} {a.zip}</span></div>
+        {/* The week as the sidebar card lists it, one day a line, with the
+            card's pin and clock — not one sentence wrapping to 8 lines, under
+            the calendar icon the Book online button also wears (tracker K4). */}
+        <div>
+          <Icon name="clock" size={16} />
+          <div>
+            <ul class="book-hours">
+              {site.hours.map((h) => <li><span>{h.days.slice(0, 3)}</span><span>{short(h.time)}</span></li>)}
+            </ul>
+            <span class="book-note">{site.lunch}</span>
+          </div>
+        </div>
         <div><Icon name="heart" size={16} /><span>HSA/FSA accepted<br />Self-pay packages available</span></div>
       </div>
     </div>
@@ -66,7 +79,11 @@ const a = site.address;
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
-.book-meta div { display: flex; gap: 12px; color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.45; }
+.book-meta > div { display: flex; gap: 12px; color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.45; }
 .book-meta svg { color: var(--grn); flex-shrink: 0; margin-top: 2px; }
+.book-hours { list-style: none; margin: 0; padding: 0; max-width: 200px; font-variant-numeric: tabular-nums; }
+.book-hours li { display: flex; justify-content: space-between; gap: 12px; }
+.book-hours li span:first-child { color: rgba(255,255,255,0.6); }
+.book-note { display: block; margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,0.6); }
 @media (max-width: 700px) { .book-meta { grid-template-columns: 1fr; } }
 </style>
