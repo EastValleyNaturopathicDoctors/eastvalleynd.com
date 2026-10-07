@@ -41,8 +41,10 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<
 .prose a { overflow-wrap: anywhere; }
 .prose iframe { max-width: 100%; }
 .prose video { display: block; width: 100%; height: auto; border-radius: var(--radius); background: var(--ink); }
-/* A tall portrait infographic stops at most of a screen, scaled, not cropped. */
-.prose img { max-height: 80vh; object-fit: contain; }
+/* A tall portrait infographic stops at most of a screen, scaled, not cropped.
+   height:auto lets the box follow the width: the WordPress width/height
+   attributes otherwise keep a shrunk photo in its full-size box (tracker I1). */
+.prose img { height: auto; max-height: 80vh; object-fit: contain; }
 .prose figure { margin: 1.6em 0; }
 .prose figure img { margin: 0; }
 .prose figcaption { margin-top: 8px; font-size: 14px; color: var(--ink-3); }
