@@ -15,6 +15,7 @@ import { longReadFor, readingTime } from '@/lib/longread';
 import { heroMode } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
+import { tidyProse } from '@/lib/prose';
 import { linkHubEntries, hasHubLinks } from '@/lib/hublinks';
 import { closingAsk } from '@/lib/closing';
 import { takePrimaryAction } from '@/lib/primaryaction';
@@ -30,11 +31,12 @@ const d = entry.data;
 // HTML, not markdown. It is rendered from the string so the pipeline's tile
 // grids can carry their icons (D112) and long bodies can take a booking
 // prompt part-way down (D103). A hub's entry list gets back the links it lost
-// (tracker P1), then all links are tidied (tracker L3). A page whose body
-// opens with the button most visitors came for shows it in the hero instead,
-// as the page's main button (tracker P2).
+// (tracker P1), then all links are tidied (tracker L3), and the lists and
+// reference list repaired (tracker K2). A page whose body opens with the
+// button most visitors came for shows it in the hero instead, as the page's
+// main button (tracker P2).
 const { html: body, action } = takePrimaryAction(
-  injectTileIcons(cleanLinks(linkHubEntries(entry.rendered?.html ?? '', d.route), d.route)), d.route);
+  injectTileIcons(tidyProse(cleanLinks(linkHubEntries(entry.rendered?.html ?? '', d.route), d.route))), d.route);
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);

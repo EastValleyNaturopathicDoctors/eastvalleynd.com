@@ -14,10 +14,11 @@
  *     given a heading tag at the next level down, text unchanged;
  *   - footnote numbers run into the text ("adhesion.9") — set as superscripts.
  *
- * A "References" paragraph followed by numbered entries becomes a heading over
- * a compact list, and every heading gets an id so the page can carry a
- * contents list. `longReadFor` decides whether a page qualifies: at least
- * LONG_READ_WORDS words and LONG_READ_SECTIONS headings to list.
+ * Every heading gets an id so the page can carry a contents list. The
+ * reference list is repaired on every body, long or not (`repairReferences`,
+ * run from lib/prose.ts; tracker K2). `longReadFor` decides whether a page
+ * qualifies: at least LONG_READ_WORDS words and LONG_READ_SECTIONS headings
+ * to list.
  */
 
 /** A page this long, with at least this many headings to list, gets the
@@ -79,8 +80,40 @@ function footnotes(html: string): string {
     seg.replace(/([A-Za-z)\]”"’%])([.,])(\d{1,3}(?:[-–,]\d{1,3})*)(?=[\s]|$)/g, '$1$2<sup class="fn">$3</sup>'));
 }
 
-export function longRead(html: string): LongRead {
+/** "References" (or "CITATIONS") on its own line over numbered entries: a
+ *  heading over a compact list. Run on every body, long or not (tracker K2):
+ *  it only sets the list as what it is, so a short page needs it as much. */
+const REFS_LABEL = /^(references|citations)$/i;
+export function repairReferences(html: string): string {
+  if (!/references|citations/i.test(html)) return html;
   const bs = blocks(html);
+  const out: string[] = [];
+  let level = 1;          // the last real heading's level
+  for (let i = 0; i < bs.length; i++) {
+    const b = bs[i];
+    const h = /^h([1-6])$/.exec(b.tag);
+    if (h) level = +h[1];
+    const t = plainPara(b) ? strip(inner(b)) : '';
+    const next = bs.slice(i + 1).find((x) => x.tag);
+    if (REFS_LABEL.test(t) && next && /^\d+\.\s/.test(strip(inner(next)))) {
+      let k = i + 1;
+      const refs: string[] = [];
+      while (k < bs.length && (!bs[k].tag || (bs[k].tag === 'p' && /^\d+\.\s/.test(strip(inner(bs[k])))))) {
+        refs.push(bs[k].html); k++;
+      }
+      const rl = Math.min(Math.max(level, 2) + 1, 3); // listed in the contents, even under an h3
+      out.push(`<h${rl} class="lr-subhead lr-refs-head${isCaps(t) ? ' is-caps' : ''}">${inner(b)}</h${rl}>`);
+      out.push(`<div class="lr-refs">${refs.join('')}</div>`);
+      i = k - 1;
+      continue;
+    }
+    out.push(b.html);
+  }
+  return out.join('');
+}
+
+export function longRead(html: string): LongRead {
+  const bs = blocks(repairReferences(html));   // already done when lib/prose.ts ran
 
   // 1. Rejoin sentences split across paragraphs.
   for (let i = 0; i < bs.length - 1; i++) {
@@ -97,7 +130,7 @@ export function longRead(html: string): LongRead {
     }
   }
 
-  // 2. Headings typed as paragraphs, and the reference list.
+  // 2. Headings typed as paragraphs.
   const out: string[] = [];
   let level = 1;          // the last real heading's level
   const promoted = new Set<Block>();
@@ -121,21 +154,7 @@ export function longRead(html: string): LongRead {
     const h = /^h([1-6])$/.exec(b.tag);
     if (h) { level = +h[1]; out.push(b.html); continue; }
     const t = plainPara(b) ? strip(inner(b)) : '';
-    const next = bs.slice(i + 1).find((x) => x.tag);
     const prev = [...bs.slice(0, i)].reverse().find((x) => x.tag);
-
-    if (/^references$/i.test(t) && next && /^\d+\.\s/.test(strip(inner(next)))) {
-      let k = i + 1;
-      const refs: string[] = [];
-      while (k < bs.length && (!bs[k].tag || (bs[k].tag === 'p' && /^\d+\.\s/.test(strip(inner(bs[k])))))) {
-        refs.push(bs[k].html); k++;
-      }
-      const rl = Math.min(Math.max(level, 2) + 1, 3); // listed in the contents, even under an h3
-      out.push(`<h${rl} class="lr-subhead lr-refs-head">${inner(b)}</h${rl}>`);
-      out.push(`<div class="lr-refs">${refs.join('')}</div>`);
-      i = k - 1;
-      continue;
-    }
 
     // A title is a short plain line that opens a long paragraph, directly or
     // through one more title ("Chemotherapy Support" / "REASON ONE. …"). A
@@ -161,17 +180,22 @@ export function longRead(html: string): LongRead {
   // Jan;6(1):14-20."): a list of them helps no one find their place. Main
   // sections are numbered (`lr-sec`) when there are two or more, and the
   // first one takes no rule above it when no text comes before it (`lr-first`).
+  // Sections whose titles carry their own numbers ("1. Remove Toxic
+  // Obstacles") take no second one: "02" over "1." reads as a mistake
+  // (`lr-own`, tracker K2).
   const body = out.join('');
   const HEAD = /<(\/?)details\b[^>]*>|<h([2-4])(\s[^>]*)?>([\s\S]*?)<\/h\2>/gi;
-  const levels: number[] = [], hidden: boolean[] = [];
+  const levels: number[] = [], hidden: boolean[] = [], texts: string[] = [];
   let depth = 0;
   for (const m of body.matchAll(HEAD)) {
     if (!m[2]) { depth = Math.max(0, depth + (m[1] ? -1 : 1)); continue; }
     levels.push(+m[2]);
-    hidden.push(depth > 0 || CITATION.test(strip(m[4])));
+    texts.push(strip(m[4]));
+    hidden.push(depth > 0 || CITATION.test(texts.at(-1)!));
   }
   const top = levels.filter((lv, k) => lv === 2 && !hidden[k]).length >= 2 ? 2 : 3;
   const sections = levels.filter((lv, k) => lv <= top && !hidden[k]).length;
+  const ownNumbers = texts.some((t, k) => levels[k] <= top && !hidden[k] && /^\d+[.)]\s/.test(t));
   const withClass = (attrs: string, cls: string) => !cls ? attrs
     : /(^|\s)class="/.test(attrs) ? attrs.replace(/(^|\s)class="/, `$1class="${cls} `) : `${attrs} class="${cls}"`;
 
@@ -188,7 +212,7 @@ export function longRead(html: string): LongRead {
     const main = shown && +lv <= top;
     const first = main && !toc.some((t) => t.main) && !strip(body.slice(0, at));
     if (shown && +lv <= top + 1) toc.push({ id, text, level: +lv as 2 | 3 | 4, main, caps: isCaps(text) });
-    const cls = [main && sections >= 2 && 'lr-sec', first && 'lr-first'].filter(Boolean).join(' ');
+    const cls = [main && sections >= 2 && 'lr-sec', main && ownNumbers && 'lr-own', first && 'lr-first'].filter(Boolean).join(' ');
     return `<h${lv}${withClass(attrs, cls)} id="${id}">${inner}</h${lv}>`;
   });
   return { html: joined, toc, sections };

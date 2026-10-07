@@ -200,26 +200,29 @@ const count = items.filter((it) => it.main).length;
   content: counter(lr-sec, decimal-leading-zero); display: block; margin-bottom: 10px;
   font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; letter-spacing: 0.08em; color: var(--grn-2);
 }
+/* Titles that carry their own numbers keep only those (tracker K2). */
+.is-long .prose .lr-sec.lr-own::before { content: none; }
 /* The first section needs no rule above it when no text comes before it,
    only the phone panel or a video (tracker N9). */
 .is-long .prose .lr-first { margin-top: 0; padding-top: 0; border-top: 0; }
 .is-long .prose .lr-first + p {
   font-size: 1.12em; line-height: 1.6; color: var(--ink);
 }
-/* Titles the source typed in capitals read as labels, not shouting. */
-.is-long .prose .lr-subhead.is-caps {
+/* Titles the source typed in capitals read as labels, not shouting. The
+   reference list and its label are set this way on every page (tracker K2). */
+.prose .lr-subhead.is-caps {
   font-size: clamp(15px, 1.4vw, 17px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--grn-2);
 }
 .is-long .prose sup.fn {
   font-size: 0.62em; line-height: 0; vertical-align: super; margin-left: 1px;
   font-variant-numeric: tabular-nums; color: var(--ink-3);
 }
-.is-long .prose .lr-refs {
+.prose .lr-refs {
   margin: 0 0 1.2em; padding-top: 0.4em; font-size: 13.5px; line-height: 1.45; color: var(--ink-3);
   overflow-wrap: anywhere;
 }
-.is-long .prose .lr-refs p { margin: 0 0 0.4em; break-inside: avoid; }
-@media (min-width: 760px) { .is-long .prose .lr-refs { columns: 2; column-gap: 32px; } }
+.prose .lr-refs p { margin: 0 0 0.4em; break-inside: avoid; }
+@media (min-width: 760px) { .prose .lr-refs { columns: 2; column-gap: 32px; } }
 /* Dose charts: two columns of a name and an amount. */
 /* The table box scrolls on a phone (BodyHtml); its body fills the column, and
    the fixed WordPress column widths are let go. */

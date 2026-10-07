@@ -17,13 +17,14 @@ import SidebarCTA from '../components/SidebarCTA.astro';
 import { splitForCta } from '@/lib/midcta';
 import { longReadFor } from '@/lib/longread';
 import { cleanLinks } from '@/lib/links';
+import { tidyProse } from '@/lib/prose';
 import { site } from '../data/site';
 
 interface Props { entry: CollectionEntry<'blog'> }
 const { entry } = Astro.props;
 const d = entry.data;
 const slug = d.slug;
-const body = cleanLinks(entry.rendered?.html ?? '', `/${slug}/`);   // tracker L3
+const body = tidyProse(cleanLinks(entry.rendered?.html ?? '', `/${slug}/`));   // trackers L3, K2
 const long = longReadFor(body, d.wordCount);   // contents rail, D131
 const html = long ? long.html : body;
 const halves = splitForCta(html);   // mid-article booking prompt, D103

@@ -34,6 +34,8 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<
 :root {
   --img-download: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 -960 960 960%22 fill=%22%23367A1B%22%3E%3Cpath d=%22M469-327q-5-2-10-7L308-485q-9-9.27-8.5-21.64.5-12.36 9.11-21.36 9.39-9 21.89-9t21.5 9l98 99v-341q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v341l99-99q8.8-9 20.9-8.5 12.1.5 21.49 9.5 8.61 9 8.61 21.5t-9 21.5L501-334q-5 5-10.13 7-5.14 2-11 2-5.87 0-10.87-2ZM220-160q-24 0-42-18t-18-42v-113q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v113h520v-113q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v113q0 24-18 42t-42 18H220Z%22/%3E%3C/svg%3E");
   --mask-check: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 -960 960 960%22%3E%3Cpath d=%22m421-389-98-98q-9-9-22-9t-23 10q-9 9-9 22t9 22l122 123q9 9 21 9t21-9l239-239q10-10 10-23t-10-23q-10-9-23.5-8.5T635-603L421-389Zm59 309q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Z%22/%3E%3C/svg%3E");
+  /* arrow_outward, the mark of a link that leaves the site (tracker K2). */
+  --mask-outward: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 -960 960 960%22%3E%3Cpath d=%22M654-658 263-267q-9 9-21 9t-21-9q-9-9-9-21t9-21l391-391H264q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h420q12.75 0 21.38 8.62Q714-742.75 714-730v420q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-348Z%22/%3E%3C/svg%3E");
   --mask-arrow: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 -960 960 960%22%3E%3Cpath d=%22M686-450H190q-13 0-21.5-8.5T160-480q0-13 8.5-21.5T190-510h496L459-737q-9-9-9-21t9-21q9-9 21-9t21 9l278 278q5 5 7 10t2 11q0 6-2 11t-7 10L501-181q-9 9-21 9t-21-9q-9-9-9-21t9-21l227-227Z%22/%3E%3C/svg%3E");
 }
 
@@ -48,6 +50,39 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<
 .prose figure { margin: 1.6em 0; }
 .prose figure img { margin: 0; }
 .prose figcaption { margin-top: 8px; font-size: 14px; color: var(--ink-3); }
+
+/* Article text (tracker K2). The headline accent (upright green em, global.css)
+   stays with the headlines: in the copy, emphasis is plain italics, since green
+   here reads as a link. A bold link keeps the link colour; the underline and
+   colours left by old <u> and <font> tags, which also passed for links, go;
+   and justified text is set flush left, without its wide gaps. */
+.prose em { font-style: italic; color: inherit; }
+.prose a strong, .prose a b { color: inherit; }
+.prose u { text-decoration: none; }
+.prose font { color: inherit; font: inherit; }
+.prose [align="justify"] { text-align: left; }
+/* A link to another website carries the small outward arrow, except on a
+   footnote number, where it would be bigger than the number; a document link
+   the download mark, unless its row already shows one (.wp-download, .wp-doclist). */
+.prose a[href^="http"]:not([href*="//eastvalleynd.com"], [href*="//www.eastvalleynd.com"], .btn, .video-link, :has(img, sup), sup a)::after,
+.prose a:is([href$=".pdf" i], [href$=".doc" i], [href$=".docx" i]):not(.btn, .wp-download a, .wp-doclist a)::after {
+  content: ''; display: inline-block; width: 0.72em; height: 0.72em; margin-left: 0.16em; vertical-align: -0.04em;
+  background: currentColor; -webkit-mask: var(--mask-outward) center / contain no-repeat; mask: var(--mask-outward) center / contain no-repeat;
+}
+.prose a:is([href$=".pdf" i], [href$=".doc" i], [href$=".docx" i]):not(.btn, .wp-download a, .wp-doclist a)::after {
+  width: 0.9em; height: 0.9em; vertical-align: -0.12em;
+  -webkit-mask-image: var(--img-download); mask-image: var(--img-download);
+}
+/* Eight or more short items (lib/prose.ts) in columns: three across the
+   article on a desktop, two on a phone, set a little smaller there so a
+   column holds more than a word or two a line. */
+.prose ul.wp-shortlist { columns: 3 150px; column-gap: 32px; }
+.prose ul.wp-shortlist li { break-inside: avoid; }
+@media (max-width: 560px) {
+  .prose ul.wp-shortlist { column-gap: 20px; font-size: 15.5px; line-height: 1.45; }
+  .prose ul.wp-checklist.wp-shortlist li { padding-left: 25px; }
+  .prose ul.wp-checklist.wp-shortlist li::before { width: 18px; height: 18px; top: 0.1em; }
+}
 
 /* Wide tables scroll inside the column instead of widening the page. */
 .prose table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
