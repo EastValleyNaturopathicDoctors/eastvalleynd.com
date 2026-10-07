@@ -361,7 +361,6 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href));
   transition: color .2s, background .2s;
 }
 .navlink:hover { background: var(--bg-soft); color: var(--ink); }
-.navlink.is-active { background: var(--ink); color: #fff; }
 .mainnav-right { display: flex; align-items: center; gap: 12px; }
 .hamburger { display: none; padding: 8px; }
 .nav-search {
@@ -442,9 +441,6 @@ body.nav-locked { overflow: hidden; }
 .navitem.has-sub > .navlink:hover { background: none; }
 .navitem.has-sub:hover { background: var(--bg-soft); }
 .navitem.has-sub:hover > .navlink { color: var(--ink); }
-.navitem.has-sub.is-active { background: var(--ink); }
-.navitem.has-sub.is-active > .navlink,
-.navitem.has-sub.is-active .subtoggle { color: #fff; background: none; }
 .navitem.has-sub .subtoggle {
   display: inline-grid; place-items: center;
   width: 16px; height: 16px; border-radius: 50%;
