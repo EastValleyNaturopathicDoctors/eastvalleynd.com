@@ -11,7 +11,7 @@ import BodyHtml from '../components/BodyHtml.astro';
 import LongReadToc from '../components/LongReadToc.astro';
 import Button from '../components/Button.astro';
 import { splitForCta } from '@/lib/midcta';
-import { longReadFor, readingTime } from '@/lib/longread';
+import { longRead, longReadFor, readingTime } from '@/lib/longread';
 import { heroMode, heroOnce, isIvGraphic, opensWithMedia } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
@@ -24,6 +24,7 @@ import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
 import { compactHeroes } from '@/data/compact-heroes';
 import { retiredPages } from '@/data/retired-pages';
+import { documentPages } from '@/data/document-pages';
 import '../styles/section-cards.css';
 
 interface Props { entry: CollectionEntry<'pages'> }
@@ -44,9 +45,13 @@ const { html: body, action } = takePrimaryAction(
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);
+// A library of documents opens with jump links to its sections however short
+// it is, from the same ids and list (tracker L8).
+const docs = documentPages.includes(d.route);
+const jumps = docs && !long ? longRead(body) : null;
 // A body that ends by asking for the booking marks that closing, so the
 // layout does not stack its own offers on it (tracker C10).
-const { html, ask } = closingAsk(long ? long.html : body);
+const { html, ask } = closingAsk((long ?? jumps)?.html ?? body);
 const halves = splitForCta(html);
 
 // Breadcrumb and child links come from the same nav tree as the header. The
@@ -100,7 +105,7 @@ const retiredTo = retiredPages[d.route];
 <Base title={d.title} description={d.metaDescription} canonicalPath={d.canonical || retiredTo}
       noindex={duplicate || !!retiredTo} searchSection={parents[0]?.label}>
   {long && <div class="lr-progress" aria-hidden="true"></div>}
-  <article class:list={['cpage', long && 'is-long', ontoBand && 'onto-band']}>
+  <article class:list={['cpage', long && 'is-long', docs && 'is-docs', ontoBand && 'onto-band']}>
     <header class="page-hero cpage-hero">
       <div class="container">
         {parents.length > 0 && (
@@ -159,6 +164,7 @@ const retiredTo = retiredPages[d.route];
     <div class:list={['container', 'cpage-body-wrap', sideCard && 'has-aside', long && 'has-rail']}>
       <div class="cpage-body prose">
         {long && <LongReadToc items={long.toc} variant="panel" />}
+        {jumps && jumps.sections > 1 && <LongReadToc items={jumps.toc} variant="chips" />}
         {hero === 'inset' && (
           <figure class="cpage-inset">
             <PageImage file={d.imageFile} alt={d.imageAlt || d.title} natural width={420} height={0} loading="eager" />

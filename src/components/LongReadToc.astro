@@ -8,9 +8,14 @@
  * Headings come from lib/longread.ts: the main sections at the top level,
  * the headings under each nested beneath it. The count names main sections
  * only, and the rail opens only the section being read (tracker N9).
+ *
+ * A library of documents (data/document-pages.ts) takes a third drawing: the
+ * main sections as a row of chips in the panel's frame, open at every width,
+ * since the page is short and the sections are what a visitor scans for
+ * (tracker L8).
  */
 import type { TocItem } from '@/lib/longread';
-interface Props { items: TocItem[]; variant: 'rail' | 'panel' }
+interface Props { items: TocItem[]; variant: 'rail' | 'panel' | 'chips' }
 const { items, variant } = Astro.props;
 
 type Group = { item: TocItem; kids: TocItem[] };
@@ -21,7 +26,13 @@ for (const it of items) {
 }
 const count = items.filter((it) => it.main).length;
 ---
-{variant === 'rail' ? (
+{variant === 'chips' ? (
+  <nav class="lr-toc lr-toc-chips" aria-label="On this page" data-pagefind-ignore>
+    <ul class="lr-toc-chip-list">
+      {groups.map((g) => <li><a href={`#${g.item.id}`}>{g.item.text.replace(/\s*:$/, '')}</a></li>)}
+    </ul>
+  </nav>
+) : variant === 'rail' ? (
   <nav class="lr-toc lr-toc-rail" aria-label="On this page" data-pagefind-ignore>
     <p class="lr-toc-title">On this page</p>
     <ol class="lr-toc-list">
@@ -148,6 +159,24 @@ const count = items.filter((it) => it.main).length;
 .lr-toc-panel nav { padding: 0 14px 16px; max-height: 60vh; overflow-y: auto; }
 @media (min-width: 1100px) { .lr-toc-panel { display: none; } }
 @media print { .lr-toc { display: none; } }
+
+/* A library's section chips, in the panel's frame (tracker L8). A heading's
+   closing colon ("…other physicians:") is left off its chip. */
+.lr-toc-chips {
+  margin: 0 0 2.2em; padding: 12px; border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--bg-softer);
+}
+.lr-toc .lr-toc-chip-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.lr-toc .lr-toc-chip-list li { margin: 0; }
+.lr-toc .lr-toc-chip-list a {
+  display: block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--bg); text-decoration: none;
+  font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--ink-2);
+  transition: color .15s, border-color .15s, background .15s;
+}
+.lr-toc .lr-toc-chip-list a:hover { color: var(--grn-2); border-color: var(--grn); background: var(--grn-soft); }
+@media (max-width: 600px) { .lr-toc .lr-toc-chip-list a { padding: 6px 12px; font-size: 13.5px; } }
+.is-docs .prose :is(h2, h3, h4)[id] { scroll-margin-top: 110px; }
 
 /* --- Long reads (D131) ------------------------------------------------------
    Content pages and posts that qualify (lib/longread.ts): a contents rail, reading time, a progress line,

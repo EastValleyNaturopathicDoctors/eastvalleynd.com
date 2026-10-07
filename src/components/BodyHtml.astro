@@ -173,6 +173,9 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<
   content: ''; position: absolute; left: -1.35em; top: 0.2em; width: 1.05em; height: 1.05em;
   background: var(--img-download) center / contain no-repeat;
 }
+/* On a library of documents (data/document-pages.ts), an entry with no file
+   reads quieter than the downloads beside it, without a word added (tracker L8). */
+.is-docs .prose .wp-doclist li:not(:has(a)) { color: var(--ink-3); }
 
 /* Videos inside a body (VideoFacade, via BodyHtml.astro). */
 .prose .video-card { margin: 1.8em 0; }
