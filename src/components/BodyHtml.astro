@@ -52,8 +52,19 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<
 /* Wide tables scroll inside the column instead of widening the page. */
 .prose table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-/* Buttons from the source copy wrap on a phone rather than overflow. */
-.prose .cta-inline-btn .btn { white-space: normal; text-align: left; max-width: 100%; }
+/* Buttons from the source copy wrap on a phone rather than overflow. They are
+   drawn as the lighter outline with the usual arrow, so the sidebar card and
+   the booking band stay the page's main actions (tracker C8). Specific enough
+   to beat `.cpage-body a` / `.post-body a` and the copy's own `btn-dark`. */
+.prose .cta-inline-btn a.btn {
+  white-space: normal; text-align: left; max-width: 100%;
+  background: transparent; color: var(--ink); border-color: var(--line-2);
+}
+.prose .cta-inline-btn a.btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.prose .cta-inline-btn a.btn::after {
+  content: ''; flex: none; width: 16px; height: 16px; background: currentColor;
+  -webkit-mask: var(--mask-arrow) center / contain no-repeat; mask: var(--mask-arrow) center / contain no-repeat;
+}
 
 /* Accordions (WPBakery toggles). */
 .prose .wp-toggle { border-bottom: 1px solid var(--line); }

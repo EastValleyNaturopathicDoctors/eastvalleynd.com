@@ -18,6 +18,9 @@
  *     kept (src/data/duplicate-pages.ts).
  *   - phone numbers written as plain text — made tel links, the number shown
  *     exactly as written (tracker P2; linkPhones below).
+ *   - schedule, book and talk links sent to /contact/, which has no form —
+ *     pointed at the appointment request like every other booking button
+ *     (tracker C8).
  *
  * Each rule is one entry in FIXES, run in order on every link, so a new rule
  * is one more function. The permanent fix
@@ -80,6 +83,9 @@ function settle(p: string) {
 const EMAIL = /^[\w.+-]+@[\w-]+(?:\.[\w-]+)+$/;
 /** A page, not a document: documents may keep their new tab. */
 const isPage = (p: string) => !/\.(?!html?$)[a-z0-9]{2,5}$/i.test(p);
+/** Booking wording: "Schedule a Consultation", "Book Your …", "Talk With …",
+ *  "Contact EVND today to schedule …". A plain "Contact us" is not. */
+const BOOKING = /^(?:book|talk)\b|\bschedul/i;
 
 export const FIXES: LinkFix[] = [
   // No address at all: an email becomes a mailto link, anything else is text.
@@ -112,6 +118,12 @@ export const FIXES: LinkFix[] = [
     if (!to) return;
     const dest = keeperOf(to.path);
     if (dest !== to.path) setAttr(l, 'href', dest + to.query + to.hash);
+  },
+  // A booking prompt to /contact/: the appointment request, where every other
+  // booking button goes (tracker C8). Plain "Contact us" links stay put.
+  (l) => {
+    const to = internal(attr(l, 'href') ?? '');
+    if (to?.path === '/contact/' && BOOKING.test(l.text)) setAttr(l, 'href', '/new-patient-appointment-request/');
   },
   // A placeholder page: its stand-in, or just the words when it has none.
   // Before the self-link rule, so a stand-in that is this very page goes too.
