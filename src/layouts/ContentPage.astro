@@ -98,7 +98,7 @@ const duplicate = isDuplicate(d.route);
         <h1 class="h1">{d.title}</h1>
         {long && (
           <p class="lr-meta" data-pagefind-ignore>
-            <span>{readingTime(d.wordCount)}</span><span>{long.toc.length} sections</span>
+            <span>{readingTime(d.wordCount)}</span>{long.sections > 1 && <span>{long.sections} sections</span>}
           </p>
         )}
         {action && (

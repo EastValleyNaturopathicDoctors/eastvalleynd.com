@@ -20,12 +20,15 @@
  * LONG_READ_WORDS words and LONG_READ_SECTIONS headings to list.
  */
 
-/** A page this long, with at least this many sections, gets the treatment. */
-export const LONG_READ_WORDS = 1500;
-export const LONG_READ_SECTIONS = 5;
+/** A page this long, with at least this many headings to list, gets the
+ *  treatment — so sibling pages of similar length look alike (tracker N9). */
+export const LONG_READ_WORDS = 1000;
+export const LONG_READ_SECTIONS = 6;
 
-export interface TocItem { id: string; text: string; level: 2 | 3; caps: boolean }
-export interface LongRead { html: string; toc: TocItem[] }
+/** `main`: a numbered section; the others nest beneath the one before. */
+export interface TocItem { id: string; text: string; level: 2 | 3 | 4; main: boolean; caps: boolean }
+/** `sections`: how many main sections the list has. */
+export interface LongRead { html: string; toc: TocItem[]; sections: number }
 
 const NAMED: Record<string, string> = {
   amp: '&', nbsp: ' ', quot: '"', apos: "'", lt: '<', gt: '>',
@@ -44,6 +47,8 @@ const isCaps = (t: string) => {
   const letters = t.replace(/[^A-Za-z]/g, '');
   return letters.length > 6 && letters.replace(/[^A-Z]/g, '').length / letters.length > 0.6;
 };
+/** A journal reference: volume(issue) after a semicolon, or a DOI. */
+const CITATION = /;\s*\d+\s*\(\d+\)|\bdoi:\s*10\./i;
 /** Ends a sentence, a quote, or a footnote run: "…growth.” 55", "…cancer.10". */
 const ENDS = /[.!?:;”"’)\]][\d,\-–]*$/;
 
@@ -64,6 +69,9 @@ function blocks(html: string): Block[] {
 }
 const inner = (b: Block) => b.html.replace(/^<[^>]+>/, '').replace(/<\/[^>]+>$/, '');
 const plainPara = (b: Block) => b.tag === 'p' && !/<(?!\/?(strong|b|em|i)\b)[a-z]/i.test(inner(b));
+/** The whole line in bold: "<strong>What is Photobiomodulation?</strong>". */
+const allBold = (b: Block) =>
+  /<(strong|b)\b/i.test(inner(b)) && !strip(inner(b).replace(/<(strong|b)\b[^>]*>[\s\S]*?<\/\1>/gi, ''));
 
 /** Superscript footnote numbers in the text between tags, never inside one. */
 function footnotes(html: string): string {
@@ -95,9 +103,12 @@ export function longRead(html: string): LongRead {
   const promoted = new Set<Block>();
   const nextTagged = (i: number) => { for (let k = i + 1; k < bs.length; k++) if (bs[k].tag) return k; return -1; };
   const lineText = (x: Block) => (plainPara(x) ? strip(inner(x)) : '');
+  // A question set in capitals or in bold is a title too, mark and all ("DO I
+  // HAVE ONE of the NINE COMMON SYMPTOMS of INSOMNIA?") (tracker N9).
   const candidate = (i: number) => {
     const t = i >= 0 ? lineText(bs[i]) : '';
-    return t.length >= 3 && t.length <= 70 && !ENDS.test(t) && !/,$/.test(t) && /^[A-Z"“]/.test(t);
+    const ends = ENDS.test(t) && !(/\?$/.test(t) && (isCaps(t) || allBold(bs[i])));
+    return t.length >= 3 && t.length <= 70 && !ends && !/,$/.test(t) && /^[A-Z"“]/.test(t);
   };
   const longPara = (i: number) => i >= 0 && bs[i].tag === 'p' && wordCount(bs[i].html) >= 25;
   const titleAt = (i: number) => {
@@ -142,18 +153,45 @@ export function longRead(html: string): LongRead {
     out.push(b.tag === 'p' ? footnotes(b.html) : b.html);
   }
 
-  // 3. Ids and the contents list: h2 and h3. Deeper headings stay in the text.
+  // 3. Ids and the contents list (tracker N9). The h2s are the main sections,
+  // with the h3s nested under them; a page with at most one h2 is built from
+  // its h3s instead, with the h4s nested. Headings inside a collapsed answer
+  // stay out of the list: a link to one would land on nothing visible. So do
+  // journal lines a post set as headings ("Basic Clin Neurosci. 2015
+  // Jan;6(1):14-20."): a list of them helps no one find their place. Main
+  // sections are numbered (`lr-sec`) when there are two or more, and the
+  // first one takes no rule above it when no text comes before it (`lr-first`).
+  const body = out.join('');
+  const HEAD = /<(\/?)details\b[^>]*>|<h([2-4])(\s[^>]*)?>([\s\S]*?)<\/h\2>/gi;
+  const levels: number[] = [], hidden: boolean[] = [];
+  let depth = 0;
+  for (const m of body.matchAll(HEAD)) {
+    if (!m[2]) { depth = Math.max(0, depth + (m[1] ? -1 : 1)); continue; }
+    levels.push(+m[2]);
+    hidden.push(depth > 0 || CITATION.test(strip(m[4])));
+  }
+  const top = levels.filter((lv, k) => lv === 2 && !hidden[k]).length >= 2 ? 2 : 3;
+  const sections = levels.filter((lv, k) => lv <= top && !hidden[k]).length;
+  const withClass = (attrs: string, cls: string) => !cls ? attrs
+    : /(^|\s)class="/.test(attrs) ? attrs.replace(/(^|\s)class="/, `$1class="${cls} `) : `${attrs} class="${cls}"`;
+
   const toc: TocItem[] = [];
   const used = new Set<string>();
-  const joined = out.join('').replace(/<h([2-4])(\s[^>]*)?>([\s\S]*?)<\/h\1>/gi, (_m, lv, attrs = '', body) => {
-    const text = strip(body);
+  let k = 0;
+  const joined = body.replace(HEAD, (m, _close, lv, attrs = '', inner: string, at: number) => {
+    if (!lv) return m;
+    const text = strip(inner);
     let id = text.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'section';
     for (let n = 2; used.has(id); n++) id = `${id.replace(/-\d+$/, '')}-${n}`;
     used.add(id);
-    if (+lv <= 3) toc.push({ id, text, level: +lv as 2 | 3, caps: isCaps(text) });
-    return `<h${lv}${attrs} id="${id}">${body}</h${lv}>`;
+    const shown = !hidden[k++];
+    const main = shown && +lv <= top;
+    const first = main && !toc.some((t) => t.main) && !strip(body.slice(0, at));
+    if (shown && +lv <= top + 1) toc.push({ id, text, level: +lv as 2 | 3 | 4, main, caps: isCaps(text) });
+    const cls = [main && sections >= 2 && 'lr-sec', first && 'lr-first'].filter(Boolean).join(' ');
+    return `<h${lv}${withClass(attrs, cls)} id="${id}">${inner}</h${lv}>`;
   });
-  return { html: joined, toc };
+  return { html: joined, toc, sections };
 }
 
 /** "About 90 minutes", from the page's word count at an unhurried 225 wpm. */

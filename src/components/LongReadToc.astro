@@ -5,8 +5,9 @@
  * the top of the article below 1100px. A small script marks the section being
  * read in both.
  *
- * Headings come from lib/longread.ts: h2s at the top level, the h3s under
- * each nested beneath it.
+ * Headings come from lib/longread.ts: the main sections at the top level,
+ * the headings under each nested beneath it. The count names main sections
+ * only, and the rail opens only the section being read (tracker N9).
  */
 import type { TocItem } from '@/lib/longread';
 interface Props { items: TocItem[]; variant: 'rail' | 'panel' }
@@ -15,10 +16,10 @@ const { items, variant } = Astro.props;
 type Group = { item: TocItem; kids: TocItem[] };
 const groups: Group[] = [];
 for (const it of items) {
-  if (it.level === 2 || groups.length === 0) groups.push({ item: it, kids: [] });
+  if (it.main || groups.length === 0) groups.push({ item: it, kids: [] });
   else groups.at(-1)!.kids.push(it);
 }
-const count = items.length;
+const count = items.filter((it) => it.main).length;
 ---
 {variant === 'rail' ? (
   <nav class="lr-toc lr-toc-rail" aria-label="On this page" data-pagefind-ignore>
@@ -36,7 +37,7 @@ const count = items.length;
   </nav>
 ) : (
   <details class="lr-toc lr-toc-panel" data-pagefind-ignore>
-    <summary><span>On this page</span><span class="lr-toc-count">{count} sections</span></summary>
+    <summary><span>On this page</span>{count > 1 && <span class="lr-toc-count">{count} sections</span>}</summary>
     <nav aria-label="On this page">
       <ol class="lr-toc-list">
         {groups.map((g) => (
@@ -67,6 +68,11 @@ const count = items.length;
         if (a.hash === `#${id}`) a.setAttribute('aria-current', 'true');
         else a.removeAttribute('aria-current');
       }
+      // The rail shows the headings under the section being read, and only those.
+      for (const li of rail?.querySelectorAll<HTMLElement>('.lr-toc-list > li') ?? []) {
+        li.classList.toggle('is-open', !!li.querySelector(`a[href="#${CSS.escape(id)}"]`));
+      }
+      rail?.classList.add('is-folding');
       // Keep the marked entry in view inside the rail, without moving the page.
       const on = rail?.querySelector<HTMLElement>(`a[href="#${CSS.escape(id)}"]`);
       if (rail && on) {
@@ -118,6 +124,9 @@ const count = items.length;
 
 /* Wide screens: the rail's list scrolls on its own when it is taller than the window. */
 .lr-toc-rail { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
+/* Once its script runs, the rail folds away the headings under the sections
+   not being read, so the whole list of sections fits (tracker N9). */
+.lr-toc-rail.is-folding .lr-toc-list > li:not(.is-open) > ol { display: none; }
 
 /* Below 1100px: a collapsed panel at the top of the article. */
 .lr-toc-panel {
@@ -180,22 +189,21 @@ const count = items.length;
 }
 
 .is-long .prose :is(h2, h3, h4) { scroll-margin-top: 110px; }
-/* Sections numbered 01, 02 … and set apart with a rule. */
+/* Main sections numbered 01, 02 … and set apart with a rule, when there are
+   two or more; lib/longread.ts marks them, so the numbers match the list. */
 .is-long .prose { counter-reset: lr-sec; }
-.is-long .prose h2 {
+.is-long .prose .lr-sec {
   counter-increment: lr-sec;
   margin-top: 2.6em; padding-top: 1.3em; border-top: 1px solid var(--line);
 }
-.is-long .prose h2::before {
+.is-long .prose .lr-sec::before {
   content: counter(lr-sec, decimal-leading-zero); display: block; margin-bottom: 10px;
   font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; letter-spacing: 0.08em; color: var(--grn-2);
 }
-/* The first section needs no rule above it. (The list's script can land
-   between the phone panel and the heading.) */
-.is-long .prose > h2:first-child,
-.is-long .prose > :is(.lr-toc-panel, .lr-toc-panel + script) + h2 { margin-top: 0; padding-top: 0; border-top: 0; }
-.is-long .prose > h2:first-child + p,
-.is-long .prose > :is(.lr-toc-panel, .lr-toc-panel + script) + h2 + p {
+/* The first section needs no rule above it when no text comes before it,
+   only the phone panel or a video (tracker N9). */
+.is-long .prose .lr-first { margin-top: 0; padding-top: 0; border-top: 0; }
+.is-long .prose .lr-first + p {
   font-size: 1.12em; line-height: 1.6; color: var(--ink);
 }
 /* Titles the source typed in capitals read as labels, not shouting. */
