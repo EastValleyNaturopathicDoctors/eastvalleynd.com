@@ -7,7 +7,7 @@ import Icon from '../components/Icon.astro';
 import BlogImage from '../components/BlogImage.astro';
 import BodyHtml from '../components/BodyHtml.astro';
 import LongReadToc from '../components/LongReadToc.astro';
-import { heroMode, isOff169, opensWithMedia } from '@/lib/hero';
+import { heroMode, heroOnce, isOff169, opensWithMedia } from '@/lib/hero';
 import PageImage from '../components/PageImage.astro';
 import { stockFor } from '@/lib/stock';
 import Eyebrow from '../components/Eyebrow.astro';
@@ -25,11 +25,13 @@ interface Props { entry: CollectionEntry<'blog'> }
 const { entry } = Astro.props;
 const d = entry.data;
 const slug = d.slug;
-const body = tidyProse(cleanLinks(entry.rendered?.html ?? '', `/${slug}/`));   // trackers L3, K2
+// A body that opens with the top image again shows it once (tracker R5).
+const once = heroOnce(entry.rendered?.html ?? '', `/${slug}/`);
+const body = tidyProse(cleanLinks(once.html, `/${slug}/`));   // trackers L3, K2
 const long = longReadFor(body, d.wordCount);   // contents rail, D131
 const html = long ? long.html : body;
 const halves = splitForCta(html);   // mid-article booking prompt, D103
-const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';   // D116
+const hero = d.imageFile && !once.hideHero ? heroMode(d.imageWidth) : 'none';   // D116
 // A wide image clearly not 16:9 shows whole in the frame, not cropped through
 // its lettering (tracker I5).
 const meta = d.imageFile ? blogImageMeta(d.imageFile) : undefined;

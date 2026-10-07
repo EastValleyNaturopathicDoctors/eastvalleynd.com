@@ -12,7 +12,7 @@ import LongReadToc from '../components/LongReadToc.astro';
 import Button from '../components/Button.astro';
 import { splitForCta } from '@/lib/midcta';
 import { longReadFor, readingTime } from '@/lib/longread';
-import { heroMode, isIvGraphic, opensWithMedia } from '@/lib/hero';
+import { heroMode, heroOnce, isIvGraphic, opensWithMedia } from '@/lib/hero';
 import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
 import { tidyProse } from '@/lib/prose';
@@ -35,9 +35,11 @@ const d = entry.data;
 // (tracker P1), then all links are tidied (tracker L3), and the lists and
 // reference list repaired (tracker K2). A page whose body opens with the
 // button most visitors came for shows it in the hero instead, as the page's
-// main button (tracker P2).
+// main button (tracker P2). A body that opens with the top image again shows
+// it once (tracker R5).
+const once = heroOnce(entry.rendered?.html ?? '', d.route);
 const { html: body, action } = takePrimaryAction(
-  injectTileIcons(tidyProse(cleanLinks(linkHubEntries(entry.rendered?.html ?? '', d.route), d.route))), d.route);
+  injectTileIcons(tidyProse(cleanLinks(linkHubEntries(once.html, d.route), d.route))), d.route);
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);
@@ -72,7 +74,7 @@ const showChildren = children.length > 0 && !(hasGrid && children.every((c) => h
 // "Ready to Get Started? Request an appointment below": the band is that
 // section's action, so it follows without the usual gap (tracker C10).
 const ontoBand = ask === 'lead' && !endCard && !showChildren;
-const hero = d.imageFile ? heroMode(d.imageWidth) : 'none';
+const hero = d.imageFile && !once.hideHero ? heroMode(d.imageWidth) : 'none';
 // A smaller own image sits in a tinted frame, except the IV graphics (I5, I6).
 const framed = hero === 'contained' && !isIvGraphic(d.route);
 // A page WordPress gave no image carries an Unsplash photo instead, or a

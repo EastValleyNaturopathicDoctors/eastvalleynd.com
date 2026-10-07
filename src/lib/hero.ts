@@ -1,3 +1,5 @@
+import { heroRepeats } from '@/data/hero-repeats';
+
 /**
  * How to show a migrated page's featured image, by its intrinsic width (D116).
  *
@@ -45,3 +47,16 @@ export const opensWithMedia = (html: string): boolean =>
  */
 export const isOff169 = (width: number, height: number): boolean =>
   !!width && !!height && Math.abs(width / height / (16 / 9) - 1) > 0.05;
+
+/**
+ * A body that repeats its top image under another file name (tracker R5,
+ * src/data/hero-repeats.ts) shows the picture once: the body's copy goes,
+ * unless it is a link, which keeps its place and the top image goes instead.
+ */
+export function heroOnce(html: string, route: string): { html: string; hideHero: boolean } {
+  const file = heroRepeats[route];
+  if (!file) return { html, hideHero: false };
+  const src = `src="[^"]*/${file.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`;
+  if (new RegExp(`<a [^>]*>\\s*<img [^>]*${src}`).test(html)) return { html, hideHero: true };
+  return { html: html.replace(new RegExp(`<img [^>]*${src}[^>]*>\\s*`), ''), hideHero: false };
+}
