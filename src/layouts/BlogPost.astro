@@ -149,17 +149,22 @@ const schema = {
    Post bodies reuse the same prose rules as the practitioner bios; both are
    migrated WordPress copy and should read identically. */
 .post-hero { border-bottom: none; padding-bottom: clamp(24px, 3vw, 36px); }
-.post-hero-inner { max-width: 78ch; }
+/* The header starts on the container's edge, as the image and every other
+   template's title do; the h1 keeps its own measure (tracker K5). */
 .post-hero .h1 { max-width: 22ch; font-size: clamp(34px, 4.6vw, 60px); }
 .post-hero .eyebrow a { text-decoration: none; }
 
 .post-meta {
-  display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 20px;
+  display: flex; flex-wrap: wrap; gap: 8px 0; margin-top: 20px;
   font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
   color: var(--ink-3);
 }
-.post-meta > * { position: relative; }
-.post-meta > * + *::before {
+/* Every item carries its dot in the 18px to its left; the list is pulled out
+   by that much and clipped back, so the dot on whichever item starts a line
+   (the first, or one that wrapped) is cut off instead of dangling (tracker K5). */
+.post-meta { margin-left: -18px; clip-path: inset(0 0 0 18px); }
+.post-meta > * { position: relative; margin-left: 18px; }
+.post-meta > *::before {
   content: '·'; position: absolute; left: -11px; color: var(--line-2);
 }
 .post-cats { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 16px 0 0; padding: 0; }

@@ -37,8 +37,8 @@ const truncated = !!limit && total > items.length;
           <div class="cond-body">
             <span class="cond-tag">{c.tag}</span>
             <h3>{c.name}</h3>
-            <span class="cond-arrow"><Icon name="arrow-up-right" size={16} /></span>
           </div>
+          <span class="cond-arrow"><Icon name="arrow-up-right" size={16} /></span>
         </a>
       ))}
     </div>
@@ -99,6 +99,8 @@ const truncated = !!limit && total > items.length;
   line-height: 1.15;
   text-wrap: balance;
 }
+/* On the photo's top corner, not in the caption block, where it sat on the end
+   of the longer labels on a phone's two-up grid (tracker K5). */
 .cond-arrow {
   position: absolute; top: 14px; right: 14px;
   width: 32px; height: 32px;
@@ -113,6 +115,14 @@ const truncated = !!limit && total > items.length;
 
 @media (max-width: 1100px) { .cond-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 700px) { .cond-grid { grid-template-columns: repeat(2, 1fr); } }
+/* Two-up on a phone the longest label ("Neurodevelopmental") ran past the
+   card's edge; a tighter label keeps it whole down to a 360px screen, and
+   anything narrower breaks it rather than cutting it off (tracker K5). */
+@media (max-width: 700px) {
+  .cond-body { padding: 14px; }
+  .cond-tag { font-size: 11px; letter-spacing: 0.03em; max-width: 100%; overflow-wrap: anywhere; }
+}
+@media (max-width: 399px) { .cond-tag { font-size: 10px; letter-spacing: 0.02em; padding: 3px 7px; } }
 
 /* The way to the other conditions, after the sample. */
 .cond-more {
