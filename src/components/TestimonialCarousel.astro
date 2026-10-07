@@ -49,13 +49,28 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
       <div class:list={['testi-wrap', carousel && 'testi-carousel']}>
         <div class="testi-head">
           <Eyebrow>{eyebrow}</Eyebrow>
+          {/* Previous / dots / next, then pause at the end of the row (tracker
+              K8). The arrows and pause sit outside the tablist, which may
+              only hold tabs. Icon-only: the words live in aria-label. */}
           {carousel && (
-            <div class="testi-nav" role="tablist" aria-label={eyebrow}>
-              {items.map((_, n) => (
-                <button type="button" role="tab" data-i={n} class={n === 0 ? 'is-on' : ''}
-                        aria-selected={n === 0 ? 'true' : 'false'}
-                        aria-label={`Story ${n + 1} of ${items.length}`}><span></span></button>
-              ))}
+            <div class="testi-controls">
+              <button type="button" class="testi-step" data-step="-1" aria-label="Previous story">
+                <Icon name="chevron_left" size={22} />
+              </button>
+              <div class="testi-nav" role="tablist" aria-label={eyebrow}>
+                {items.map((_, n) => (
+                  <button type="button" role="tab" data-i={n} class={n === 0 ? 'is-on' : ''}
+                          aria-selected={n === 0 ? 'true' : 'false'}
+                          aria-label={`Story ${n + 1} of ${items.length}`}><span></span></button>
+                ))}
+              </div>
+              <button type="button" class="testi-step" data-step="1" aria-label="Next story">
+                <Icon name="chevron_right" size={22} />
+              </button>
+              <button type="button" class="testi-step testi-toggle" aria-label="Pause stories">
+                <Icon name="pause" size={20} class="i-pause" />
+                <Icon name="play_arrow" size={22} class="i-play" />
+              </button>
             </div>
           )}
         </div>
@@ -105,16 +120,31 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
       });
     };
 
+    // Auto-advance runs until the visitor touches any control, then stops for
+    // good: a review swapped out mid-sentence is worse than one that waits
+    // (tracker K8, WCAG 2.2.2). Only the play button starts it again. Under
+    // reduced motion it never starts, so the pause button has nothing to do.
+    const toggle = root.querySelector<HTMLButtonElement>('.testi-toggle');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let playing = !reduce;
     let timer: number | undefined;
     const restart = () => {
-      if (reduce) return;
       clearInterval(timer);
-      timer = window.setInterval(() => show(i + 1), 7000);
+      if (playing) timer = window.setInterval(() => show(i + 1), 7000);
     };
+    const setPlaying = (on: boolean) => {
+      playing = on;
+      toggle?.classList.toggle('is-paused', !on);
+      toggle?.setAttribute('aria-label', on ? 'Pause stories' : 'Play stories');
+      restart();
+    };
+    if (toggle) toggle.hidden = reduce;
+    toggle?.addEventListener('click', () => setPlaying(!playing));
 
     dots.forEach((d) =>
-      d.addEventListener('click', () => { show(Number(d.dataset.i)); restart(); }));
+      d.addEventListener('click', () => { show(Number(d.dataset.i)); setPlaying(false); }));
+    root.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) =>
+      b.addEventListener('click', () => { show(i + Number(b.dataset.step)); setPlaying(false); }));
 
     // A reader part-way through a long review should not have it swapped out
     // from under them. Practitioner reviews run to 200 words.
@@ -122,7 +152,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
     root.addEventListener('pointerleave', restart);
     root.addEventListener('focusin', () => clearInterval(timer));
 
-    restart();
+    setPlaying(playing);
   });
 </script>
 
@@ -131,12 +161,32 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 .testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
 .testi-wrap { display: flex; flex-direction: column; gap: 48px; }
 .testi-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; }
-.testi-nav { display: flex; flex-wrap: wrap; gap: 6px; }
-/* Six stories are 270px of dots: under the eyebrow on a phone, not past the edge. */
-@media (max-width: 560px) { .testi-nav span { width: 22px; } }
-.testi-nav button { padding: 6px; }
+.testi-controls { display: flex; align-items: center; gap: 4px; }
+.testi-nav { display: flex; flex-wrap: wrap; }
+/* The dash stays 2px; the button around it is the 44px-tall tap target (K8). */
+.testi-nav button { padding: 21px 6px; }
 .testi-nav span { display: block; width: 28px; height: 2px; background: rgba(255,255,255,0.2); transition: background .2s; }
+.testi-nav button:hover span { background: rgba(255,255,255,0.45); }
 .testi-nav button.is-on span { background: var(--grn); }
+.testi-step {
+  display: grid; place-items: center; flex: none;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85);
+  transition: border-color .2s, color .2s;
+}
+.testi-step:hover { border-color: var(--grn); color: #fff; }
+.testi-toggle { margin-left: 8px; }
+.testi-toggle[hidden] { display: none; }
+.testi-toggle .i-play, .testi-toggle.is-paused .i-pause { display: none; }
+.testi-toggle.is-paused .i-play { display: block; }
+/* Six stories plus three buttons must fit a 343px phone column, under the eyebrow. */
+@media (max-width: 560px) {
+  .testi-controls { gap: 2px; }
+  .testi-nav button { padding: 21px 4px; }
+  .testi-nav span { width: 18px; }
+  .testi-step { width: 36px; height: 36px; }
+  .testi-toggle { margin-left: 4px; }
+}
 .testi-quote {
   margin: 0; max-width: 1000px;
   display: flex; flex-direction: column; gap: 28px;
