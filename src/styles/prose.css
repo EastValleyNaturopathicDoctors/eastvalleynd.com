@@ -1,0 +1,75 @@
+/* The article column. Shared by every migrated body: content pages and posts
+   (via BodyHtml.astro) and the legal pages (LegalPage.astro); each carries
+   class `prose` (tracker K11). The copies the templates kept had drifted, so
+   one set of rules reads the same everywhere.
+
+   Element defaults are written at the lowest specificity — `:where(.prose) p`,
+   and links as `a:not([class])` — so any component placed in an article
+   (inline CTA, inset image, video card, contents panel, buttons) wins with a
+   single class and needs no rule restating its own styles. Text margins stay
+   in em (typographic rhythm); embedded blocks take one fixed step. */
+.prose {
+  font-size: 17.5px; line-height: 1.66; color: var(--ink-2);
+  max-width: var(--measure-prose); min-width: 0;
+  overflow-wrap: break-word;
+}
+
+:where(.prose) p { margin: 0 0 1.2em; }
+:where(.prose) p:empty { margin: 0; }   /* left by the migration; holds no text */
+:where(.prose) :is(ul, ol) { margin: 0 0 1.2em; padding-left: 1.3em; }
+:where(.prose) li { margin: 0 0 0.45em; }
+:where(.prose) :is(h1, h2, h3, h4) {
+  font-family: var(--font-display); color: var(--ink);
+  letter-spacing: -0.015em; line-height: 1.18; margin: 1.9em 0 0.5em;
+}
+:where(.prose) h1 { font-size: clamp(25px, 2.6vw, 33px); }   /* stray h1s from the old body, demoted */
+:where(.prose) h2 { font-size: clamp(24px, 2.5vw, 31px); }
+:where(.prose) h3 { font-size: clamp(20px, 2vw, 25px); }
+:where(.prose) h4 { font-size: 18px; }
+:where(.prose) a:not([class]) { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
+.prose a { overflow-wrap: anywhere; }   /* long URLs and citations on a phone */
+:where(.prose) strong { color: var(--ink); }
+:where(.prose) img { max-width: 100%; height: auto; border-radius: var(--radius); }
+:where(.prose) table { width: 100%; border-collapse: collapse; font-size: 15px; }
+:where(.prose) :is(th, td) { border: 1px solid var(--line); padding: var(--space-2) var(--space-3); text-align: left; }
+:where(.prose) blockquote {
+  padding: var(--space-1) 0 var(--space-1) var(--space-5);
+  border-left: 3px solid var(--grn); color: var(--ink); font-size: 19px;
+}
+.prose hr { border: 0; border-top: 1px solid var(--line); }
+
+/* Embedded blocks: one step above and below, whatever the block. */
+:where(.prose) :is(img, figure, table, blockquote, hr),
+.prose :is(.video-card, .wp-tilegrid, .cta-inline, .cta-inline-btn) { margin-block: var(--space-7); }
+:where(.prose) :is(figure, blockquote) { margin-inline: 0; }
+/* A picture inside a block that frames it (a figure, a video's poster) sits flush. */
+.prose :is(figure, .video-frame) img { margin: 0; }
+/* Accordions: the group, not each row, takes the step. */
+.prose :not(.wp-toggle) + .wp-toggle { margin-top: var(--space-7); }
+.prose .wp-toggle:has(+ :not(.wp-toggle)) { margin-bottom: var(--space-7); }
+
+/* The column's ends: the wrap's padding is the only space above and below.
+   Astro renders a component's <script> where it is declared, the phone
+   contents panel is hidden beside the rail, and a migrated body can open or
+   close on an empty paragraph, so "first" and "last" skip all three. */
+.prose > :first-child,
+.prose > :is(script, style, .lr-toc-panel):first-child + *,
+.prose > :nth-child(1 of :not(script, style, .lr-toc-panel, p:empty)) { margin-top: 0; }
+/* …and a leading picture inside that first block, alone or in its link. */
+.prose > :is(:first-child, :nth-child(1 of :not(script, style, .lr-toc-panel, p:empty))) > img:first-child,
+.prose > :is(:first-child, :nth-child(1 of :not(script, style, .lr-toc-panel, p:empty))) > a:first-child > img:first-child { margin-top: 0; }
+.prose > :last-child,
+.prose > :nth-last-child(1 of :not(script, style, p:empty)) { margin-bottom: 0; }
+/* A body that ends inside a plain wrapper (a WordPress <section> or
+   <article>, a list whose items are paragraphs) ends there too. */
+.prose > :is(section, article, div:not([class])):nth-child(1 of :not(script, style, .lr-toc-panel, p:empty)) > :first-child { margin-top: 0; }
+.prose > :is(section, article, div:not([class]), ul, ol):nth-last-child(1 of :not(script, style, p:empty)) > :last-child,
+.prose > :is(ul, ol):nth-last-child(1 of :not(script, style, p:empty)) > li:last-child > :last-child { margin-bottom: 0; }
+/* Beside the sidebar card the mid-article prompt and a closing request are
+   hidden (SidebarCTA.astro), so the last block shown is the one to reset. */
+@media (min-width: 1100px) {
+  .has-aside .prose > :nth-last-child(1 of :not(.closing-ask, .cta-inline, script, style, p:empty)) { margin-bottom: 0; }
+}
+/* A quotation's own paragraphs end inside its rule. */
+:where(.prose) blockquote > :first-child { margin-top: 0; }
+:where(.prose) blockquote > :last-child { margin-bottom: 0; }

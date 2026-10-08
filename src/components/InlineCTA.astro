@@ -36,32 +36,27 @@ const book = booking[0];
 
 <style is:global>
 .cta-inline {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px;
-  margin: 2.2em 0; padding: 24px 26px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-5) var(--space-7);
+  margin: var(--space-7) 0; padding: var(--pad-card);
   background: var(--grn-soft); border: 1px solid #D5E9C2; border-radius: var(--radius-lg);
 }
 .cta-inline-text { flex: 1 1 320px; }
 .cta-inline-title {
-  margin: 0 0 6px; font-family: var(--font-display); font-weight: 600;
+  margin: 0 0 var(--space-2); font-family: var(--font-display); font-weight: 600;
   font-size: clamp(19px, 1.8vw, 23px); letter-spacing: -0.015em; line-height: 1.2; color: var(--ink);
   text-wrap: balance;
 }
 .cta-inline-body { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink-2); max-width: 46ch; }
-.cta-inline-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.cta-inline-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); }
 .cta-inline-phone {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: var(--space-2);
   font-family: var(--font-mono); font-size: 14px; color: var(--ink-2); text-decoration: none;
 }
 .cta-inline-phone:hover { color: var(--grn-2); }
 .cta-inline-phone svg { color: var(--grn-2); flex: none; }
-/* Inside an article body, `.cpage-body a` / `.post-body a` (green, underlined)
-   outrank `.btn-dark` and `.cta-inline-phone` on specificity — restate them. */
-.cpage-body .cta-inline a, .post-body .cta-inline a,
-.cpage-body .cta-inline-btn a, .post-body .cta-inline-btn a { text-decoration: none; }
-.cpage-body .cta-inline .btn-dark, .post-body .cta-inline .btn-dark { color: #fff; }
-.cpage-body .cta-inline-phone, .post-body .cta-inline-phone { color: var(--ink-2); }
-.cpage-body .cta-inline-phone:hover, .post-body .cta-inline-phone:hover { color: var(--grn-2); }
+/* Inside an article the prose link rule skips classed links (prose.css), so
+   the button and phone link keep their own colours with no restating here. */
 /* A CTA button the copywriter placed in the deck (a `{…}` directive, D103);
    drawn in BodyHtml.astro as an outline with an arrow (tracker C8). */
-.cta-inline-btn { margin: 1.6em 0; }
+.cta-inline-btn { margin: var(--space-7) 0; }
 </style>

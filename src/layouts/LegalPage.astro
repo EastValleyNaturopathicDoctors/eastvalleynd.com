@@ -8,6 +8,7 @@
 import Base from './Base.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import { footerLegal } from '@/data/site';
+import '../styles/prose.css';
 
 interface Props {
   title: string;
@@ -28,7 +29,7 @@ const here = Astro.url.pathname;
       </div>
     </header>
     <div class="container legal-wrap">
-      <div class="legal-body">
+      <div class="legal-body prose">
         <slot />
       </div>
       <nav class="legal-nav" aria-label="Policies" data-pagefind-ignore>
@@ -44,44 +45,32 @@ const here = Astro.url.pathname;
 </Base>
 
 <style is:global>
-.legal-hero { padding-bottom: clamp(20px, 3vw, 32px); }
+/* The hero keeps the page-hero padding; the body's prose rules are shared
+   with content pages and posts (src/styles/prose.css). */
 .legal-hero .h1 { max-width: 22ch; font-size: clamp(34px, 4.6vw, 58px); }
 .legal-updated {
-  margin: 14px 0 0; font-family: var(--font-mono); font-size: 12px;
+  margin: var(--space-5) 0 0; font-family: var(--font-mono); font-size: 12px;
   letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
 }
 .legal-wrap {
-  display: grid; grid-template-columns: minmax(0, 72ch) 220px; justify-content: center;
-  gap: clamp(32px, 5vw, 72px);
-  padding-top: clamp(34px, 4.6vw, 60px); padding-bottom: var(--space-section);
+  display: grid; grid-template-columns: minmax(0, var(--measure-prose)) 220px; justify-content: space-between;
+  gap: var(--gap-cols);
+  padding-block: var(--space-section-tight) var(--space-section);
 }
-.legal-body { font-size: 17px; line-height: 1.66; color: var(--ink-2); min-width: 0; }
-.legal-body > :first-child { margin-top: 0; }
-.legal-body p { margin: 0 0 1.1em; }
-.legal-body h2, .legal-body h3 {
-  font-family: var(--font-display); color: var(--ink);
-  letter-spacing: -0.015em; line-height: 1.2; margin: 1.9em 0 0.5em;
-}
-.legal-body h2 { font-size: clamp(24px, 2.5vw, 30px); }
-.legal-body h3 { font-size: clamp(18px, 1.8vw, 21px); }
-.legal-body ul { margin: 0 0 1.2em; padding-left: 1.3em; }
-.legal-body li { margin-bottom: 0.45em; }
-.legal-body a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
-.legal-body strong { color: var(--ink); }
 /* A block of someone else's words kept verbatim — the clinic's SMS policies. */
 .legal-verbatim {
-  margin: 1.6em 0; padding: clamp(18px, 3vw, 28px);
+  margin: var(--space-7) 0; padding: var(--pad-card);
   border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-softer);
 }
 .legal-verbatim > :first-child { margin-top: 0; }
 .legal-verbatim > :last-child { margin-bottom: 0; }
 .legal-note {
-  padding: 14px 18px; border-left: 3px solid var(--grn); background: var(--grn-soft);
+  padding: var(--pad-row); border-left: 3px solid var(--grn); background: var(--grn-soft);
   border-radius: 0 var(--radius) var(--radius) 0; color: var(--ink);
 }
 .legal-nav { position: sticky; top: 110px; align-self: start; font-size: 15px; }
 .legal-nav p {
-  margin: 0 0 10px; font-family: var(--font-mono); font-size: 12px;
+  margin: 0 0 var(--space-3); font-family: var(--font-mono); font-size: 12px;
   letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
 }
 .legal-nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
@@ -90,6 +79,6 @@ const here = Astro.url.pathname;
 .legal-nav a[aria-current='page'] { background: var(--grn-soft); color: var(--ink); font-weight: 600; }
 @media (max-width: 900px) {
   .legal-wrap { grid-template-columns: minmax(0, 1fr); }
-  .legal-nav { position: static; border-top: 1px solid var(--line); padding-top: 24px; }
+  .legal-nav { position: static; border-top: 1px solid var(--line); padding-top: var(--space-6); }
 }
 </style>

@@ -128,7 +128,7 @@ const count = items.filter((it) => it.main).length;
 
 <style is:global>
 .lr-toc-title {
-  margin: 0 0 12px; font-family: var(--font-mono); font-size: 12px;
+  margin: 0 0 var(--space-3); font-family: var(--font-mono); font-size: 12px;
   letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
 }
 /* `.lr-toc` in front: the phone panel sits inside the article, whose list and
@@ -156,11 +156,11 @@ const count = items.filter((it) => it.main).length;
 
 /* Below 1100px: a collapsed panel at the top of the article. */
 .lr-toc-panel {
-  margin: 0 0 2em; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-softer);
+  margin: 0 0 var(--space-7); border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-softer);
 }
 .lr-toc-panel summary {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 14px 18px; cursor: pointer; list-style: none;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding: var(--pad-row); cursor: pointer; list-style: none;
   font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--ink);
 }
 .lr-toc-panel summary::-webkit-details-marker { display: none; }
@@ -171,17 +171,17 @@ const count = items.filter((it) => it.main).length;
 }
 .lr-toc-panel[open] summary::after { transform: translateY(2px) rotate(225deg); }
 .lr-toc-count { margin-left: auto; font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--ink-3); }
-.lr-toc-panel nav { padding: 0 14px 16px; max-height: 60vh; overflow-y: auto; }
+.lr-toc-panel nav { padding: 0 var(--space-3) var(--space-4); max-height: 60vh; overflow-y: auto; }
 @media (min-width: 1100px) { .lr-toc-panel { display: none; } }
 @media print { .lr-toc { display: none; } }
 
 /* A library's section chips, in the panel's frame (tracker L8). A heading's
    closing colon ("…other physicians:") is left off its chip. */
 .lr-toc-chips {
-  margin: 0 0 2.2em; padding: 12px; border: 1px solid var(--line);
+  margin: 0 0 var(--space-7); padding: var(--space-3); border: 1px solid var(--line);
   border-radius: var(--radius); background: var(--bg-softer);
 }
-.lr-toc .lr-toc-chip-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.lr-toc .lr-toc-chip-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .lr-toc .lr-toc-chip-list li { margin: 0; }
 .lr-toc .lr-toc-chip-list a {
   display: block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px;
@@ -198,11 +198,11 @@ const count = items.filter((it) => it.main).length;
    numbered sections, and the migrated tables, footnotes and reference list
    set as what they are. The words are untouched (lib/longread.ts). */
 .lr-meta {
-  display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 16px 0 0;
+  display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-5) 0 0;
   font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
   text-transform: uppercase; color: var(--ink-3);
 }
-.lr-meta span + span::before { content: '·'; margin-right: 18px; color: var(--line-2); }
+.lr-meta span + span::before { content: '·'; margin-right: var(--space-4); color: var(--line-2); }
 
 .lr-progress { display: none; }
 @supports (animation-timeline: scroll()) {
@@ -218,15 +218,10 @@ const count = items.filter((it) => it.main).length;
 /* The rail: contents above a compact booking card, together sticky under the
    header; the list scrolls inside it when it is the taller of the two. */
 .lr-rail { display: none; }
+/* Every .has-rail also has .has-aside, whose grid (SidebarCTA.astro) places it. */
 @media (min-width: 1100px) {
-  .has-rail {
-    display: grid; grid-template-columns: minmax(0, 72ch) 320px;
-    justify-content: center; align-items: start;
-    gap: clamp(40px, 5vw, 84px); font-size: 17.5px;
-  }
-  .has-rail > .prose { margin: 0; max-width: none; }
   .lr-rail {
-    display: flex; flex-direction: column; gap: 22px;
+    display: flex; flex-direction: column; gap: var(--space-6);
     position: sticky; top: 104px; max-height: calc(100vh - 124px);
   }
   .lr-rail .page-aside { position: static; flex: none; }
@@ -238,10 +233,10 @@ const count = items.filter((it) => it.main).length;
 .is-long .prose { counter-reset: lr-sec; }
 .is-long .prose .lr-sec {
   counter-increment: lr-sec;
-  margin-top: 2.6em; padding-top: 1.3em; border-top: 1px solid var(--line);
+  margin-top: 2em; padding-top: 1em; border-top: 1px solid var(--line);
 }
 .is-long .prose .lr-sec::before {
-  content: counter(lr-sec, decimal-leading-zero); display: block; margin-bottom: 10px;
+  content: counter(lr-sec, decimal-leading-zero); display: block; margin-bottom: var(--space-2);
   font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; letter-spacing: 0.08em; color: var(--grn-2);
 }
 /* Titles that carry their own numbers keep only those (tracker K2). */
@@ -269,7 +264,7 @@ const count = items.filter((it) => it.main).length;
   overflow-wrap: anywhere;
 }
 .prose .lr-refs p { margin: 0 0 0.4em; break-inside: avoid; }
-@media (min-width: 760px) { .prose .lr-refs { columns: 2; column-gap: 32px; } }
+@media (min-width: 760px) { .prose .lr-refs { columns: 2; column-gap: var(--space-7); } }
 /* Dose charts: two columns of a name and an amount. */
 /* The table box scrolls on a phone (BodyHtml); its body fills the column, and
    the fixed WordPress column widths are let go. */
@@ -280,11 +275,11 @@ const count = items.filter((it) => it.main).length;
   width: 100%; border: 1px solid var(--line);
   border-radius: var(--radius); font-size: 15px; border-collapse: separate; border-spacing: 0;
 }
-.is-long .prose td { border: 0; border-bottom: 1px solid var(--line); padding: 10px 16px; vertical-align: top; }
+.is-long .prose td { border: 0; border-bottom: 1px solid var(--line); padding: var(--space-3) var(--space-4); vertical-align: top; }
 .is-long .prose tr:last-child td { border-bottom: 0; }
 .is-long .prose tr:nth-child(even) td { background: var(--bg-softer); }
 .is-long .prose td p { margin: 0; }
 .is-long .prose td:first-child { color: var(--ink); font-weight: 500; }
 .is-long .prose td:last-child:not(:first-child) { color: var(--ink-2); font-variant-numeric: tabular-nums; }
-.cpage-children .sec-card-head span { color: var(--ink-3); font-size: 18px; }
+.cpage-children .sec-card-head span { color: var(--ink-3); font-size: 18px; line-height: 1.24; }   /* level with the title's line */
 </style>

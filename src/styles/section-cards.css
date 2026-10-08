@@ -5,12 +5,12 @@
    Lists a section's real children from the sitemap, with each child's own
    sub-pages beneath it. */
 .sec-grid {
-  display: grid; gap: clamp(18px, 2.2vw, 26px);
+  display: grid; gap: var(--gap-cards);
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
 }
 .sec-card {
   border: 1px solid var(--line); border-radius: var(--radius-lg);
-  padding: 22px 22px 18px; background: var(--bg);
+  padding: var(--pad-card); background: var(--bg);
   transition: border-color .2s, box-shadow .2s, transform .2s;
   display: flex; flex-direction: column;
 }
@@ -20,22 +20,23 @@
   transform: translateY(-2px);
 }
 .sec-card-head {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3);
   color: inherit;
 }
-.sec-card-head h2 {
+/* ContentPage renders the card titles as h3: both levels lose the UA margins. */
+.sec-card-head :is(h2, h3) {
   font-family: var(--font-display); font-size: 19px; font-weight: 600;
   letter-spacing: -0.012em; line-height: 1.24; margin: 0;
 }
 .sec-card-head svg { flex: none; margin-top: 3px; color: var(--ink-3); transition: color .2s, transform .2s; }
 .sec-card:hover .sec-card-head svg { color: var(--grn-2); transform: translate(2px, -2px); }
 .sec-card-kids {
-  list-style: none; margin: 14px 0 0; padding: 14px 0 0;
+  list-style: none; margin: var(--space-3) 0 0; padding: var(--space-3) 0 0;
   border-top: 1px solid var(--line);
   display: flex; flex-direction: column; gap: 2px;
 }
 .sec-card-kids a {
-  display: block; padding: 5px 0; font-size: 14px; color: var(--ink-3);
+  display: block; padding: var(--space-1) 0; font-size: 14px; color: var(--ink-3);
   transition: color .15s;
 }
 .sec-card-kids a:hover { color: var(--grn-2); }

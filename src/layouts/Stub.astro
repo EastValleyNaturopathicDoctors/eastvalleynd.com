@@ -54,8 +54,8 @@ const children = childrenOf(path);
    mistaken for a broken one during review. */
 .stub-hero { border-bottom: none; }
 .stub-note {
-  margin-top: 20px; font-size: 14px; color: var(--ink-3);
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-top: var(--space-5); font-size: 14px; color: var(--ink-3);
+  display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;
 }
 .stub-note code {
   font-family: var(--font-mono); font-size: 12.5px;
@@ -63,17 +63,17 @@ const children = childrenOf(path);
   padding: 4px 8px; border-radius: 6px; color: var(--ink-2);
 }
 
-/* A scaffolded section still lists what is under it — see Stub.astro. */
-.stub-children { padding-top: clamp(28px, 4vw, 44px); }
-.stub-children .h2 { font-size: clamp(24px, 2.6vw, 32px); margin-bottom: 22px; }
+/* A scaffolded section still lists what is under it — see Stub.astro. It
+   starts half a section under the hero, as every page's content does. */
+.stub-children .h2 { font-size: clamp(24px, 2.6vw, 32px); margin-bottom: var(--space-6); }
 .stub-child-list {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: 10px;
+  gap: var(--gap-tiles);
 }
 .stub-child-list a {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  padding: 15px 18px; border: 1px solid var(--line); border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding: var(--pad-row); border: 1px solid var(--line); border-radius: var(--radius);
   font-size: 15.5px; font-weight: 500; color: var(--ink-2);
   transition: border-color .18s, background .18s, color .18s;
 }
