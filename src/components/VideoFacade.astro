@@ -117,10 +117,10 @@ if (import.meta.env.DEV && posterFile && !poster) {
 .video-title {
   font-family: var(--font-display); font-weight: 600;
   font-size: clamp(17px, 1.5vw, 20px); line-height: 1.25; letter-spacing: -0.012em;
-  margin: 16px 0 0; text-wrap: balance;
+  margin: var(--space-4) 0 0; text-wrap: balance;
 }
 .video-link {
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  display: inline-flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2);
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--ink-3);
 }

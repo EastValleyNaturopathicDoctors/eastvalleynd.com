@@ -159,11 +159,15 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 <style is:global>
 .testi-section { background: var(--ink); color: #fff; }
 .testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
-.testi-wrap { display: flex; flex-direction: column; gap: 48px; }
-.testi-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; }
+/* No flex gap: the head sits a heading group above the quotes, the link only a
+   button row's step under them. */
+.testi-wrap { display: flex; flex-direction: column; gap: 0; }
+.testi-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-4); }
+.testi-head + * { margin-top: var(--space-head); }
 .testi-controls { display: flex; align-items: center; gap: 4px; }
 .testi-nav { display: flex; flex-wrap: wrap; }
-/* The dash stays 2px; the button around it is the 44px-tall tap target (K8). */
+/* The dash stays 2px; the button around it is the 44px-tall tap target (K8).
+   Control internals: off the spacing scale on purpose. */
 .testi-nav button { padding: 21px 6px; }
 .testi-nav span { display: block; width: 28px; height: 2px; background: rgba(255,255,255,0.2); transition: background .2s; }
 .testi-nav button:hover span { background: rgba(255,255,255,0.45); }
@@ -189,7 +193,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 }
 .testi-quote {
   margin: 0; max-width: 1000px;
-  display: flex; flex-direction: column; gap: 28px;
+  display: flex; flex-direction: column; gap: var(--space-6);
   animation: fadein .4s ease;
 }
 .quotemark {
@@ -208,23 +212,22 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 }
 .testi-quote footer { display: flex; gap: 16px; align-items: baseline; font-size: 14px; color: rgba(255,255,255,0.75); }
 .testi-quote footer b { color: #fff; font-weight: 600; }
-.testi-more { margin: clamp(28px, 4vw, 44px) 0 0; }
+.testi-more { margin: var(--space-7) 0 0; }
 .testi-more a {
   display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;
   color: #fff; border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 3px;
   transition: border-color .2s, gap .2s;
 }
-.testi-more a:hover { border-color: var(--grn); gap: 11px; }
+.testi-more a:hover { border-color: var(--grn); gap: var(--space-3); }
 @keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* Real patient reviews carried over from the WordPress bio pages. */
 .doc-testi-grid {
-  display: grid; gap: 18px;
+  display: grid; gap: var(--gap-cards);
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  margin-top: 28px;
 }
 .doc-testi {
-  margin: 0; padding: 28px; border: 1px solid var(--line);
+  margin: 0; padding: var(--pad-card); border: 1px solid var(--line);
   border-radius: var(--radius-lg); background: var(--bg);
   position: relative;
 }
@@ -232,7 +235,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
   font-family: var(--font-display); font-size: 56px; line-height: 1;
   color: var(--grn); display: block; margin-bottom: 4px;
 }
-.doc-testi p { margin: 0 0 0.9em; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+.doc-testi p { margin: 0 0 var(--space-3); font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
 .doc-testi footer { font-size: 13px; font-family: var(--font-mono); color: var(--ink-3); }
 .doc-testi footer b { color: var(--ink); font-family: var(--font-sans); }
 </style>
