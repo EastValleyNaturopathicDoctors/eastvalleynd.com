@@ -1,0 +1,179 @@
+---
+/**
+ * Our core values, in the clinic's own words: the title card, the five values
+ * and the three value statements from its "Our Core Values" video (Oct 2026),
+ * verbatim apart from sentence case. The video gives statements for
+ * Innovation, Compassion and Empowerment only, so the page lists all five and
+ * explains those three; Precision and Education take a statement here when
+ * the clinic writes one. Nothing is added to their words.
+ *
+ * The photos are the clinic's own (src/images/site), not frames of the video.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import BookCTA from '@/components/BookCTA.astro';
+import microcurrent from '@/images/site/clinic-microcurrent.jpg';
+import frontDesk from '@/images/site/clinic-front-desk.webp';
+import team from '@/images/site/hero-team.jpg';
+
+const values = [
+  { name: 'Precision', icon: 'target' },
+  { name: 'Education', icon: 'school' },
+  { name: 'Innovation', icon: 'lightbulb' },
+  { name: 'Compassion', icon: 'volunteer_activism' },
+  { name: 'Empowerment', icon: 'diversity_3' },
+];
+
+type Statement = {
+  value: string; title: string; body: string[]; lines?: string[];
+  img: ImageMetadata; alt: string;
+};
+const statements: Statement[] = [
+  {
+    value: 'Innovation', title: 'We seek innovation.',
+    body: ['We address individual concerns using proven and innovative approaches to help our patients achieve their health goals.'],
+    img: microcurrent, alt: 'A patient resting on a treatment table, leads running to microcurrent units',
+  },
+  {
+    value: 'Compassion', title: 'We are compassionate.',
+    body: ['We provide individualized healthcare with compassion, always remembering what it means to “walk a mile” in our patients’ shoes.'],
+    img: frontDesk, alt: "The clinic's front desk",
+  },
+  {
+    value: 'Empowerment', title: 'We empower our patients.',
+    lines: ['We listen.', 'We encourage.', 'We work together.'],
+    body: ['Our goal is to empower every patient as we seek solutions to root causes together.'],
+    img: team, alt: 'The East Valley Naturopathic Doctors team',
+  },
+];
+---
+<Base
+  title="Our Core Values"
+  description="Precision, education, innovation, compassion and empowerment: the core values behind care at East Valley Naturopathic Doctors in Mesa, AZ.">
+  <PageHero
+    eyebrow="Our core values"
+    title="Your health. Your journey. Our commitment."
+    lede="Individualized care. Innovative solutions. Empowered patients."
+  />
+
+  <section class="section cv-values" aria-labelledby="cv-values-head">
+    <div class="container">
+      <h2 class="cv-values-head" id="cv-values-head">Our core values</h2>
+      <ol class="cv-list">
+        {values.map((v, i) => (
+          <li>
+            <span class="cv-icon"><Icon name={v.icon} size={26} /></span>
+            <span class="cv-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="cv-name">{v.name}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section cv-statements is-band">
+    <div class="container">
+      {statements.map((s, i) => (
+        <article class:list={['cv-statement', i % 2 === 1 && 'is-flipped']} aria-labelledby={`cv-${s.value.toLowerCase()}`}>
+          <div class="cv-statement-text">
+            <Eyebrow>{s.value}</Eyebrow>
+            <h2 class="h2" id={`cv-${s.value.toLowerCase()}`}>{s.title}</h2>
+            {s.lines && (
+              <ul class="cv-lines">{s.lines.map((l) => <li>{l}</li>)}</ul>
+            )}
+            {s.body.map((p) => <p class="lede">{p}</p>)}
+          </div>
+          <div class="cv-statement-photo">
+            <Image src={s.img} alt={s.alt} width={900} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section cv-next">
+    <div class="container cv-next-inner">
+      <p class="cv-next-text">Meet our practitioners.</p>
+      <div class="hero-cta">
+        <Button href="/physicians/" variant="dark" icon="arrow-right">Our practitioners</Button>
+        <Button href="/about/" variant="ghost" icon="arrow-right">About EVND</Button>
+      </div>
+    </div>
+  </section>
+
+  <BookCTA />
+</Base>
+
+<style is:global>
+/* --- Our core values ---------------------------------------------------------
+   The five values in one row (two, then one, on smaller screens), then the
+   three statements, picture and words alternating sides. */
+.cv-values-head {
+  margin: 0 0 var(--space-head);
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+}
+.cv-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gap-cards);
+}
+.cv-list li {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--pad-card); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg);
+}
+.cv-icon {
+  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px;
+  background: var(--grn-soft); color: var(--grn-2);
+}
+.cv-num { margin-top: var(--space-4); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); }
+.cv-name {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em;
+  font-size: clamp(22px, 2vw, 28px); line-height: 1.1; color: var(--ink);
+}
+
+.cv-statements { background: var(--bg-soft); }
+.cv-statement {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--gap-cols); align-items: center;
+}
+.cv-statement + .cv-statement { margin-top: var(--space-section); }
+.cv-statement.is-flipped .cv-statement-text { order: 2; }
+.cv-statement-text .h2 { margin-top: var(--space-4); }
+.cv-statement-text .lede { margin-top: var(--space-5); }
+.cv-lines {
+  list-style: none; margin: var(--space-5) 0 0; padding: 0;
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.015em;
+  font-size: clamp(22px, 2.2vw, 30px); line-height: 1.3; color: var(--grn-2);
+}
+.cv-statement-photo img {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.cv-next-inner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-6);
+}
+.cv-next-text {
+  margin: 0; max-width: 28ch;
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.015em;
+  font-size: clamp(22px, 2.4vw, 32px); line-height: 1.2;
+}
+.cv-next .hero-cta { margin: 0; }
+
+@media (max-width: 1000px) {
+  .cv-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cv-list li:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 860px) {
+  .cv-statement { grid-template-columns: 1fr; gap: var(--space-7); }
+  .cv-statement.is-flipped .cv-statement-text { order: 0; }
+}
+@media (max-width: 480px) {
+  .cv-list { grid-template-columns: 1fr; }
+}
+</style>

@@ -60,6 +60,12 @@
         ]
       },
       {
+        "label": "Our Core Values",
+        "href": "/about/core-values/",
+        "inMenu": true,
+        "children": []
+      },
+      {
         "label": "Our Mission",
         "href": "/about/our-mission/",
         "inMenu": true,
