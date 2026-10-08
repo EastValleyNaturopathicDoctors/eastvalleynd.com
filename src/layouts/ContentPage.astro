@@ -29,6 +29,7 @@ import { retiredPages } from '@/data/retired-pages';
 import { documentPages } from '@/data/document-pages';
 import { heroOverrides } from '@/data/hero-overrides';
 import { heroFit } from '@/data/hero-fit';
+import { cardBlurbs } from '@/data/card-blurbs';
 import '../styles/section-cards.css';
 import '../styles/page-figure.css';
 
@@ -198,11 +199,12 @@ const retiredTo = retiredPages[d.route];
           {liftGrid ? <BodyHtml html={topGrid} /> : (
             <div class="sec-grid">
               {children.map((c) => (
-                <div class="sec-card">
+                <div class:list={['sec-card', cardBlurbs[c.href] && 'has-blurb']}>
                   <a class="sec-card-head" href={c.href}>
                     <h3>{c.label}</h3>
                     <span aria-hidden="true">→</span>
                   </a>
+                  {cardBlurbs[c.href] && <p class="sec-card-blurb">{cardBlurbs[c.href]}</p>}
                 </div>
               ))}
             </div>
@@ -434,6 +436,12 @@ const retiredTo = retiredPages[d.route];
 .cpage-top .sec-card-head { align-items: center; }
 .cpage-top .sec-card-head h3 { font-size: 15.5px; }
 .cpage-top .sec-card:hover { border-color: var(--grn); background: var(--grn-soft); box-shadow: none; transform: translateY(-1px); }
+/* A card with a sentence (src/data/card-blurbs.ts): the title on top, the
+   sentence under it, and the whole card still one link. */
+.cpage-top .sec-card.has-blurb { position: relative; justify-content: flex-start; padding: var(--space-4); }
+.cpage-top .sec-card.has-blurb .sec-card-head::after { content: ''; position: absolute; inset: 0; }
+.sec-card-blurb { margin: var(--space-2) 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.cpage-top .sec-grid:has(.has-blurb) { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--gap-cards); }
 @media (max-width: 560px) {
   .cpage-top .sec-grid { grid-template-columns: 1fr 1fr; }
   .cpage-top .sec-card { min-height: 0; padding: var(--space-2) var(--space-3); }
