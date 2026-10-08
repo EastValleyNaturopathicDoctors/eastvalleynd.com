@@ -35,6 +35,17 @@ if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section
 
 const iconFor = (n: NavNode) => sectionIcons[n.href] ?? sectionIconDefault[root] ?? 'circle';
 
+/** Soft-hyphen break points for the longest words in tile labels, so a narrow
+ *  tile breaks "Photo-biomodulation" at a syllable instead of cutting it
+ *  anywhere. Invisible unless the word actually has to break. */
+const SOFT: Record<string, string> = {
+  Photobiomodulation: 'Photo\u00ADbio\u00ADmodu\u00ADlation', Gastrointestinal: 'Gastro\u00ADintestinal',
+  Dermatological: 'Dermato\u00ADlogical', Detoxification: 'Detoxi\u00ADfication', Environmental: 'Environ\u00ADmental',
+  Neurofeedback: 'Neuro\u00ADfeedback', Mitochondrial: 'Mito\u00ADchondrial', Microneedling: 'Micro\u00ADneedling',
+  Endometriosis: 'Endo\u00ADmetriosis', Hyperactivity: 'Hyper\u00ADactivity', Immunotherapy: 'Immuno\u00ADtherapy',
+};
+const soft = (label: string) => label.replace(/[A-Za-z]{13,}/g, (w) => SOFT[w] ?? w);
+
 const withKids = showChildren ? items.filter((n) => n.children.length > 0) : [];
 const leaves = showChildren ? items.filter((n) => n.children.length === 0) : items;
 
@@ -85,7 +96,7 @@ const bands = panels.length > 0 && leaves.length > 0;
           <li>
             <a href={n.href}>
               <span class="six-icon"><Icon name={iconFor(n)} size={22} /></span>
-              <span class="six-tile-label">{n.label}</span>
+              <span class="six-tile-label">{soft(n.label)}</span>
               <Icon name="arrow-up-right" size={15} class="six-arrow" />
             </a>
           </li>
@@ -151,7 +162,8 @@ const bands = panels.length > 0 && leaves.length > 0;
 /* Tiles */
 .six-tiles {
   list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  /* 264px leaves a label room for the longest word on one line at desktop sizes. */
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(264px, 1fr));
   gap: var(--gap-tiles);
 }
 .six-tiles li { display: flex; min-width: 0; }   /* every tile in a row takes the row's height */
@@ -163,9 +175,10 @@ const bands = panels.length > 0 && leaves.length > 0;
   font-weight: 500; font-size: 15.5px; line-height: 1.25;
   transition: border-color .18s, background .18s, transform .18s;
 }
-/* A long single word ("Photobiomodulation") breaks inside its tile instead of
-   pushing the tile over its neighbour. */
-.six-tile-label { flex: 1; min-width: 0; -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }
+/* A long word ("Photobiomodulation") never pushes a tile over its neighbour.
+   Desktop tiles fit every word whole, so it moves to the next line; phone
+   tiles are narrower and break it at the soft hyphens set in soft(). */
+.six-tile-label { flex: 1; min-width: 0; -webkit-hyphens: none; hyphens: none; overflow-wrap: break-word; }
 .six-tiles a:hover { border-color: var(--grn); background: var(--grn-soft); transform: translateY(-1px); }
 .six-tiles a:hover .six-icon { background: var(--grn); color: var(--ink); }
 .six-tiles a:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
@@ -186,5 +199,6 @@ const bands = panels.length > 0 && leaves.length > 0;
   .six-tiles .six-icon { width: 30px; height: 30px; border-radius: 9px; }
   .six-tiles .six-icon svg { width: 18px; height: 18px; }
   .six-tiles .six-arrow { display: none; }
+  .six-tile-label { -webkit-hyphens: manual; hyphens: manual; }
 }
 </style>
