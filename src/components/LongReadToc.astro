@@ -93,8 +93,12 @@ const count = items.filter((it) => it.main).length;
     };
     const update = () => {
       // The last heading that has passed a line a little under the header.
+      // One inside a collapsed answer is not being read, and has no place.
       let id = heads[0].id;
-      for (const h of heads) { if (h.getBoundingClientRect().top < 140) id = h.id; else break; }
+      for (const h of heads) {
+        if (h.closest('.prose details:not([open])')) continue;
+        if (h.getBoundingClientRect().top < 140) id = h.id; else break;
+      }
       mark(id);
     };
     let queued = false;
@@ -108,6 +112,17 @@ const count = items.filter((it) => it.main).length;
     for (const a of document.querySelectorAll<HTMLAnchorElement>('.lr-toc-panel a')) {
       a.addEventListener('click', () => a.closest('details')?.removeAttribute('open'));
     }
+    // Following a heading inside a collapsed answer opens the answer first, so
+    // the link lands on it; a link to one from elsewhere does too (tracker N9).
+    const reveal = (id: string) => {
+      const answer = document.getElementById(id)?.closest<HTMLDetailsElement>('.prose details');
+      if (!answer || answer.open) return false;
+      answer.open = true;
+      return true;
+    };
+    for (const a of links) a.addEventListener('click', () => reveal(a.hash.slice(1)));
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (hash && reveal(hash)) document.getElementById(hash)?.scrollIntoView();
   }
 </script>
 

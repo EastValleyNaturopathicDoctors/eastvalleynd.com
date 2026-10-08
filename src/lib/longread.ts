@@ -18,13 +18,16 @@
  * reference list is repaired on every body, long or not (`repairReferences`,
  * run from lib/prose.ts; tracker K2). `longReadFor` decides whether a page
  * qualifies: at least LONG_READ_WORDS words and LONG_READ_SECTIONS headings
- * to list.
+ * to list (one fewer past LONGER_READ_WORDS).
  */
 
 /** A page this long, with at least this many headings to list, gets the
  *  treatment — so sibling pages of similar length look alike (tracker N9). */
 export const LONG_READ_WORDS = 1000;
 export const LONG_READ_SECTIONS = 6;
+/** From this many words five headings are enough, the rule before N9, so no
+ *  page loses the list it had (intestinal permeability, five sections). */
+export const LONGER_READ_WORDS = 1500;
 
 /** `main`: a numbered section; the others nest beneath the one before. */
 export interface TocItem { id: string; text: string; level: 2 | 3 | 4; main: boolean; caps: boolean }
@@ -175,23 +178,27 @@ export function longRead(html: string): LongRead {
   // 3. Ids and the contents list (tracker N9). The h2s are the main sections,
   // with the h3s nested under them; a page with at most one h2 is built from
   // its h3s instead, with the h4s nested. Headings inside a collapsed answer
-  // stay out of the list: a link to one would land on nothing visible. So do
-  // journal lines a post set as headings ("Basic Clin Neurosci. 2015
-  // Jan;6(1):14-20."): a list of them helps no one find their place. Main
-  // sections are numbered (`lr-sec`) when there are two or more, and the
-  // first one takes no rule above it when no text comes before it (`lr-first`).
+  // are listed beneath the section before them but never count or number as
+  // sections; following one opens its answer (LongReadToc), so the link lands
+  // on something visible — the HBOT FAQ's are most of its list. Journal lines
+  // a post set as headings ("Basic Clin Neurosci. 2015 Jan;6(1):14-20.") stay
+  // out: a list of them helps no one find their place. Main sections are
+  // numbered (`lr-sec`) when there are two or more, and the first one takes
+  // no rule above it when no text comes before it (`lr-first`).
   // Sections whose titles carry their own numbers ("1. Remove Toxic
   // Obstacles") take no second one: "02" over "1." reads as a mistake
   // (`lr-own`, tracker K2).
   const body = out.join('');
   const HEAD = /<(\/?)details\b[^>]*>|<h([2-4])(\s[^>]*)?>([\s\S]*?)<\/h\2>/gi;
-  const levels: number[] = [], hidden: boolean[] = [], texts: string[] = [];
+  const levels: number[] = [], hidden: boolean[] = [], folded: boolean[] = [], texts: string[] = [];
   let depth = 0;
   for (const m of body.matchAll(HEAD)) {
     if (!m[2]) { depth = Math.max(0, depth + (m[1] ? -1 : 1)); continue; }
     levels.push(+m[2]);
     texts.push(strip(m[4]));
-    hidden.push(depth > 0 || CITATION.test(texts.at(-1)!));
+    const cite = CITATION.test(texts.at(-1)!);
+    hidden.push(depth > 0 || cite);
+    folded.push(depth > 0 && !cite);
   }
   const top = levels.filter((lv, k) => lv === 2 && !hidden[k]).length >= 2 ? 2 : 3;
   const sections = levels.filter((lv, k) => lv <= top && !hidden[k]).length;
@@ -208,10 +215,10 @@ export function longRead(html: string): LongRead {
     let id = text.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'section';
     for (let n = 2; used.has(id); n++) id = `${id.replace(/-\d+$/, '')}-${n}`;
     used.add(id);
-    const shown = !hidden[k++];
+    const shown = !hidden[k], inAnswer = folded[k++];
     const main = shown && +lv <= top;
     const first = main && !toc.some((t) => t.main) && !strip(body.slice(0, at));
-    if (shown && +lv <= top + 1) toc.push({ id, text, level: +lv as 2 | 3 | 4, main, caps: isCaps(text) });
+    if ((shown || inAnswer) && +lv <= top + 1) toc.push({ id, text, level: +lv as 2 | 3 | 4, main, caps: isCaps(text) });
     const cls = [main && sections >= 2 && 'lr-sec', main && ownNumbers && 'lr-own', first && 'lr-first'].filter(Boolean).join(' ');
     // A promoted title that is itself a numbered section reads as one, at its
     // siblings' size and colour, not as a small label (tracker N9).
@@ -233,5 +240,5 @@ export function readingTime(words: number): string {
 export function longReadFor(html: string, words: number): LongRead | null {
   if (words < LONG_READ_WORDS) return null;
   const lr = longRead(html);
-  return lr.toc.length >= LONG_READ_SECTIONS ? lr : null;
+  return lr.toc.length >= LONG_READ_SECTIONS - (words >= LONGER_READ_WORDS ? 1 : 0) ? lr : null;
 }
