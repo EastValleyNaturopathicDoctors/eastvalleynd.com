@@ -8,11 +8,14 @@ import Eyebrow from '../../components/Eyebrow.astro';
 import BookCTA from '../../components/BookCTA.astro';
 import TeamPhoto from '../../components/TeamPhoto.astro';
 import ReviewList from '../../components/ReviewList.astro';
+import VideoFacade from '../../components/VideoFacade.astro';
 import BodyHtml from '../../components/BodyHtml.astro';
 import { cleanLinks } from '@/lib/links';
 import { stripEncodedShortcodes } from '@/lib/shortcodes';
 import { site } from '../../data/site';
 import { practitionerReviews } from '../../data/practitioner-reviews';
+import { practitionerVideos } from '../../data/practitioner-videos';
+import videoData from '../../data/videos.json';
 import { reviewsById } from '@/lib/reviews';
 import '../../styles/pager.css';
 
@@ -41,6 +44,13 @@ const initials = d.name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).jo
 const picked = practitionerReviews[d.slug] ?? { named: [], more: [] };
 const named = reviewsById(picked.named);
 const more = reviewsById(picked.more);
+// Their videos (src/data/practitioner-videos.ts); an unknown id is a build error.
+const videoMeta = videoData as Record<string, { title: string; display?: string; posterFile: string }>;
+const videos = (practitionerVideos[d.slug] ?? []).map((id) => {
+  const v = videoMeta[id];
+  if (!v) throw new Error(`[practitioner-videos] no video ${id} in src/data/videos.json`);
+  return { id, ...v };
+});
 /** "Dr. Porter", or a first name for the practitioners who aren't doctors. */
 const shortName = d.name.startsWith('Dr.') ? `Dr. ${d.name.split(' ').slice(-1)[0]}` : d.name.split(' ')[0];
 
@@ -74,6 +84,9 @@ const schema = {
             <Button href={d.booking[0].url} variant="dark" icon="calendar" target="_blank" rel="noopener">
               Book with {d.name.split(' ').slice(-1)[0]}
             </Button>
+          ) : d.booking.length > 1 ? (
+            /* Several appointment types: down to the list of them (#book). */
+            <Button href="#book" variant="dark" icon="arrow_downward">Schedule an appointment</Button>
           ) : (
             <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
           )}
@@ -108,6 +121,20 @@ const schema = {
       </article>
     </div>
   </section>
+
+  {videos.length > 0 && (
+    <section class="section doc-videos" aria-labelledby="doc-videos-head">
+      <div class="container">
+        <Eyebrow>Videos</Eyebrow>
+        <h2 class="h2" id="doc-videos-head">Watch {shortName}</h2>
+        <div class="doc-videos-grid">
+          {videos.map((v) => (
+            <VideoFacade id={v.id} title={v.display || v.title} youtubeTitle={v.title} posterFile={v.posterFile} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   {(named.length > 0 || more.length > 0) && (
     <section class="section is-band doc-reviews" aria-labelledby="doc-reviews-head" data-pagefind-ignore>
@@ -156,6 +183,14 @@ const schema = {
 </Base>
 
 <style is:global>
+/* Videos: two across, under the bio. */
+.doc-videos { padding-top: 0; }
+.doc-videos-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-cards);
+  margin-top: var(--space-head);
+}
+@media (max-width: 720px) { .doc-videos-grid { grid-template-columns: 1fr; } }
+
 /* Google reviews: one group per heading, the second a block below the first. */
 .doc-reviews { background: var(--bg-soft); }
 .doc-reviews .lede { margin: var(--space-4) 0 var(--space-head); }
@@ -190,6 +225,8 @@ const schema = {
 .doc-booking .h2 + .doc-booking-list { margin-top: var(--space-head); }
 /* The contact page's Schedule links land here, clear of the sticky header. */
 .doc-booking { scroll-margin-top: 110px; }
+/* The hero's "Schedule an appointment" glides down to the list. */
+@media (prefers-reduced-motion: no-preference) { html:has(.doc-booking) { scroll-behavior: smooth; } }
 .doc-booking + .doc-bio-body { margin-top: var(--space-block); }
 .doc-booking-list {
   list-style: none; margin: 0; padding: 0;

@@ -8,12 +8,17 @@
  * a picture sits beside that section's first paragraph, a video after it.
  * `alt` replaces a missing or wrong description.
  *
+ * A video can also go just `before` a heading (the end of the section above
+ * it), or be `add`ed to a page whose body doesn't carry it (the clinic's
+ * placements, Oct 2026), optionally from `start` seconds in.
+ *
  * The permanent fix belongs in the content pipeline; an entry here can go once
  * the generated body places the picture itself.
  */
 export type MediaMove =
   | { file: string; to: string; alt?: string }
-  | { video: string; to: string };
+  | { video: string; to: string; add?: true; start?: number }
+  | { video: string; before: string; add?: true; start?: number };
 
 export const mediaMoves: Record<string, MediaMove[]> = {
   '/conditions/chronic-pain/': [
@@ -26,5 +31,17 @@ export const mediaMoves: Record<string, MediaMove[]> = {
     { file: '2022-02-DSC01399-scaled.jpg', to: 'Frequency Specific Microcurrent Therapy',
       alt: 'Microcurrent units wired to a patient lying on a treatment table' },
     { video: 'ZHyeEH4GA88', to: 'Platelet Rich Plasma (PRP) and Prolotherapy' },
+  ],
+  // An overview of the whole page, so it closes the introduction rather than
+  // sitting inside the QEEG section.
+  '/brain-regeneration-clinic/alzheimers-and-dementia/': [
+    { video: 'fZ2ebWfznls', before: 'QEEG Brain Mapping' },
+  ],
+  // The same video, from where it turns to brain mapping with iSYNC (8:23).
+  '/qeeg-brain-mapping/': [
+    { video: 'fZ2ebWfznls', to: 'How Brain Mapping Works', add: true, start: 503 },
+  ],
+  '/conditions/gastrointestinal-disorders/': [
+    { video: 'IyuKpDZu148', to: 'Candida and Yeast', add: true },
   ],
 };

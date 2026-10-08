@@ -5,7 +5,8 @@
  *
  * The pipeline cannot emit a component, so it leaves a placeholder —
  * `<figure class="wp-video" data-video="ID"></figure>` — and this splits the
- * HTML on it. Titles and posters come from src/data/videos.json and
+ * HTML on it. A `data-start="SECONDS"` on it (src/data/media-moves.ts) starts
+ * the video part-way. Titles and posters come from src/data/videos.json and
  * src/images/webinars/ (extract/build_videos.py, which only needs the network
  * for a video it has not seen before).
  */
@@ -16,13 +17,17 @@ import '../styles/prose.css';
 interface Props { html: string }
 const { html } = Astro.props;
 const meta = videos as Record<string, { title: string; display?: string; posterFile: string }>;
-const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<\/figure>/);
+// Split on each placeholder: text, then id and start time, then text again.
+const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})"(?: data-start="(\d+)")?>\s*<\/figure>/);
 ---
 {parts.map((part, i) =>
-  i % 2 === 0
+  i % 3 === 0
     ? <Fragment set:html={part} />
-    : <VideoFacade id={part} title={meta[part]?.display || meta[part]?.title || 'Watch the video'}
-                   youtubeTitle={meta[part]?.title} posterFile={meta[part]?.posterFile ?? ''} titleTag="p" />
+    : i % 3 === 1
+      ? <VideoFacade id={part} title={meta[part]?.display || meta[part]?.title || 'Watch the video'}
+                     youtubeTitle={meta[part]?.title} posterFile={meta[part]?.posterFile ?? ''} titleTag="p"
+                     start={parts[i + 1] ? Number(parts[i + 1]) : undefined} />
+      : null
 )}
 
 <style is:global>
@@ -93,7 +98,12 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})">\s*<
   background: transparent; color: var(--ink); border-color: var(--line-2);
 }
 .prose .cta-inline-btn a.btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+/* Outlined, so none of the filled button's hover bloom, sheen or glow
+   (global.css); the ::after is the arrow. */
+.prose .cta-inline-btn a.btn::before { content: none; }
+.prose .cta-inline-btn a.btn:hover { box-shadow: none; }
 .prose .cta-inline-btn a.btn::after {
+  position: static; z-index: auto; transform: none; transition: none; pointer-events: auto;
   content: ''; flex: none; width: 16px; height: 16px; background: currentColor;
   -webkit-mask: var(--mask-arrow) center / contain no-repeat; mask: var(--mask-arrow) center / contain no-repeat;
 }

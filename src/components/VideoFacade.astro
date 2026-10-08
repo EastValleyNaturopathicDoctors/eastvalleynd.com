@@ -25,8 +25,10 @@ interface Props {
   /** 'h3' in a grid of videos (webinars); 'p' inside an article, where a
    *  caption must not enter the document outline (D115). */
   titleTag?: 'h3' | 'p';
+  /** Seconds into the video to start from, for a page that needs one part. */
+  start?: number;
 }
-const { id, title, youtubeTitle = '', posterFile = '', loading = 'lazy', titleTag = 'h3' } = Astro.props;
+const { id, title, youtubeTitle = '', posterFile = '', loading = 'lazy', titleTag = 'h3', start } = Astro.props;
 const TitleTag = titleTag;
 
 const posters = import.meta.glob<{ default: ImageMetadata }>(
@@ -38,7 +40,7 @@ if (import.meta.env.DEV && posterFile && !poster) {
 }
 ---
 <article class="video-card">
-  <div class="video-frame" data-video-id={id} data-video-title={youtubeTitle || title}>
+  <div class="video-frame" data-video-id={id} data-video-title={youtubeTitle || title} data-video-start={start}>
     {poster ? (
       <Image src={poster.default} alt="" width={640} height={360}
              class="video-poster" loading={loading} decoding="async" />
@@ -51,7 +53,7 @@ if (import.meta.env.DEV && posterFile && !poster) {
     </button>
   </div>
   <TitleTag class="video-title">{title}</TitleTag>
-  <a class="video-link" href={`https://www.youtube.com/watch?v=${id}`}
+  <a class="video-link" href={`https://www.youtube.com/watch?v=${id}${start ? `&t=${start}s` : ''}`}
      target="_blank" rel="noopener">
     Watch on YouTube <Icon name="arrow-up-right" size={13} />
   </a>
@@ -67,8 +69,9 @@ if (import.meta.env.DEV && posterFile && !poster) {
       const id = frame.dataset.videoId;
       if (!id) return;
       const iframe = document.createElement('iframe');
+      const start = Number(frame.dataset.videoStart) || 0;
       iframe.src =
-        `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+        `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1${start ? `&start=${start}` : ''}`;
       iframe.title = frame.dataset.videoTitle ?? 'Video';
       iframe.allow =
         'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
