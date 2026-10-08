@@ -117,10 +117,10 @@ export const conditions = [
 
 export const therapies = [
   {
-    "name": "Stem Cell & PRP Injections",
+    "name": "PRP & Prolotherapy",
     "icon": "drop",
     "category": "Regenerative",
-    "slug": "stem-cell-prp-injections",
+    "slug": "prp-and-prolotherapy",
     "href": "/prp-and-prolotherapy/"
   },
   {
@@ -190,20 +190,20 @@ export const therapies = [
 
 export const optimization = [
   {
-    "name": "Hormone & Peptide Optimization",
-    "desc": "Bio-identical hormones, peptide therapies (BPC-157, CJC/Ipamorelin, Semaglutide).",
+    "name": "Hormone Optimization",
+    "desc": "Bio-identical hormone therapy and hormone testing.",
     "icon": "spark",
     "href": "/hormone-therapy/"
   },
   {
     "name": "Longevity & Anti-Aging",
-    "desc": "NAD+ infusions, mitochondrial support, biological age testing and trending.",
+    "desc": "NAD+ infusions and mitochondrial support.",
     "icon": "infinity",
     "href": "/brain-regeneration-clinic/anti-aging/"
   },
   {
     "name": "Athletic Performance",
-    "desc": "PRP, regenerative joint care, VO₂ work, and recovery protocols for active patients.",
+    "desc": "PRP, regenerative joint care, and recovery protocols for active patients.",
     "icon": "bolt",
     "href": "/prp-and-prolotherapy/"
   },
@@ -215,13 +215,13 @@ export const optimization = [
   },
   {
     "name": "Cognitive Performance",
-    "desc": "Neurofeedback brain training, nootropic stacking, sleep architecture work.",
+    "desc": "Neurofeedback brain training and QEEG brain mapping.",
     "icon": "brain",
     "href": "/neurofeedback/"
   },
   {
     "name": "Aesthetic & Skin Health",
-    "desc": "Microneedling, exosomes, IV glow protocols, hair restoration with PRP.",
+    "desc": "Microneedling with SkinPen.",
     "icon": "sparkle",
     "href": "/skinpen-microneedling/"
   }
@@ -299,12 +299,8 @@ export const faqs = [
     "a": "Yes — most of our patients do. We coordinate with your existing oncologist, cardiologist, PCP, or specialist. EVND is integrative, not replacement medicine."
   },
   {
-    "q": "How long until I feel better?",
-    "a": "It depends on the condition. Acute issues often respond in 2–4 weeks. Complex chronic cases (Lyme, mold, ME/CFS) follow a 6–18 month arc with clear phase markers along the way."
-  },
-  {
-    "q": "Do you treat patients out of state?",
-    "a": "Established patients can do telehealth follow-ups across most US states. Initial visits and any in-office therapies must be in person at our Mesa, AZ clinic."
+    "q": "Do you offer telehealth?",
+    "a": "Yes. Telehealth visits are available, but every patient needs to be seen in person at our Mesa, AZ clinic at least once a year."
   }
 ] as const;
 
@@ -327,7 +323,7 @@ export const process = [
   {
     "step": "04",
     "title": "Ongoing partnership",
-    "body": "We re-test, re-tune, and stay with you. Patients average 4.2 visits per year once stable."
+    "body": "We re-test, re-tune, and stay with you."
   }
 ] as const;
 
