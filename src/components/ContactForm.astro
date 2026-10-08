@@ -1,0 +1,50 @@
+---
+/**
+ * The contact form, rebuilt from the old site's contact form: name and email
+ * (required), phone, and comments, in the site's own styling, without the
+ * reCAPTCHA.
+ *
+ * NOT CONNECTED YET (by the clinic's choice, Oct 2026), the same way as
+ * AppointmentRequestForm.astro: Submit checks the required fields and sends
+ * nothing, and without JavaScript the button stays disabled. To connect it,
+ * give the <form> a real `action` and remove `data-unconnected`. Styles:
+ * src/styles/request-form.css.
+ */
+import Button from './Button.astro';
+import '../styles/request-form.css';
+---
+<form class="req-form" id="contact-form" method="post" action="" data-unconnected>
+  <div class="req-field">
+    <label for="contact-name">Name <span class="req-star" aria-hidden="true">*</span></label>
+    <input id="contact-name" type="text" name="name" autocomplete="name" required />
+  </div>
+
+  <div class="req-field">
+    <label for="contact-email">Email <span class="req-star" aria-hidden="true">*</span></label>
+    <input id="contact-email" type="email" name="email" autocomplete="email" required />
+  </div>
+
+  <div class="req-field">
+    <label for="contact-phone">Phone</label>
+    <input id="contact-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" />
+  </div>
+
+  <div class="req-field">
+    <label for="contact-comments">Comments</label>
+    <textarea id="contact-comments" name="comments" rows="6"></textarea>
+  </div>
+
+  <p class="req-legend"><span class="req-star" aria-hidden="true">*</span> Required</p>
+
+  <div class="req-actions">
+    <Button variant="dark" size="lg" icon="arrow-right" type="submit" disabled>Submit</Button>
+  </div>
+</form>
+
+<script>
+  // Not connected yet (see the note at the top of this file).
+  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-unconnected]')) {
+    form.querySelector<HTMLButtonElement>('button[type="submit"]')?.removeAttribute('disabled');
+    form.addEventListener('submit', (e) => e.preventDefault());
+  }
+</script>

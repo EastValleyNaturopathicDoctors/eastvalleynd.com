@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
 import PractitionerCard from '@/components/PractitionerCard.astro';
+import ContactForm from '@/components/ContactForm.astro';
 import { getCollection } from 'astro:content';
 import { site, mapQuery, directionsHref } from '@/data/site';
 import { keepTimes } from '@/lib/times';
@@ -95,6 +96,22 @@ const team = (await getCollection('physicians'))
     </div>
   </section>
 
+  <section class="section contact-message" aria-labelledby="contact-message-head">
+    <div class="container contact-message-grid">
+      <div class="contact-message-text">
+        <h2 class="h2" id="contact-message-head">Send us a message</h2>
+        <p class="lede">
+          If you are a new patient looking to obtain more information about our office,
+          please call or contact us below.
+        </p>
+        <p class="contact-message-phone">
+          <a href={site.phoneHref}><Icon name="phone" size={18} />{site.phone}</a>
+        </p>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+
   <section class="section contact-team" aria-labelledby="contact-team-head" data-pagefind-ignore>
     <div class="container">
       <div class="contact-team-head">
@@ -155,6 +172,25 @@ const team = (await getCollection('physicians'))
   .contact-grid { grid-template-columns: 1fr; }
   .contact-map { position: static; }
   .contact-map-frame { aspect-ratio: 4 / 3; }
+}
+
+/* Send us a message: the words on the left, the form card on the right; one
+   column on a tablet or phone. Same ground as the sections around it. */
+.contact-message { padding-top: 0; }
+.contact-message-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: var(--gap-cols); align-items: start;
+}
+.contact-message-text .lede { margin-top: var(--space-4); }
+.contact-message-phone { margin: var(--space-6) 0 0; }
+.contact-message-phone a {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.02em; color: var(--ink);
+}
+.contact-message-phone a:hover { color: var(--grn-2); }
+.contact-message-phone svg { color: var(--grn-2); }
+@media (max-width: 860px) {
+  .contact-message-grid { grid-template-columns: 1fr; gap: var(--space-7); }
 }
 
 /* Book with your practitioner: the rows are PractitionerCard's schedule variant. */

@@ -4,16 +4,15 @@
  * ("Request Appointment - Full Page"): the same fields and wording, in the
  * site's own styling, without the reCAPTCHA.
  *
- * NOT CONNECTED YET. Nothing is sent anywhere: Submit checks the required
- * fields, then says so and gives the phone number, so a patient never thinks a
- * request went through when it didn't. The button stays disabled until the
- * script runs, so without JavaScript nothing can be submitted at all — and no
- * patient details can end up in a URL. To connect it, give the <form> a real
- * `action` (a HIPAA-compliant form service: it collects a date of birth and a
- * health complaint) and delete the script's preventDefault.
+ * NOT CONNECTED YET (by the clinic's choice, Oct 2026): Submit checks the
+ * required fields and sends nothing. The button stays disabled until the
+ * script runs, so without JavaScript nothing can be submitted and no patient
+ * details end up in a URL. To connect it, give the <form> a real `action` (a
+ * HIPAA-compliant form service: it collects a date of birth and a health
+ * complaint) and remove `data-unconnected`. Styles: src/styles/request-form.css.
  */
 import Button from './Button.astro';
-import { site } from '../data/site';
+import '../styles/request-form.css';
 ---
 <form class="req-form" id="appointment-request" method="post" action="" data-unconnected>
   <fieldset class="req-field">
@@ -69,78 +68,13 @@ import { site } from '../data/site';
     <Button variant="dark" size="lg" icon="arrow-right" type="submit" disabled>Submit</Button>
   </div>
 
-  <div class="req-status" role="status" hidden>
-    <p class="req-status-title">Online requests aren't connected yet, so this wasn't sent.</p>
-    <p>Please call the front desk at <a href={site.phoneHref}>{site.phone}</a> and we'll take your details and get you booked.</p>
-  </div>
 </form>
 
 <script>
-  // Not connected: check the required fields, then say plainly that nothing
-  // was sent (see the note at the top of this file).
+  // Not connected yet (see the note at the top of this file): the browser
+  // checks the required fields, and nothing is sent.
   for (const form of document.querySelectorAll<HTMLFormElement>('form[data-unconnected]')) {
-    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const status = form.querySelector<HTMLElement>('.req-status');
-    if (submit) submit.disabled = false;
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (status) {
-        status.hidden = false;
-        status.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      }
-    });
+    form.querySelector<HTMLButtonElement>('button[type="submit"]')?.removeAttribute('disabled');
+    form.addEventListener('submit', (e) => e.preventDefault());
   }
 </script>
-
-<style is:global>
-/* --- Appointment request form ------------------------------------------------
-   One card, the site's field style: white inputs on the soft card, a green
-   focus ring, labels in sentence case. Two-up rows fold to one on a phone,
-   except the date of birth, which stays on one line. */
-.req-form {
-  border: 1px solid var(--line); border-radius: var(--radius-lg);
-  background: var(--bg-softer); padding: var(--pad-feature);
-  display: flex; flex-direction: column; gap: var(--space-6);
-}
-.req-field { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--space-2); }
-.req-field > label, .req-field > legend {
-  padding: 0; font-weight: 600; font-size: 15px; line-height: 1.4; color: var(--ink);
-}
-.req-field > legend { margin-bottom: var(--space-2); }
-.req-star { color: #B42318; margin-left: 2px; }
-.req-form input[type="text"], .req-form input[type="email"], .req-form input[type="tel"], .req-form textarea {
-  width: 100%; font: inherit; font-size: 16px; color: var(--ink);
-  padding: 12px 14px; background: var(--bg);
-  border: 1px solid var(--line-2); border-radius: 10px;
-  transition: border-color .18s, box-shadow .18s;
-}
-.req-form textarea { resize: vertical; min-height: 128px; line-height: 1.5; }
-.req-form input::placeholder, .req-form textarea::placeholder { color: var(--ink-3); opacity: .8; }
-.req-form input:focus-visible, .req-form textarea:focus-visible {
-  outline: none; border-color: var(--grn-2); box-shadow: 0 0 0 3px rgba(108, 190, 63, 0.25);
-}
-.req-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
-.req-sub { display: flex; flex-direction: column; gap: var(--space-1); }
-.req-sub > span { font-size: 13px; color: var(--ink-3); }
-.req-choices { display: flex; flex-direction: column; gap: var(--space-2); }
-.req-choice { display: inline-flex; align-items: center; gap: var(--space-3); font-size: 15.5px; color: var(--ink-2); cursor: pointer; width: fit-content; }
-.req-choice input { width: 18px; height: 18px; margin: 0; accent-color: var(--grn-2); }
-.req-dob { display: flex; gap: var(--space-3); }
-.req-dob .req-sub { width: 72px; }
-.req-dob .req-sub.is-year { width: 96px; }
-.req-dob input { text-align: center; }
-.req-legend { margin: 0; font-size: 13px; color: var(--ink-3); }
-.req-actions { margin-top: calc(var(--space-2) * -1); }
-.req-form .btn[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
-.req-status {
-  border: 1px solid #D5E9C2; border-radius: var(--radius); background: var(--grn-soft);
-  padding: var(--space-4) var(--space-5);
-}
-.req-status p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
-.req-status p + p { margin-top: var(--space-1); }
-.req-status-title { font-weight: 600; color: var(--ink) !important; }
-.req-status a { color: var(--grn-2); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
-@media (max-width: 560px) {
-  .req-row { grid-template-columns: 1fr; gap: var(--space-3); }
-}
-</style>
