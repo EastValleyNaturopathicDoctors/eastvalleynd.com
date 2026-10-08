@@ -59,11 +59,11 @@ if (!id) {
 .tally-embed, .tally-pending {
   border: 1px solid var(--line); border-radius: var(--radius-lg);
   background: var(--bg-softer);
-  padding: clamp(18px, 2.4vw, 30px);
+  padding: var(--pad-card);
 }
 .tally-embed iframe { display: block; width: 100%; border: 0; }
 .tally-pending { background: var(--grn-soft); border-color: #D5E9C2; }
-.tally-pending p { margin: 0 0 12px; color: var(--ink-2); max-width: 52ch; }
+.tally-pending p { margin: 0 0 var(--space-3); color: var(--ink-2); max-width: 52ch; }
 .tally-pending-title { font-weight: 600; color: var(--ink) !important; font-size: 17px; }
-.tally-pending .hero-cta { margin-top: 18px; }
+.tally-pending .hero-cta { margin-top: var(--space-5); }   /* a compact card's button row */
 </style>
