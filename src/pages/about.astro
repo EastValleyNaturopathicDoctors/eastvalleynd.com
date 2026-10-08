@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Foundations from '../components/Foundations.astro';
@@ -10,20 +11,33 @@ import Testimonials from '../components/Testimonials.astro';
 import BookCTA from '../components/BookCTA.astro';
 import Icon from '../components/Icon.astro';
 import teamPhoto from '../images/site/hero-team.jpg';
+import entrance from '../images/site/clinic-entrance.webp';
+import frontDesk from '../images/site/clinic-front-desk.webp';
+import waitingRoom from '../images/site/clinic-waiting-room.webp';
+import treatmentRoom from '../images/site/clinic-treatment-room.webp';
 import hbotRoom from '../images/site/clinic-hyperbaric-room.jpg';
-import hbotChamber from '../images/site/clinic-hyperbaric-chamber.jpg';
 import microcurrent from '../images/site/clinic-microcurrent.jpg';
 
 /**
- * The clinic's own photos from the WordPress site, never stock: this page is
- * about the people and the place. Copied into src/images/site so a regenerated
- * page image can't swap one out from under its caption.
+ * The clinic's own photos, never stock: this page is about the people and the
+ * place. The therapy photos come from the WordPress site; the entrance, front
+ * desk, waiting room and treatment room from the clinic's Google listing,
+ * chosen by the clinic (Oct 2026). In the order of a visit: arriving, checking
+ * in, waiting, then the rooms. Copied into src/images/site so a regenerated
+ * page image can't swap one out from under its caption. A tile with an href
+ * links its caption.
  */
-const clinic = [
+const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string }[] = [
+  { src: entrance, href: '/contact/', caption: 'Suite 110, Southern Ave.',
+    alt: "The walkway to the clinic's Suite 110 entrance, East Valley Naturopathic Doctors lettered on the glass door" },
+  { src: frontDesk, caption: 'The front desk',
+    alt: "The clinic's front desk, with supplement shelves behind it" },
+  { src: waitingRoom, caption: 'The waiting room',
+    alt: 'The waiting room: a row of chairs along the wall beside the reception counter' },
+  { src: treatmentRoom, caption: 'A treatment room',
+    alt: 'A treatment room with a reclining chair and footstool beneath framed desert photographs' },
   { src: hbotRoom, href: '/hyperbaric-oxygen-therapy/', caption: 'Hyperbaric oxygen therapy',
     alt: 'A Vitaeris 320 hyperbaric chamber beside its oxygen concentrator in a treatment room' },
-  { src: hbotChamber, href: '/hyperbaric-oxygen-therapy/', caption: 'Sealing the chamber',
-    alt: 'A staff member in scrubs zipping a hyperbaric chamber closed' },
   { src: microcurrent, href: '/frequency-specific-microcurrent-therapy/', caption: 'Frequency Specific Microcurrent',
     alt: 'A patient resting on a treatment table, leads running to microcurrent units' },
 ];
@@ -49,15 +63,19 @@ const clinic = [
     <div class="container">
       <SectionHead
         eyebrow="Inside the clinic"
-        blurb="IV suite, regenerative injection room, HBOT chamber and neurofeedback lab, all under one roof in Mesa."
+        blurb="Suite 110 on Southern Avenue in Mesa: the front desk, the waiting room, and the treatment rooms. The IV suite, regenerative injection room, HBOT chamber and neurofeedback lab are all under one roof."
         ctaLabel="All services" ctaHref="/services/">
-        Where the treatment happens.
+        Come see the clinic.
       </SectionHead>
       <div class="clinic-grid">
-        {clinic.map((p, i) => (
-          <figure class:list={['clinic-tile', i === 0 && 'is-lead']}>
-            <Image src={p.src} alt={p.alt} width={i === 0 ? 1400 : 900} />
-            <figcaption><a href={p.href}>{p.caption}<Icon name="arrow-right" size={14} /></a></figcaption>
+        {clinic.map((p) => (
+          <figure class="clinic-tile">
+            <Image src={p.src} alt={p.alt} width={900} />
+            <figcaption>
+              {p.href
+                ? <a href={p.href}>{p.caption}<Icon name="arrow-right" size={14} /></a>
+                : <span>{p.caption}</span>}
+            </figcaption>
           </figure>
         ))}
       </div>
@@ -82,16 +100,13 @@ const clinic = [
 
 .about-clinic { background: var(--bg-soft); }
 .clinic-grid {
-  display: grid; grid-template-columns: 1.6fr 1fr;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--gap-cards);
 }
 .clinic-tile { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-sunk); }
 .clinic-tile img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
-/* The lead photo fills both rows; the two on the right set their height. */
-.clinic-tile.is-lead { grid-row: span 2; }
-.clinic-tile.is-lead img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; object-position: 45% 50%; }
 .clinic-tile figcaption { position: absolute; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); display: flex; }
-.clinic-tile figcaption a {
+.clinic-tile figcaption :is(a, span) {
   display: inline-flex; align-items: center; gap: var(--space-2);
   background: rgba(255,255,255,0.95);
   padding: var(--space-2) var(--space-3);
@@ -103,9 +118,7 @@ const clinic = [
 .clinic-tile figcaption svg { color: var(--grn-2); flex-shrink: 0; transition: transform .2s; }
 .clinic-tile figcaption a:hover svg { transform: translateX(3px); }
 
-@media (max-width: 900px) {
-  .clinic-grid { grid-template-columns: 1fr; }
-  .clinic-tile.is-lead { grid-row: auto; }
-  .clinic-tile.is-lead img { position: static; height: auto; aspect-ratio: 3/2; }
-}
+/* Six even tiles: three across, two on a tablet, one on a phone. */
+@media (max-width: 900px) { .clinic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .clinic-grid { grid-template-columns: 1fr; } }
 </style>
