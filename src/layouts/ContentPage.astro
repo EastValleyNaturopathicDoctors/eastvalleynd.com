@@ -60,28 +60,28 @@ let { html, ask } = closingAsk((long ?? jumps)?.html ?? body);
 const trail = navTrail(d.route);
 const parents = trail.slice(0, -1);
 const children = live(trail.at(-1)?.children ?? []);
-// A service page reads as a service, not a blog post: its picture sits beside
-// the title in the hero, at a fixed size, and a service that heads others lists
-// them straight under the hero, ahead of its copy.
-const service = trail[0]?.href === '/services/' && trail.length > 1;
+// A service or condition page reads as a landing page, not a blog post: its
+// picture sits beside the title in the hero, at a fixed size, and a page that
+// heads others lists them straight under the hero, ahead of its copy.
+const landing = ['/services/', '/conditions/'].includes(trail[0]?.href ?? '') && trail.length > 1;
 // A body tile grid that links every child (D112) is the section's menu, so on
-// a service page it moves up to the top whole, icons and extra links and all.
+// a landing page it moves up to the top whole, icons and extra links and all.
 const gridRe = /<ul class="wp-tilegrid[\s\S]*?<\/ul>\s*/;
-const liftGrid = service && children.length > 0 && gridRe.test(html)
+const liftGrid = landing && children.length > 0 && gridRe.test(html)
   && children.every((c) => html.match(gridRe)![0].includes(`href="${c.href}"`));
 const topGrid = liftGrid ? html.match(gridRe)![0] : '';
 if (liftGrid) html = html.replace(gridRe, '');
-const kidsFirst = service && children.length > 0;
-// A service body that opens with a plain paragraph of intro length gives it to
+const kidsFirst = landing && children.length > 0;
+// A landing page's body that opens with a plain paragraph of intro length gives it to
 // the hero, beside the picture, when enough copy is left to fill the body.
 const textOf = (h: string) => h.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const leadRe = /^\s*<p>((?:(?!<\/?p\b|<(?:img|iframe|video|figure)\b)[\s\S])*)<\/p>\s*/;
-const leadMatch = service ? html.match(leadRe) : null;
+const leadMatch = landing ? html.match(leadRe) : null;
 const lead = leadMatch && textOf(leadMatch[1]).length >= 120 && textOf(leadMatch[1]).length <= 650
   && textOf(html.slice(leadMatch[0].length)).length >= 400 ? leadMatch[1] : '';
 if (lead) html = html.slice(leadMatch![0].length);
 // A leaf page carries the booking card beside the article; a page that heads a
-// section ends in its child cards instead. A service hub lists them first, so
+// section ends in its child cards instead. A landing hub lists them first, so
 // it takes the card beside its copy like a leaf page.
 const aside = children.length === 0 || kidsFirst;
 // A section page has no card beside it, so one the mid-body split skipped
@@ -118,11 +118,11 @@ const framed = hero === 'contained' && !isIvGraphic(d.route);
 // Neither goes above a body that opens with its own video or picture, and a
 // task page takes a short icon band instead (tracker I5).
 const fill = hero === 'none' && !opensWithMedia(html);
-const compact = fill && !service && compactHeroes.includes(d.route);
+const compact = fill && !landing && compactHeroes.includes(d.route);
 const stock = fill && !compact ? stockFor(d.route) : undefined;
-const placeholder = compact || (fill && !service && !stock && stockPlaceholders.includes(d.route));
-// The service hero's picture: the page's own, else its stock photo.
-const media = service && (hero === 'wide' || hero === 'contained' || !!stock);
+const placeholder = compact || (fill && !landing && !stock && stockPlaceholders.includes(d.route));
+// The landing hero's picture: the page's own, else its stock photo.
+const media = landing && (hero === 'wide' || hero === 'contained' || !!stock);
 // The panel's icon: the page's own, else the nearest section's.
 const segs = d.route.split('/').filter(Boolean);
 const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
@@ -193,13 +193,13 @@ const retiredTo = retiredPages[d.route];
       </section>
     )}
 
-    {!service && hero === 'wide' && (
+    {!landing && hero === 'wide' && (
       <div class="container cpage-figure">
         <PageImage file={d.imageFile} alt={d.imageAlt || d.title}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}
-    {!service && stock && (
+    {!landing && stock && (
       <div class="container cpage-figure is-stock" data-pagefind-ignore>
         <PageImage set="stock" file={stock.file} alt={stock.alt}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
@@ -210,7 +210,7 @@ const retiredTo = retiredPages[d.route];
         <div class="cpage-panel is-compact"><Icon name={panelIcon} size={40} /></div>
       </div>
     )}
-    {!service && hero === 'contained' && (
+    {!landing && hero === 'contained' && (
       <div class="container cpage-figure is-contained">
         {framed ? (
           <div class="cpage-frame">
@@ -360,7 +360,7 @@ const retiredTo = retiredPages[d.route];
   :is(.cpage-body, .cpage-top) .wp-tile-icon svg { width: 18px; height: 18px; }
 }
 
-/* --- Service pages ----------------------------------------------------------
+/* --- Service and condition pages --------------------------------------------
    The title and the picture share the hero: text on the left, the picture on
    the right in a fixed 4:3 frame, so no photo is ever wider than half the page
    or taller than 400px. A stock photo fills its frame; the clinic's own image
@@ -390,7 +390,7 @@ const retiredTo = retiredPages[d.route];
   .cpage-hero-media { margin-top: var(--space-7); aspect-ratio: 16 / 10; max-height: 280px; }
 }
 
-/* A service that heads others lists them first, under the hero: compact
+/* A landing page that heads others lists them first, under the hero: compact
    cards, four across on a desktop, two on a phone. */
 .cpage-top { padding-top: var(--space-section-tight); }
 .cpage-top-head {
