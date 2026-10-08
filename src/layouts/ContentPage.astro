@@ -53,17 +53,37 @@ const docs = documentPages.includes(d.route);
 const jumps = docs && !long ? longRead(body) : null;
 // A body that ends by asking for the booking marks that closing, so the
 // layout does not stack its own offers on it (tracker C10).
-const { html, ask } = closingAsk((long ?? jumps)?.html ?? body);
-const halves = splitForCta(html);
+let { html, ask } = closingAsk((long ?? jumps)?.html ?? body);
 
 // Breadcrumb and child links come from the same nav tree as the header. The
 // breadcrumb keeps the full tree; the child cards skip placeholders (tracker N1).
 const trail = navTrail(d.route);
 const parents = trail.slice(0, -1);
 const children = live(trail.at(-1)?.children ?? []);
+// A service page reads as a service, not a blog post: its picture sits beside
+// the title in the hero, at a fixed size, and a service that heads others lists
+// them straight under the hero, ahead of its copy.
+const service = trail[0]?.href === '/services/' && trail.length > 1;
+// A body tile grid that links every child (D112) is the section's menu, so on
+// a service page it moves up to the top whole, icons and extra links and all.
+const gridRe = /<ul class="wp-tilegrid[\s\S]*?<\/ul>\s*/;
+const liftGrid = service && children.length > 0 && gridRe.test(html)
+  && children.every((c) => html.match(gridRe)![0].includes(`href="${c.href}"`));
+const topGrid = liftGrid ? html.match(gridRe)![0] : '';
+if (liftGrid) html = html.replace(gridRe, '');
+const kidsFirst = service && children.length > 0;
+// A service body that opens with a plain paragraph of intro length gives it to
+// the hero, beside the picture, when enough copy is left to fill the body.
+const textOf = (h: string) => h.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const leadRe = /^\s*<p>((?:(?!<\/?p\b|<(?:img|iframe|video|figure)\b)[\s\S])*)<\/p>\s*/;
+const leadMatch = service ? html.match(leadRe) : null;
+const lead = leadMatch && textOf(leadMatch[1]).length >= 120 && textOf(leadMatch[1]).length <= 650
+  && textOf(html.slice(leadMatch[0].length)).length >= 400 ? leadMatch[1] : '';
+if (lead) html = html.slice(leadMatch![0].length);
 // A leaf page carries the booking card beside the article; a page that heads a
-// section ends in its child cards instead.
-const aside = children.length === 0;
+// section ends in its child cards instead. A service hub lists them first, so
+// it takes the card beside its copy like a leaf page.
+const aside = children.length === 0 || kidsFirst;
 // A section page has no card beside it, so one the mid-body split skipped
 // takes the card once at the end of its body, ahead of the child cards, with
 // the hub's own scheduler (tracker C4). A short leaf page does not: there it
@@ -72,6 +92,7 @@ const aside = children.length === 0;
 // also hides the mid-body card where the rail is on screen. A body that already
 // ends on its own request button keeps that instead, unless the hub has its
 // own scheduler for the card to offer (tracker C10).
+const halves = splitForCta(html);
 const endCard = !aside && !halves && !(ask === 'button' && !d.booking.length);
 // The full card (597px) is taller than the shortest leaf bodies (174–488px),
 // so on those pages the booking band starts one section under the card's foot
@@ -82,7 +103,7 @@ const sideCard = aside || !!long;
 // linked entry list (tracker P1), is already the section's menu; the card list
 // would repeat it.
 const hasGrid = html.includes('wp-tilegrid') || hasHubLinks(d.route);
-const showChildren = children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
+const showChildren = !kidsFirst && children.length > 0 && !(hasGrid && children.every((c) => html.includes(`href="${c.href}"`)));
 // "Ready to Get Started? Request an appointment below": the band is that
 // section's action, so it follows without the usual gap (tracker C10).
 const ontoBand = ask === 'lead' && !endCard && !showChildren;
@@ -97,9 +118,11 @@ const framed = hero === 'contained' && !isIvGraphic(d.route);
 // Neither goes above a body that opens with its own video or picture, and a
 // task page takes a short icon band instead (tracker I5).
 const fill = hero === 'none' && !opensWithMedia(html);
-const compact = fill && compactHeroes.includes(d.route);
+const compact = fill && !service && compactHeroes.includes(d.route);
 const stock = fill && !compact ? stockFor(d.route) : undefined;
-const placeholder = compact || (fill && !stock && stockPlaceholders.includes(d.route));
+const placeholder = compact || (fill && !service && !stock && stockPlaceholders.includes(d.route));
+// The service hero's picture: the page's own, else its stock photo.
+const media = service && (hero === 'wide' || hero === 'contained' || !!stock);
 // The panel's icon: the page's own, else the nearest section's.
 const segs = d.route.split('/').filter(Boolean);
 const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
@@ -114,8 +137,9 @@ const retiredTo = retiredPages[d.route];
       noindex={duplicate || !!retiredTo} searchSection={parents[0]?.label}>
   {long && <div class="lr-progress" aria-hidden="true"></div>}
   <article class:list={['cpage', long && 'is-long', docs && 'is-docs', ontoBand && 'onto-band']}>
-    <header class="page-hero cpage-hero">
-      <div class="container">
+    <header class:list={['page-hero', 'cpage-hero', media && 'is-split']}>
+      <div class:list={['container', media && 'cpage-hero-grid']}>
+        <div class="cpage-hero-text">
         {parents.length > 0 && (
           <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore>
             {parents.map((p) => <a href={p.href}>{p.label}</a>)}
@@ -128,6 +152,7 @@ const retiredTo = retiredPages[d.route];
             <span>{readingTime(d.wordCount)}</span>{long.sections > 1 && <span>{long.sections} sections</span>}
           </p>
         )}
+        {lead && <p class="lede cpage-lead" set:html={lead} />}
         {action && (
           <p class="cpage-action">
             {action.newTab
@@ -135,16 +160,46 @@ const retiredTo = retiredPages[d.route];
               : <Button href={action.href} size="lg">{action.label}</Button>}
           </p>
         )}
+        </div>
+        {media && (
+          <div class:list={['cpage-hero-media', stock ? 'is-photo' : 'is-own']} data-pagefind-ignore={stock ? '' : undefined}>
+            {stock
+              ? <PageImage set="stock" file={stock.file} alt={stock.alt}
+                           width={960} height={720} loading="eager" fetchpriority="high" />
+              : <PageImage file={d.imageFile} alt={d.imageAlt || d.title} natural
+                           width={960} height={0} loading="eager" fetchpriority="high" />}
+          </div>
+        )}
       </div>
     </header>
 
-    {hero === 'wide' && (
+    {kidsFirst && (
+      <section class="cpage-top" aria-labelledby="cpage-top-head" data-pagefind-ignore>
+        <div class="container">
+          <h2 class="cpage-top-head" id="cpage-top-head">Explore {trail.at(-1)?.label}</h2>
+          {liftGrid ? <BodyHtml html={topGrid} /> : (
+            <div class="sec-grid">
+              {children.map((c) => (
+                <div class="sec-card">
+                  <a class="sec-card-head" href={c.href}>
+                    <h3>{c.label}</h3>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+
+    {!service && hero === 'wide' && (
       <div class="container cpage-figure">
         <PageImage file={d.imageFile} alt={d.imageAlt || d.title}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
       </div>
     )}
-    {stock && (
+    {!service && stock && (
       <div class="container cpage-figure is-stock" data-pagefind-ignore>
         <PageImage set="stock" file={stock.file} alt={stock.alt}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
@@ -155,7 +210,7 @@ const retiredTo = retiredPages[d.route];
         <div class="cpage-panel is-compact"><Icon name={panelIcon} size={40} /></div>
       </div>
     )}
-    {hero === 'contained' && (
+    {!service && hero === 'contained' && (
       <div class="container cpage-figure is-contained">
         {framed ? (
           <div class="cpage-frame">
@@ -280,30 +335,80 @@ const retiredTo = retiredPages[d.route];
 /* Tile grid recovered from a WPBakery icon menu (D112): icon + label, linked.
    Three-up on a desktop; on a phone two compact rows so thirteen tiles are
    about seven rows, not thirteen full-width cards. */
-.cpage-body .wp-tilegrid {
+:is(.cpage-body, .cpage-top) .wp-tilegrid {
   list-style: none; padding: 0;
   display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--gap-tiles);
 }
-.cpage-body .wp-tilegrid li { margin: 0; }
-.cpage-body .wp-tilegrid a {
+:is(.cpage-body, .cpage-top) .wp-tilegrid li { margin: 0; }
+:is(.cpage-body, .cpage-top) .wp-tilegrid a {
   display: flex; align-items: center; gap: var(--space-3); min-height: 64px;
   padding: var(--pad-tile); border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--bg); color: var(--ink); text-decoration: none;
   font-weight: 500; font-size: 15.5px; line-height: 1.25;
   transition: border-color .18s, background .18s, color .18s, transform .18s;
 }
-.cpage-body .wp-tilegrid a:hover { border-color: var(--grn); background: var(--grn-soft); transform: translateY(-1px); }
-.cpage-body .wp-tile-icon {
+:is(.cpage-body, .cpage-top) .wp-tilegrid a:hover { border-color: var(--grn); background: var(--grn-soft); transform: translateY(-1px); }
+:is(.cpage-body, .cpage-top) .wp-tile-icon {
   flex: none; display: grid; place-items: center; width: 40px; height: 40px;
   border-radius: 12px; background: var(--grn-soft); color: var(--grn-2);
 }
-.cpage-body .wp-tilegrid a:hover .wp-tile-icon { background: var(--grn); color: var(--ink); }
+:is(.cpage-body, .cpage-top) .wp-tilegrid a:hover .wp-tile-icon { background: var(--grn); color: var(--ink); }
 @media (max-width: 560px) {
-  .cpage-body .wp-tilegrid { grid-template-columns: 1fr 1fr; }
-  .cpage-body .wp-tilegrid a { min-height: 0; padding: var(--space-2) var(--space-3); gap: var(--space-2); font-size: 13.5px; }
-  .cpage-body .wp-tile-icon { width: 30px; height: 30px; border-radius: 9px; }
-  .cpage-body .wp-tile-icon svg { width: 18px; height: 18px; }
+  :is(.cpage-body, .cpage-top) .wp-tilegrid { grid-template-columns: 1fr 1fr; }
+  :is(.cpage-body, .cpage-top) .wp-tilegrid a { min-height: 0; padding: var(--space-2) var(--space-3); gap: var(--space-2); font-size: 13.5px; }
+  :is(.cpage-body, .cpage-top) .wp-tile-icon { width: 30px; height: 30px; border-radius: 9px; }
+  :is(.cpage-body, .cpage-top) .wp-tile-icon svg { width: 18px; height: 18px; }
 }
+
+/* --- Service pages ----------------------------------------------------------
+   The title and the picture share the hero: text on the left, the picture on
+   the right in a fixed 4:3 frame, so no photo is ever wider than half the page
+   or taller than 400px. A stock photo fills its frame; the clinic's own image
+   is shown whole on a white mount, so no lettering or equipment is cropped.
+   On a phone the picture follows the title in a short 16:10 frame. */
+.cpage-hero.is-split .h1 { font-size: clamp(32px, 3.6vw, 50px); }
+.cpage-lead { margin-top: var(--space-5); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.6; }
+.cpage-lead a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 3px; }
+.cpage-hero-media {
+  position: relative; aspect-ratio: 4 / 3; max-height: 400px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg);
+}
+.cpage-hero-media img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+.cpage-hero-media.is-own img {
+  inset: var(--space-5); width: calc(100% - 2 * var(--space-5)); height: calc(100% - 2 * var(--space-5));
+  object-fit: contain;
+}
+@media (min-width: 900px) {
+  .cpage-hero-grid {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--gap-cols); align-items: center;
+  }
+}
+@media (max-width: 899px) {
+  .cpage-hero-media { margin-top: var(--space-7); aspect-ratio: 16 / 10; max-height: 280px; }
+}
+
+/* A service that heads others lists them first, under the hero: compact
+   cards, four across on a desktop, two on a phone. */
+.cpage-top { padding-top: var(--space-section-tight); }
+.cpage-top-head {
+  margin: 0 0 var(--space-6);
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 2.2vw, 28px);
+  letter-spacing: -0.015em; line-height: 1.15;
+}
+.cpage-top .sec-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: var(--gap-tiles); }
+.cpage-top .sec-card { padding: var(--pad-tile); border-radius: var(--radius); justify-content: center; min-height: 64px; }
+.cpage-top .sec-card-head { align-items: center; }
+.cpage-top .sec-card-head h3 { font-size: 15.5px; }
+.cpage-top .sec-card:hover { border-color: var(--grn); background: var(--grn-soft); box-shadow: none; transform: translateY(-1px); }
+@media (max-width: 560px) {
+  .cpage-top .sec-grid { grid-template-columns: 1fr 1fr; }
+  .cpage-top .sec-card { min-height: 0; padding: var(--space-2) var(--space-3); }
+  .cpage-top .sec-card-head h3 { font-size: 13.5px; }
+}
+.cpage-top + .cpage-body-wrap { padding-top: var(--space-section-tight); }
 
 /* The child cards follow the article on the same ground: one section gap,
    the wrap's bottom padding. */
