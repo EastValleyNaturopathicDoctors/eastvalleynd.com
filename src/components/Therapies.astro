@@ -3,6 +3,17 @@ import Icon from './Icon.astro';
 import SectionHead from './SectionHead.astro';
 import { therapies } from '../data/content';
 import '../styles/therapy-cards.css';
+import { Image } from 'astro:assets';
+import hbotRoom from '../images/site/clinic-hyperbaric-room.jpg';
+import frontDesk from '../images/site/clinic-front-desk.webp';
+import entrance from '../images/site/clinic-entrance.webp';
+
+/** The "in-house clinic" the heading claims, shown: the clinic's own photos. */
+const clinic = [
+  { src: hbotRoom, caption: 'Hyperbaric oxygen', alt: 'A Vitaeris 320 hyperbaric chamber beside its oxygen concentrator in a treatment room' },
+  { src: frontDesk, caption: 'The front desk', alt: "The clinic's front desk, with supplement shelves behind it" },
+  { src: entrance, caption: 'Suite 110, Mesa', alt: "The walkway to the clinic's Suite 110 entrance" },
+];
 interface Props { showHead?: boolean; }
 const { showHead = true } = Astro.props;
 ---
@@ -16,6 +27,16 @@ const { showHead = true } = Astro.props;
         A real in-house clinic, <br />not a referral wall.
       </SectionHead>
     )}
+    {showHead && (
+      <div class="therapy-photos">
+        {clinic.map((c) => (
+          <figure>
+            <Image src={c.src} alt={c.alt} width={720} />
+            <figcaption>{c.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
     <div class="therapy-grid">
       {therapies.map((t) => (
         <a href={t.href} class="therapy-card">
@@ -28,3 +49,22 @@ const { showHead = true } = Astro.props;
     </div>
   </div>
 </section>
+
+<style is:global>
+/* Three photos of the clinic between the heading and the therapy tiles. */
+.therapy-photos {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-cards);
+  margin-bottom: var(--gap-cards);
+}
+.therapy-photos figure { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-sunk); }
+.therapy-photos img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+.therapy-photos figcaption {
+  position: absolute; left: var(--space-4); bottom: var(--space-4);
+  padding: var(--space-2) var(--space-3); border-radius: 999px; background: rgba(255, 255, 255, 0.95);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+}
+@media (max-width: 700px) {
+  .therapy-photos { grid-template-columns: 1fr 1fr; }
+  .therapy-photos figure:first-child { grid-column: 1 / -1; }
+}
+</style>
