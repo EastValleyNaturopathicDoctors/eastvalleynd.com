@@ -8,8 +8,17 @@ import all from '@/data/google-reviews.json';
 
 export type Review = { id: string; name: string; date: string; text: string; link: string };
 
+/** Left off the site by the clinic's choice (Oct 2026): reviews that promise
+ *  quick scheduling (next-day visits, getting in fast). New-patient waits run
+ *  from two weeks to six months, so the site makes no claim about them. */
+const HIDDEN = new Set([
+  '8d58c42b2c', // "I've been able to get next-day appointments multiple times"
+  'dd5e6479d0', // "relatively easy to schedule an appointment with"
+  'b588869449', // "We were able to get an appointment quickly"
+]);
+
 /** Newest first. */
-export const reviews = all as Review[];
+export const reviews = (all as Review[]).filter((r) => !HIDDEN.has(r.id));
 const byId = new Map(reviews.map((r) => [r.id, r]));
 
 /** Reviews by id, in the order given; an unknown id is a build error, not a gap. */

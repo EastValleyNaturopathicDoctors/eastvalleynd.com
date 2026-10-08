@@ -114,8 +114,10 @@ const showChildren = !kidsFirst && children.length > 0 && !(hasGrid && children.
 // "Ready to Get Started? Request an appointment below": the band is that
 // section's action, so it follows without the usual gap (tracker C10).
 const ontoBand = ask === 'lead' && !endCard && !showChildren;
-// A photo picked for the page in src/data/hero-overrides.ts replaces its own image.
-const picked = typeof heroOverrides[d.route] === 'object';
+// A photo picked for the page in src/data/hero-overrides.ts replaces its own
+// image, and so does a "Needs photo" box for a page still owed one.
+const needsPhoto = heroOverrides[d.route] === 'needs-photo';
+const picked = needsPhoto || typeof heroOverrides[d.route] === 'object';
 const mode = d.imageFile && !once.hideHero && !picked ? heroMode(d.imageWidth) : 'none';
 // A small image that is content, like a partner lab's logo, stays an inset (I5).
 const hero = mode === 'hidden' && keptInsets.includes(d.route) ? 'inset' : mode;
@@ -132,7 +134,7 @@ const stock = fill && !compact ? stockFor(d.route) : undefined;
 const placeholder = compact || (fill && !landing && !stock && stockPlaceholders.includes(d.route));
 // The landing hero's picture: the page's own, else its stock photo. It fills
 // the frame unless src/data/hero-fit.ts (or an IV drip graphic) says otherwise.
-const media = landing && (hero === 'wide' || hero === 'contained' || !!stock);
+const media = landing && (hero === 'wide' || hero === 'contained' || !!stock || needsPhoto);
 const fit = stock ? undefined : heroFit[d.route] ?? (isIvGraphic(d.route) ? 'mounted' : undefined);
 // The panel's icon: the page's own, else the nearest section's.
 const segs = d.route.split('/').filter(Boolean);
@@ -173,8 +175,10 @@ const retiredTo = retiredPages[d.route];
         )}
         </div>
         {media && (
-          <div class:list={['cpage-hero-media', fit && `is-${fit}`]} data-pagefind-ignore={stock ? '' : undefined}>
-            {stock
+          <div class:list={['cpage-hero-media', fit && `is-${fit}`]} data-pagefind-ignore={stock || needsPhoto ? '' : undefined}>
+            {needsPhoto ? (
+              <div class="cpage-needs-photo"><Icon name="add_photo_alternate" size={36} /><span>Needs photo</span></div>
+            ) : stock
               ? <PageImage set="stock" file={stock.file} alt={stock.alt}
                            width={960} height={720} loading="eager" fetchpriority="high" />
               : (
@@ -223,6 +227,11 @@ const retiredTo = retiredPages[d.route];
       <div class="container cpage-figure is-stock" data-pagefind-ignore>
         <PageImage set="stock" file={stock.file} alt={stock.alt}
                    width={1200} height={675} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+    {!landing && needsPhoto && (
+      <div class="container cpage-figure" data-pagefind-ignore>
+        <div class="cpage-needs-photo"><Icon name="add_photo_alternate" size={36} /><span>Needs photo</span></div>
       </div>
     )}
     {placeholder && (
@@ -406,6 +415,18 @@ const retiredTo = retiredPages[d.route];
 }
 .cpage-hero-media.is-backdrop img:not(.cpage-hero-backdrop) { inset: 0; width: 100%; height: 100%; }
 .cpage-hero-media .cpage-hero-backdrop { filter: blur(28px) saturate(1.1); transform: scale(1.25); }
+/* A page still owed a photo (src/data/hero-overrides.ts): a plain, labelled
+   box in the picture's place, so nobody mistakes the gap for the design. */
+.cpage-needs-photo {
+  display: grid; place-content: center; justify-items: center; gap: var(--space-2);
+  width: 100%; height: 100%; min-height: 220px;
+  border: 2px dashed var(--line-2); border-radius: var(--radius-lg);
+  background: var(--bg-soft); color: var(--ink-3);
+  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.cpage-hero-media:has(> .cpage-needs-photo) { border: 2px dashed var(--line-2); }
+.cpage-hero-media .cpage-needs-photo { position: absolute; inset: 0; min-height: 0; border: 0; border-radius: 0; }
+.cpage-figure .cpage-needs-photo { aspect-ratio: 21 / 9; }
 @media (min-width: 900px) {
   .cpage-hero-grid {
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);

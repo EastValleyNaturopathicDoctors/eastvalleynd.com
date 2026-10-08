@@ -3,11 +3,13 @@
  * Our core values, in the clinic's own words: the title card, the five values
  * and the three value statements from its "Our Core Values" video (Oct 2026),
  * verbatim apart from sentence case. The video gives statements for
- * Innovation, Compassion and Empowerment only, so the page lists all five and
- * explains those three; Precision and Education take a statement here when
- * the clinic writes one. Nothing is added to their words.
+ * Innovation, Compassion and Empowerment only. Precision and Education carry
+ * statements drafted for the clinic at its request (Oct 2026), from what the
+ * rest of the site already says; replace them when the clinic writes its own.
  *
- * The photos are the clinic's own (src/images/site), not frames of the video.
+ * The photos are the clinic's own (src/images/site), not frames of the video,
+ * except Precision's and Education's: none of the clinic's shows testing or a
+ * consult, so those two are stock photos the site already uses.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -20,6 +22,8 @@ import BookCTA from '@/components/BookCTA.astro';
 import microcurrent from '@/images/site/clinic-microcurrent.jpg';
 import frontDesk from '@/images/site/clinic-front-desk.webp';
 import team from '@/images/site/hero-team.jpg';
+import pipette from '@/images/stock/unsplash-pwcKF7L4-no.jpg';
+import clipboard from '@/images/stock/unsplash-7n2suA0AmjY.jpg';
 
 const values = [
   { name: 'Precision', icon: 'target' },
@@ -34,6 +38,18 @@ type Statement = {
   img: ImageMetadata; alt: string;
 };
 const statements: Statement[] = [
+  // Drafted (see above).
+  {
+    value: 'Precision', title: 'We pursue precision.',
+    body: ['We look past symptoms to their root causes, with a thorough history and careful testing, so every treatment plan is built on what your body is telling us.'],
+    img: pipette, alt: 'A pipette filling a laboratory sample tray',
+  },
+  // Drafted (see above).
+  {
+    value: 'Education', title: 'We educate our patients.',
+    body: ['We take the time to explain what we find and why we recommend it, so you understand your health and can take an active part in your care.'],
+    img: clipboard, alt: 'A clipboard and stethoscope',
+  },
   {
     value: 'Innovation', title: 'We seek innovation.',
     body: ['We address individual concerns using proven and innovative approaches to help our patients achieve their health goals.'],
@@ -112,7 +128,7 @@ const statements: Statement[] = [
 <style is:global>
 /* --- Our core values ---------------------------------------------------------
    The five values in one row (two, then one, on smaller screens), then the
-   three statements, picture and words alternating sides. */
+   five statements, picture and words alternating sides. */
 .cv-values-head {
   margin: 0 0 var(--space-head);
   font-family: var(--font-mono); font-size: 12px; font-weight: 500;

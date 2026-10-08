@@ -15,7 +15,7 @@ export type StockPhoto = { file: string; alt: string };
  *  override (src/data/hero-overrides.ts) goes first (tracker I4). */
 export function stockFor(route: string): StockPhoto | undefined {
   const override = heroOverrides[route];
-  if (override === 'panel') return undefined;
+  if (override === 'panel' || override === 'needs-photo') return undefined;
   return override ?? (stock.photos as Record<string, StockPhoto>)[route];
 }
 

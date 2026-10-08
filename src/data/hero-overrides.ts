@@ -1,7 +1,9 @@
 /**
  * Hand-kept (not generated): corrections to a page's stock photo from
  * src/data/stock-photos.json (tracker I4). `'panel'` shows the branded icon
- * panel instead, for a photo that shows a product's branding; a photo swaps in
+ * panel instead, for a photo that shows a product's branding; `'needs-photo'`
+ * marks a page still owed a photo, and shows a "Needs photo" box where the
+ * picture goes until one is picked (a to-do, not a design); a photo swaps in
  * another file in src/images/stock, and also replaces the page's own WordPress
  * image when it has one (the clinic picks some of these). People are fine in
  * these photos (Oct 2026); the manifest's objects-and-scenes rule (D118) no
@@ -14,7 +16,11 @@
  */
 import type { StockPhoto } from '@/lib/stock';
 
-export const heroOverrides: Record<string, 'panel' | StockPhoto> = {
+export const heroOverrides: Record<string, 'panel' | 'needs-photo' | StockPhoto> = {
+  // TO DO (Oct 2026): the clinic wants new photos for these two. Replace each
+  // 'needs-photo' with { file, alt } (a file in src/images/stock) once picked.
+  '/skinpen-microneedling/': 'needs-photo',
+  '/conditions/childhood-behavioral-disorders/': 'needs-photo',
   // Gloved hands and a surgical gown beside the instrument tray.
   '/conditions/minor-dermatological-surgeries/': 'panel',
   // A cosmetics mock-up carrying a studio's "Cosmetic Mockup" branding.

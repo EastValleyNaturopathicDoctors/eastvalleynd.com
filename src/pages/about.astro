@@ -16,7 +16,6 @@ import frontDesk from '../images/site/clinic-front-desk.webp';
 import waitingRoom from '../images/site/clinic-waiting-room.webp';
 import treatmentRoom from '../images/site/clinic-treatment-room.webp';
 import hbotRoom from '../images/site/clinic-hyperbaric-room.jpg';
-import microcurrent from '../images/site/clinic-microcurrent.jpg';
 
 /**
  * The clinic's own photos, never stock: this page is about the people and the
@@ -25,7 +24,9 @@ import microcurrent from '../images/site/clinic-microcurrent.jpg';
  * chosen by the clinic (Oct 2026). In the order of a visit: arriving, checking
  * in, waiting, then the rooms. Copied into src/images/site so a regenerated
  * page image can't swap one out from under its caption. A tile with an href
- * links its caption.
+ * links its caption. The microcurrent photo isn't here: EVND Foundations, a
+ * few sections up, already shows it. Five tiles, so the first runs two
+ * columns wide and the grid stays even.
  */
 const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string }[] = [
   { src: entrance, href: '/contact/', caption: 'Suite 110, Southern Ave.',
@@ -38,8 +39,6 @@ const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string 
     alt: 'A treatment room with a reclining chair and footstool beneath framed desert photographs' },
   { src: hbotRoom, href: '/hyperbaric-oxygen-therapy/', caption: 'Hyperbaric oxygen therapy',
     alt: 'A Vitaeris 320 hyperbaric chamber beside its oxygen concentrator in a treatment room' },
-  { src: microcurrent, href: '/frequency-specific-microcurrent-therapy/', caption: 'Frequency Specific Microcurrent',
-    alt: 'A patient resting on a treatment table, leads running to microcurrent units' },
 ];
 ---
 <Base
@@ -105,6 +104,10 @@ const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string 
 }
 .clinic-tile { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-sunk); }
 .clinic-tile img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
+/* The first tile spans two columns at the height of its row, so its photo
+   doesn't size the row; on one column it is an ordinary tile. */
+.clinic-tile:first-child { grid-column: span 2; }
+.clinic-tile:first-child img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
 .clinic-tile figcaption { position: absolute; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); display: flex; }
 .clinic-tile figcaption :is(a, span) {
   display: inline-flex; align-items: center; gap: var(--space-2);
@@ -119,6 +122,12 @@ const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string 
 .clinic-tile figcaption a:hover svg { transform: translateX(3px); }
 
 /* Six even tiles: three across, two on a tablet, one on a phone. */
-@media (max-width: 900px) { .clinic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .clinic-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) {
+  .clinic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .clinic-tile:first-child { aspect-ratio: 2 / 1; }
+}
+@media (max-width: 560px) {
+  .clinic-grid { grid-template-columns: 1fr; }
+  .clinic-tile:first-child { grid-column: auto; aspect-ratio: 3 / 2; }
+}
 </style>

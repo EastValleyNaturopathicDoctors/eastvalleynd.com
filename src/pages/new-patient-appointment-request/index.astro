@@ -1,7 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
-import TallyForm from '@/components/TallyForm.astro';
+import AppointmentRequestForm from '@/components/AppointmentRequestForm.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
 import { site } from '@/data/site';
@@ -14,7 +14,8 @@ import '../../styles/form-pages.css';
  * why the extracted body for /new-patient-appointment-request/ is empty.
  *
  * The old page had five inbound internal links and its own meta description;
- * both are preserved here.
+ * both are preserved here. The form is the same one as /schedule-appointment/
+ * (AppointmentRequestForm.astro), not connected yet by the clinic's choice.
  */
 const steps = [
   {
@@ -54,21 +55,12 @@ const steps = [
       <div class="form-main">
         <h2 class="form-heading">New patient appointment request</h2>
         <p class="form-intro">
-          This is a request, not a confirmed booking — we'll be in touch to
-          confirm a time. If you'd rather do it by phone, call {' '}
+          This is a request only. You will receive a call or email to go over pricing
+          and how to onboard as a new patient. If you'd rather do it by phone, call{' '}
           <a href={site.phoneHref}>{site.phone}</a>.
         </p>
 
-        <TallyForm form="appointment-request" title="New patient appointment request" height={720}>
-          <p class="tally-pending-title">Our online request form is moving.</p>
-          <p>
-            While we finish the switch, call the front desk and we'll take your
-            details and get you scheduled.
-          </p>
-          <div class="hero-cta">
-            <Button href={site.phoneHref} variant="dark" icon="phone">Call {site.phone}</Button>
-          </div>
-        </TallyForm>
+        <AppointmentRequestForm />
       </div>
 
       <aside class="form-aside">
