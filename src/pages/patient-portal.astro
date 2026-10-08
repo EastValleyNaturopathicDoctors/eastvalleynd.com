@@ -1,0 +1,315 @@
+---
+/**
+ * The Patient Portal, as a portal page rather than an article (the clinic's
+ * request, Oct 2026). Every fact and most sentences are the clinic's own, from
+ * src/content/pages/patient-portal.md (its FollowMyHealth page, migrated from
+ * WordPress); the short tile and step titles are ours. That file no longer
+ * renders on its own (src/data/hand-built-pages.ts): when the clinic changes
+ * the portal page, carry the change over here.
+ *
+ * The sign-in card is a link to FollowMyHealth's own sign-in, never a form:
+ * a username and password box on this site would ask for a login another
+ * company holds.
+ *
+ * Help line and email as the portal page gives them: (480) 906-2534 is not
+ * the main line in src/data/site.ts.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import { site } from '@/data/site';
+
+const PORTAL = 'https://www.followmyhealth.com/Login/Home/Index?authproviders=0&returnArea=PatientAccess#!/default';
+const help = { phone: '(480) 906-2534', phoneHref: 'tel:4809062534', email: site.email };
+
+const features = [
+  { icon: 'lab_profile', title: 'Records & lab results', text: 'View portions of your medical record and lab results.' },
+  { icon: 'forum', title: 'Message your provider', text: 'Securely message your provider about your treatment plan or prescriptions.' },
+  { icon: 'event', title: 'Upcoming appointments', text: 'View upcoming appointments.' },
+  { icon: 'assignment', title: 'Forms', text: 'Complete required forms.' },
+];
+
+const steps = [
+  { title: 'Open your invitation', text: 'Within 24 hours of your scheduled visit, you will receive an email invitation to create or connect your FollowMyHealth account. Follow its link to create your account.' },
+  { title: 'Verify your details', text: 'Complete the on-screen steps to verify your information.' },
+  { title: 'Log in anytime', text: 'Once connected, you can log in anytime from our website’s Patient Portal tab.' },
+];
+---
+<Base
+  title="Patient Portal"
+  description="Access your health journey with ease through East Valley Naturopathic Doctors' patient portal. Streamlined communication for personalized and informed care."
+  searchSection="Resources">
+
+  <section class="pp-hero">
+    <div class="container pp-hero-grid">
+      <div class="pp-hero-text">
+        <nav class="pp-crumbs" aria-label="Breadcrumb" data-pagefind-ignore>
+          <a href="/resources/">Resources</a>
+        </nav>
+        <Eyebrow><Icon name="lock" size={14} /><span>Secure · FollowMyHealth</span></Eyebrow>
+        <h1 class="pp-title">Patient Portal</h1>
+        <p class="pp-lede">Use your FollowMyHealth account to securely access your health information anytime.</p>
+        <p class="pp-devices">
+          <Icon name="devices" size={18} />
+          Available 24/7 on computer, tablet, or smartphone
+        </p>
+      </div>
+
+      <div class="pp-signin">
+        <div class="pp-signin-head">
+          <span class="pp-signin-icon"><Icon name="account_circle" size={30} /></span>
+          <div>
+            <p class="pp-signin-title">FollowMyHealth</p>
+            <p class="pp-signin-sub">Patient sign-in</p>
+          </div>
+        </div>
+        <Button href={PORTAL} size="lg" icon="arrow-up-right" target="_blank" rel="noopener" class="pp-signin-btn">
+          Log in to the patient portal
+        </Button>
+        <p class="pp-signin-note">Opens FollowMyHealth’s secure sign-in in a new tab.</p>
+        <div class="pp-signin-rows">
+          <div class="pp-signin-row">
+            <Icon name="mail" size={18} />
+            <p><strong>First time?</strong> Look for your email invitation. It arrives within 24 hours of your scheduled visit.</p>
+          </div>
+          <div class="pp-signin-row">
+            <Icon name="support_agent" size={18} />
+            <p><strong>Trouble logging in?</strong> Call <a href={help.phoneHref}>{help.phone}</a> or email <a href={`mailto:${help.email}`}>{help.email}</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <aside class="pp-notice" aria-labelledby="pp-notice-head">
+      <span class="pp-notice-icon"><Icon name="campaign" size={22} /></span>
+      <div>
+        <h2 class="pp-notice-head" id="pp-notice-head">Portal update: we’ve moved from Patient Fusion to FollowMyHealth</h2>
+        <p>This update will provide a more modern, secure, and user-friendly way to access your health information and communicate with your provider.</p>
+      </div>
+    </aside>
+  </div>
+
+  <section class="section pp-features" aria-labelledby="pp-features-head">
+    <div class="container">
+      <Eyebrow>Quick access</Eyebrow>
+      <h2 class="h2" id="pp-features-head">What you can do in the portal</h2>
+      <ul class="pp-tiles">
+        {features.map((f) => (
+          <li class="pp-tile">
+            <span class="pp-tile-icon"><Icon name={f.icon} size={26} /></span>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section is-band pp-access" aria-labelledby="pp-access-head">
+    <div class="container">
+      <Eyebrow>New to the portal</Eyebrow>
+      <h2 class="h2" id="pp-access-head">Get access in three steps</h2>
+      <ol class="pp-steps">
+        {steps.map((s, i) => (
+          <li class="pp-step">
+            <span class="pp-step-n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="pp-access-note">
+        <Icon name="info" size={18} />
+        If you do not receive an email invitation, please contact our office and we will resend it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section pp-info">
+    <div class="container pp-info-grid">
+      <article class="pp-card" aria-labelledby="pp-msg-head">
+        <span class="pp-card-icon"><Icon name="chat" size={22} /></span>
+        <h2 id="pp-msg-head">Portal messages are for treatment questions</h2>
+        <p>The patient portal is intended for <strong>treatment-related questions only</strong>.</p>
+        <p>For scheduling appointments, lab draws, shipping questions, supplement availability, or other non-treatment concerns, please contact our front office:</p>
+        <ul class="pp-contact">
+          <li><Icon name="phone" size={16} /><a href={help.phoneHref}>{help.phone}</a></li>
+          <li><Icon name="mail" size={16} /><a href={`mailto:${help.email}`}>{help.email}</a></li>
+        </ul>
+      </article>
+
+      <article class="pp-card" aria-labelledby="pp-pf-head">
+        <span class="pp-card-icon"><Icon name="history" size={22} /></span>
+        <h2 id="pp-pf-head">Previously used Patient Fusion?</h2>
+        <p>Our practice has transitioned from <strong>Patient Fusion</strong> to <strong>FollowMyHealth</strong>.</p>
+        <ul class="pp-list">
+          <li>Patient Fusion accounts are no longer active for our practice</li>
+          <li>Previous usernames and secure messages do not transfer</li>
+          <li>You must use your <strong>FollowMyHealth email invitation</strong> to access your records</li>
+        </ul>
+        <p>If you are unsure whether you already have access or need a new invitation sent, please contact us.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="pp-help" aria-labelledby="pp-help-head">
+    <div class="container pp-help-inner">
+      <div>
+        <h2 id="pp-help-head">Need help with the portal?</h2>
+        <p>If you experience technical issues or have questions about accessing your portal, our team is happy to help.</p>
+      </div>
+      <div class="pp-help-actions">
+        <Button href={help.phoneHref} variant="light" icon="phone">{help.phone}</Button>
+        <Button href={`mailto:${help.email}`} variant="outline-light" icon="mail">Email us</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+/* --- Patient Portal ---------------------------------------------------------
+   An app's front door: the sign-in card in the hero, a notice, what you can
+   do as tiles, the steps to get in, then the rules and help. */
+.pp-hero {
+  position: relative; overflow: hidden; color: #fff;
+  padding: clamp(48px, 7vw, 96px) 0 clamp(64px, 8vw, 112px);
+  background:
+    radial-gradient(55% 75% at 92% 0%, rgba(1, 185, 235, 0.55) 0%, rgba(1, 185, 235, 0) 62%),
+    radial-gradient(50% 70% at 62% 110%, rgba(108, 190, 63, 0.5) 0%, rgba(108, 190, 63, 0) 60%),
+    linear-gradient(115deg, #052E39 0%, #08495A 45%, #0A6A6C 78%, #128A63 100%);
+}
+.pp-hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: var(--gap-cols); align-items: center;
+}
+.pp-crumbs { margin-bottom: var(--space-5); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.pp-crumbs a { color: rgba(255, 255, 255, 0.75); }
+.pp-crumbs a::after { content: '/'; margin-left: var(--space-2); color: rgba(255, 255, 255, 0.45); }
+.pp-crumbs a:hover { color: #fff; }
+.pp-hero .eyebrow { color: #fff; border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.08); }
+.pp-title {
+  margin: var(--space-4) 0 0; font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(44px, 6vw, 80px); line-height: 1; letter-spacing: -0.028em;
+}
+.pp-lede { margin: var(--space-5) 0 0; max-width: 46ch; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.45; color: rgba(255, 255, 255, 0.86); }
+.pp-devices {
+  display: inline-flex; align-items: center; gap: var(--space-2); margin: var(--space-6) 0 0;
+  padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.1);
+  font-size: 14px; color: rgba(255, 255, 255, 0.9);
+}
+
+/* The sign-in card. */
+.pp-signin {
+  background: #fff; color: var(--ink); border-radius: var(--radius-lg);
+  padding: clamp(24px, 3vw, 36px);
+  box-shadow: 0 40px 80px -30px rgba(3, 24, 30, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.pp-signin-head { display: flex; align-items: center; gap: var(--space-4); }
+.pp-signin-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--grn-soft); color: var(--grn-2); }
+.pp-signin-title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.015em; }
+.pp-signin-sub { margin: 2px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.pp-signin-btn { width: 100%; justify-content: center; margin-top: var(--space-6); }
+.pp-signin-note { margin: var(--space-2) 0 0; text-align: center; font-size: 13px; color: var(--ink-3); }
+.pp-signin-rows { margin-top: var(--space-6); border-top: 1px solid var(--line); }
+.pp-signin-row { display: flex; gap: var(--space-3); padding: var(--space-4) 0 0; }
+.pp-signin-row + .pp-signin-row { margin-top: var(--space-1); }
+.pp-signin-row svg { flex: none; margin-top: 3px; color: var(--grn-2); }
+.pp-signin-row p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+.pp-signin-row a { color: var(--grn-2); font-weight: 600; white-space: nowrap; }
+.pp-signin-row a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* The notice, overlapping the hero's foot. */
+.pp-notice {
+  position: relative; z-index: 1; margin-top: calc(-1 * clamp(32px, 4vw, 48px));
+  display: flex; gap: var(--space-4); align-items: flex-start;
+  padding: var(--space-5) var(--pad-card); border-radius: var(--radius-lg);
+  background: #FFF8E6; border: 1px solid #F1DDA6; color: var(--ink);
+  box-shadow: 0 18px 40px -28px rgba(14, 19, 17, 0.35);
+}
+.pp-notice-icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #FDE9B3; color: #8A5A00; }
+.pp-notice-head { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.3; letter-spacing: -0.01em; }
+.pp-notice p { margin: var(--space-1) 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+
+/* What you can do. */
+.pp-features .h2 { margin-top: var(--space-3); }
+.pp-tiles {
+  list-style: none; margin: var(--space-head) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap-cards);
+}
+.pp-tile {
+  padding: var(--pad-card); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.pp-tile:hover { border-color: var(--line-2); box-shadow: 0 12px 32px rgba(14, 19, 17, 0.07); transform: translateY(-2px); }
+.pp-tile-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--grn-soft); color: var(--grn-2); }
+.pp-tile h3 { margin: var(--space-5) 0 0; font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.012em; line-height: 1.2; }
+.pp-tile p { margin: var(--space-2) 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+
+/* Getting access. */
+.pp-access { background: var(--bg-soft); }
+.pp-access .h2 { margin-top: var(--space-3); }
+.pp-steps {
+  list-style: none; margin: var(--space-head) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-cards);
+  counter-reset: none;
+}
+.pp-step { position: relative; padding: var(--pad-card); border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line); }
+.pp-step-n {
+  display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--ink); color: #fff; font-family: var(--font-mono); font-size: 13px;
+}
+.pp-step h3 { margin: var(--space-4) 0 0; font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.012em; }
+.pp-step p { margin: var(--space-2) 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+/* A line joining the step numbers on a desktop. */
+@media (min-width: 901px) {
+  .pp-step:not(:last-child)::after {
+    content: ''; position: absolute; top: calc(var(--pad-card) + 20px); left: calc(var(--pad-card) + 48px); right: calc(-1 * var(--gap-cards));
+    height: 1px; background: repeating-linear-gradient(90deg, var(--line-2) 0 6px, transparent 6px 12px);
+  }
+}
+.pp-access-note { display: flex; align-items: flex-start; gap: var(--space-2); margin: var(--space-6) 0 0; color: var(--ink-2); font-size: 15px; }
+.pp-access-note svg { flex: none; margin-top: 2px; color: var(--grn-2); }
+
+/* The rules and the switch from Patient Fusion. */
+.pp-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-cards); }
+.pp-card { padding: var(--pad-feature); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg); }
+.pp-card-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--grn-soft); color: var(--grn-2); }
+.pp-card h2 { margin: var(--space-4) 0 0; font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: -0.015em; }
+.pp-card p { margin: var(--space-3) 0 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.55; }
+.pp-card strong { color: var(--ink); }
+.pp-contact, .pp-list { list-style: none; margin: var(--space-4) 0 0; padding: 0; display: grid; gap: var(--space-2); }
+.pp-contact li { display: flex; align-items: center; gap: var(--space-2); }
+.pp-contact svg { color: var(--grn-2); }
+.pp-contact a { font-weight: 600; color: var(--ink); }
+.pp-contact a:hover { color: var(--grn-2); }
+.pp-list li { position: relative; padding-left: var(--space-6); color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+.pp-list li::before { content: ''; position: absolute; left: 4px; top: 0.62em; width: 8px; height: 8px; border-radius: 50%; background: var(--grn); }
+
+/* Help. */
+.pp-help { background: var(--ink); color: #fff; padding: var(--space-block) 0; }
+.pp-help-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-6); }
+.pp-help h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(24px, 2.6vw, 34px); letter-spacing: -0.02em; }
+.pp-help p { margin: var(--space-2) 0 0; max-width: 56ch; color: rgba(255, 255, 255, 0.75); }
+.pp-help-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+@media (max-width: 1000px) {
+  .pp-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .pp-hero-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+  .pp-steps, .pp-info-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .pp-tiles { grid-template-columns: 1fr; }
+  .pp-tile { display: grid; grid-template-columns: auto 1fr; column-gap: var(--space-4); align-items: start; }
+  .pp-tile-icon { grid-row: span 2; width: 44px; height: 44px; }
+  .pp-tile h3 { margin-top: 0; }
+  .pp-notice { flex-direction: column; gap: var(--space-3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pp-tile, .pp-tile:hover { transition: none; transform: none; }
+}
+</style>

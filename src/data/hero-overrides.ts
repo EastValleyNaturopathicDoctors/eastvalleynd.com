@@ -1,14 +1,14 @@
 /**
  * Hand-kept (not generated): corrections to a page's stock photo from
- * src/data/stock-photos.json (tracker I4). `'panel'` shows the branded icon
- * panel instead, for a photo that shows a product's branding; `'needs-photo'`
+ * src/data/stock-photos.json (tracker I4). `'panel'` takes the photo away
+ * and shows none (the branded icon panel it once showed went, Oct 2026), for
+ * a photo that shows a product's branding; `'needs-photo'`
  * marks a page still owed a photo, and shows a "Needs photo" box where the
  * picture goes until one is picked (a to-do, not a design); a photo swaps in
  * another file in src/images/stock, and also replaces the page's own WordPress
  * image when it has one (the clinic picks some of these). People are fine in
  * these photos (Oct 2026); the manifest's objects-and-scenes rule (D118) no
- * longer applies. Read by stockFor() and stockPlaceholders (src/lib/stock.ts)
- * and ContentPage.astro.
+ * longer applies. Read by stockFor() (src/lib/stock.ts) and ContentPage.astro.
  *
  * The permanent fix is upstream: extract/fetch_stock_photos.py picking new
  * photos for these routes (or listing them as placeholders). An entry here can

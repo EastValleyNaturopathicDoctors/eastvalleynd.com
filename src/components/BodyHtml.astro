@@ -98,12 +98,11 @@ const parts = html.split(/<figure class="wp-video" data-video="([\w-]{11})"(?: d
   background: transparent; color: var(--ink); border-color: var(--line-2);
 }
 .prose .cta-inline-btn a.btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
-/* Outlined, so none of the filled button's hover bloom, sheen or glow
-   (global.css); the ::after is the arrow. */
+/* Outlined, so none of the filled button's hover spread or shadow
+   (global.css). */
 .prose .cta-inline-btn a.btn::before { content: none; }
 .prose .cta-inline-btn a.btn:hover { box-shadow: none; }
 .prose .cta-inline-btn a.btn::after {
-  position: static; z-index: auto; transform: none; transition: none; pointer-events: auto;
   content: ''; flex: none; width: 16px; height: 16px; background: currentColor;
   -webkit-mask: var(--mask-arrow) center / contain no-repeat; mask: var(--mask-arrow) center / contain no-repeat;
 }

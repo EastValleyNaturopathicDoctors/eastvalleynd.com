@@ -156,45 +156,35 @@ em { font-style: normal; color: var(--grn-2); }
 .btn:hover { transform: translateY(-1px); }
 /* The filled button: the logo green, with ink text (white on this green is too
    faint to read), as the action bar's Call button. On hover a lighter green
-   blooms from wherever the pointer came in, shading to the hero's sky blue
-   (#01B9EB) on the far side; a sheen sweeps across once, the button glows, and
-   its icon slips out and back. The entry point is set by Button.astro's
-   script (--bx, --by); without it the bloom starts from the middle. */
+   spreads from wherever the pointer came in, the button lifts on a soft green
+   shadow, and its icon slips out and back. One colour, kept quiet (the
+   clinic's call, Oct 2026). The entry point is set by Button.astro's script
+   (--bx, --by); without it the spread starts from the middle. */
 :is(.btn-dark, .mega-aside-cta) {
   position: relative; isolation: isolate; overflow: hidden;
   background: var(--grn); color: var(--ink);
-  transition: transform .18s ease, box-shadow .35s ease;
+  transition: transform .18s ease, box-shadow .3s ease;
 }
-:is(.btn-dark, .mega-aside-cta)::before,
-:is(.btn-dark, .mega-aside-cta)::after { content: ''; position: absolute; z-index: -1; pointer-events: none; }
 :is(.btn-dark, .mega-aside-cta)::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
   left: var(--bx, 50%); top: var(--by, 50%); width: 0; aspect-ratio: 1; border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle closest-side, #9BE06B 0%, #7FD08A 38%, #3CC3C6 68%, #01B9EB 100%);
-  transition: width .55s cubic-bezier(.2, .75, .25, 1);
-}
-:is(.btn-dark, .mega-aside-cta)::after {
-  inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.6) 48%, rgba(255, 255, 255, 0.6) 52%, transparent 70%);
-  transform: translateX(-130%);
+  background: #84D25B;
+  transition: width .45s cubic-bezier(.2, .75, .25, 1);
 }
 @media (hover: hover) {
-  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover {
-    box-shadow: 0 12px 28px -12px rgba(1, 185, 235, 0.65), 0 0 0 4px rgba(108, 190, 63, 0.18);
-  }
-  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover::before { width: 260%; }
-  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover::after { transform: translateX(130%); transition: transform .85s cubic-bezier(.3, .6, .2, 1) .05s; }
-  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover svg { animation: btn-slip .5s cubic-bezier(.3, .6, .2, 1); }
+  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover { box-shadow: 0 10px 24px -12px rgba(54, 122, 27, 0.55); }
+  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover::before { width: 250%; }
+  :is(.btn-dark, .mega-aside-cta):not(:disabled):hover svg { animation: btn-slip .45s cubic-bezier(.3, .6, .2, 1); }
 }
 @keyframes btn-slip {
-  45% { transform: translateX(9px); opacity: 0; }
-  46% { transform: translateX(-9px); opacity: 0; }
+  45% { transform: translateX(8px); opacity: 0; }
+  46% { transform: translateX(-8px); opacity: 0; }
   100% { transform: none; opacity: 1; }
 }
 :is(.btn-dark, .mega-aside-cta):focus-visible { outline: 3px solid var(--grn-2); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   :is(.btn-dark, .mega-aside-cta)::before { transition: none; }
-  :is(.btn-dark, .mega-aside-cta)::after { display: none; }
   :is(.btn-dark, .mega-aside-cta):hover svg { animation: none !important; }
 }
 .btn-light { background: #fff; color: var(--ink); }

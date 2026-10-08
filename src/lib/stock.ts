@@ -23,9 +23,3 @@ export function stockFor(route: string): StockPhoto | undefined {
 export const stockSlot = (slot: string): StockPhoto | undefined =>
   (stock.components as Record<string, StockPhoto>)[slot];
 
-/** Routes that show the branded icon panel: the manifest's, plus the photos
- *  an override took away (tracker I4). */
-export const stockPlaceholders: string[] = [
-  ...stock.placeholders,
-  ...Object.keys(heroOverrides).filter((r) => heroOverrides[r] === 'panel'),
-];

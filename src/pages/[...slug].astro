@@ -14,6 +14,7 @@ import ContentPage from '@/layouts/ContentPage.astro';
 import BlogPost from '@/layouts/BlogPost.astro';
 import Stub from '@/layouts/Stub.astro';
 import stubRoutes from '@/data/stub-routes.json';
+import { handBuiltPages } from '@/data/hand-built-pages';
 
 type Props =
   | { kind: 'page'; entry: CollectionEntry<'pages'> }
@@ -30,7 +31,8 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog');
 
   return [
-    ...pages.map((entry) => ({
+    // A generated page with a hand-built one in src/pages is left to that one.
+    ...pages.filter((entry) => !handBuiltPages.includes(entry.data.route)).map((entry) => ({
       params: { slug: toParam(entry.data.route) },
       props: { kind: 'page' as const, entry },
     })),

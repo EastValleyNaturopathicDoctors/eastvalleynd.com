@@ -12,5 +12,5 @@
  * extract/build_pages.py) instead of emitting it as a ghost button in the body.
  */
 export const primaryActions: Record<string, string> = {
-  '/patient-portal/': 'Go To Patient Portal',
+  // '/patient-portal/' used this; it has its own page now (src/pages/patient-portal.astro).
 };

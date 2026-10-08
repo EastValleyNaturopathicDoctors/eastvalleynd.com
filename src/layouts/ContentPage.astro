@@ -21,8 +21,7 @@ import { moveMedia } from '@/lib/mediamoves';
 import { closingAsk } from '@/lib/closing';
 import { takePrimaryAction } from '@/lib/primaryaction';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
-import { stockFor, stockPlaceholders } from '@/lib/stock';
-import { sectionIcons } from '@/data/section-icons';
+import { stockFor } from '@/lib/stock';
 import { compactHeroes } from '@/data/compact-heroes';
 import { keptInsets } from '@/data/kept-insets';
 import { retiredPages } from '@/data/retired-pages';
@@ -123,23 +122,19 @@ const mode = d.imageFile && !once.hideHero && !picked ? heroMode(d.imageWidth) :
 const hero = mode === 'hidden' && keptInsets.includes(d.route) ? 'inset' : mode;
 // A smaller own image sits in a tinted frame, except the IV graphics (I5, I6).
 const framed = hero === 'contained' && !isIvGraphic(d.route);
-// A page WordPress gave no image carries an Unsplash photo instead, or a
-// branded panel where none fitted (D118). Its own image always wins.
-// Also when the page's own image is an icon-sized thumbnail D116 hides (D119).
-// Neither goes above a body that opens with its own video or picture, and a
-// task page takes a short icon band instead (tracker I5).
+// A page WordPress gave no image carries an Unsplash photo instead, where one
+// fitted (D118); its own image always wins. Also when the page's own image is
+// an icon-sized thumbnail D116 hides (D119). Not above a body that opens with
+// its own video or picture, nor on a task page (tracker I5). A page with no
+// photo simply has none: the dark icon band that once stood in went at the
+// clinic's request (Oct 2026).
 const fill = hero === 'none' && !opensWithMedia(html);
 const compact = fill && !landing && compactHeroes.includes(d.route);
 const stock = fill && !compact ? stockFor(d.route) : undefined;
-const placeholder = compact || (fill && !landing && !stock && stockPlaceholders.includes(d.route));
 // The landing hero's picture: the page's own, else its stock photo. It fills
 // the frame unless src/data/hero-fit.ts (or an IV drip graphic) says otherwise.
 const media = landing && (hero === 'wide' || hero === 'contained' || !!stock || needsPhoto);
 const fit = stock ? undefined : heroFit[d.route] ?? (isIvGraphic(d.route) ? 'mounted' : undefined);
-// The panel's icon: the page's own, else the nearest section's.
-const segs = d.route.split('/').filter(Boolean);
-const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
-  .map((r) => sectionIcons[r]).find(Boolean) ?? 'eco';
 // A page that repeats another stays out of search engines until it redirects
 // there; its canonical already names the page kept (tracker R2).
 const duplicate = isDuplicate(d.route);
@@ -232,11 +227,6 @@ const retiredTo = retiredPages[d.route];
     {!landing && needsPhoto && (
       <div class="container cpage-figure" data-pagefind-ignore>
         <div class="cpage-needs-photo"><Icon name="add_photo_alternate" size={36} /><span>Needs photo</span></div>
-      </div>
-    )}
-    {placeholder && (
-      <div class="container cpage-figure" aria-hidden="true" data-pagefind-ignore>
-        <div class="cpage-panel is-compact"><Icon name={panelIcon} size={40} /></div>
       </div>
     )}
     {!landing && hero === 'contained' && (
@@ -336,18 +326,6 @@ const retiredTo = retiredPages[d.route];
   width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
   border-radius: var(--radius-lg);
 }
-/* Stand-in where no stock photo fitted (D118), and a task page's band (I5):
-   the phone hero's dark gradient (D12) and the section's icon. Always the
-   short band, never a photo-sized panel: a large dark field with one small
-   icon read as an image that failed to load (tracker K11). */
-.cpage-panel {
-  display: grid; place-items: center;
-  border-radius: var(--radius-lg); color: var(--grn);
-  background:
-    radial-gradient(120% 80% at 78% 8%, rgba(108, 190, 63, 0.16) 0%, rgba(108, 190, 63, 0) 60%),
-    linear-gradient(to bottom, #141A17 0%, #0E1311 60%, #0A0E0C 100%);
-}
-.cpage-panel.is-compact { height: clamp(84px, 10vw, 128px); }   /* the compact band's height (exempt) */
 
 /* Half a section under the hero's edge; after a featured image, one block
    below it. A whole section closes the article above the booking band. */
