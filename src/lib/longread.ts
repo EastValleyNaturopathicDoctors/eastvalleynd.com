@@ -213,7 +213,10 @@ export function longRead(html: string): LongRead {
     const first = main && !toc.some((t) => t.main) && !strip(body.slice(0, at));
     if (shown && +lv <= top + 1) toc.push({ id, text, level: +lv as 2 | 3 | 4, main, caps: isCaps(text) });
     const cls = [main && sections >= 2 && 'lr-sec', main && ownNumbers && 'lr-own', first && 'lr-first'].filter(Boolean).join(' ');
-    return `<h${lv}${withClass(attrs, cls)} id="${id}">${inner}</h${lv}>`;
+    // A promoted title that is itself a numbered section reads as one, at its
+    // siblings' size and colour, not as a small label (tracker N9).
+    const own = cls.includes('lr-sec') ? attrs.replace(/class="lr-subhead(?! lr-refs-head) ?/, 'class="') : attrs;
+    return `<h${lv}${withClass(own, cls)} id="${id}">${inner}</h${lv}>`;
   });
   return { html: joined, toc, sections };
 }

@@ -242,6 +242,9 @@ const count = items.filter((it) => it.main).length;
 .prose .lr-subhead.is-caps {
   font-size: clamp(15px, 1.4vw, 17px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--grn-2);
 }
+/* One that is a numbered section keeps its heading size and colour, in even
+   capitals like its entry in the list (tracker N9). */
+.is-long .prose .lr-sec.is-caps { letter-spacing: 0.02em; text-transform: uppercase; }
 .is-long .prose sup.fn {
   font-size: 0.62em; line-height: 0; vertical-align: super; margin-left: 1px;
   font-variant-numeric: tabular-nums; color: var(--ink-3);
