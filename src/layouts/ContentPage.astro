@@ -17,6 +17,7 @@ import { injectTileIcons } from '@/lib/icons';
 import { cleanLinks } from '@/lib/links';
 import { tidyProse } from '@/lib/prose';
 import { linkHubEntries, hasHubLinks } from '@/lib/hublinks';
+import { moveMedia } from '@/lib/mediamoves';
 import { closingAsk } from '@/lib/closing';
 import { takePrimaryAction } from '@/lib/primaryaction';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
@@ -42,7 +43,8 @@ const d = entry.data;
 // button most visitors came for shows it in the hero instead, as the page's
 // main button (tracker P2). A body that opens with the top image again shows
 // it once (tracker R5).
-const once = heroOnce(entry.rendered?.html ?? '', d.route);
+// Pictures a body piles up in one place go to their sections first (tracker K11).
+const once = heroOnce(moveMedia(entry.rendered?.html ?? '', d.route), d.route);
 const { html: body, action } = takePrimaryAction(
   injectTileIcons(tidyProse(cleanLinks(linkHubEntries(once.html, d.route), d.route))), d.route);
 // A long body gets its paste damage repaired, ids on its headings and a

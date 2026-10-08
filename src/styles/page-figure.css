@@ -15,6 +15,9 @@
    page; on a phone it stands alone, centred, at its own width. */
 .cpage-inset { float: right; margin: 0.3em 0 var(--space-4) var(--space-6); max-width: min(42%, 320px); }
 .cpage-inset img { margin: 0; border-radius: var(--radius); width: 100%; height: auto; }
+/* An inset moved beside a section's first paragraph (src/lib/mediamoves.ts):
+   the pair holds its float, so it never runs into the next heading. */
+.cpage-pair { display: flow-root; }
 @media (max-width: 560px) {
   .cpage-inset { float: none; margin: 0 auto var(--space-6); max-width: 100%; display: flex; justify-content: center; }
   .cpage-inset img { width: auto; max-width: 100%; }
