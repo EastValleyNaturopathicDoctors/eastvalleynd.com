@@ -23,6 +23,7 @@ import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor, stockPlaceholders } from '@/lib/stock';
 import { sectionIcons } from '@/data/section-icons';
 import { compactHeroes } from '@/data/compact-heroes';
+import { keptInsets } from '@/data/kept-insets';
 import { retiredPages } from '@/data/retired-pages';
 import { documentPages } from '@/data/document-pages';
 import '../styles/section-cards.css';
@@ -80,7 +81,9 @@ const showChildren = children.length > 0 && !(hasGrid && children.every((c) => h
 // "Ready to Get Started? Request an appointment below": the band is that
 // section's action, so it follows without the usual gap (tracker C10).
 const ontoBand = ask === 'lead' && !endCard && !showChildren;
-const hero = d.imageFile && !once.hideHero ? heroMode(d.imageWidth) : 'none';
+const mode = d.imageFile && !once.hideHero ? heroMode(d.imageWidth) : 'none';
+// A small image that is content, like a partner lab's logo, stays an inset (I5).
+const hero = mode === 'hidden' && keptInsets.includes(d.route) ? 'inset' : mode;
 // A smaller own image sits in a tinted frame, except the IV graphics (I5, I6).
 const framed = hero === 'contained' && !isIvGraphic(d.route);
 // A page WordPress gave no image carries an Unsplash photo instead, or a
