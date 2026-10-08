@@ -154,22 +154,22 @@ em { font-style: normal; color: var(--grn-2); }
 }
 .btn-lg { padding: 18px 28px; font-size: 16px; }
 .btn:hover { transform: translateY(-1px); }
-/* The filled button: the logo green with white text (the clinic's call, Oct
-   2026; white on this green is 2.3:1, under WCAG AA's 4.5:1, so a deeper green
-   would read more easily), as the action bar's Call button. On hover a
-   slightly deeper green spreads from wherever the pointer came in, the button
-   lifts on a soft green shadow, and its icon slips out and back. The entry point is set by Button.astro's script
+/* The filled button: the logo green, with ink text (white on this green is too
+   faint to read), as the action bar's Call button. On hover a lighter green
+   spreads from wherever the pointer came in, the button lifts on a soft green
+   shadow, and its icon slips out and back. One colour, kept quiet (the
+   clinic's call, Oct 2026). The entry point is set by Button.astro's script
    (--bx, --by); without it the spread starts from the middle. */
 :is(.btn-dark, .mega-aside-cta) {
   position: relative; isolation: isolate; overflow: hidden;
-  background: var(--grn); color: #fff;
+  background: var(--grn); color: var(--ink);
   transition: transform .18s ease, box-shadow .3s ease;
 }
 :is(.btn-dark, .mega-aside-cta)::before {
   content: ''; position: absolute; z-index: -1; pointer-events: none;
   left: var(--bx, 50%); top: var(--by, 50%); width: 0; aspect-ratio: 1; border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: #5DAF33;
+  background: #84D25B;
   transition: width .45s cubic-bezier(.2, .75, .25, 1);
 }
 @media (hover: hover) {
