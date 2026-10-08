@@ -10,58 +10,62 @@ const a = site.address;
 const cols = footerCols.map((c) => ({ ...c, links: c.links.filter((l) => !isStub(l.href)) }));
 ---
 <footer class="footer">
-  <div class="container footer-top">
-    <div class="footer-brand">
-      <Image src={logo} alt="EVND" width={150} height={60} loading="eager" />
-      <p>{site.name} — board-licensed naturopathic medicine in {a.city}, Arizona since {site.since}.</p>
-      <div class="footer-contact">
-        <a href={site.phoneHref}><Icon name="phone" size={14} />{site.phone}</a>
-        <span><Icon name="map" size={14} />{a.street}, {a.city} {a.state} {a.zip}</span>
+  {/* One container around both rows, so the rule between them spans the
+      content box (the same edges as the page above), not the gutter. */}
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <Image src={logo} alt="EVND" width={150} height={60} loading="eager" />
+        <p>{site.name} — board-licensed naturopathic medicine in {a.city}, Arizona since {site.since}.</p>
+        <div class="footer-contact">
+          <a href={site.phoneHref}><Icon name="phone" size={14} />{site.phone}</a>
+          <span><Icon name="map" size={14} />{a.street}, {a.city} {a.state} {a.zip}</span>
+        </div>
       </div>
+      {cols.map((c) => (
+        <div class="footer-col">
+          {/* h2, not h5: these follow whatever the page body ended on, and an
+              h2 is the only level that cannot skip from any of them. The footer
+              is its own landmark, so its column headings sit at the top of it. */}
+          <h2>{c.h}</h2>
+          <ul>{c.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        </div>
+      ))}
     </div>
-    {cols.map((c) => (
-      <div class="footer-col">
-        {/* h2, not h5: these follow whatever the page body ended on, and an
-            h2 is the only level that cannot skip from any of them. The footer
-            is its own landmark, so its column headings sit at the top of it. */}
-        <h2>{c.h}</h2>
-        <ul>{c.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    <div class="footer-bottom">
+      <span>© {year} {site.name}. All rights reserved.</span>
+      <div class="footer-legal">
+        {footerLegal.map((l) => <a href={l.href}>{l.label}</a>)}
       </div>
-    ))}
-  </div>
-  <div class="container footer-bottom">
-    <span>© {year} {site.name}. All rights reserved.</span>
-    <div class="footer-legal">
-      {footerLegal.map((l) => <a href={l.href}>{l.label}</a>)}
     </div>
   </div>
 </footer>
 
 <style is:global>
-.footer { background: var(--ink); color: rgba(255,255,255,0.75); padding: 80px 0 28px; }
+.footer { background: var(--ink); color: rgba(255,255,255,0.75); padding: var(--space-block) 0 var(--space-7); }
 .footer-top {
   display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  gap: 40px;
-  padding-bottom: 56px;
+  gap: var(--space-7) var(--space-8);
+  padding-bottom: var(--space-8);
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }
-.footer-brand img { height: 50px; filter: brightness(0) invert(1); margin-bottom: 18px; }
-.footer-brand p { font-size: 14px; line-height: 1.55; max-width: 36ch; margin: 0 0 22px; }
-.footer-contact { display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
-.footer-contact a, .footer-contact span { display: inline-flex; align-items: center; gap: 10px; }
+.footer-brand img { height: 50px; filter: brightness(0) invert(1); margin-bottom: var(--space-4); }
+.footer-brand p { font-size: 14px; line-height: 1.55; max-width: 36ch; margin: 0 0 var(--space-5); }
+.footer-contact { display: flex; flex-direction: column; gap: var(--space-2); font-size: 13px; }
+.footer-contact a, .footer-contact span { display: inline-flex; align-items: center; gap: var(--space-2); }
 .footer-contact a:hover { color: #fff; }
-.footer-col h2 { font-family: var(--font-display); color: #fff; font-size: 14px; margin: 0 0 18px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-.footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.footer-col h2 { font-family: var(--font-display); color: #fff; font-size: 14px; margin: 0 0 var(--space-4); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
 .footer-col a { font-size: 14px; transition: color .2s; }
 .footer-col a:hover { color: #fff; }
 .footer-bottom {
   display: flex; justify-content: space-between; align-items: center;
-  padding-top: 24px;
+  padding-top: var(--space-6);
   font-size: 12.5px;
   color: rgba(255,255,255,0.55);
-  gap: 16px; flex-wrap: wrap;
+  gap: var(--space-4); flex-wrap: wrap;
 }
-.footer-legal { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.footer-legal { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
 .footer-legal a:hover { color: #fff; }
 
 @media (max-width: 1000px) {

@@ -9,12 +9,12 @@ const a = site.address;
 /** As SidebarCTA: "9:00 am – 5:00 pm" -> "9 am – 5 pm". */
 const short = (t: string) => t.replace(/:00/g, '');
 ---
-<section class="section book-section" id="book" data-pagefind-ignore>
-  <div class="container book-wrap">
-    <div class="book-bg">
-      <PageImage set="stock" file={stockSlot('section:booking')!.file} alt="" width={1800} height={1000} />
-      <div class="book-overlay"></div>
-    </div>
+<section class="section book-section is-band" id="book" data-pagefind-ignore>
+  <div class="book-bg">
+    <PageImage set="stock" file={stockSlot('section:booking')!.file} alt="" width={1800} height={1000} />
+    <div class="book-overlay"></div>
+  </div>
+  <div class="container">
     <div class="book-text">
       <Eyebrow light>New patients</Eyebrow>
       <h2 class="h1">Ready when you are.</h2>
@@ -44,16 +44,17 @@ const short = (t: string) => t.replace(/:00/g, '');
 </section>
 
 <style is:global>
-/* The booking panel sits directly on the footer: no gap beneath it, square
-   bottom corners so the two dark blocks read as one, and a 10px margin either
-   side rather than the container's usual gutter. */
-.book-section { padding: clamp(40px, 5vw, 60px) 0 0; }
-.book-wrap {
+/* The booking band runs edge to edge like every other band on the site (the
+   hero, TruDOSE, testimonials, the footer) and sits directly on the footer,
+   square-cornered, so the two dark blocks read as one close. Its copy sits in
+   the standard container, on the same left edge as the page above it. The
+   band has no padding of its own: the space above it is the last section's
+   bottom padding, and a band before it butts against it (tracker K11). */
+section.book-section {
   position: relative;
-  width: auto; max-width: none; margin: 0 10px; padding: 0;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  overflow: hidden;
   isolation: isolate;
+  overflow: hidden;
+  padding-block: 0;
   min-height: 540px;
 }
 .book-bg { position: absolute; inset: 0; }
@@ -62,28 +63,33 @@ const short = (t: string) => t.replace(/:00/g, '');
   position: absolute; inset: 0;
   background: linear-gradient(115deg, rgba(14,19,17,0.92) 0%, rgba(14,19,17,0.7) 50%, rgba(14,19,17,0.4) 100%);
 }
+/* A stack of margins, not a flex gap: label -> title 16 (global.css), title ->
+   text 20, text -> buttons 32, buttons -> rule 32, rule -> details 32. */
 .book-text {
   position: relative; z-index: 2;
-  padding: clamp(40px, 5vw, 72px);
-  display: flex; flex-direction: column; gap: 18px;
+  padding-block: var(--space-block);
+  display: flex; flex-direction: column; gap: 0;
   color: #fff;
   max-width: 800px;
 }
 .book-text .eyebrow { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); }
 .book-text p { color: rgba(255,255,255,0.85); font-size: 18px; max-width: 56ch; margin: 0; }
-.book-actions { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 12px; }
+.book-text .h1 + p { margin-top: var(--space-5); }
+.book-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-7); }
 .book-meta {
-  margin-top: 28px;
-  padding-top: 28px;
+  margin-top: var(--space-7);
+  padding-top: var(--space-7);
   border-top: 1px solid rgba(255,255,255,0.16);
   display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: var(--space-4) var(--space-6);
 }
-.book-meta > div { display: flex; gap: 12px; color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.45; }
+.book-meta > div { display: flex; gap: var(--space-3); color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.45; }
 .book-meta svg { color: var(--grn); flex-shrink: 0; margin-top: 2px; }
 .book-hours { list-style: none; margin: 0; padding: 0; max-width: 200px; font-variant-numeric: tabular-nums; }
-.book-hours li { display: flex; justify-content: space-between; gap: 12px; }
+.book-hours li { display: flex; justify-content: space-between; gap: var(--space-3); }
 .book-hours li span:first-child { color: rgba(255,255,255,0.6); }
-.book-note { display: block; margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,0.6); }
+.book-note { display: block; margin-top: var(--space-2); font-size: 12.5px; color: rgba(255,255,255,0.6); }
 @media (max-width: 700px) { .book-meta { grid-template-columns: 1fr; } }
+/* Phones: the two buttons go full width, centred, not 206 and 171px ragged. */
+@media (max-width: 560px) { .book-actions .btn { flex: 1 1 100%; justify-content: center; } }
 </style>

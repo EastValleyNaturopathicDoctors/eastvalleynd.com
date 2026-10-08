@@ -144,9 +144,10 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href) && !isStub(n.hre
       </button>
       {/* "Appointment" is dropped on phones (CSS) so the button still fits beside
           the logo and the hamburger. One text node, so a screen reader reads
-          exactly what is shown. */}
+          exactly what is shown. The label is one span, so the button's flex
+          gap (label -> icon) does not also open up between the two words. */}
       <Button href="/schedule-appointment/" variant="dark" icon="calendar" class="nav-cta"
-        >Schedule<span class="cta-word"> Appointment</span></Button
+        ><span>Schedule<span class="cta-word"> Appointment</span></span></Button
       >
       <button class="hamburger" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
         <Icon name="menu" />
@@ -455,7 +456,7 @@ body.nav-locked { overflow: hidden; }
 .navitem.has-sub.is-open .subtoggle { transform: rotate(180deg); }
 
 .subnav {
-  position: absolute; top: calc(100% + 10px); left: -14px; z-index: 60;
+  position: absolute; top: calc(100% + 10px); left: -7px; z-index: 60;
   min-width: 260px; max-width: 320px; padding: 8px;
   background: var(--bg);
   border: 1px solid var(--line);
@@ -514,7 +515,8 @@ body.nav-locked { overflow: hidden; }
 .navitem.is-mega { position: static; }
 .subnav-mega {
   left: 50%; transform: translate(-50%, -8px) scale(.99);
-  width: min(1120px, calc(100vw - 2 * var(--pad)));
+  /* The content box: the same left and right edges as the page below. */
+  width: min(calc(var(--container) - 2 * var(--pad)), calc(100% - 2 * var(--pad)));
   max-width: none; padding: 20px;
   display: grid; grid-template-columns: 1fr 260px; gap: 20px;
   align-items: start;
@@ -575,7 +577,7 @@ body.nav-locked { overflow: hidden; }
    the screen-reader announcement natively, so there is no ARIA and no script. */
 .mobilenav-top {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 2px; font-size: 17px; font-weight: 600; color: var(--ink);
+  padding: 12px 0; font-size: 17px; font-weight: 600; color: var(--ink);
   cursor: pointer; list-style: none;
 }
 .mobilenav-top::-webkit-details-marker { display: none; }
@@ -605,12 +607,14 @@ a.mobilenav-top { border-bottom: 1px solid var(--line); }
   letter-spacing: .05em; color: var(--ink-3) !important;
 }
 
+/* No rule of its own: the last item's rule above it is the one rule. Every
+   line starts on the panel's left edge. */
 .mobilenav-foot {
-  display: flex; flex-direction: column; gap: 10px;
-  margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: var(--space-3);
+  margin-top: var(--space-4);
 }
 .mobilenav-phone {
-  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  display: inline-flex; align-items: center; justify-content: flex-start; gap: 9px;
   font-family: var(--font-display); font-weight: 600; font-size: 19px;
   color: var(--ink);
 }
@@ -623,7 +627,7 @@ a.mobilenav-top { border-bottom: 1px solid var(--line); }
 /* Secondary mobile action under the CTA — Contact left the main nav when
    Schedule Appointment became the single header CTA, so it needs a home here. */
 .mobilenav-secondary {
-  display: block; text-align: center; margin-top: 10px; padding: 10px 0;
+  display: block; text-align: left; margin-top: 0; padding: var(--space-2) 0;
   font-size: 14.5px; color: var(--ink-3);
 }
 .mobilenav-secondary:hover { color: var(--grn-2); }
@@ -633,7 +637,7 @@ a.mobilenav-top { border-bottom: 1px solid var(--line); }
    "Appointment", rather than letting the row wrap. */
 @media (max-width: 620px) {
   .mainnav-inner { gap: 14px; }
-  .nav-cta { padding: 11px 16px; font-size: 14px; }
+  .nav-cta { height: 44px; padding: 0 16px; font-size: 14px; }
   .nav-cta svg { display: none; }
   .cta-word { display: none; }
 }
