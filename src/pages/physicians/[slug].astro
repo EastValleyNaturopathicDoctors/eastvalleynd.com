@@ -7,11 +7,13 @@ import Button from '../../components/Button.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import BookCTA from '../../components/BookCTA.astro';
 import TeamPhoto from '../../components/TeamPhoto.astro';
-import TestimonialCarousel from '../../components/TestimonialCarousel.astro';
+import ReviewList from '../../components/ReviewList.astro';
 import BodyHtml from '../../components/BodyHtml.astro';
 import { cleanLinks } from '@/lib/links';
 import { stripEncodedShortcodes } from '@/lib/shortcodes';
 import { site } from '../../data/site';
+import { practitionerReviews } from '../../data/practitioner-reviews';
+import { reviewsById } from '@/lib/reviews';
 import '../../styles/pager.css';
 
 export async function getStaticPaths() {
@@ -34,6 +36,13 @@ const d = entry.data;
 // migration left as text (tracker P6).
 const bio = cleanLinks(stripEncodedShortcodes(entry.rendered?.html ?? ''), `/physicians/${d.slug}/`);
 const initials = d.name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
+// Google reviews (src/data/practitioner-reviews.ts): the ones that name them,
+// then, where those are few, reviews of the clinic under their own heading.
+const picked = practitionerReviews[d.slug] ?? { named: [], more: [] };
+const named = reviewsById(picked.named);
+const more = reviewsById(picked.more);
+/** "Dr. Porter", or a first name for the practitioners who aren't doctors. */
+const shortName = d.name.startsWith('Dr.') ? `Dr. ${d.name.split(' ').slice(-1)[0]}` : d.name.split(' ')[0];
 
 const schema = {
   '@context': 'https://schema.org',
@@ -100,13 +109,31 @@ const schema = {
     </div>
   </section>
 
-  {/* Porter and Nevels carry four reviews each, so these render as a carousel:
-      more than three is the house rule, and it lives in the component. */}
-  <TestimonialCarousel
-    items={d.testimonials}
-    eyebrow={`What patients say about ${d.name.replace(/^Dr\.\s*/, 'Dr. ')}`}
-    variant="doc"
-  />
+  {(named.length > 0 || more.length > 0) && (
+    <section class="section is-band doc-reviews" aria-labelledby="doc-reviews-head" data-pagefind-ignore>
+      <div class="container">
+        {named.length > 0 && (
+          <div class="doc-reviews-group">
+            <Eyebrow>From Google</Eyebrow>
+            <h2 class="h2" id="doc-reviews-head">What patients say about {shortName}</h2>
+            <p class="lede">Five-star reviews on Google that mention {shortName}.</p>
+            <ReviewList reviews={named} />
+          </div>
+        )}
+        {more.length > 0 && (
+          <div class="doc-reviews-group">
+            {named.length === 0 && <Eyebrow>From Google</Eyebrow>}
+            <h2 class="h2" id={named.length === 0 ? 'doc-reviews-head' : undefined}>More from our patients</h2>
+            <p class="lede">Five-star reviews of the clinic as a whole, from Google.</p>
+            <ReviewList reviews={more} />
+          </div>
+        )}
+        <p class="doc-reviews-all">
+          <a href="/reviews/">Read all our reviews <Icon name="arrow-right" size={15} /></a>
+        </p>
+      </div>
+    </section>
+  )}
 
   <nav class="pager doc-pager" aria-label="More practitioners">
     <div class="container">
@@ -129,6 +156,13 @@ const schema = {
 </Base>
 
 <style is:global>
+/* Google reviews: one group per heading, the second a block below the first. */
+.doc-reviews { background: var(--bg-soft); }
+.doc-reviews .lede { margin: var(--space-4) 0 var(--space-head); }
+.doc-reviews-group + .doc-reviews-group { margin-top: var(--space-block); }
+.doc-reviews-all { margin: var(--space-6) 0 0; }
+.doc-reviews-all a { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 600; color: var(--grn-2); }
+.doc-reviews-all a:hover { text-decoration: underline; text-underline-offset: 3px; }
 /* Detail hero. Its bottom padding is the page-hero token (global.css). */
 .doc-hero-inner {
   display: grid; grid-template-columns: minmax(200px, 300px) 1fr;

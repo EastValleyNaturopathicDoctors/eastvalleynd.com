@@ -1,0 +1,91 @@
+---
+/**
+ * Google reviews as a list of quote cards: each with the reviewer's first name
+ * and last initial, the month, and a link to the review on Google. No stars —
+ * every review shown is five-star, and the clinic prefers the words alone. A
+ * long review is shortened behind "Read more" once the script runs; without it
+ * every review shows in full.
+ */
+import Icon from './Icon.astro';
+import { monthName, type Review } from '@/lib/reviews';
+
+interface Props {
+  reviews: Review[];
+  /** Extra data-* per card (the reviews page's filter). */
+  tags?: (r: Review) => string;
+}
+const { reviews, tags } = Astro.props;
+const paras = (t: string) => t.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+---
+<div class="review-list">
+  {reviews.map((r) => (
+    <figure class="review-card" data-doctors={tags ? tags(r) : undefined}>
+      <blockquote class="review-text">
+        {paras(r.text).map((p) => <p>{p}</p>)}
+      </blockquote>
+      <figcaption class="review-meta">
+        <span class="review-name">{r.name}</span>
+        <span class="review-date">{monthName(r.date)}</span>
+        <a class="review-link" href={r.link} target="_blank" rel="noopener"
+           aria-label={`Read ${r.name}'s review on Google`}>
+          Read on Google <Icon name="arrow-up-right" size={13} />
+        </a>
+      </figcaption>
+    </figure>
+  ))}
+</div>
+
+<script>
+  // Shorten long reviews behind "Read more"; the full text stays in the page.
+  const LIMIT = 260;
+  for (const text of document.querySelectorAll<HTMLElement>('.review-text')) {
+    if (text.dataset.ready || text.scrollHeight <= LIMIT + 40) continue;
+    text.dataset.ready = '1';
+    text.classList.add('is-clamped');
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'review-more';
+    more.textContent = 'Read more';
+    more.setAttribute('aria-expanded', 'false');
+    more.addEventListener('click', () => {
+      const open = text.classList.toggle('is-clamped') === false;
+      more.textContent = open ? 'Show less' : 'Read more';
+      more.setAttribute('aria-expanded', String(open));
+    });
+    text.after(more);
+  }
+</script>
+
+<style is:global>
+/* --- Reviews ------------------------------------------------------------------
+   Masonry by columns: three on a desktop, two on a tablet, one on a phone. */
+.review-list { columns: 3 320px; column-gap: var(--gap-cards); }
+.review-card {
+  break-inside: avoid; margin: 0 0 var(--gap-cards);
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: var(--bg); padding: var(--pad-card);
+}
+.review-text { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); }
+.review-text p { margin: 0; }
+.review-text p + p { margin-top: var(--space-3); }
+.review-text.is-clamped {
+  max-height: 260px; overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+.review-more {
+  margin-top: var(--space-2); padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--grn-2);
+}
+.review-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+.review-meta {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line);
+}
+.review-name { font-weight: 600; font-size: 14.5px; color: var(--ink); }
+.review-date { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em; color: var(--ink-3); }
+.review-link {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 500; color: var(--grn-2);
+}
+.review-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+</style>

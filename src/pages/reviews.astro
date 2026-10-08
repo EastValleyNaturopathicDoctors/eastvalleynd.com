@@ -1,0 +1,106 @@
+---
+/**
+ * Every five-star Google review with something written in it, newest first
+ * (src/data/google-reviews.json). 24 show at a time; the filter narrows them
+ * to the reviews that name one doctor. Without the script, all of them show.
+ * The rating and count in the lede are the Google listing's own, from the same
+ * Oct 2026 export — update them with the data.
+ */
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import ReviewList from '@/components/ReviewList.astro';
+import BookCTA from '@/components/BookCTA.astro';
+import Icon from '@/components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { reviews, namedIn } from '@/lib/reviews';
+
+const GOOGLE_REVIEWS = 'https://search.google.com/local/reviews?placeid=ChIJYyBQPQivK4cRsVKNpS3Q-n0';
+const doctors = (await getCollection('physicians'))
+  .filter((d) => d.data.name.startsWith('Dr.'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((d) => ({
+    slug: d.data.slug,
+    label: `Dr. ${d.data.name.split(' ').slice(-1)[0]}`,
+    count: reviews.filter((r) => namedIn(r.text).includes(d.data.slug)).length,
+  }));
+const PAGE = 24;
+---
+<Base
+  title="Patient Reviews"
+  description={`Read ${reviews.length} five-star Google reviews from patients of East Valley Naturopathic Doctors in Mesa, AZ.`}>
+  <PageHero
+    eyebrow="Reviews"
+    title="What our patients say."
+    lede={`Rated 4.9 across 432 reviews on Google. Here are all ${reviews.length} five-star reviews with something written in them, newest first.`}
+  />
+  <section class="section reviews-page" data-pagefind-ignore>
+    <div class="container">
+      <div class="reviews-tools">
+        <div class="reviews-filter" role="group" aria-label="Show reviews that mention">
+          <button type="button" class="reviews-chip is-on" data-doctor="" aria-pressed="true">All reviews <span>{reviews.length}</span></button>
+          {doctors.map((d) => (
+            <button type="button" class="reviews-chip" data-doctor={d.slug} aria-pressed="false">{d.label} <span>{d.count}</span></button>
+          ))}
+        </div>
+        <a class="reviews-google" href={GOOGLE_REVIEWS} target="_blank" rel="noopener">
+          See them on Google <Icon name="arrow-up-right" size={14} />
+        </a>
+      </div>
+      <ReviewList reviews={reviews} tags={(r) => namedIn(r.text).join(' ')} />
+      <p class="reviews-more-wrap">
+        <button type="button" class="btn btn-ghost reviews-more" hidden>Show more reviews</button>
+      </p>
+    </div>
+  </section>
+  <BookCTA />
+</Base>
+
+<script define:vars={{ PAGE }}>
+  // Filter by doctor, then show PAGE at a time.
+  const cards = [...document.querySelectorAll('.reviews-page .review-card')];
+  const chips = [...document.querySelectorAll('.reviews-chip')];
+  const more = document.querySelector('.reviews-more');
+  let doctor = '';
+  let shown = PAGE;
+  const render = () => {
+    const match = cards.filter((c) => !doctor || (c.dataset.doctors || '').split(' ').includes(doctor));
+    for (const c of cards) c.hidden = true;
+    match.slice(0, shown).forEach((c) => { c.hidden = false; });
+    more.hidden = match.length <= shown;
+  };
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      doctor = chip.dataset.doctor || '';
+      shown = PAGE;
+      for (const c of chips) {
+        c.classList.toggle('is-on', c === chip);
+        c.setAttribute('aria-pressed', String(c === chip));
+      }
+      render();
+    });
+  }
+  more.addEventListener('click', () => { shown += PAGE; render(); });
+  render();
+</script>
+
+<style is:global>
+.reviews-tools {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: var(--space-4); margin-bottom: var(--space-head);
+}
+.reviews-filter { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.reviews-chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: 9px 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--bg); font: inherit; font-size: 14px; font-weight: 500; color: var(--ink-2); cursor: pointer;
+  transition: border-color .18s, background .18s, color .18s;
+}
+.reviews-chip span { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.reviews-chip:hover { border-color: var(--grn); }
+.reviews-chip.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.reviews-chip.is-on span { color: rgba(255, 255, 255, 0.7); }
+.reviews-google { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14.5px; color: var(--grn-2); }
+.reviews-google:hover { text-decoration: underline; text-underline-offset: 3px; }
+.review-card[hidden] { display: none; }
+.reviews-more-wrap { margin: var(--space-6) 0 0; text-align: center; }
+</style>

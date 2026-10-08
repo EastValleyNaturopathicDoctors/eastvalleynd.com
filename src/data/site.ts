@@ -97,6 +97,7 @@ export const footerCols = [
     { label: 'Our Physicians', href: '/physicians/' },
     { label: 'Our Mission', href: '/about/our-mission/' },
     { label: 'Naturopathic Medicine', href: '/about/naturopathic-medicine/' },
+    { label: 'Reviews', href: '/reviews/' },
     { label: 'Webinars', href: '/webinars/' },
     { label: 'Blog', href: '/blog/' },
   ]},
