@@ -44,7 +44,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 
 <!-- Both variants sit on the same dark band; `doc` only changes the cards. -->
 {items.length > 0 && (
-  <section class="section testi-section" data-pagefind-ignore>
+  <section class="section testi-section is-band" data-pagefind-ignore>
     <div class="container">
       <div class:list={['testi-wrap', carousel && 'testi-carousel']}>
         <div class="testi-head">
@@ -157,7 +157,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 </script>
 
 <style is:global>
-.testi-section { background: var(--ink); color: #fff; padding: clamp(80px, 10vw, 140px) 0; }
+.testi-section { background: var(--ink); color: #fff; }
 .testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
 .testi-wrap { display: flex; flex-direction: column; gap: 48px; }
 .testi-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; }

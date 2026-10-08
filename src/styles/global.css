@@ -32,6 +32,39 @@
   --radius: 14px;
   --radius-lg: 22px;
 
+  /* Spacing. One scale for the whole site (tracker K11): every padding,
+     margin and gap is one of these, or a literal the spacing spec exempts
+     (control internals, hairlines, sticky offsets, prose em margins).
+     Component steps are fixed, 4px based, and the same on phone and desktop. */
+  --space-1: 4px;
+  --space-2: 8px;            /* icon -> text, card title -> body */
+  --space-3: 12px;           /* label -> section heading, between buttons */
+  --space-4: 16px;           /* label -> page title, row padding (y) */
+  --space-5: 20px;           /* heading -> its text, row padding (x) */
+  --space-6: 24px;           /* rule -> content, small heading -> list */
+  --space-7: 32px;           /* text -> button row, embedded blocks in prose */
+  --space-8: 48px;           /* the largest fixed step; anything bigger is fluid */
+
+  /* Section rhythm, fluid (390 -> 1440). One section gap between two blocks
+     on the same ground; the hero's band edge splits one gap in half. */
+  --space-section: clamp(64px, 8vw, 112px);
+  --space-section-tight: calc(var(--space-section) / 2);   /* 32 -> 56 */
+  --space-hero-bottom: var(--space-section-tight);
+  --space-hero-top: clamp(48px, 7vw, 96px);
+  --space-block: clamp(40px, 5vw, 64px);    /* block -> block in one section, booking band, footer top */
+  --space-head: clamp(32px, 4vw, 48px);     /* heading group -> the grid or list it introduces */
+
+  /* Grids, insets and the prose measure. */
+  --gap-cols: clamp(32px, 5vw, 64px);       /* every two-column text/media/aside layout */
+  --gap-cards: clamp(12px, 1.6vw, 20px);    /* sibling cards */
+  --gap-tiles: clamp(8px, 1vw, 12px);       /* tile and link-row lists */
+  --gap-media: clamp(32px, 4vw, 48px) clamp(20px, 2.4vw, 32px);   /* image-over-text grids: row, column */
+  --pad-card: clamp(20px, 2vw, 24px);       /* card and panel padding, all sides */
+  --pad-feature: clamp(24px, 3vw, 32px);    /* feature panels */
+  --pad-row: var(--space-4) var(--space-5); /* one-line link rows */
+  --pad-tile: var(--space-3) var(--space-4);/* icon tiles and dense rows */
+  --measure-prose: 48rem;                   /* every article column */
+
   /* The "… Fallback" faces are Arial with capsize's metric overrides
      (src/styles/font-fallbacks.css), so text laid out before the web font
      arrives occupies the same lines it will after. They must sit directly
@@ -68,11 +101,23 @@ em { font-style: normal; color: var(--grn-2); }
 ::selection { background: var(--grn); color: var(--ink); }
 
 /* layout helpers */
-.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
-.section { padding: clamp(72px, 9vw, 130px) 0; }
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding-inline: var(--pad); }
+/* Sections own their padding; the joins below make every boundary one step.
+   Astro renders a component's <script> where it is declared, so a join that
+   can have one between its two sides lists that form as well. A section that
+   paints its own ground carries .is-band (no styles of its own): bands keep
+   both paddings, because their edge is the divider, and two bands butt. */
+.section { padding-block: var(--space-section); }
+/* 1. Same ground, one gap: a white section under a white section gives up its top. */
+.section:not(.is-band) + .section:not(.is-band),
+.section:not(.is-band) + script + .section:not(.is-band) { padding-top: 0; }
+/* 2. Under a page hero — or the trust strip hung from one (/services/) — content
+   starts half a section below the band; the hero's bottom padding is the other half. */
+.page-hero + .section:not(.is-band),
+.page-hero + .trust + .section:not(.is-band) { padding-top: var(--space-section-tight); }
 .h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(40px, 6vw, 84px); line-height: 1.02; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
 .h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
-.lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+.lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; color: var(--ink-2); max-width: 60ch; margin: 0; }
 .accent-grn { color: var(--grn-2); }
 
 /* Eyebrow */
@@ -89,10 +134,16 @@ em { font-style: normal; color: var(--grn-2); }
   border-radius: 999px;
   background: rgba(255,255,255,0.6);
 }
+/* Label -> heading. Order matters: an h2 styled .h1 ("Ready when you are.")
+   takes the 16 of a page title. */
+.eyebrow + :is(.h2, h2, h3) { margin-top: var(--space-3); }
+.eyebrow + :is(.h1, .hero-title) { margin-top: var(--space-4); }
+/* Title -> lede. The lede has no margins of its own (above). */
+:is(.h1, .h2) + .lede { margin-top: var(--space-5); }
 
 /* Buttons */
 .btn {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: var(--space-2);
   font-weight: 500; font-size: 15px;
   padding: 14px 22px;
   border-radius: 999px;
@@ -112,20 +163,20 @@ em { font-style: normal; color: var(--grn-2); }
 .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
 .btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-.hero-cta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 36px; align-items: center; }
+/* Text -> button row 32, buttons 12 apart. */
+.hero-cta { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-7); align-items: center; }
 
 .section-head {
-  display: grid; grid-template-columns: 1.2fr 1fr;
-  gap: clamp(24px, 4vw, 64px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap-cols);
   align-items: end;
-  margin-bottom: clamp(36px, 5vw, 64px);
+  margin-bottom: var(--space-head);
 }
-.section-head .h2 { margin-top: 12px; }
-.section-head-right { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.section-head-right { display: flex; flex-direction: column; gap: var(--space-5); align-items: flex-start; }
 .section-head-right p { color: var(--ink-2); margin: 0; max-width: 42ch; }
 
 @media (max-width: 800px) {
-  .section-head { grid-template-columns: 1fr; }
+  .section-head { grid-template-columns: 1fr; row-gap: var(--space-5); }
 }
 
 .skip-link {
@@ -141,9 +192,10 @@ em { font-style: normal; color: var(--grn-2); }
 }
 
 /* Interior page header, for pages without the video hero. */
-.page-hero { padding: clamp(48px, 7vw, 96px) 0 clamp(32px, 4vw, 56px); background: var(--bg-softer); border-bottom: 1px solid var(--line); }
+/* Its bottom padding is half a section; the content under the band edge
+   starts the other half below (rule 2 above). */
+.page-hero { padding: var(--space-hero-top) 0 var(--space-hero-bottom); background: var(--bg-softer); border-bottom: 1px solid var(--line); }
 .page-hero .h1 { max-width: 18ch; }
-.page-hero .lede { margin-top: 18px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }

@@ -6,7 +6,7 @@ import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import { optimization } from '../data/content';
 ---
-<section class="section opt-section" id="optimize">
+<section class="section opt-section is-band" id="optimize">
   <div class="container">
     <div class="opt-grid">
       <div class="opt-hero">
@@ -56,7 +56,8 @@ import { optimization } from '../data/content';
 .opt-hero-text {
   position: relative; z-index: 2;
   padding: 36px 34px;
-  display: flex; flex-direction: column; gap: 18px;
+  /* Margins, not a flex gap: label -> h2 12 (global.css), h2 -> text 20, text -> button 32. */
+  display: flex; flex-direction: column; gap: 0;
   height: 100%;
   justify-content: flex-end;
   min-height: 560px;
@@ -68,6 +69,8 @@ import { optimization } from '../data/content';
   background: rgba(255,255,255,0.08);
 }
 .opt-hero-text p { color: rgba(255,255,255,0.85); max-width: 38ch; margin: 0; }
+.opt-hero-text .h2 + p { margin-top: var(--space-5); }
+.opt-hero-text .btn { margin-top: var(--space-7); }
 .opt-list {
   background: #fff;
   border-radius: var(--radius-lg);
