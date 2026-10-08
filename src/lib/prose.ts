@@ -16,6 +16,9 @@
  *     once a page has one, its other short lists of six or more follow, so
  *     two neighbouring lists are not one in columns and one not (K11);
  *   - "Learn more" in a link's words never breaks between the two (K11);
+ *   - an item that holds no words (/conditions/asthma/ ends on "<ul><li>
+ *     </li></ul>") drew a lone bullet; it goes, and so does a list left with
+ *     no items (K11);
  *   - the reference list (lib/longread.ts `repairReferences`).
  *
  * Heading promotion and the other long-read repairs stay with long pages. The
@@ -106,6 +109,13 @@ function shortLists(html: string): string {
     counts[k++] >= least ? `<ul class="${checked ? 'wp-checklist ' : ''}wp-shortlist">` : open);
 }
 
+/** "<li> </li>" → nothing; a list with no items left → nothing. */
+function emptyItems(html: string): string {
+  return html
+    .replace(/<li\b[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/li>\s*/gi, '')
+    .replace(/<(ul|ol)\b[^>]*>\s*<\/\1>\s*/gi, '');
+}
+
 /** "Learn More" in a link's words: the two stay on one line (U+00A0). */
 function keepLearnMore(html: string): string {
   return html.replace(/(<a\b[^>]*>)([\s\S]*?)(<\/a>)/gi, (_, open, words: string, close) =>
@@ -114,5 +124,5 @@ function keepLearnMore(html: string): string {
 }
 
 export function tidyProse(html: string): string {
-  return keepLearnMore(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(html))))));
+  return keepLearnMore(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(emptyItems(html)))))));
 }
