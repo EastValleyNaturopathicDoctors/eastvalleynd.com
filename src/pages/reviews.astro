@@ -2,7 +2,9 @@
 /**
  * Every five-star Google review with something written in it, newest first
  * (src/data/google-reviews.json). 24 show at a time; the filter narrows them
- * to the reviews that name one doctor. Without the script, all of them show.
+ * to the reviews about one service or condition (TOPICS in src/lib/reviews.ts),
+ * never to one doctor, so the page doesn't steer patients toward a
+ * practitioner. Without the script, all of them show.
  * The rating and count in the lede are the Google listing's own, from the same
  * Oct 2026 export — update them with the data.
  */
@@ -11,18 +13,13 @@ import PageHero from '@/components/PageHero.astro';
 import ReviewList from '@/components/ReviewList.astro';
 import BookCTA from '@/components/BookCTA.astro';
 import Icon from '@/components/Icon.astro';
-import { getCollection } from 'astro:content';
-import { reviews, namedIn } from '@/lib/reviews';
+import { reviews, TOPICS, topicsIn } from '@/lib/reviews';
 
 const GOOGLE_REVIEWS = 'https://search.google.com/local/reviews?placeid=ChIJYyBQPQivK4cRsVKNpS3Q-n0';
-const doctors = (await getCollection('physicians'))
-  .filter((d) => d.data.name.startsWith('Dr.'))
-  .sort((a, b) => a.data.order - b.data.order)
-  .map((d) => ({
-    slug: d.data.slug,
-    label: `Dr. ${d.data.name.split(' ').slice(-1)[0]}`,
-    count: reviews.filter((r) => namedIn(r.text).includes(d.data.slug)).length,
-  }));
+// A topic earns a filter at 5 reviews, so no chip opens onto one or two.
+const topics = TOPICS
+  .map((t) => ({ ...t, count: reviews.filter((r) => t.re.test(r.text)).length }))
+  .filter((t) => t.count >= 5);
 const PAGE = 24;
 ---
 <Base
@@ -36,17 +33,17 @@ const PAGE = 24;
   <section class="section reviews-page" data-pagefind-ignore>
     <div class="container">
       <div class="reviews-tools">
-        <div class="reviews-filter" role="group" aria-label="Show reviews that mention">
-          <button type="button" class="reviews-chip is-on" data-doctor="" aria-pressed="true">All reviews <span>{reviews.length}</span></button>
-          {doctors.map((d) => (
-            <button type="button" class="reviews-chip" data-doctor={d.slug} aria-pressed="false">{d.label} <span>{d.count}</span></button>
+        <div class="reviews-filter" role="group" aria-label="Show reviews about">
+          <button type="button" class="reviews-chip is-on" data-topic="" aria-pressed="true">All reviews <span>{reviews.length}</span></button>
+          {topics.map((t) => (
+            <button type="button" class="reviews-chip" data-topic={t.key} aria-pressed="false">{t.label} <span>{t.count}</span></button>
           ))}
         </div>
         <a class="reviews-google" href={GOOGLE_REVIEWS} target="_blank" rel="noopener">
           See them on Google <Icon name="arrow-up-right" size={14} />
         </a>
       </div>
-      <ReviewList reviews={reviews} tags={(r) => namedIn(r.text).join(' ')} />
+      <ReviewList reviews={reviews} tags={(r) => topicsIn(r.text).join(' ')} />
       <p class="reviews-more-wrap">
         <button type="button" class="btn btn-ghost reviews-more" hidden>Show more reviews</button>
       </p>
@@ -56,21 +53,21 @@ const PAGE = 24;
 </Base>
 
 <script define:vars={{ PAGE }}>
-  // Filter by doctor, then show PAGE at a time.
+  // Filter by topic, then show PAGE at a time.
   const cards = [...document.querySelectorAll('.reviews-page .review-card')];
   const chips = [...document.querySelectorAll('.reviews-chip')];
   const more = document.querySelector('.reviews-more');
-  let doctor = '';
+  let topic = '';
   let shown = PAGE;
   const render = () => {
-    const match = cards.filter((c) => !doctor || (c.dataset.doctors || '').split(' ').includes(doctor));
+    const match = cards.filter((c) => !topic || (c.dataset.tags || '').split(' ').includes(topic));
     for (const c of cards) c.hidden = true;
     match.slice(0, shown).forEach((c) => { c.hidden = false; });
     more.hidden = match.length <= shown;
   };
   for (const chip of chips) {
     chip.addEventListener('click', () => {
-      doctor = chip.dataset.doctor || '';
+      topic = chip.dataset.topic || '';
       shown = PAGE;
       for (const c of chips) {
         c.classList.toggle('is-on', c === chip);

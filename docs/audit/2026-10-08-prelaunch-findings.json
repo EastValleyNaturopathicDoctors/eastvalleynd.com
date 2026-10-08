@@ -1,0 +1,562 @@
+[
+ {
+  "area": "astro-deploy",
+  "severity": "high",
+  "title": "Launch checklist: hostname, zone and Workers Builds settings that live outside the repo and must be done by hand",
+  "evidence": "wrangler.jsonc has no routes, custom_domain or workers_dev keys, so the custom domain must be attached in the dashboard. workers_list across all 8 Cloudflare accounts this session can reach (Zac@, Lsm@, AZ Turf, Cuka, Elk Mountain, Landmark, Screenguy, Skagway) finds no Worker named 'eastvalleynd-com'; the only ones are lostsearchmedia-com, stopdigitaldrift-com, fleet-auth-state and fleet-iframe. Cloudflare's docs say Custom Domains need an exact hostname match ('a Worker attached to example.com will not receive requests sent to www.example.com'), and a Custom Domain cannot be created on a hostname that already has a CNAME record. On wrangler dev, /?page_id=2919 (69 hits per the _redirects footer) and /?p=487 serve the homepage with 200, because _redirects cannot match query strings. dist/pagefind/ is produced only by the postbuild script (scripts/search-index.mjs), and npm runs prebuild/postbuild only for `npm run build`.",
+  "impact": "If any of these is missed, eastvalleynd.com (apex) or http:// requests either fail or keep hitting the old WordPress host. Ranking signals then split across hosts, the page_id URL serves a duplicate homepage, and a build command of `astro build` deploys without the search index (search breaks).",
+  "fix": "Cloudflare dashboard, no code. (1) Create or confirm the Worker 'eastvalleynd-com' (Workers Builds needs the name to match wrangler.jsonc). Connect it to main with Build command `npm run build` (not `astro build`) and Deploy command `npx wrangler deploy`. (2) Delete the existing www DNS record that points at WordPress, then add Custom Domain www.eastvalleynd.com to the Worker. (3) For the apex, add a proxied A record @ -> 192.0.2.0 and a Single Redirect rule 'root to www' (301, keep path and query). (4) Turn on SSL/TLS > Edge Certificates > Always Use HTTPS, and HSTS (start with a short max-age). (5) Add the 2 query-string Redirect Rules listed at the end of public/_redirects. (6) If the zone moves to Cloudflare nameservers, copy every existing record first (MX/SPF/DKIM for patientcare@ email, TXT verifications). (7) In Search Console, submit https://www.eastvalleynd.com/sitemap.xml and check how the property is verified: no page carries a google-site-verification meta, so a Yoast meta-tag verification would be lost.",
+  "real": true,
+  "verifyNote": "Checked again and confirmed. wrangler.jsonc has no routes, custom_domain or workers_dev keys. workers_list across all 8 accounts finds no 'eastvalleynd-com' Worker; the only Workers are lostsearchmedia-com, stopdigitaldrift-com, fleet-auth-state and fleet-iframe. The Worker may still live in a client account this token cannot see, since the brief says pushes to main already build, so step (1) should read 'confirm' rather than 'create'. On wrangler dev, /?page_id=2919 and /?p=487 both return 200 with the homepage (187 KB), and _redirects only lists them as comments. package.json 'build' is plain 'astro build', and Pagefind and the stray-copy cleanup run only through npm's postbuild hook, so the build command must be 'npm run build'. CF docs agree that Workers Builds uses the package.json wrangler version, and that `npx wrangler` falls back to latest when none is set. No dist page has google-site-verification or msvalidate. Everything is dashboard work with no code change. High is right, because a missing apex or www hookup is a real launch failure."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "high",
+  "title": "Migration stripped the keyword from many titles and H1s (e.g. HBOT and tDCS child pages are now 'Cancer \u2014 EVND', 'ADHD \u2014 EVND', 'FAQ \u2014 EVND')",
+  "evidence": "Compared title with wpTitle in src/content/pages/*.md: 69 indexable pages lost words. The worst are the 15 therapy child pages, whose <title> and H1 dropped the therapy: /hyperbaric-oxygen-therapy/cancer/ 'Cancer' (WP 'Cancer & Hyperbarics'), /stroke/ 'Stroke', /diabetes/ 'Diabetes', /anti-aging/ 'Anti-Aging', /inflammation/, /stem-cells/, /cerebral-palsy/, /faq/ 'FAQ' (WP 'HBOT FAQ'); /transcranial-direct-current-stimulation/adhd/ 'ADHD' (WP 'tDCS for ADHD'), /anxiety/, /depression/, /dysmenorrhea/, /dementia-and-alzheimers/, /concussion-and-traumatic-brain-injury/. Others: /conditions/osteoporosis/ 'Osteoporosis' (WP 'Osteoporosis Treatment & Prevention in Mesa, AZ'); /conditions/womens-health/ lost 'Naturopathic'; /iv-therapy/high-dose-vitamin-c-iv/ and /iv-therapy/hydrogen-peroxide-iv/ lost 'IV'. This also causes title-level cannibalisation (page bodies are distinct, Jaccard 0.00-0.18): 'Depression \u2014 EVND' (tDCS) vs 'Depression & Anxiety' vs 'Depression and Anxiety Treatment'; 4 concussion/TBI pages, two of them titled 'Concussion & Traumatic Brain Injury' and 'Concussion & Tramautic Brain Injury'; 'Stroke' vs 'Stroke Injury'; 'Diabetes' vs 'Diabetes & Metabolic Issues'; 'Anti-Aging' vs 'Anti-Aging & Brain Regeneration'. 88 indexable titles are under 25 characters.",
+  "impact": "These URLs rank today for queries like 'hyperbaric oxygen therapy for cancer' or 'tDCS for ADHD'. A title and H1 of just 'Cancer' or 'ADHD' takes the matching phrase out of the two strongest on-page signals at launch, which risks ranking drops, and several sibling pages now compete under near-identical titles.",
+  "fix": "Content pipeline: carry the WordPress/Yoast SEO title into the title field (src/content/pages/*.md), or add a separate seoTitle field. Interim hand fix: add a route \u2192 SEO-title map in src/data (e.g. src/data/seo-titles.ts) that ContentPage.astro passes to <Base title>, leaving the visible H1 alone. Pattern: 'Hyperbaric Oxygen Therapy for Cancer in Mesa, AZ', 'tDCS for ADHD'.",
+  "real": true,
+  "verifyNote": "Confirmed: 69 indexable pages have wpTitle words that are missing from title. For example, /hyperbaric-oxygen-therapy/cancer/ renders <title>'Cancer \u2014 EVND' and H1 'Cancer' (wpTitle 'Cancer & Hyperbarics', old URL /cancer-hyperbarics/), and the tDCS children have lost 'tDCS'. The count of 69 is inflated, though: many differences are harmless, such as a fixed typo ('Rejuvination'), a dropped 'Homepage', 'Mens' changed to Men's, or a dropped Yoast brand suffix. The damaging set is about 15 HBOT/tDCS child pages plus a few others (osteoporosis, IBD, mental-health). wpTitle is the WordPress post title. I could not confirm the live Yoast <title> because www.eastvalleynd.com is blocked by the proxy. My count is 89 indexable titles under 25 chars, not 88. Fix side is right: pipeline title, or a hand-kept seo-titles map in src/data passed by ContentPage."
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "high",
+  "title": "Images inside migrated page bodies load immediately (no lazy loading), have no width/height, and are full-size JPEGs: they sink mobile Lighthouse on Chronic Pain and SkinPen",
+  "evidence": "Scan of dist/: 24 <img> from /images/page-inline/ or /images/blog-inline/ have no loading attribute, across 10 pages: skinpen-microneedling (9), conditions/chronic-pain (4), conditions/childhood-behavioral-disorders (3), exomind-tms (2), neurofeedback, what-is-neurofeedback, brain-regeneration-clinic/depression-and-anxiety, conditions/childhood-behavioral-disorders/autism, the dr-jennifer-nevels post, dr-porter-request-appointment-page. 23 inline images have no width/height (8 pages). At 390px on a 3x screen they all download at page load even though they sit 3,565-12,628 px down the page: /skinpen-microneedling/ loads 1,228 KB of images (2024-09-veggies.jpg alone is 299 KB); /conditions/chronic-pain/ loads 883 KB. Lighthouse mobile: chronic-pain perf 78, LCP 5.78s, 'Improve image delivery' 326 KiB (runner JPEG 1237x802 shown at 379x246). Blocking /images/page-inline/* brings LCP down to 3.46s. skinpen: perf 83, LCP 4.8s, 1,492 KiB total, 429 KiB of image savings, unsized-images fails. Also, src/lib/logorow.ts emits logo <img> without width/height (specialty-labs unsized-images fail).",
+  "impact": "Mobile visitors download about 0.4-1.2 MB of images they may never scroll to, competing for bandwidth with the hero image and fonts. PageSpeed Insights mobile shows 78 and 83 on a main conditions hub and a service page. The unsized images can shift layout if a visitor scrolls before they load.",
+  "fix": "Fix this in hand-kept code, not the generated bodies. In src/components/BodyHtml.astro (or a src/lib helper it calls), rewrite every <img> whose src starts with /images/page-inline/ or /images/blog-inline/ to add loading=\"lazy\" decoding=\"async\" plus width/height. Take the dimensions from a manifest that scripts/optimize-inline-images.mjs can write (it already opens every file with sharp). Optionally have that script also write a WebP and a ~720w copy and emit srcset. Add width/height in src/lib/logorow.ts.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "high",
+  "title": "587 of the 646 legacy redirects return 404 when the URL is requested without its trailing slash",
+  "evidence": "Every rule whose source ends in '/' (587 of them) was requested with the slash removed. All 587 returned 404, for example /pans-pandas, /skinpen, /sleep, /long-covid, /speciality_service/ozone-theraphy, /specialties/aesthetics-and-anti-aging and /evnd-treatment-center. The cause is the matcher in node_modules/miniflare/dist/src/workers/assets/assets.worker.js (scratchpad copy of the Cloudflare asset-worker): staticRedirectsMatcher looks up staticRules[pathname] by exact key, with no slash or case folding. Real pages are fine because auto-trailing-slash sends /about to /about/ with a 307. Redirect sources get no such treatment: they match only the exact string, and nothing falls back to them. On WordPress the slash-less form 301'd to the slash form and then redirected, so these inbound links worked before.",
+  "impact": "Any backlink, bookmark, email link or hand-typed URL that left off the trailing slash on a retired URL turns into a 404 at launch. Those links worked on WordPress. The affected rules include the highest-traffic ones in the file, which is ordered by measured hits. Their link equity is lost.",
+  "fix": "Content pipeline (extract/build_redirects.py, which generates public/_redirects and .htaccess): emit a second line for each slash-ending source without the slash, for example '/pans-pandas  /conditions/childhood-behavioral-disorders/pandas/  301'. That makes 1,233 static rules, under the 2,000 limit. Do not use a generic placeholder rule such as '/:slug /:slug/ 301'. Redirects run before assets, so it would also catch /robots.txt and /sitemap.xml.",
+  "real": true,
+  "verifyNote": "Confirmed with every rule. I ran wrangler dev 4.148 against dist/ using the same assets config. All 646 sources return 301 when requested exactly as written. All 587 slash-ending sources return 404 with the slash removed, and no slashless variant exists in the file. Examples: /pans-pandas, /skinpen and /sleep return 404, while /about returns a 307 to /about/. In the asset-worker, staticRedirectsMatcher looks up staticRules[pathname] by exact key, and this is the same workers-shared code that production runs. The file has no dynamic rules and wrangler.jsonc has no Worker script, so nothing else catches these. The 59 non-slash rules (.html, .pdf, index.php) are not affected. No source shadows a real page. Severity is high rather than a blocker: the canonical slash forms that Google has indexed all work, so the losses are slashless backlinks, typed links and printed vanity links (e.g. /skinpen). The fix belongs in the content pipeline (extract/build_redirects.py). 646+587=1,233 static rules, under the 2,000 limit. I could not compare against the live WordPress site because the proxy blocks it."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "high",
+  "title": "20 old URLs redirect to noindex placeholder pages that say \"This page is scaffolded and waiting on content\"",
+  "evidence": "Five stub pages from src/data/stub-routes.json (rendered by src/layouts/Stub.astro, each 'noindex, follow') receive old-URL redirects:\n- /about/naturopathic-medicine/: 13 rules (L67 /foundations-exercise/, L114, L132, L145 /foundations/, L288, L308, L317, L318, L319, L323, L329, L415 /exercise/, L423).\n- /how-to-feel-amazing-in-menopause-part-1/ to part-4/: 4 rules (L204, L214, L207, L177, the audiobook chapter URLs).\n- /conditions/gut-health/: 2 rules (L212 /foundations/gi-health/, L532 /specialties/gi-health/).\n- /specialty-labs/food-sensitivity/: 1 rule (L92 /special_labs/food-additives-igg-and-iga/).\n- /conditions/rheumatoid-arthritis/: 1 rule (L386 /condition/rheumatoid-arthritis/).\nThe visible main text of these pages is about 100 characters: the title, 'This page is scaffolded and waiting on content.', and the internal route printed in <code>. No internal anchor links to them, so redirects are the only way visitors arrive. The hand-kept src/data/stub-fallbacks.ts already maps three of these stubs to finished pages (/conditions/gastrointestinal-disorders/, /conditions/igg-food-intolerance/, /conditions/arthritis/). /conditions/womens-health/menopause/ exists in the sitemap.",
+  "impact": "Visitors who follow an old link or search result reach a developer placeholder. The 301s pass these URLs' accumulated signals into noindex pages, so the signals are dropped rather than consolidated. /foundations/ alone sits at traffic rank 145 of 646.",
+  "fix": "Content pipeline: retarget these rules in extract/build_redirects.py to finished pages, reusing the stub-fallbacks.ts mapping where one exists:\n- gut-health to /conditions/gastrointestinal-disorders/\n- food-sensitivity to /conditions/igg-food-intolerance/\n- rheumatoid-arthritis to /conditions/arthritis/\n- the menopause audiobook URLs to /conditions/womens-health/menopause/ (or the menopause eBook PDF)\n- the /foundations* rules to the closest finished page (for example /about/)\nAlternatively, publish real copy on the stubs before launch. Separately, consider not printing the internal route on Stub.astro (hand-kept).",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "medium",
+  "title": "587 legacy redirects only match with a trailing slash; the slashless form returns 404",
+  "evidence": "scratchpad/audit-build/scripts/redirects.mjs requested every rule against wrangler dev (same asset-worker code as production). All 646 rules work as written, but all 587 slash-terminated sources return 404 when requested without the slash. Examples: /speciality_service/ozone-theraphy (line 1, the top-traffic rule), /physicians/laura-kwiatkowski, /skinpen, /pans-pandas, /long-covid. Cloudflare _redirects matching is exact: the docs' own example `/trailing /trailing/ 301` shows the two forms are different paths. html_handling only adds a slash when a matching asset exists, which an old URL never has. WordPress used to 301 /foo to /foo/ before applying the old redirect.",
+  "impact": "Every backlink, bookmark or typed URL to an old address without the slash, which used to reach the right page, becomes a 404 at launch. Link equity from those links is lost and visitors hit the 404 page.",
+  "fix": "Generated side: extract/build_redirects.py should write a second line without the slash for each slash-terminated source (e.g. `/speciality_service/ozone-theraphy /ozone-therapy/ 301`). That makes 1,233 static rules, under the 2,000 limit. A splat rule cannot do this, because Cloudflare applies redirects before assets ('Redirects are always followed, regardless of whether or not an asset matches'). Optionally also write `/<page> /<page>/ 301` for the 235 live pages, which replaces the 307 described in a separate finding (about 1,470 rules in total).",
+  "real": true,
+  "verifyNote": "Confirmed exhaustively. 646 rules parsed, 587 sources end in '/', and requesting all 587 without the slash on my own wrangler dev gave 587 x 404. The asset-worker code (workers-shared staticRedirectsMatcher) looks up staticRules[pathname] as an exact key, and html_handling only redirects when a real asset exists. I could not verify the claim that the old site matched slashless URLs, because www.eastvalleynd.com is blocked by the egress proxy. WordPress canonical redirects and the Redirection plugin's default 'ignore trailing slash' make it likely. Most backlinks use the slash form that WordPress emitted, so medium is the upper bound. The generated-side fix (duplicate the lines in extract/build_redirects.py, about 1,233 static rules, under the 2,000 limit) is correct."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "medium",
+  "title": "25 legacy redirects land on noindex stub pages or a non-canonical duplicate",
+  "evidence": "Destinations in public/_redirects that are noindex in dist: /long-covid/ (line 90) and /long-covid-syndrome/ (line 456) go to /brain-regeneration-clinic/long-covid-syndrome/, which is noindex and canonical to /conditions/long-covid-syndrome/. /dr-kwiatkowski-request-appointment-page/ (line 39) and /dr-badalamenti-request-appointment-page/ (line 408) go to /dr-schwartz-request-appointment-page/, which is noindex and canonical to /physicians/laura-badalamenti-schwartz/. /foundations/ (line 145), /exercise/ (line 415) and 11 other /foundations*/ URLs go to /about/naturopathic-medicine/, a noindex stub with no copy (src/data/stub-routes.json). Also: /foundations/gi-health/ and /specialties/gi-health/ to the /conditions/gut-health/ stub, /condition/rheumatoid-arthritis/ to a stub, /special_labs/food-additives-igg-and-iga/ to the /specialty-labs/food-sensitivity/ stub, and 4 audiobook URLs to the noindex /how-to-feel-amazing-in-menopause-part-1/ to /part-4/. src/data/duplicate-pages.ts itself says the old addresses should point straight at the kept page.",
+  "impact": "The ranking value these old URLs carry is redirected into pages that ask not to be indexed, or that hop again by canonical. Visitors from those links reach empty stub pages.",
+  "fix": "Generated side: extract/build_redirects.py should resolve each destination to its final indexable canonical. Point /long-covid/ and /long-covid-syndrome/ at /conditions/long-covid-syndrome/, and the two dr-*-request-appointment-page sources at /physicians/laura-badalamenti-schwartz/. It should refuse (or flag) any destination listed in stub-routes.json or marked noindex, until that page has copy.",
+  "real": true,
+  "verifyNote": "Confirmed by a script that checks every destination's robots meta and canonical in dist. Exactly 25 rules point at noindex pages: 2 to /brain-regeneration-clinic/long-covid-syndrome/, 2 to /dr-schwartz-request-appointment-page/, 13 to /about/naturopathic-medicine/, 2 to /conditions/gut-health/, 1 to /conditions/rheumatoid-arthritis/, 1 to /specialty-labs/food-sensitivity/ and 4 to the menopause part-1..4 pages. It is worse for users than stated: /about/naturopathic-medicine/ shows only 'This page is scaffolded and waiting on content.' On the generated side, extract/build_redirects.py can reuse the src/data/stub-fallbacks.ts targets: gut-health -> /conditions/gastrointestinal-disorders/, rheumatoid-arthritis -> /conditions/arthritis/, food-sensitivity -> /conditions/igg-food-intolerance/. /about/naturopathic-medicine/ has no fallback and needs a decision. Separately, the PDF destinations on lines 28 and 100 do exist in dist (13.9 MB)."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "medium",
+  "title": "Favicon is a 750x300 wide logo; no square icon and no /favicon.ico",
+  "evidence": "src/layouts/Base.astro:147 `<link rel=\"icon\" href=\"/assets/evnd-logo.png\" />`. `file` reports public/assets/evnd-logo.png as 750 x 300 PNG. Requesting /favicon.ico on wrangler dev returns 404 (the 74 KB 404 page). The source has no apple-touch-icon and no square icon.",
+  "impact": "Google requires a square (1:1) favicon of at least 8x8 px (more than 48x48 recommended) to show it next to search results. A 2.5:1 logo is likely to be replaced by a generic globe icon, the result looks less trustworthy than the WordPress listing, and browser tabs show a squashed logo. Every browser's automatic /favicon.ico request also downloads the full 404 page.",
+  "fix": "Hand-kept. Add a square icon set (e.g. 48/96/192 px PNG or SVG, a /favicon.ico, and a 180 px apple-touch-icon) under public/ and reference it in src/layouts/Base.astro.",
+  "real": true,
+  "verifyNote": "Confirmed. Base.astro:147 is the only icon link and points to /assets/evnd-logo.png, a 750x300 PNG. There is no apple-touch-icon, manifest or square icon, and /favicon.ico returns 404 (the 74 KB 404 page). Google requires a 1:1 favicon, so the SERP icon will likely fall back to a generic one, which is a visible regression from WordPress. One overstatement: Chrome and Firefox do not request /favicon.ico when a rel=icon link is present, so not 'every browser' downloads the 404. Some clients and crawlers do. Fix in hand-kept files: public/ plus Base.astro."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "medium",
+  "title": "Three pairs of identical pages are both indexable, self-canonical and in sitemap.xml (plus one near-duplicate pair)",
+  "evidence": "Shingle similarity (Jaccard), title, H1 and description all identical in each pair: /allergies/ vs /conditions/allergies/ (J=0.92, 'Allergies \u2014 EVND', same description); /infertility/ vs /conditions/infertility/ (J=0.93, 'Infertility \u2014 EVND'); /suffering-from-childhood-allergies/ vs /conditions/childhood-medical-disorders/childhood-allergies/ (J=0.93, same description). Cause: one WordPress post feeds two collections. src/content/blog/allergies.md and src/content/pages/conditions-allergies.md both have sourceUrl '/allergies/'; the same holds for /infertility/ and /suffering-from-childhood-allergies/. Near-duplicate: /what-causes-vaginal-infections/ vs /conditions/womens-health/vaginal-infections/ (J=0.63; 83% of one is in the other). BlogPost.astro has no canonical or noindex support, so src/data/duplicate-pages.ts cannot reach the blog copies. public/_redirects already sends /rhinitis/ to /allergies/.",
+  "impact": "Google picks one URL of each pair itself, ranking signals split, and duplicate SERP entries are possible for core condition terms (allergies, infertility). Both copies are announced in the sitemap at launch.",
+  "fix": "Permanent fix in the pipeline (extract/build_blog.py, build_sitemap_xml.py): keep the condition page (it is in the nav; /conditions/infertility/ has 251 inbound links); 301 /allergies/, /infertility/ and /suffering-from-childhood-allergies/ to it in public/_redirects; repoint /rhinitis/ straight to the kept page; drop the blog copy from src/content/blog and sitemap.xml. Interim hand fix: make BlogPost.astro read src/data/duplicate-pages.ts and pass canonicalPath + noindex to Base, as ContentPage.astro does, and add the 3 (or 4) blog slugs there.",
+  "real": true,
+  "verifyNote": "Confirmed. Shingle Jaccard is 0.92-0.93 for /allergies/ vs /conditions/allergies/, /infertility/ vs /conditions/infertility/, and /suffering-from-childhood-allergies/ vs the childhood-allergies condition page. In each pair both pages have the same description, no robots meta, a self canonical and a sitemap entry. The blog and pages .md files share the same sourceUrl. BlogPost.astro never reads duplicate-pages.ts (only ContentPage does, via isDuplicate), and _redirects has /rhinitis/ -> /allergies/. The vaginal-infections pair scores J=0.71, but it comes from two separate WordPress pages (/condition/vaginal-infections/ and /what-causes-vaginal-infections/), so it predates the migration. Downgraded to medium: Google folds exact duplicates into one URL, so this splits signals but does not drop pages, and /allergies/ and /infertility/ are the old WordPress URLs and keep their history. The fix (pipeline 301 plus interim noindex/canonical support in BlogPost.astro) is right."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "medium",
+  "title": "Typos in titles, H1s, nav card labels, headings and meta descriptions",
+  "evidence": "'Concussion & Tramautic Brain Injury' is the <title> and H1 of /brain-regeneration-clinic/concussion-and-traumatic-brain-injury/ and a card label on /brain-regeneration-clinic/ and /services/ (src/data/nav.json and the page .md). 'How Neurofeedback Can Help with Traumatic Brain Injures' is the title, H1 and BlogPosting headline of /how-neurofeedback-can-help-with-traumatic-brain-injures/, and its link text on 5 more pages including /blog/. H2s: 'Reduce Tremor Agressivemeses' (/hyperbaric-oxygen-therapy/cancer/), 'Improve Digestivee Function with HBOT' (/hyperbaric-oxygen-therapy/anti-aging/), 'Stimulate Blood Flow & Rreduce Inflammation' (/hyperbaric-oxygen-therapy/diabetes/), 'Petide Therapy' (/conditions/eczema/), 'Garelli Cancer Screening' (/specialty-labs/; the test is Galleri), 'How are cancer signals detected ?' (/specialty-labs/galleri-cancer-screening/). H3 'By Dr. Laura. Badalamenti, ND' on 2 pages. Meta descriptions shown in SERPs: 'how tit can help children' (/conditions/childhood-behavioral-disorders/), 'nuerofeedback' (/how-neurofeedback-can-help-with-anxiety/), 'mens health' (/mens-health/). Title 'Gilbert Naturopathic Doctors\u00a0 \u2014 EVND' has a stray NBSP. Known item confirmed: '.       Plasmalogens' title and '. Plasmalogens' H1 and /specialty-labs/ h3.",
+  "impact": "These typos appear in search snippets and the main headings of a medical practice's site, which hurts trust and click-through. The 'tit' description is the most embarrassing one to have in a SERP.",
+  "fix": "Pipeline: all of these come from generated files (src/content/pages/*.md, src/content/blog/*.md, src/data/nav.json), so correct them in the extract source and regenerate. Keep the /\u2026-injures/ URL as it is and fix only the title text.",
+  "real": true,
+  "verifyNote": "Every listed typo is present in dist. 'Tramautic' is the title and H1 of the concussion page and a card on /brain-regeneration-clinic/ and /services/; it comes from nav.json and the page .md title (wpTitle had no typo, so it is new). 'Injures' appears in the title, H1 and BlogPosting headline, and its link text is on 5 other pages. Also confirmed: the H2 typos, 'Laura. Badalamenti' on 2 pages, the 'how tit can help children', 'nuerofeedback' and 'mens health' descriptions, the NBSP in the Gilbert title, and the '. Plasmalogens' title and H1. Rankings are not affected, but these show in SERPs and are cheap to fix in the pipeline. Keep the URL slug."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "medium",
+  "title": "21 legacy WordPress URLs 301 to noindex stub pages that say 'This page is scaffolded and waiting on content'",
+  "evidence": "public/_redirects (identical to dist/_redirects): 13 rules point at /about/naturopathic-medicine/ (/foundations/, /foundations-diet/, /foundations-exercise/, /foundations/gi\u2026 and others); 4 at /how-to-feel-amazing-in-menopause-part-1..4/ (from the old -audiobook-chapter-* posts); 2 at /conditions/gut-health/ (/foundations/gi-health/, /specialties/gi-health/); 1 at /conditions/rheumatoid-arthritis/; 1 at /specialty-labs/food-sensitivity/. Each target renders only 'Naturopathic Medicine This page is scaffolded and waiting on content. /about/naturopathic-medicine/' with robots 'noindex, follow'. In total 13 such stubs are publicly reachable; no internal link points to any of them.",
+  "impact": "Link equity from the old URLs ends on noindexed pages and is lost, and visitors arriving from old links or bookmarks see a developer placeholder that shows its own path.",
+  "fix": "Pipeline (extract \u2192 public/_redirects): until each stub has copy, point these rules at the nearest live page (e.g. /about/, /conditions/gastrointestinal-disorders/, /conditions/arthritis/, /specialty-labs/, /conditions/womens-health/menopause/). Hand side (src/layouts/Stub.astro): at minimum, replace the developer note with a visitor-facing message and links.",
+  "real": true,
+  "verifyNote": "Confirmed: public/_redirects is identical to dist/_redirects. 21 rules point at 13 stubs: 13 at /about/naturopathic-medicine/, 4 at the menopause part-1..4 stubs, 2 at /conditions/gut-health/, 1 at /conditions/rheumatoid-arthritis/ and 1 at /specialty-labs/food-sensitivity/. Every stub renders 'noindex, follow', shows the developer note with its path in <code>, and has 0 inbound internal links. The hand-kept src/data/stub-fallbacks.ts already maps gut-health -> /conditions/gastrointestinal-disorders/, food-sensitivity -> /conditions/igg-food-intolerance/ and rheumatoid-arthritis -> /conditions/arthritis/, but only for links inside page text, not for _redirects. The pipeline should reuse those targets. The Stub.astro copy change is hand-kept."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "medium",
+  "title": "No square favicon: the icon is the 750x300 wordmark PNG, /favicon.ico is 404, and there is no apple-touch-icon or manifest",
+  "evidence": "Every page has only <link rel=\"icon\" href=\"/assets/evnd-logo.png\"> (Base.astro). The PNG header reads 750x300. curl http://127.0.0.1:4322/favicon.ico returns 404, and /apple-touch-icon.png returns 404. No rel=apple-touch-icon or manifest on any of the 251 pages.",
+  "impact": "Google search requires a square favicon (a multiple of 48px), so SERPs will likely show the generic globe instead of the brand mark. The wordmark squashed to 16px in browser tabs is unreadable, and iOS home-screen bookmarks get a screenshot.",
+  "fix": "Hand-kept: add square icons to public/ (favicon.ico, a 48/96/192 PNG or SVG of the leaf/EVND mark, a 180px apple-touch-icon.png, optionally site.webmanifest) and reference them in src/layouts/Base.astro.",
+  "real": true,
+  "verifyNote": "Confirmed: all 251 pages have only <link rel=icon href=/assets/evnd-logo.png>, and the PNG IHDR reads 750x300. /favicon.ico, /apple-touch-icon.png, /favicon.svg and both manifest names return 404, and public/ has no icons. One correction: Google's current rule is a square (1:1) icon of at least 8x8, with more than 48x48 recommended. 'Multiple of 48px' is older guidance, but the square requirement alone means Google will not use this logo. The fix belongs in Base.astro and public/, both hand-kept."
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Video poster that is the main image (LCP) is lazy-loaded with no fetchpriority on 12 pages",
+  "evidence": "Playwright check of the first viewport on all 251 pages: img.video-poster (in .lr-sec.lr-first > .video-card) has loading=\"lazy\" fetchpriority=\"auto\" while on screen at both 390 and 1440. Pages: /weight-loss/, /conditions/long-covid-syndrome/, /brain-regeneration-clinic/long-covid-syndrome/, /brain-regeneration-clinic/concussion-and-traumatic-brain-injury/, /brain-regeneration-clinic/stroke-injury/, /conditions/womens-health/breast-implant-illness/, /detoxification/mold-detox-program/, /specialty-labs/parasite-testing/, /specialty-labs/trio-smart-breath-test/, /conditions/gastrointestinal-disorders/candida-overgrowth/, /conditions/gastrointestinal-disorders/sibo/, /conditions/heart-care/carotid-ultrasound/, /conditions/igg-food-intolerance/. Lighthouse /weight-loss/ mobile: the LCP element is this poster; lcp-discovery fails 'LCP resources should not use loading=lazy' and 'fetchpriority=high should be applied'; LCP 2.93s. Same result on desktop for long-covid-syndrome. The poster srcset has a single 640w candidate, so it is also stretched up on desktop.",
+  "impact": "The largest element on these pages waits for layout before it starts downloading, and at low priority. That adds LCP time on real phones, and the PageSpeed audit flags it.",
+  "fix": "Hand-kept. Add an eager/priority prop to src/components/VideoFacade.astro (loading=\"eager\" fetchpriority=\"high\"). Have BodyHtml.astro pass it for the first video placeholder when it falls in the page's first section. Add 960/1280w poster widths.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Every page preloads a 131 KB variable font (Bricolage 'standard') that carries a width axis the site never uses",
+  "evidence": "Base.astro imports @fontsource-variable/bricolage-grotesque/standard.css and preloads bricolage-grotesque-latin-standard-normal.woff2 (131,548 B, axes opsz+wght+wdth). No CSS sets font-stretch or wdth. The fontsource opsz.css variant (same family name, wght 200-800 plus opsz) is 76,888 B; pinning wdth=100 with fontTools gives 77.9 KB. Lighthouse mobile LCP is 2.48-2.93s on 10 of the 11 audited pages ('needs improvement' range). Blocking this font on /services/ moved simulated LCP from 2.63s to 1.81s and perf from 96 to 99, so it is the largest single item on the lab LCP path.",
+  "impact": "Lab LCP shows orange in PageSpeed Insights across the site. Real-user LCP is less affected because font-display is swap, but this 131 KB high-priority download competes with the hero image on every first visit.",
+  "fix": "Hand-kept, src/layouts/Base.astro: import '@fontsource-variable/bricolage-grotesque/opsz.css' and preload files/bricolage-grotesque-latin-opsz-normal.woff2 instead of 'standard'. That saves about 54 KB per first view with no visual change. Regenerate font-fallbacks.css if its script keys off the file.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Desktop: the 'On this page' rail folds and unfolds while you scroll, shifting the booking card below it (scroll-time CLS up to 0.115)",
+  "evidence": "All 224 pages that render .lr-toc-rail were scrolled at 1440x900 with a layout-shift observer (maximum session window). 1 page reached 0.1 or more (/conditions/mental-health/depression-anxiety/ 0.110; 0.115 with real mouse-wheel scrolling), 8 reached 0.05 or more (e.g. /conditions/lyme-disease/ 0.092, /mens-health/andropause/ 0.090, /conditions/childhood-behavioral-disorders/autism/ 0.074, /brain-regeneration-clinic/ 0.067), and 18 reached 0.025 or more. The shifts come from .lr-toc-list > li toggling is-open (LongReadToc.astro) and the .aside-card below the rail moving 150-240 px (e.g. 'aside-card y621->471'). Scroll is not user input in the CLS definition, so these count.",
+  "impact": "Adds to field CLS for desktop visitors on the long reads, which are the site's main content pages. One page is already in the 'poor' range when skimmed quickly. The moving booking card is also distracting.",
+  "fix": "Hand-kept, src/components/LongReadToc.astro and the sidebar layout. Give the rail a fixed height with its own scrolling (e.g. height: min(55vh, 520px)) so folding never changes the box. Or move .aside-card above the rail or out of the sticky column. Or stop folding and keep only the aria-current highlight.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Desktop keyboard users must Tab through every menu link (80 Tab presses before page content); the menu's aria-expanded says closed while the panel is open",
+  "evidence": "MainNav.astro opens a panel on '.navitem.has-sub:focus-within .subnav' as well as hover and .is-open. Tabbing at human speed (250 ms) on /conditions/chronic-pain/ at 1440: focus walks About (3 links plus 'All'), Services (21 plus 2 aside links plus 'All'), Conditions (23 plus 2 plus 'All') and Resources (6 plus 'All'). Search is the 78th stop, Schedule Appointment the 79th, main content the 80th; with disclosure-only menus it would be about 20. While focus is on the 'Conditions' link the panel is visible (visibility: visible) but the 'Show Conditions menu' button still reports aria-expanded=\"false\".",
+  "impact": "Keyboard and switch users face a large barrier to reaching Search and Schedule Appointment. Screen readers announce the menu as collapsed while it is open, a WCAG 4.1.2 state mismatch. The skip link only helps reach main content.",
+  "fix": "Hand-kept, src/components/MainNav.astro: remove ':focus-within' from the selector that opens the panel (keep :hover for mouse and .is-open for the toggle button). The existing focusout handler already closes .is-open panels.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Moving content with no way to pause it (WCAG 2.2.2, Level A): the trust-strip marquee and the looping animated logo; both also keep every page repainting at about 60 fps",
+  "evidence": "TrustStrip.astro: '.trust-track { animation: scroll 50s linear infinite }' on /, /services/ and /about/. It has no pause control or hover/focus pause, and the 7 items are duplicated with no aria-hidden on the copy, so screen readers read each twice. /assets/EVND-animated.svg in the sticky header (every page) loops the clinic name on an 11s infinite animation. Both stop only when the visitor has turned on the OS reduced-motion setting, which the page cannot rely on as a pause mechanism. Performance traces on /contact/ and /conditions/chronic-pain/ (390px, scrolled, idle): 533-535 paints per 3s with everything running, about 360 with the logo removed, about 350 with the status-dot box-shadow pulse removed (TopBar.astro:43), and 0 with both removed.",
+  "impact": "A Level A conformance gap, which carries ADA demand-letter risk for a medical practice. The page also never goes idle, which costs CPU and battery on phones.",
+  "fix": "Marquee (hand-kept, TrustStrip.astro): pause on :hover and :focus-within, add a visible pause button, and put aria-hidden=\"true\" on the duplicated half. Logo: play one or two cycles and hold. The SVG is generated by extract/build_logo.py (pipeline side, set a finite iteration count); alternatively, in hand-kept MainNav.astro, swap to the static logo after the first cycle or once the header is .is-scrolled. Status dot (TopBar.astro): animate a pseudo-element's transform/opacity instead of box-shadow, or stop after a few pulses.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Visible link text doesn't match the accessible name (WCAG 2.5.3): 'Read on Google' and 'Book online'",
+  "evidence": "axe on all pages: label-content-name-mismatch (serious) on 34 pages / 112 nodes at 1440, 19 pages / 97 nodes at 390. The same failure shows in Lighthouse on /reviews/ and /physicians/jason-porter/. Static scan: 426 'Read on Google' links on 8 pages, with aria-label=\"Read Amy H.'s review on Google\" (src/components/ReviewList.astro:30). 37 'Book online' buttons with aria-label=\"Book Anxiety online (opens the scheduler)\" (SidebarCTA.astro:48, InlineCTA.astro:30). The visible text is not a contiguous part of either name.",
+  "impact": "Voice-control users who say 'click Read on Google' or 'click Book online' get no match. This is a Level A failure.",
+  "fix": "Hand-kept. Start the name with the visible words: aria-label=\"Read on Google: Amy H.'s review\" and \"Book online: Anxiety (opens the scheduler)\". Or drop aria-label and append <span class=\"sr-only\"> text after the visible label.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "medium",
+  "title": "Focus ring is too low-contrast on dark sections (hero, optimization band, booking band, mobile action bar)",
+  "evidence": "The global ring is ':where(a, button, input, summary):focus-visible { outline: 2px solid var(--grn-2) }' (#367A1B, global.css:223). #367A1B on the hero teal #08495A is 1.87:1. Focus-diff screenshots of every focusable element on /: 10 controls at 1440 and 9 at 390 change by only 1.3-2.9:1 when focused. Examples: hero 'Book a new patient visit' 2.4, 'How we work' 2.2-2.3, dp-card 'For optimizers' 1.31, opt-band 'Book an optimization consult' 2.9, booking band 'Book online' 1.8-2.7 and '(480) 985-0000' 2.1, action bar 'Call' 2.2. The action bar is on every page at phone width.",
+  "impact": "Keyboard users have trouble seeing where focus is on the darkest, most important call-to-action areas. This fails WCAG 1.4.11 (non-text contrast, AA).",
+  "fix": "Hand-kept, src/styles/global.css: use a light ring on dark grounds. For example, set the outline color to #fff or var(--grn) (#6CBE3F, about 4.4:1 on #08495A) under .hero, the dark .is-band sections, .book-section, .opt-section and .actionbar.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "medium",
+  "title": "Three blog posts duplicate condition pages (96-98% the same text); both copies are indexable, self-canonical and in the sitemap",
+  "evidence": "6-word-shingle Jaccard similarity:\n- /infertility/ vs /conditions/infertility/: 0.98\n- /allergies/ vs /conditions/allergies/: 0.98\n- /suffering-from-childhood-allergies/ vs /conditions/childhood-medical-disorders/childhood-allergies/: 0.96\nEach pair comes from the same WordPress sourceUrl: src/content/blog/{allergies,infertility,suffering-from-childhood-allergies}.md and src/content/pages/conditions-{allergies,infertility,childhood-medical-disorders-childhood-allergies}.md. The two allergies pages share the title 'Allergies \u2014 EVND' and the two infertility pages share 'Infertility \u2014 EVND'; all three pairs share meta descriptions. All six URLs are in sitemap.xml with self-canonicals. The long-COVID pair was already handled this way in src/data/duplicate-pages.ts; these three were not. Also, L60 /rhinitis/ redirects to the blog copy /allergies/.",
+  "impact": "Google picks one URL of each pair on its own and splits links and signals between them. The page that ranks may not be the new information architecture page, and Search Console will report 'Duplicate without user-selected canonical'.",
+  "fix": "Interim fix in the hand-kept src/data/duplicate-pages.ts: add '/allergies/': '/conditions/allergies/', '/infertility/': '/conditions/infertility/' and '/suffering-from-childhood-allergies/': '/conditions/childhood-medical-disorders/childhood-allergies/'. That noindexes each duplicate, canonicalises it to the kept page and reroutes links (or keep the blog URLs if the clinic prefers those). Permanent fix in the pipeline: 301 the duplicates, drop them from sitemap.xml and nav.json (nav.json line 1344 links /suffering-from-childhood-allergies/), and point L60 /rhinitis/ straight at the kept page so it does not become a chain.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "No _headers file: hashed /_astro assets are revalidated on every view",
+  "evidence": "dist/_headers does not exist. On wrangler dev every response, including /_astro/*.woff2, *.webp and *.js (content-hashed filenames), gets Cloudflare's default `Cache-Control: public, max-age=0, must-revalidate`. In Playwright, 2 follow-up navigations (/conditions/acne/, then /iv-therapy/ again) made 20 conditional requests that came back 304 for /_astro and /assets files, where an immutable policy would make none. Lighthouse's 'efficient cache policy' audit will flag every one.",
+  "impact": "Repeat visitors pay a round trip for every font and image on every page, including the LCP hero image. That slows repeat-view Core Web Vitals, which count in field data, on a site that is otherwise tuned for LCP.",
+  "fix": "Add a _headers file with `/_astro/*` followed by an indented line `Cache-Control: public, max-age=31536000, immutable` (1 rule of the 100 allowed). src/data/preview.json's comment says the noindex mode writes public/_headers (X-Robots-Tag), so the migration pipeline appears to own that file. Have the generator always write the cache and security rules and add X-Robots-Tag only when noindex is true. Otherwise keep public/_headers hand-kept and make sure the pipeline never deletes it. Leave /pagefind/* and HTML on the default policy.",
+  "real": true,
+  "verifyNote": "Confirmed. Neither dist/_headers nor public/_headers exists, and the woff2 and webp files under /_astro, /about/, robots.txt and sitemap.xml all return 'Cache-Control: public, max-age=0, must-revalidate'. I lowered it to low: repeat visits make one parallel 304 round trip per asset to the CF edge, which does not hurt rankings or the launch. Still worth adding, since one /_astro/* immutable rule fixes it. The caveat about the pipeline is valid: preview.json says the noindex mode writes public/_headers, so make sure extract/ never deletes a hand-kept public/_headers."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "Production workers.dev host will serve a full duplicate of the site",
+  "evidence": "wrangler.jsonc sets neither workers_dev nor routes. Cloudflare's docs say the workers.dev route is then enabled and re-enabled on every `wrangler deploy`. The docs also say X-Robots-Tag: noindex is added automatically only to workers.dev Preview URLs, not to the production eastvalleynd-com.<subdomain>.workers.dev URL.",
+  "impact": "A second public copy of all 251 pages. Canonicals pointing at www limit the SEO damage, but the copy can still be crawled and shared.",
+  "fix": "Hand-kept wrangler.jsonc: once the www Custom Domain is attached, add \"workers_dev\": false (the docs say Preview URLs and version URLs keep working), or add a _headers host rule such as `https://eastvalleynd-com.:sub.workers.dev/*` with `X-Robots-Tag: noindex`.",
+  "real": true,
+  "verifyNote": "Confirmed. wrangler.jsonc has no workers_dev or routes. The CF docs (workers-dev page) say the route is re-enabled on the next wrangler deploy unless workers_dev is false, and that it is inferred false only when routes are set. The docs also say X-Robots-Tag noindex is added automatically only to workers.dev Preview URLs. Canonicals point to www and nothing links to the workers.dev host, so low is right. Add \"workers_dev\": false to the hand-kept wrangler.jsonc after the custom domain is attached."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "No security headers (HSTS, nosniff, Referrer-Policy, Permissions-Policy, frame protection)",
+  "evidence": "The full response headers for /about/ on wrangler dev are only Content-Type, Cache-Control, ETag and CF-Cache-Status. There is no _headers file and no zone configuration in the repo.",
+  "impact": "No SEO effect. For a medical practice the site lacks clickjacking protection on its request forms and booking pages, a MIME-sniffing guard and HSTS; security scanners and some partner reviews will flag this.",
+  "fix": "In the same _headers file: `/*` with `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: SAMEORIGIN` and a Permissions-Policy that turns off camera, microphone and geolocation. Set HSTS at the zone (Edge Certificates) so it also covers the apex. Do not add a CSP at launch unless it is tested against the YouTube, Google Maps, Tally, Acuity and Patient Fusion embeds.",
+  "real": true,
+  "verifyNote": "Confirmed. Responses carry only Content-Type, Cache-Control, ETag and CF-Cache-Status, and there is no _headers file. There is no SEO effect. The forms submit nothing by design, so clickjacking risk is small. Low is right, and the advice not to add a CSP before testing the embeds is sound."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "404 page canonicals to /404/, which redirects to /404, which returns 200 (soft 404)",
+  "evidence": "dist/404.html contains `<link rel=\"canonical\" href=\"https://www.eastvalleynd.com/404/\">` and the matching og:url, with no robots meta (src/pages/404.astro:9 passes searchable={false} but not noindex). On wrangler dev, /404/ and /404.html return 307 to /404, and /404 returns 200 with the 'Page not found' page.",
+  "impact": "Every 404 response advertises a canonical that resolves to a 200 'Page not found' URL, which Search Console may report as a soft 404 or even index.",
+  "fix": "Hand-kept: pass noindex in src/pages/404.astro. Ideally Base.astro should also skip the canonical and og:url tags on the 404 page.",
+  "real": true,
+  "verifyNote": "Confirmed. dist/404.html has canonical and og:url set to https://www.eastvalleynd.com/404/ and no robots meta. /404/ and /404.html return 307 to /404, which returns 200 (74 KB). The impact is overstated: Google ignores the content and canonical of pages served with a 404 status, /404 is not in the sitemap, and no page links to it. This is hygiene only. Fix in hand-kept src/pages/404.astro (noindex) and Base.astro (skip the canonical on the 404 page)."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "Slashless requests to live pages get a 307 (temporary) redirect, not a 301",
+  "evidence": "On wrangler dev, /about, /blog, /about/index.html and /index.html all return 307 to the slash form. The asset worker hard-codes this: miniflare/dist/src/workers/assets/assets.worker.js uses TemporaryRedirectResponse (status 307) for html_handling redirects. WordPress used 301.",
+  "impact": "Small: links on the site all use the slash form and canonicals agree, but external links to slashless URLs now pass through a temporary redirect.",
+  "fix": "Optional, together with the trailing-slash redirect finding: have extract/build_redirects.py write explicit `/<page> /<page>/ 301` rules for the 235 sitemap pages. These win because Cloudflare evaluates redirects first. wrangler.jsonc can stay as it is.",
+  "real": true,
+  "verifyNote": "Confirmed. /about, /blog, /index.html and /about/index.html all return 307 to the slash form. The miniflare assets.worker.js html_handling path returns TemporaryRedirectResponse (status 307), and this is the same workers-shared code that runs in production. Internal links and canonicals use the slash form, so the effect is small. The optional explicit-301 rules are a valid fix, because redirects are evaluated before assets."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "Three near-duplicate page pairs, both self-canonical and both in sitemap.xml",
+  "evidence": "Word-level similarity of the <main> text in dist: /allergies/ vs /conditions/allergies/ 0.97; /infertility/ vs /conditions/infertility/ 0.98; /suffering-from-childhood-allergies/ vs /conditions/childhood-medical-disorders/childhood-allergies/ 0.97. Each pair shares the same title and/or meta description, and none is in src/data/duplicate-pages.ts.",
+  "impact": "The two pages compete for the same queries and split their signals; Google picks one canonical on its own.",
+  "fix": "Hand-kept for now: add the duplicate of each pair to src/data/duplicate-pages.ts (noindex plus links rewritten to the kept page). Generated side, permanently: extract/build_pages.py and build_redirects.py should 301 the duplicate to the kept page and drop it from sitemap.xml.",
+  "real": true,
+  "verifyNote": "Confirmed. Similarity is 0.970, 0.976 and 0.974. Both pages in each pair are self-canonical and in sitemap.xml, the allergies and infertility pairs share their title and description, and the childhood pair shares only the description. A scan of every content file by sourceId finds exactly these 3 pairs plus the long-covid pair already listed in duplicate-pages.ts, so the list is complete. New detail: each pair comes from a single WordPress page (sourceId 6091, 287 and 2605, with sourceUrl equal to the old URL), so the migration created the duplicates and they are not inherited. When choosing which page to keep, note that line 60 of public/_redirects (/rhinitis/) points at /allergies/."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "Dependencies: Astro 5.18.2 is two majors behind; npm audit lists 9 production vulnerabilities, all build-time here",
+  "evidence": "`npm audit --omit=dev` on a copy of the lockfile: 1 critical (astro <7.2.8, 'Remote code execution through AVIF image optimization'), 6 high (astro SSR/XSS advisories, sharp/libvips, devalue, http-cache-semantics, js-yaml, source-map-js, undici), 1 moderate, 1 low. npm view shows 5.18.2 (2026-05-26) is the last 5.x, and latest is 7.3.8. The site builds static output from trusted local images, and the only define:vars use (src/pages/reviews.astro:58) passes the number 24, so none of these can be exploited on the deployed pages. Also: scripts/optimize-inline-images.mjs imports sharp, which is not declared in package.json (it arrives as an optional dependency of astro). wrangler is not pinned, so Workers Builds uses whatever `npx wrangler` resolves to (4.148.0 today).",
+  "impact": "No runtime risk to visitors. The cost is upgrade debt, a red `npm audit` report, and build reproducibility that depends on an undeclared dependency and an unpinned deploy tool.",
+  "fix": "Hand-kept package.json and package-lock.json: run `npm audit fix` (non-breaking, lockfile only, clears 6 transitive advisories); add sharp ^0.34 and wrangler ^4.148 as devDependencies. Plan the Astro 7 upgrade after launch.",
+  "real": true,
+  "verifyNote": "Confirmed. `npm audit --omit=dev` on a copy of the lockfile reports 1 critical, 6 high, 1 moderate and 1 low. The critical one is astro itself ('RCE through AVIF image optimization', <7.2.8). The 6 highs are devalue, http-cache-semantics, js-yaml, sharp, source-map-js and undici; astro is not one of them, so the evidence wording is slightly off. Six advisories have non-major fixes. The lockfile has astro 5.18.2 and the latest is 7.3.8. sharp 0.34.5 appears only as an optional dependency but is imported by scripts/optimize-inline-images.mjs. wrangler is not in package.json. The site is static and PAGE=24 in reviews.astro, so nothing is exploitable at runtime. Low is right."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "Old Yoast sitemap URLs and WordPress feed/archive URLs return 404",
+  "evidence": "On wrangler dev, /sitemap_index.xml, /page-sitemap.xml, /post-sitemap.xml, /feed/, /blog/feed/, /comments/feed/, /category/blog/, /tag/detox/, /author/admin/ and /blog/page/2/ all return 404. Base.astro notes the old site's schema came from Yoast. _redirects covers 29 per-post /feed/ URLs but not these.",
+  "impact": "Search Console will report the old submitted sitemap as failing, and feed readers and crawlers holding old archive URLs get 404s. These are low-value URLs, so rankings are not at risk.",
+  "fix": "Generated side (extract/build_redirects.py): add `/sitemap_index.xml /sitemap.xml 301` (plus the other Yoast sitemap names) and `/feed/ /blog/ 301`. Optionally add a few dynamic rules (100 allowed), e.g. `/category/* /blog/ 301` and `/tag/* /blog/ 301`; none of these prefixes exists in dist. Then resubmit the new sitemap in Search Console.",
+  "real": true,
+  "verifyNote": "Confirmed. All 10 URLs return 404 on wrangler dev. _redirects has no rules for /category/, /tag/, /author/, /feed/ or /comments/ and only 29 per-post /feed/ lines, and none of these prefixes exists in dist, so splat rules would be safe. The URLs are low value. The fix belongs on the generated side in extract/build_redirects.py."
+ },
+ {
+  "area": "astro-deploy",
+  "severity": "low",
+  "title": "82 unreferenced original images (19.2 MiB) ship in dist/_astro",
+  "evidence": "These files are not referenced by any HTML, JS, CSS or JSON in dist. Examples: the-healing-potential-of-stem-cell-therapy.CFP9UMT_.jpg (2.3 MiB), neurofeedback-treatment-for-adhd-an-interview-with-the-parents.D0DOYLFF.jpg (2.2 MiB), neurofeedback-interview-mother-whose-son-adhd.Zj_dfne2.jpg (1.1 MiB). The pages use the WebP variants.",
+  "impact": "Deploy weight only: about 11% of dist's 170 MiB and 82 of its 2,171 files. Visitors never download them, and the total is far inside Workers limits (20,000 files, 25 MiB per file).",
+  "fix": "Hand-kept, optional: find which import (likely an eager import.meta.glob of src/images, or an image import that is never rendered) makes Astro emit the originals, or delete unreferenced _astro originals in a postbuild step.",
+  "real": true,
+  "verifyNote": "Confirmed exactly. 82 of 1,579 _astro files (63 jpg, 19 png, 19.2 MiB) are not referenced by any HTML, JS, CSS, JSON, XML or SVG, including the decompressed Pagefind fragments and meta. dist totals 170.1 MiB in 2,171 files. Visitors never download them, so this is deploy weight only."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Wrong meta descriptions copied from other pages (IBD, Plaquex, Forms & Handouts)",
+  "evidence": "metaDescription in src/content/pages: conditions-gastrointestinal-disorders-inflammatory-bowel-disease.md = 'In the realm of bone health assessment, BoneScore\u00ae emerges as a powerful and innovative tool\u2026'; iv-therapy-plaquex.md = 'Explore the health benefits of our Immune Booster IV therapy\u2026'; forms-and-handouts.md = 'Hyperbaric Oxygen Therapy Consent Form(Child or Adult)' (54 chars). Also 15 descriptions are cut mid-sentence with '\u2026' (e.g. /acupuncture/ '\u2026At\u2026', /conditions/womens-health/uterine-fibroids/ '\u2026At East Valley\u2026', /hormone-therapy/, /conditions/lyme-disease/, /qeeg-brain-mapping/). 60 are over 160 chars. Three duplicate descriptions belong to the duplicate pairs in the first finding.",
+  "impact": "A snippet that talks about bone scans or the wrong IV drip lowers click-through. Google may rewrite it, but the page loses control of its own snippet.",
+  "fix": "Pipeline: fix the metaDescription values in the extract source for the 3 wrong pages; for pages with no Yoast description, end at a sentence boundary instead of cutting with '\u2026'. Hand fallback if needed: a route \u2192 description override map in src/data read by ContentPage.astro.",
+  "real": true,
+  "verifyNote": "Confirmed in the .md frontmatter and dist: the IBD page's description is about BoneScore, Plaquex has the Immune Booster IV text, and forms-and-handouts carries a form name. Truncated descriptions: 15 end with a unicode '\u2026' and 4 more with '...', so 19 in total; 60 are over 160 chars. Three duplicate descriptions belong to the pairs in finding 1. Downgraded to low: Google usually rewrites a description that does not match the page, so the effect is a weaker snippet on 3 pages. The pipeline is the right place to fix it."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Social sharing metadata: one 750x300 logo as og:image on all 251 pages, og:type 'website' on blog posts",
+  "evidence": "og:image is https://www.eastvalleynd.com/assets/evnd-logo.png on all 251 pages, and twitter:card is summary_large_image (needs about 2:1; Facebook uses 1.91:1, so a 2.5:1 logo gets cropped). 20 blog posts have their own featured image (imageFile) and many pages have hero photos, but Base's ogImage prop is never passed. og:type is 'website' on all 43 BlogPosting pages. No og:site_name, og:image:width/height or og:image:alt.",
+  "impact": "Shared links on Facebook, LinkedIn and X show a cropped logo instead of the article or page photo, which lowers click-through from social. This does not affect rankings.",
+  "fix": "Hand-kept: pass ogImage from BlogPost.astro and ContentPage.astro (the hero, featured or stock image at 1200x630), add an ogType prop ('article' for posts) and og:site_name in src/layouts/Base.astro, and make the default fallback a 1200x630 branded image.",
+  "real": true,
+  "verifyNote": "Confirmed: og:image is evnd-logo.png on all 251 pages. No layout passes ogImage (grep finds only the Base default). og:type is 'website' on all 43 BlogPosting pages, there is no og:site_name, and 20 posts have an imageFile. No effect on rankings. Hand-kept fix in Base, BlogPost and ContentPage."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Structured data gaps: MedicalClinic lacks geo, image and sameAs; BlogPosting authors are mistyped and have no image; no BreadcrumbList",
+  "evidence": "The single MedicalClinic block (identical on all 251 pages) has name, url, telephone, address, faxNumber and openingHoursSpecification. These are correct: the 10 spans split around the 12:00-13:00 lunch, and Mon/Wed/Fri 9-17 and Tue/Thu 9-15 match the footer and /contact/. Missing: geo, image or logo, sameAs (the Google Business CID is already in site.ts as googleReviewsUrl) and @id. medicalSpecialty 'Naturopathic' is not a schema.org MedicalSpecialty enumeration value. BlogPosting (43): author is @type Organization even when the name is a person (10 'Dr. Jennifer Nevels', 3 'Dr. Jason Porter'); no image on any post; publisher has no logo. Person (7 practitioner pages): no url or image, and worksFor is a separate nameless-ID MedicalClinic node. BreadcrumbList appears on 0 pages, while 165 pages render a visible nav.crumbs breadcrumb.",
+  "impact": "Weaker local-pack and knowledge-panel signals (geo, sameAs), no breadcrumb trail in SERP URLs, and articles that cannot qualify for image-rich article treatment. Nothing here is invalid enough to cause errors.",
+  "fix": "Hand-kept: src/layouts/Base.astro (add geo lat/long, image/logo, sameAs [googleReviewsUrl], '@id': site + '#clinic'; drop or replace the medicalSpecialty value); src/layouts/BlogPost.astro (author as Person with url to /physicians/<slug>/ for the 2 doctors, image from the featured or stock image, publisher.logo); src/pages/physicians/[slug].astro (url, image, worksFor {'@id': \u2026#clinic}); src/layouts/ContentPage.astro (emit a BreadcrumbList from navTrail(d.route)).",
+  "real": true,
+  "verifyNote": "Confirmed: there is one identical MedicalClinic block on all 251 pages with 10 lunch-split hour spans and no geo, image, sameAs or @id. medicalSpecialty is the string 'Naturopathic'. BlogPosting authors: 30 are Organization EVND, while 10 'Dr. Jennifer Nevels' and 3 'Dr. Jason Porter' are also typed as Organization. No BlogPosting has an image, and publisher has no logo. Person worksFor has a name but no @id (not 'nameless'). BreadcrumbList is on 0 pages; my count of pages showing nav.crumbs is 164, not 165. These are enhancements, not errors."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Some pages contain most of another page's text (cannibalisation by subsumption)",
+  "evidence": "Share of page B's distinctive 6-word shingles that also appear in page A: /conditions/cancer-support/ (21,087 words) contains 98% of /ozone-therapy/, 91% of /high-dose-vitamin-c-kills-cancer/, 85% of /iv-therapy/high-dose-vitamin-c-iv/ and 76% of /iv-therapy/hydrogen-peroxide-iv/. /conditions/childhood-behavioral-disorders/ (14,237 words) contains 92-98% of 5 neurofeedback posts (behavioral-disorders, with-anxiety, reading-and-learning, autism, depression). /hyperbaric-oxygen-therapy/stroke/ contains 79% of /brain-regeneration-clinic/stroke-injury/. /heart-rate-variability-training/ contains 80% of /brain-regeneration-clinic/chronic-stress/. /conditions/asthma/ contains 97% of /conditions/allergies/sublingual-immunotherapy/. /iv-therapy/high-dose-vitamin-c-iv/ vs /high-dose-vitamin-c-kills-cancer/: 85%.",
+  "impact": "Google may rank the giant hub instead of the dedicated service page (e.g. for ozone or vitamin C IV queries), or treat the smaller page as duplicate and drop it from the index.",
+  "fix": "Content pipeline: trim the hub bodies to summaries that link to the dedicated pages instead of repeating them in full. A hand-side canonical is not appropriate, because the pages target different intents.",
+  "real": true,
+  "verifyNote": "Confirmed, and the overlap is higher using .prose text only. /conditions/cancer-support/ (21.7k words) contains 100% of /ozone-therapy/, 95% of /high-dose-vitamin-c-kills-cancer/, 96% of the vitamin C IV page and 87% of the H2O2 IV page. /conditions/childhood-behavioral-disorders/ contains 96-99% of the 5 neurofeedback posts. Stroke 80%, HRV/chronic-stress 81%, asthma/SLIT 98%. This predates the migration: the source wordCount is 20,432 and 13,789, so the WordPress pages were already this large. It is not a launch regression; trimming the hubs is a pipeline/content job."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Thin indexable pages (under 100 words of body copy)",
+  "evidence": "Words inside .prose on indexable pages: /transcranial-direct-current-stimulation/ 39 (hub), /mens-health/ 47 (hub), /insurance-coverage/ 61, /iv-therapy/nad-mitochondrial-iv/ 73, /iv-therapy/hydrogen-peroxide-iv/ 82, /iv-therapy/ 92 (hub), /iv-therapy/myers-cocktail/ 92, /injection-therapy/vitamin-d-shot/ 95, /specialty-labs/nasal-bacteria-culture-marcons-testing/ 96. A further 13 pages have 100-180 words, mostly IV and injection product pages.",
+  "impact": "Service pages this short struggle to rank against competitors, and Insurance Coverage is a common pre-booking query.",
+  "fix": "Content (pipeline or client copy): expand the product and service pages (what it is, who it is for, what to expect, cost or insurance, FAQs). The hubs are acceptable because their child cards carry the content.",
+  "real": true,
+  "verifyNote": "Confirmed exactly: .prose word counts are tDCS 39, mens-health 47, insurance-coverage 61, NAD 73, H2O2 82, iv-therapy 92, myers 92, vitamin-d 95, MARCoNS 96, plus about 13 pages at 100-180 words (mostly IV and injection pages). The copy likely carries over from WordPress, so this is a content task, not a launch risk."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Homepage and hub titles/H1s carry little keyword or location signal; some titles over-long",
+  "evidence": "Homepage <title> is 'East Valley Naturopathic Doctors' (no 'Mesa, AZ' or service term) and its H1 is 'Medicine that listens, treats, and restores.' Hub H1s are slogans: /services/ 'A real in-house clinic, not a referral wall.', /conditions/ 'If conventional medicine has shrugged\u2026', /about/ 'Eighteen years of treating the cause\u2026', /contact/ 'Come see us in Mesa.' '/about/' title repeats the brand: 'About EVND \u2014 EVND'. 16 titles exceed 60 chars, e.g. the 128-char Phoenix Magazine post title and 'Trio Smart- Hydrogen(SIBO), Methane and Hydrogen Sulfide Breath test \u2014 EVND' (75). The brand suffix is the acronym 'EVND' rather than the name.",
+  "impact": "This weakens the homepage for 'naturopathic doctor Mesa AZ' style queries, and Google is likely to rewrite the long and redundant titles.",
+  "fix": "Hand-kept: src/pages/index.astro title, e.g. 'Naturopathic Doctors in Mesa, AZ | East Valley Naturopathic Doctors'; src/pages/about.astro 'About Us'; optionally change the suffix in Base.astro to the full name or a shorter keyworded form. Shorten the long titles in the pipeline title field or the proposed seo-titles map.",
+  "real": true,
+  "verifyNote": "Confirmed: the homepage title is 'East Valley Naturopathic Doctors', and the H1s and 'About EVND \u2014 EVND' are as described. 16 self-canonical indexable titles are over 60 chars (128 at most). The claim is overstated: the brand name already contains 'Naturopathic Doctors' and 'East Valley', so the homepage is not short of keywords. Only 'Mesa, AZ' is missing. This is a hand-kept tweak in index.astro and about.astro."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Same FAQPage markup on three pages",
+  "evidence": "An identical FAQPage block (the same 5 questions: 'Are naturopathic doctors real doctors?', 'Do you accept insurance?', and 3 more) appears on /, /conditions/ and /resources/. All Q&As are visible on each page.",
+  "impact": "Google's FAQ guidelines say to mark up repeated FAQs only once per site. FAQ rich results are now limited to authoritative health and government sites, so the gain is small anyway.",
+  "fix": "Hand-kept: emit the FAQ JSON-LD from FAQ.astro only on one page (e.g. a prop such as schema={false} on / and /conditions/, keeping /resources/ or a dedicated FAQ page).",
+  "real": true,
+  "verifyNote": "Confirmed: the same FAQPage JSON-LD (5 questions) is on /, /conditions/ and /resources/, and the Q&As are visible on all three. Google's guidance is to mark up a repeated FAQ once per site, and FAQ rich results are limited to authoritative health and government sites, so the effect is negligible. Hand-kept FAQ.astro prop."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Hero images of 434-485 KB downloaded on three pages",
+  "evidence": "Playwright at 390px/DPR3 and 1366px/DPR2: /conditions/chronic-pain/ downloads conditions-chronic-pain\u2026_1G9pjd.webp at 485 KB; /conditions/mental-health/stress/ downloads unsplash-rDwIXsgb2LY\u2026_Z2gxNqz.webp at 434 KB; /specialty-labs/mold-and-mycotoxin/ downloads unsplash-IbNuthxvUM8\u2026_1SVXDK.webp at 480 KB. These are the 1280w candidates of fetchpriority=high hero images with sizes '(min-width: 960px) 960px, 100vw'. Measured CLS on these pages is 0.000-0.050.",
+  "impact": "Extra mobile payload above the fold. LCP on these pages measured as text, so the effect on rankings is small.",
+  "fix": "Hand-kept: lower the quality or cap the widths for these source images in PageImage/ContentPage, or recompress the source files in src/images/pages and the stock set.",
+  "real": true,
+  "verifyNote": "Re-measured with Playwright at 390px/DPR3: chronic-pain downloads 485 KiB, stress 434 KiB and mold-and-mycotoxin 480 KiB, all the 1280w candidates. LCP is text on all three (H1, H1, P), so rankings are barely affected; this is payload only."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "404 page is indexable and canonicalises to /404/, which returns 200",
+  "evidence": "dist/404.html has no robots meta and <link rel=canonical href='https://www.eastvalleynd.com/404/'>. On the preview server, /404/ and /404.html return 200 while unknown URLs return 404.",
+  "impact": "A 'Page not found' page could be indexed as a soft 404 if anything links to /404/. The impact is minor.",
+  "fix": "Hand-kept: pass noindex in src/pages/404.astro (Base already supports it); optionally omit the canonical when noindex is set.",
+  "real": true,
+  "verifyNote": "Confirmed: dist/404.html has no robots meta and canonical https://www.eastvalleynd.com/404/. In astro preview, /404/ and /404.html return 200 and unknown URLs return 404. On Cloudflare with auto-trailing-slash, /404/ probably redirects to /404, which serves 200. No page links to /404 or /404/, so the real risk is close to nil. One-line hand-kept fix: noindex in src/pages/404.astro."
+ },
+ {
+  "area": "onpage-schema",
+  "severity": "low",
+  "title": "Heading and markup nits",
+  "evidence": "Empty heading <h4 id=\"section\"><b></b></h4> on /detoxification/mold-detox-program/. /webinars/ jumps from h1 to h3 ('Mold and its Mycotoxins-the Hidden Health Saboteur'). Citation lines marked up as h4 on /how-neurofeedback-can-help-with-anxiety/ (e.g. 'Appl Psychophysiol Biofeedback. 2015\u2026'). /common-causes-and-treatment-of-depression/ is titled 'Depression Part 3: Labs that measure stress response' and no Part 1 or 2 exists. The same practitioner is named three ways: 'Dr. Laura Schwartz' (title, H1, Person), 'Laura Badalamenti' (meta description) and 'Dr. Badalamenti' (dr-schwartz page title). Two image alts are filenames ('ACG Logo.jpeg', 'AJG Logo.png' on /specialty-labs/trio-smart-breath-test/). Option tabs (deliberate) put 262 links (91 unique) in /services/ main and 245 (89 unique) in /conditions/.",
+  "impact": "Small effects on accessibility, outline quality and entity consistency.",
+  "fix": "Pipeline (src/content bodies): remove the empty h4, turn citation h4s into list items, retitle the depression post, and normalise the practitioner's name in descriptions. Hand-kept: /webinars/ heading level in src/pages/webinars.astro.",
+  "real": true,
+  "verifyNote": "All confirmed: the empty <h4 id=\"section\"><b></b></h4> on the mold-detox page; /webinars/ going h1 -> h3; citation h4s on the anxiety post; 'Depression Part 3' with no Part 1 or 2; the Schwartz/Badalamenti name variants; alt texts 'ACG Logo.jpeg' and 'AJG Logo.png'; and links in main of 262/91 unique on /services/ and 245/89 on /conditions/ (the option tabs are deliberate). One correction: the webinars source is src/pages/webinars/index.astro, not src/pages/webinars.astro."
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "low",
+  "title": "Two text contrast failures on the homepage: condition-card tags and 'It's the floor.'",
+  "evidence": "Pixel-sampled contrast (axe could not decide because of gradients and photos). .cond-tag labels (10px at 390 / 12px at 1440, uppercase, rgba(255,255,255,.85) on photo cards) measure 3.69:1 'Hormonal' (Women's Health), 4.2:1 'Environmental' (Mold) and 4.05:1 at 1440, against the 4.5:1 required. '.opt-hero-text .h2 .accent-grn' ('It's the floor.', #367A1B on the dark kettlebell photo) measures 2.83:1 at 390 and 2.94:1 at 1440, against 3:1 for large text.",
+  "impact": "Hard-to-read labels for low-vision visitors; WCAG 1.4.3 (AA) failures on the homepage.",
+  "fix": "Hand-kept. Conditions.astro: make the chip background darker (e.g. rgba(0,0,0,.45)) and the text larger than 10px. Optimization.astro: use var(--grn) #6CBE3F, or white, for the accent on the dark photo.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "low",
+  "title": "Mobile menu: Escape drops focus to the page body, and Tab leaves the open menu for content hidden underneath it",
+  "evidence": "At 390: open the hamburger, Tab to 'About', press Escape: document.activeElement is BODY. With the menu still open, Tab past 'Contact the clinic' goes to 'Conditions We Treat', then 'Back Pain', which elementFromPoint shows is covered by .mobilenav-phone (screenshot mobile-menu-focus.png). Closing on a breakpoint change already works.",
+  "impact": "Keyboard or switch users on phones and tablets lose their place, and focus lands on controls they cannot see (WCAG 2.4.3, 2.4.11).",
+  "fix": "Hand-kept, src/components/MainNav.astro: when closing from Escape, move focus to #navToggle. Either close the panel when focus leaves it (focusout with relatedTarget outside the panel) or keep Tab inside it while it is open.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "low",
+  "title": "Hero images are larger than needed: 'sizes' says 960px for a ~531px slot, a few photos are very heavy, and the homepage team photo downloads on phones where it is hidden",
+  "evidence": "ContentPage.astro hero: sizes=\"(min-width: 960px) 960px, 100vw\". At 1440 the image is shown 531px wide. On a 1x desktop screen chronic-pain downloads the 960w file (280 KB); on a 2x screen the 1280w file (485 KB). Mold-and-mycotoxin: 289 KB at 1x, 480 KB at 2x. Phones at 3x also take the 1280w file (485 KB). 9 of 162 high-priority hero images are over 2 bits/pixel: chronic-pain 3.1, specialty-labs/mold-and-mycotoxin 3.5, conditions/mental-health/stress 3.5, the-environmental-impact-on-fertility 3.3. Lighthouse estimates 121 KiB of savings from compression alone on chronic-pain. Homepage: .hero-photo is display:none at 900px and below (Hero.astro:418), yet the <img> is loading=\"eager\" fetchpriority=\"high\" with sizes 100vw, so phones download it (62 KB 1280w on a 3x screen, 31 KB in Lighthouse) for nothing. Chrome currently ignores these page-hero images as LCP candidates because the page-media entrance starts them at opacity 0, so lab LCP falls back to the H1. They still take bandwidth early.",
+  "impact": "Extra bytes and early bandwidth contention on mobile, including on visual-heavy pages people land on from search.",
+  "fix": "Hand-kept. ContentPage.astro/PageImage.astro: pass an accurate sizes value (e.g. '(min-width: 1100px) 540px, calc(100vw - 32px)') and quality around 60 for photographic heroes. Hero.astro: wrap the team photo in <picture> with <source media=\"(max-width: 900px)\" srcset=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\">, or only render it at 901px and up.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "low",
+  "title": "Homepage scroll-reveal content stays invisible if the observer never fires (e.g. printing or saving to PDF before scrolling)",
+  "evidence": "RevealOnScroll.astro gives below-the-fold blocks .rv { opacity: 0 }, removed only when the IntersectionObserver fires. With IntersectionObserver stubbed out, 61 .rv elements remain and 60 text blocks stay at opacity 0 (Foundations cells, 'Conditions we treat', the condition cards, and so on). The same 60 are invisible under print media without scrolling. Checks that passed: with JS off nothing is hidden; under reduced motion no .rv is applied; a full scroll or an End-key jump at 390, 768 and 1440 reveals everything.",
+  "impact": "A printed or PDF homepage comes out with blank sections; this would also apply to any environment where the observer does not fire. Ordinary browsing is fine.",
+  "fix": "Hand-kept, RevealOnScroll.astro: add '@media print { .rv { opacity: 1 !important; transform: none !important; } }', and optionally a fallback that removes .rv after a few seconds if nothing has been observed.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "low",
+  "title": "Search dialog: the input has no focus ring and focused results show only a 1.09:1 background change",
+  "evidence": "SearchDialog.astro: '.search-input { outline: none }', and '.search-results a:focus-visible { background: var(--bg-soft); outline: none }' (#F4F5F2 on #FFFFFF = 1.09:1). Screenshot search-focus.png shows the focused 'Back Pain' result only faintly. Search behaviour itself checked out: '/' and Ctrl/Cmd+K open it, focus moves to the input, the background is blocked, Escape returns focus to the opener, and the result count is announced.",
+  "impact": "Keyboard users can barely tell which search result is selected.",
+  "fix": "Hand-kept, SearchDialog.astro: give results a visible indicator (e.g. outline: 2px solid var(--grn-2) with an offset, or a 3px left border) and give the form a :focus-within ring.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "perf-a11y",
+  "severity": "low",
+  "title": "Minor accessibility items",
+  "evidence": "1) Duplicate id=\"book\" on /physicians/shelly-sandhu/ and /physicians/jean-sutliff-stanley/: physicians/[slug].astro:104 (.doc-booking) and BookCTA.astro:13. 2) Empty heading <h4 id=\"section\"><b></b></h4> on /detoxification/mold-detox-program/ (axe empty-heading). 3) /webinars/ has an h3.video-title right after the h1 (axe heading-order). 4) The .topbar ('Accepting new patients', phone) sits outside any landmark on every page (axe region, best practice). 5) The /services/ and /conditions/ filter shows its 'Nothing here matches' panel without announcing it; the live count is set to \"\". 6) Temporary previews: hero Option 2/3 buttons measure 3.5-3.6:1 (11.5px, needs 4.5:1); Option 3 index cards are <a aria-pressed> (axe aria-allowed-attr: 6 nodes on /services/, 9 on /conditions/). Tabs lack Home/End keys (optional).",
+  "impact": "Small conformance and screen-reader polish items. In the duplicate-id case, a '#book' link scrolls to whichever element comes first.",
+  "fix": "1) Rename one id in [slug].astro or BookCTA.astro (hand-kept). 2) Remove the empty heading in the pipeline (src/content is generated), or drop empty headings in a hand-kept prose transform in src/lib. 3) Change the video titles to h2 in the /webinars/ page (hand-kept). 4) Wrap the topbar in the <header> landmark, or give it role=\"region\" with an aria-label. 5) Put the no-results message in the live region. 6) No change needed while the previews stay; once an option is chosen, delete the unused ones and use <button aria-pressed> or plain links.",
+  "real": true,
+  "verifyNote": "not re-checked"
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Old long-COVID URLs redirect to the noindex duplicate instead of the kept page",
+  "evidence": "L456 /long-covid-syndrome/ (the WordPress URL both long-COVID content files came from) and L90 /long-covid/ both 301 to /brain-regeneration-clinic/long-covid-syndrome/. That page is 'noindex, follow' with its canonical set to https://www.eastvalleynd.com/conditions/long-covid-syndrome/ (src/data/duplicate-pages.ts). Similarly, L39 /dr-kwiatkowski-request-appointment-page/ and L408 /dr-badalamenti-request-appointment-page/ 301 to the retired, noindex /dr-schwartz-request-appointment-page/ (confirms the known item).",
+  "impact": "A 301 to a noindex page that canonicals elsewhere sends mixed signals. The old URL's equity may not reach /conditions/long-covid-syndrome/. Once the duplicate itself becomes a redirect, these rules turn into two-hop chains.",
+  "fix": "Content pipeline: point L90 and L456 directly at /conditions/long-covid-syndrome/. Point L39 and L408 directly at /physicians/laura-badalamenti-schwartz/, as retired-pages.ts already plans.",
+  "real": true,
+  "verifyNote": "Confirmed. L90 /long-covid/ and L456 /long-covid-syndrome/ redirect to /brain-regeneration-clinic/long-covid-syndrome/. That page is 'noindex, follow' with its canonical set to /conditions/long-covid-syndrome/. L39 and L408 redirect to /dr-schwartz-request-appointment-page/, which is noindex and canonical to /physicians/laura-badalamenti-schwartz/ (known item). Downgraded to low: the target is a full-content page, not a stub, so users are fine, and Google normally consolidates a 301 followed by a canonical onto the canonical target. The real risk is a future 2-hop chain once the duplicate is turned into a redirect. Fix: retarget in the pipeline."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Yoast sitemap URLs that Google already knows return 404",
+  "evidence": "The old site used Yoast (src/layouts/Base.astro line 95: 'the old site had this via Yoast'). /sitemap_index.xml, /page-sitemap.xml, /post-sitemap.xml, /category-sitemap.xml and /author-sitemap.xml all return 404. No _redirects rule covers them.",
+  "impact": "Search Console will show the submitted sitemap as failing, and Google loses the old sitemap path it polls for discovery. That slows recrawling of the new URLs and the redirects during the migration window.",
+  "fix": "Content pipeline (_redirects): add '/sitemap_index.xml /sitemap.xml 301' plus the same for page-, post-, category- and author-sitemap.xml. At launch, submit https://www.eastvalleynd.com/sitemap.xml in Search Console and remove sitemap_index.xml.",
+  "real": true,
+  "verifyNote": "Confirmed. /sitemap_index.xml, /page-sitemap.xml, /post-sitemap.xml, /category-sitemap.xml and /author-sitemap.xml (and /wp-sitemap.xml) return 404, and no rule covers them. /sitemap.xml returns 200, and robots.txt advertises it. Downgraded from medium: Google discovers the new sitemap through robots.txt and through resubmission in Search Console. The cost is a Search Console sitemap error plus a small discovery delay, not lost rankings. A redirect from sitemap_index.xml to /sitemap.xml is a cheap tidy-up (pipeline _redirects). Submitting the new sitemap in Search Console at launch matters more."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Query-string redirects are not in place yet (/?page_id=2919, 69 hits)",
+  "evidence": "_redirects lines 653-656 list /?page_id=2919 to /prp-and-prolotherapy/ (69 hits) and /?p=487 to /blog/ only as comments, because Cloudflare _redirects cannot match query strings. Today both return 200 on the homepage. Nothing in the repo creates the Cloudflare Redirect Rules they need. The eastvalleynd-com Worker is not in the Cloudflare accounts visible here, so the zone settings could not be checked.",
+  "impact": "A measured-traffic URL lands on the homepage instead of the PRP page. Its link equity is lost and visitors see the wrong page.",
+  "fix": "Cloudflare zone configuration at launch (outside the repo): add the two Redirect Rules. While you are there, also confirm the apex-to-www and http-to-https 301s.",
+  "real": true,
+  "verifyNote": "Confirmed. _redirects lines 652-656 carry the two rules only as comments, and in emulation /?page_id=2919 and /?p=487 return 200 on the homepage. It is already documented as a manual launch step in the README (Cloudflare Redirect Rules, plus www and https at the host), so it is a launch checklist item rather than a code defect. It affects one URL with measured traffic, and that URL lands on the homepage, not a 404, so I rate it low. The apex-to-www and http-to-https 301s mentioned in the fix matter more: they are not set anywhere in the repo, and the zone could not be checked."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "WordPress feed, archive and pagination URLs return 404",
+  "evidence": "These all return 404:\n- /feed/, /comments/feed/ and /<post>/feed/ (for example /10-tips-for-naturally-reducing-stress/feed/). The redirect file itself carries 29 /treatments_therapies/*/feed/ rules, so feed URLs were receiving hits.\n- /category/<slug>/ for all 13 WordPress categories in the blog front matter (mood-disorders, womens-health, neurofeedback, add-adhd and others).\n- /tag/*, /author/*, /blog/page/2/, /page/2/ and date archives such as /2019/03/.\n- The roots of the old custom post types: /treatments_therapies/ (94 rules beneath it), /condition/ (38), /special_labs/ (37), /speciality_service/ (25), /detoxification-programs/, /speciallabs/, /expert_profile/ and /events/.",
+  "impact": "These are small individually, but they are the URLs crawlers and feed readers already have. They produce a burst of 404s in Search Console after launch and drop whatever links pointed at them.",
+  "fix": "Content pipeline (_redirects; dynamic rules go after the static ones, up to 100 allowed):\n- '/feed/ /blog/ 301', '/comments/feed/ /blog/ 301'\n- '/category/* /blog/ 301', '/tag/* /blog/ 301', '/author/* /physicians/ 301'\n- '/blog/page/* /blog/ 301', '/page/* / 301'\n- '/:slug/feed/ /:slug/ 301'\n- static rules for /treatments_therapies/ and /speciality_service/ to /services/, /condition/ to /conditions/, /special_labs/ and /speciallabs/ to /specialty-labs/",
+  "real": true,
+  "verifyNote": "Confirmed. /feed/, /comments/feed/, /<post>/feed/, /category/*, /tag/*, /author/*, /blog/page/2/, /page/2/ and /2019/03/ all return 404. So do the custom-post-type roots /treatments_therapies/ (94 rules beneath it), /condition/ (38), /special_labs/ (37), /speciality_service/ (25), /detoxification-programs/, /speciallabs/, /expert_profile/ and /events/. There are 29 */feed/ rules. Blog front matter carries about 15 distinct categories. Severity low is fair. The fix syntax suggested (splats and :slug placeholders) is valid for Workers _redirects. Static rules are matched first regardless of their order in the file. Fix: pipeline _redirects."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "3 old URLs redirect away from the page their content migrated to; 226 rules fall back to generic hubs",
+  "evidence": "Rules whose target differs from where the content now lives (from the content front matter):\n- L378 /condition/insomnia-and-sleep-disturbance/ goes to /conditions/, but its content lives at /conditions/insomnia/.\n- L589 and L590 /treatments_therapies/high-dose-vitamin-c-kills-cancer/ (and /feed/) go to /5-steps-to-minimize-cancer-contraction/, but its content lives at /high-dose-vitamin-c-kills-cancer/.\n- L375 /condition/depression-and-anxiety/ goes to /conditions/mental-health/depression-anxiety/, while its content went to /brain-regeneration-clinic/depression-and-anxiety/ (arguable).\nSeparately, 226 of 646 rules (35%) end on a generic hub: /blog/ 89, /forms-and-handouts/ 40, /services/ 32, /specialty-labs/ 28, /about/naturopathic-medicine/ 13, /conditions/ 10, /resources/ 8, /physicians/ 6. Several are in the top 30 by traffic: #6 /hydrogen-peroxide-nebulizer-therapy/ to /blog/, #14 /speciality_service/o-shotm-shot/ to /services/, #18 /expert_profile/cristina/ to /physicians/, and #24 and #27, the laser-vein URLs, to /services/.",
+  "impact": "Google treats a redirect to an unrelated hub as a soft 404 and passes no equity. The insomnia and vitamin-C cases throw away a direct match that exists.",
+  "fix": "Content pipeline: retarget L378 to /conditions/insomnia/ and L589-590 to /high-dose-vitamin-c-kills-cancer/. Then review the top-traffic hub fallbacks in docs/data/redirects-launch.csv (kept outside the repo) for a closer topical match.",
+  "real": true,
+  "verifyNote": "Confirmed. I matched every rule's source against content sourceUrls. The only mismatches are L378 (insomnia goes to /conditions/, but /conditions/insomnia/ exists, is indexable and is in the sitemap), L589-590 (vitamin C goes to /5-steps.../, but /high-dose-vitamin-c-kills-cancer/ exists and is indexable) and L375 (depression, arguable). The hub counts match exactly: 226 (blog 89, forms 40, services 32, specialty-labs 28, naturopathic-medicine 13, conditions 10, resources 8, physicians 6). One closer match exists for the #6 rule: /hydrogen-peroxide-nebulizer-therapy/ could go to /iv-therapy/hydrogen-peroxide-iv/. I found no specific page for the o-shot, laser-vein or cristina rules. Fix: pipeline."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Favicon is a non-square 750x300 logo and /favicon.ico returns 404",
+  "evidence": "Base.astro line 147 declares <link rel=\"icon\" href=\"/assets/evnd-logo.png\">. dist/assets/evnd-logo.png is 750x300. /favicon.ico returns 404.",
+  "impact": "Google Search requires a square favicon (a multiple of 48px). A wide logo is rejected, so results show a generic globe icon instead of the clinic's mark.",
+  "fix": "Hand-kept: add a square icon (for example 48/96/192px PNG plus favicon.ico) to public/ and point the rel=icon in src/layouts/Base.astro at it.",
+  "real": true,
+  "verifyNote": "Confirmed. Base.astro:147 sets rel=icon to /assets/evnd-logo.png, which is 750x300. /favicon.ico and /apple-touch-icon.png return 404, and public/ has no icon file. Small correction: Google's current requirement is a square (1:1) icon with a recommended size above 48x48, not specifically a multiple of 48. A non-square icon is not eligible, so search results would show the default icon. Fix: hand-kept (public/ plus Base.astro)."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "The 404 page also answers 200 at /404, with no noindex and a canonical to /404/",
+  "evidence": "/404 returns 200 text/html. /404.html and /404/ both return 307 to /404. dist/404.html has no robots meta and carries <link rel=\"canonical\" href=\"https://www.eastvalleynd.com/404/\">, which itself 307s to /404. Unknown URLs do correctly get the page with a 404 status.",
+  "impact": "This is an indexable 200 'Page not found' URL whose canonical is a redirect. It is a minor soft-404 and crawl-noise issue.",
+  "fix": "Hand-kept: pass noindex to Base in src/pages/404.astro (Base already supports the prop); optionally omit the canonical when noindex is set.",
+  "real": true,
+  "verifyNote": "Confirmed. /404 returns 200, /404/ and /404.html return 307 to /404, and dist/404.html has no robots meta and a canonical to /404/ (a redirect). Unknown URLs correctly return 404, and nothing links to /404, so the practical impact is near zero. Fix: hand-kept, pass noindex in src/pages/404.astro."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Original WordPress image URLs for re-hosted images return 404",
+  "evidence": "All 42 images copied into public/images/blog-inline and page-inline (named YYYY-MM-file) return 404 at their original /wp-content/uploads/YYYY/MM/file path. Examples: /wp-content/uploads/2023/02/Dr-Nevels.jpg, /wp-content/uploads/2024/09/skinpen.jpg, /wp-content/uploads/2017/03/Stem-Cell-AD.mp4. Every other old upload image is also gone.",
+  "impact": "Image-search rankings and any external hotlinks or embeds to these images break. This affects image-search visibility only.",
+  "fix": "Content pipeline: the filenames encode the old paths, so emit 301s from each /wp-content/uploads/YYYY/MM/file to /images/<dir>/YYYY-MM-file for the 42 known images (a static rule each).",
+  "real": true,
+  "verifyNote": "Confirmed. There are 45 files in public/images/{blog,page}-inline, 42 of them unique (3 names appear in both folders). All 45 return 404 at /wp-content/uploads/YYYY/MM/<file>, and no image or mp4 redirect exists. public/wp-content keeps only 26 PDFs. The impact is limited to image search and hotlinks. Fix: pipeline static rules."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Sitemap has no lastmod on any URL",
+  "evidence": "0 of 236 <url> entries carry <lastmod>, even though the blog front matter has 'updated' dates (for example updated: \"2026-07-16\").",
+  "impact": "Google gets no freshness hint and cannot prioritise recrawling changed pages after the migration. This is minor; Google ignores lastmod unless it is consistently accurate.",
+  "fix": "Content pipeline (extract/build_sitemap_xml.py): emit lastmod from each content file's updated or modified date, and only when it is real.",
+  "real": true,
+  "verifyNote": "Confirmed: 0 lastmod entries across 236 URLs. Blog front matter carries 'updated' dates (43 posts have one). Minor, as stated. Fix: pipeline (extract/build_sitemap_xml.py)."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "WordPress shortlink /blog/?p=217 in post body sends readers to the blog index",
+  "evidence": "dist/pesticide-exposure-linked-to-attention-deficit-and-hyperactivity-disorder/index.html contains: Check out our <a href=\"/blog/?p=217\">blog</a> on healthy eating. The source is src/content/blog/pesticide-exposure-linked-to-attention-deficit-and-hyperactivity-disorder.md line 25. It returns 200 on /blog/, not on a post.",
+  "impact": "One contextual internal link lands on the wrong page. This is the only internal link with a query string.",
+  "fix": "Content pipeline: resolve post 217 to its slug in the generated body, or have the hand-kept src/lib/links.ts drop the link.",
+  "real": true,
+  "verifyNote": "Confirmed. It is the only internal href with a query string, at src/content/blog/pesticide-exposure-...md:25. Correction to the fix: no migrated content has sourceId 217, so the pipeline cannot resolve the link to a post. Drop the link or point it at another page, either in links.ts (hand-kept) or in the pipeline. Trivial impact."
+ },
+ {
+  "area": "urls-redirects",
+  "severity": "low",
+  "title": "Option 1/2/3 preview tabs roughly triple the links on /services/ and /conditions/",
+  "evidence": "/services/ has 410 anchors (126 distinct) and /conditions/ has 389 (119 distinct). The site median is 164 per page; / has 202. The temporary tab variants repeat the same card links.",
+  "impact": "This is a minor dilution of internal-link signals and adds crawl noise. It is harmless once one option is chosen.",
+  "fix": "Hand-kept: remove the unused options when the preview ends (already planned).",
+  "real": true,
+  "verifyNote": "The counts reproduce roughly. My regex found 426 anchors (135 distinct) on /services/ and 409 (131 distinct) on /conditions/, against a site median of 177. This is the side effect of the deliberate temporary preview, which the brief allows as a low note. The harm is negligible: Google has no practical link cap at this size, and repeated links to the same URL simply consolidate. No action is needed beyond the planned cleanup (hand-kept)."
+ }
+]

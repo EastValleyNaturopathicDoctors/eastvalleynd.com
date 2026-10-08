@@ -19,7 +19,7 @@ const paras = (t: string) => t.split(/\n+/).map((p) => p.trim()).filter(Boolean)
 ---
 <div class="review-list">
   {reviews.map((r) => (
-    <figure class="review-card" data-doctors={tags ? tags(r) : undefined}>
+    <figure class="review-card" data-tags={tags ? tags(r) : undefined}>
       <blockquote class="review-text">
         {paras(r.text).map((p) => <p>{p}</p>)}
       </blockquote>
