@@ -56,7 +56,7 @@ const truncated = !!limit && total > items.length;
 .cond-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: var(--gap-cards);
 }
 .cond-card {
   position: relative;
@@ -78,7 +78,7 @@ const truncated = !!limit && total > items.length;
 }
 .cond-body {
   position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 18px 18px 18px;
+  padding: var(--space-4);
   color: #fff;
   display: flex; flex-direction: column; gap: 8px;
 }
@@ -102,7 +102,7 @@ const truncated = !!limit && total > items.length;
 /* On the photo's top corner, not in the caption block, where it sat on the end
    of the longer labels on a phone's two-up grid (tracker K5). */
 .cond-arrow {
-  position: absolute; top: 14px; right: 14px;
+  position: absolute; top: var(--space-4); right: var(--space-4);
   width: 32px; height: 32px;
   border-radius: 50%;
   background: rgba(255,255,255,0.18);
@@ -119,19 +119,20 @@ const truncated = !!limit && total > items.length;
    card's edge; a tighter label keeps it whole down to a 360px screen, and
    anything narrower breaks it rather than cutting it off (tracker K5). */
 @media (max-width: 700px) {
-  .cond-body { padding: 14px; }
+  .cond-body { padding: var(--space-3); }
+  .cond-arrow { top: var(--space-3); right: var(--space-3); }
   .cond-tag { font-size: 11px; letter-spacing: 0.03em; max-width: 100%; overflow-wrap: anywhere; }
 }
 @media (max-width: 399px) { .cond-tag { font-size: 10px; letter-spacing: 0.02em; padding: 3px 7px; } }
 
 /* The way to the other conditions, after the sample. */
 .cond-more {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap;
-  margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4) var(--space-6); flex-wrap: wrap;
+  margin-top: var(--space-7); padding-top: var(--space-6); border-top: 1px solid var(--line);
 }
 .cond-more p { margin: 0; color: var(--ink-3); font-size: 15px; }
 @media (max-width: 560px) {
-  .cond-more { flex-direction: column; align-items: stretch; text-align: center; margin-top: 20px; }
+  .cond-more { flex-direction: column; align-items: stretch; text-align: center; }
   .cond-more .btn { justify-content: center; }
 }
 </style>

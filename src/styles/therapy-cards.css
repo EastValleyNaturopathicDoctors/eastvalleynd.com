@@ -12,10 +12,10 @@
 .therapy-card {
   position: relative;
   background: #fff;
-  padding: 28px 22px 22px;
+  padding: var(--pad-card);
   min-height: 220px;
   display: flex; flex-direction: column; justify-content: space-between;
-  gap: 14px;
+  gap: var(--space-3);
   transition: background .2s, color .2s;
 }
 .therapy-card:hover { background: var(--ink); color: #fff; }
@@ -42,7 +42,7 @@
   text-wrap: balance;
 }
 .therapy-arrow {
-  position: absolute; top: 22px; right: 22px;
+  position: absolute; top: var(--pad-card); right: var(--pad-card);
   opacity: 0; transform: translate(-4px, 4px);
   transition: opacity .2s, transform .2s;
 }

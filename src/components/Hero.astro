@@ -222,7 +222,9 @@ const practitioners = (await getCollection('physicians')).length;
 }
 .hero-inner {
   position: relative; z-index: 2;
-  padding: clamp(80px, 12vw, 160px) var(--pad) clamp(50px, 6vw, 80px);
+  /* The showcase hero's top inset is its own (spacing spec 1.4); the stat row
+     sits one block above the path cards. */
+  padding: clamp(80px, 12vw, 160px) var(--pad) var(--space-block);
   min-height: 720px;
   display: flex;
   align-items: center;
@@ -240,7 +242,7 @@ const practitioners = (await getCollection('physicians')).length;
   font-size: clamp(44px, 7.2vw, 104px);
   line-height: 0.98;
   letter-spacing: -0.028em;
-  margin: 22px 0 22px;
+  margin: 0;               /* label -> title 16 comes from global.css */
   text-wrap: balance;
 }
 .hero-sub {
@@ -248,7 +250,10 @@ const practitioners = (await getCollection('physicians')).length;
   line-height: 1.45;
   max-width: 60ch;
   color: rgba(255,255,255,0.82);
+  margin: 0;
 }
+/* Title -> text 20, then the button row's 32 (.hero-cta). */
+.hero-title + .hero-sub { margin-top: var(--space-5); }
 
 .play-link {
   display: inline-flex; align-items: center; gap: 12px;
@@ -262,9 +267,9 @@ const practitioners = (await getCollection('physicians')).length;
 }
 .play-link:hover .play-circle { background: rgba(255,255,255,0.16); }
 .hero-meta {
-  display: flex; gap: clamp(24px, 4vw, 56px);
-  margin-top: 56px;
-  padding-top: 28px;
+  display: flex; gap: var(--gap-cols);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
   border-top: 1px solid rgba(255,255,255,0.18);
   max-width: 620px;
 }
@@ -275,17 +280,17 @@ const practitioners = (await getCollection('physicians')).length;
 /* DUAL PATH */
 .hero-paths-wrap {
   position: relative; z-index: 3;
-  padding: 0 0 clamp(48px, 6vw, 80px);
+  padding: 0 0 var(--space-hero-bottom);
 }
 .hero-paths-label {
   display: inline-flex; align-items: center; gap: 8px;
   color: rgba(255,255,255,0.75);
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: var(--space-4);
 }
 .dualpath {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-cards);
 }
 .dp-card {
   position: relative;
@@ -294,8 +299,10 @@ const practitioners = (await getCollection('physicians')).length;
   color: var(--ink);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: var(--radius-lg);
-  padding: 30px 32px 28px;
-  display: flex; flex-direction: column; gap: 14px;
+  padding: var(--pad-feature);
+  /* Margins, not a flex gap: number row -> title 16, title -> text 8, text ->
+     tags 16, and the link pinned to the foot 16 under whatever is tallest. */
+  display: flex; flex-direction: column; gap: 0;
   transition: transform .25s ease, box-shadow .25s ease, background .25s;
   overflow: hidden;
   cursor: pointer;
@@ -321,7 +328,7 @@ const practitioners = (await getCollection('physicians')).length;
 .dp-top { display: flex; align-items: center; justify-content: space-between; }
 .dp-num { font-family: var(--font-mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0.06em; }
 .dp-tag {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: var(--space-1);
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--ink-3);
   padding: 5px 10px; border-radius: 999px;
@@ -333,10 +340,10 @@ const practitioners = (await getCollection('physicians')).length;
   line-height: 1.05;
   letter-spacing: -0.02em;
   font-weight: 600;
-  margin: 0;
+  margin: var(--space-4) 0 0;
 }
-.dp-sub { color: var(--ink-2); margin: 0; font-size: 15.5px; line-height: 1.5; max-width: 46ch; }
-.dp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.dp-sub { color: var(--ink-2); margin: var(--space-2) 0 0; font-size: 15.5px; line-height: 1.5; max-width: 46ch; }
+.dp-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
 .dp-tags span {
   font-size: 12px;
   padding: 4px 10px;
@@ -347,7 +354,7 @@ const practitioners = (await getCollection('physicians')).length;
 .dp-go {
   display: inline-flex; align-items: center; gap: 8px;
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: var(--space-4);
   font-weight: 600;
   color: var(--ink);
 }
@@ -358,7 +365,7 @@ const practitioners = (await getCollection('physicians')).length;
 
 @media (max-width: 800px) {
   .dualpath { grid-template-columns: 1fr; }
-  .hero-meta { gap: 24px; flex-wrap: wrap; }
+  .hero-meta { flex-wrap: wrap; }
 }
 
 </style>
