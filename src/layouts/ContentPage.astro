@@ -28,6 +28,7 @@ import { keptInsets } from '@/data/kept-insets';
 import { retiredPages } from '@/data/retired-pages';
 import { documentPages } from '@/data/document-pages';
 import { heroOverrides } from '@/data/hero-overrides';
+import { heroFit } from '@/data/hero-fit';
 import '../styles/section-cards.css';
 import '../styles/page-figure.css';
 
@@ -128,8 +129,10 @@ const fill = hero === 'none' && !opensWithMedia(html);
 const compact = fill && !landing && compactHeroes.includes(d.route);
 const stock = fill && !compact ? stockFor(d.route) : undefined;
 const placeholder = compact || (fill && !landing && !stock && stockPlaceholders.includes(d.route));
-// The landing hero's picture: the page's own, else its stock photo.
+// The landing hero's picture: the page's own, else its stock photo. It fills
+// the frame unless src/data/hero-fit.ts (or an IV drip graphic) says otherwise.
 const media = landing && (hero === 'wide' || hero === 'contained' || !!stock);
+const fit = stock ? undefined : heroFit[d.route] ?? (isIvGraphic(d.route) ? 'mounted' : undefined);
 // The panel's icon: the page's own, else the nearest section's.
 const segs = d.route.split('/').filter(Boolean);
 const panelIcon = segs.map((_, i) => `/${segs.slice(0, segs.length - i).join('/')}/`)
@@ -169,12 +172,20 @@ const retiredTo = retiredPages[d.route];
         )}
         </div>
         {media && (
-          <div class:list={['cpage-hero-media', stock ? 'is-photo' : 'is-own']} data-pagefind-ignore={stock ? '' : undefined}>
+          <div class:list={['cpage-hero-media', fit && `is-${fit}`]} data-pagefind-ignore={stock ? '' : undefined}>
             {stock
               ? <PageImage set="stock" file={stock.file} alt={stock.alt}
                            width={960} height={720} loading="eager" fetchpriority="high" />
-              : <PageImage file={d.imageFile} alt={d.imageAlt || d.title} natural
-                           width={960} height={0} loading="eager" fetchpriority="high" />}
+              : (
+                <Fragment>
+                  {fit === 'backdrop' && (
+                    <PageImage file={d.imageFile} alt="" natural width={480} height={0}
+                               class="cpage-hero-backdrop" loading="eager" />
+                  )}
+                  <PageImage file={d.imageFile} alt={d.imageAlt || d.title} natural
+                             width={960} height={0} loading="eager" fetchpriority="high" />
+                </Fragment>
+              )}
           </div>
         )}
       </div>
@@ -372,9 +383,11 @@ const retiredTo = retiredPages[d.route];
 /* --- Service and condition pages --------------------------------------------
    The title and the picture share the hero: text on the left, the picture on
    the right in a fixed 4:3 frame, so no photo is ever wider than half the page
-   or taller than 400px. A stock photo fills its frame; the clinic's own image
-   is shown whole on a white mount, so no lettering or equipment is cropped.
-   On a phone the picture follows the title in a short 16:10 frame. */
+   or taller than 400px. Every picture fills its frame, the page's own as well
+   as stock (the clinic's call: no white around a photo), except the few in
+   src/data/hero-fit.ts and the IV drips' circle graphics, shown whole: a
+   cut-out on the white mount it was shot on, lettering over a blurred copy of
+   itself. On a phone the picture follows the title in a short 16:10 frame. */
 .cpage-hero.is-split .h1 { font-size: clamp(32px, 3.6vw, 50px); }
 .cpage-lead { margin-top: var(--space-5); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.6; }
 .cpage-lead a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 3px; }
@@ -385,10 +398,12 @@ const retiredTo = retiredPages[d.route];
 .cpage-hero-media img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
 }
-.cpage-hero-media.is-own img {
+.cpage-hero-media:is(.is-mounted, .is-backdrop) img:not(.cpage-hero-backdrop) {
   inset: var(--space-5); width: calc(100% - 2 * var(--space-5)); height: calc(100% - 2 * var(--space-5));
   object-fit: contain;
 }
+.cpage-hero-media.is-backdrop img:not(.cpage-hero-backdrop) { inset: 0; width: 100%; height: 100%; }
+.cpage-hero-media .cpage-hero-backdrop { filter: blur(28px) saturate(1.1); transform: scale(1.25); }
 @media (min-width: 900px) {
   .cpage-hero-grid {
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -400,8 +415,8 @@ const retiredTo = retiredPages[d.route];
 }
 @media (max-width: 899px) {
   .cpage-hero-media { margin-top: var(--space-7); aspect-ratio: 16 / 10; max-height: 280px; }
-  /* A thinner mount, so the clinic's own picture isn't shrunk to a stamp. */
-  .cpage-hero-media.is-own img {
+  /* A thinner mount, so a graphic isn't shrunk to a stamp. */
+  .cpage-hero-media.is-mounted img {
     inset: var(--space-2); width: calc(100% - 2 * var(--space-2)); height: calc(100% - 2 * var(--space-2));
   }
 }
