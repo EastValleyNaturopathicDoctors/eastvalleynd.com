@@ -1,0 +1,21 @@
+/* --- The page's own smaller image -------------------------------------------
+   Shared by the content pages and the blog posts (ContentPage.astro,
+   BlogPost.astro); each layout keeps only the frame's shape in its own figure.
+   A mid-sized image sits in a softly tinted, rounded frame the shape of a stock
+   photo, so it reads as a print in a mount rather than a cut-out on white
+   (tracker I5). */
+.cpage-frame {
+  display: flex; align-items: center; justify-content: center; width: 100%;
+  padding: var(--pad-feature); background: var(--bg-soft); border-radius: var(--radius-lg);
+}
+/* Inside the frame the print takes the small radius, over the figure's large one. */
+:is(.cpage-figure, .post-figure) .cpage-frame img { border-radius: var(--radius); }
+
+/* A small one beside the opening paragraphs rather than stretched across the
+   page; on a phone it stands alone, centred, at its own width. */
+.cpage-inset { float: right; margin: 0.3em 0 var(--space-4) var(--space-6); max-width: min(42%, 320px); }
+.cpage-inset img { margin: 0; border-radius: var(--radius); width: 100%; height: auto; }
+@media (max-width: 560px) {
+  .cpage-inset { float: none; margin: 0 auto var(--space-6); max-width: 100%; display: flex; justify-content: center; }
+  .cpage-inset img { width: auto; max-width: 100%; }
+}
