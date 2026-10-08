@@ -1,0 +1,412 @@
+---
+/**
+ * A preview for the clinic (Oct 2026): the Services or Conditions index three
+ * ways, behind "Option 1 / 2 / 3" tabs, so it can compare them on the live
+ * page. Option 1 is the current index (SectionIndex.astro); Options 2 and 3
+ * are the groupings in src/data/index-options.ts. One filter box above the
+ * tabs filters all three (src/lib/index-filter.ts). The tab shows in the
+ * address (#option-2), so a link can open one.
+ *
+ * Once the clinic picks one, the page goes back to rendering just that one,
+ * and this component and src/data/index-options.ts go.
+ */
+import Icon from './Icon.astro';
+import PageImage from './PageImage.astro';
+import SectionIndex from './SectionIndex.astro';
+import { find, live, type NavNode } from '@/lib/nav';
+import { site } from '@/data/site';
+import { sectionKeywords } from '@/data/section-keywords';
+import { sectionIcons, sectionIconDefault } from '@/data/section-icons';
+import { indexOptions, type IndexGroup } from '@/data/index-options';
+
+interface Props {
+  root: string;
+  panelsLabel: string;
+  tilesLabel: string;
+  filter: { label: string; placeholder: string };
+}
+const { root, panelsLabel, tilesLabel, filter } = Astro.props;
+const opts = indexOptions[root];
+const items = live(find(root)?.children ?? []);
+const byHref = new Map(items.map((n) => [n.href, n]));
+
+const findText = (n: NavNode) => [n.label, sectionKeywords[n.href]].filter(Boolean).join(' ');
+const iconFor = (n: NavNode) => sectionIcons[n.href] ?? sectionIconDefault[root] ?? 'circle';
+const count = (n: number) => `${n} ${n === 1 ? opts.noun[0] : opts.noun[1]}`;
+const slug = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/** A grouping's groups with their pages, and the pages it leaves out. */
+function resolve(groups: IndexGroup[], which: string) {
+  const out = groups.map((g) => ({
+    g,
+    nodes: g.items.map((h) => {
+      const n = byHref.get(h);
+      if (!n) console.warn(`[index-options] ${root} ${which}: "${h}" isn't in the section's menu`);
+      return n;
+    }).filter((n): n is NavNode => !!n),
+  }));
+  return out;
+}
+/** Any page a grouping leaves out still shows, under "More". */
+function more(groups: IndexGroup[], which: string) {
+  const listed = new Set(groups.flatMap((g) => g.items));
+  const rest = items.filter((n) => !listed.has(n.href));
+  if (!rest.length) return [];
+  console.warn(`[index-options] ${root} ${which}: not grouped yet, shown under "More": ${rest.map((n) => n.href).join(', ')}`);
+  return [{ g: { title: 'More', blurb: '', items: [] } as IndexGroup, nodes: rest }];
+}
+const two = [...resolve(opts.two, 'option 2'), ...more(opts.two, 'option 2')];
+const threeRows = opts.three.rows.map((r) => ({ ...r, groups: resolve(r.groups, 'option 3') }));
+const threeAll = [...threeRows.flatMap((r) => r.groups), ...more(opts.three.rows.flatMap((r) => r.groups), 'option 3')];
+
+const tabs = [
+  { n: 1, name: 'Current' },
+  { n: 2, name: 'By topic' },
+  { n: 3, name: 'Guided' },
+];
+const id = root.replace(/\W/g, '');
+---
+<div class="ixo" data-ixo data-pagefind-ignore>
+  <div class="ixo-bar">
+    <div class="ixo-tabs" role="tablist" aria-label="Layout options">
+      {tabs.map((t) => (
+        <button type="button" role="tab" class="ixo-tab" id={`ixo-${id}-tab-${t.n}`}
+                aria-selected={t.n === 1 ? 'true' : 'false'} aria-controls={`ixo-${id}-${t.n}`}
+                tabindex={t.n === 1 ? 0 : -1} data-n={t.n}>
+          <span class="ixo-tab-n">Option {t.n}</span>
+          <span class="ixo-tab-name">{t.name}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="six-filter" role="search">
+    <label class="six-filter-label" for={`ixo-find-${id}`}>{filter.label}</label>
+    <div class="six-filter-field">
+      <Icon name="search" size={18} />
+      <input id={`ixo-find-${id}`} type="search" autocomplete="off" spellcheck="false" placeholder={filter.placeholder} />
+    </div>
+    <p class="six-filter-count" aria-live="polite"></p>
+    <div class="six-filter-none" hidden>
+      <p>Nothing here matches that yet. Call <a href={site.phoneHref}>{site.phone}</a> and we'll tell you whether we can help.</p>
+      <button type="button" class="six-filter-clear">Clear the filter</button>
+    </div>
+  </div>
+
+  {/* Option 1: the current index. */}
+  <div class="ixo-panel" role="tabpanel" id={`ixo-${id}-1`} aria-labelledby={`ixo-${id}-tab-1`} data-n="1">
+    <SectionIndex root={root} panelsLabel={panelsLabel} tilesLabel={tilesLabel} />
+  </div>
+
+  {/* Option 2: by topic, as a directory. */}
+  <div class="ixo-panel" role="tabpanel" id={`ixo-${id}-2`} aria-labelledby={`ixo-${id}-tab-2`} data-n="2" hidden>
+    {two.map(({ g, nodes }) => (
+      <section class="ix2-group" data-find-group aria-labelledby={`ix2-${id}-${slug(g.title)}`}>
+        <div class="ix2-head">
+          <h2 class="ix2-title" id={`ix2-${id}-${slug(g.title)}`}>{g.title}</h2>
+          {g.blurb && <p class="ix2-blurb">{g.blurb}</p>}
+          <p class="ix2-count">{count(nodes.length)}</p>
+        </div>
+        <ul class="ix2-list">
+          {nodes.map((n) => (
+            <li class="ix2-item" data-find={findText(n)}>
+              <a class="ix2-link" href={n.href}>
+                <span class="six-icon"><Icon name={iconFor(n)} size={22} /></span>
+                <span class="ix2-name">{n.label}</span>
+                <Icon name="arrow-up-right" size={16} class="six-arrow" />
+              </a>
+              {n.children.length > 0 && (
+                <ul class="ix-kids">
+                  {n.children.map((k) => <li data-find={findText(k)}><a href={k.href}>{k.label}</a></li>)}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+
+  {/* Option 3: guided. Picking a card narrows the list below to its group;
+      without JavaScript each card is a link to its group. */}
+  <div class="ixo-panel ix3" role="tabpanel" id={`ixo-${id}-3`} aria-labelledby={`ixo-${id}-tab-3`} data-n="3" hidden>
+    <h2 class="ix3-prompt">{opts.three.prompt}</h2>
+    {threeRows.map((r) => (
+      <div class="ix3-row">
+        {r.label && <p class="ix3-row-label">{r.label}</p>}
+        <div class:list={['ix3-cards', r.groups.length === 3 && 'is-3']}>
+          {r.groups.map(({ g, nodes }) => (
+            <a class="ix3-card" href={`#ix3-${id}-${slug(g.title)}`} data-pick={slug(g.title)} aria-pressed="false">
+              {g.photo
+                ? <PageImage set={g.photo.set} file={g.photo.file} alt="" width={640} height={420} class="ix3-photo" />
+                : <span class="ix3-photo is-blank" />}
+              <span class="ix3-card-text">
+                <span class="ix3-card-title">{g.title}</span>
+                <span class="ix3-card-count">{count(nodes.length)}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="ix3-results" tabindex="-1">
+      <div class="ix3-results-bar">
+        <p class="ix3-showing" aria-live="polite">Showing everything</p>
+        <button type="button" class="ix3-all" hidden>Show everything</button>
+      </div>
+      {threeAll.map(({ g, nodes }) => (
+        <section class="ix3-group" id={`ix3-${id}-${slug(g.title)}`} data-group={slug(g.title)} data-find-group
+                 aria-labelledby={`ix3-${id}-${slug(g.title)}-h`}>
+          <div class="ix3-group-head">
+            <h3 class="ix3-group-title" id={`ix3-${id}-${slug(g.title)}-h`}>{g.title}</h3>
+            {g.blurb && <p class="ix3-group-blurb">{g.blurb}</p>}
+          </div>
+          <ul class="ix3-list">
+            {nodes.map((n) => (
+              <li class="ix3-item" data-find={findText(n)}>
+                <a class="ix3-link" href={n.href}>
+                  <span class="six-icon"><Icon name={iconFor(n)} size={22} /></span>
+                  <span class="ix3-name">{n.label}</span>
+                  <Icon name="arrow-up-right" size={16} class="six-arrow" />
+                </a>
+                {n.children.length > 0 && (
+                  <ul class="ix-kids is-chips">
+                    {n.children.map((k) => <li data-find={findText(k)}><a href={k.href}>{k.label}</a></li>)}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  import { words, applyFilter, countText } from '@/lib/index-filter';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-ixo]')) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.ixo-tab')];
+    const panels = [...root.querySelectorAll<HTMLElement>('.ixo-panel')];
+    const input = root.querySelector<HTMLInputElement>('.six-filter input')!;
+    const count = root.querySelector<HTMLElement>('.six-filter-count')!;
+    const none = root.querySelector<HTMLElement>('.six-filter-none')!;
+    const active = () => panels.find((p) => !p.hidden) ?? panels[0];
+
+    // Option 3's picker.
+    const three = root.querySelector<HTMLElement>('.ix3');
+    const cards = [...(three?.querySelectorAll<HTMLAnchorElement>('.ix3-card') ?? [])];
+    const groups = [...(three?.querySelectorAll<HTMLElement>('.ix3-group') ?? [])];
+    const results = three?.querySelector<HTMLElement>('.ix3-results');
+    const showing = three?.querySelector<HTMLElement>('.ix3-showing');
+    const all = three?.querySelector<HTMLButtonElement>('.ix3-all');
+    const pick = (key: string | null, scroll = false) => {
+      for (const c of cards) c.setAttribute('aria-pressed', String(c.dataset.pick === key));
+      for (const g of groups) g.classList.toggle('is-off', !!key && g.dataset.group !== key);
+      const title = groups.find((g) => g.dataset.group === key)?.querySelector('.ix3-group-title')?.textContent;
+      if (showing) showing.textContent = title ? `Showing: ${title}` : 'Showing everything';
+      if (all) all.hidden = !key;
+      three?.classList.toggle('is-picked', !!key);
+      if (scroll && results) {
+        const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        results.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+        results.focus({ preventScroll: true });
+      }
+    };
+    for (const c of cards) {
+      c.addEventListener('click', (e) => {
+        e.preventDefault();
+        const key = c.dataset.pick ?? null;
+        pick(c.getAttribute('aria-pressed') === 'true' ? null : key, true);
+        if (input.value) { input.value = ''; run(); }
+      });
+    }
+    all?.addEventListener('click', () => pick(null));
+
+    // The filter: all three options at once; the count is the open one's.
+    const run = () => {
+      const q = words(input.value);
+      if (q.length) pick(null);
+      let shown = 0;
+      for (const p of panels) {
+        const n = applyFilter(p, q);
+        if (p === active()) shown = n;
+      }
+      none.hidden = !q.length || shown > 0;
+      count.textContent = countText(q, shown);
+    };
+    input.addEventListener('input', run);
+    root.querySelector('.six-filter-clear')?.addEventListener('click', () => { input.value = ''; run(); input.focus(); });
+
+    // The tabs, kept in the address so a link can open one.
+    const show = (n: number, focus = false) => {
+      tabs.forEach((t) => {
+        const on = Number(t.dataset.n) === n;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && focus) t.focus();
+      });
+      panels.forEach((p) => { p.hidden = Number(p.dataset.n) !== n; });
+      run();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => {
+        const n = Number(t.dataset.n);
+        show(n);
+        history.replaceState(null, '', n === 1 ? location.pathname + location.search : `#option-${n}`);
+      });
+      t.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = tabs[(i + step + tabs.length) % tabs.length];
+        next.click();
+        next.focus();
+      });
+    });
+    const fromHash = () => Number(/^#option-([123])$/.exec(location.hash)?.[1] ?? 0);
+    if (fromHash()) show(fromHash());
+    window.addEventListener('hashchange', () => { if (fromHash()) show(fromHash()); });
+  }
+</script>
+
+<style is:global>
+/* --- Layout options preview ------------------------------------------------ */
+.ixo [hidden], .ixo .is-off { display: none !important; }
+
+.ixo-bar { margin-bottom: var(--space-head); }
+.ixo-tabs {
+  display: inline-flex; flex-wrap: wrap; gap: var(--space-1);
+  padding: var(--space-1); border: 1px solid var(--line); border-radius: 999px; background: var(--bg-soft);
+}
+.ixo-tab {
+  display: inline-flex; align-items: baseline; gap: var(--space-2);
+  padding: 10px 18px; border: 0; border-radius: 999px; background: transparent;
+  font: inherit; color: var(--ink-2); cursor: pointer; transition: background .18s, color .18s, box-shadow .18s;
+}
+.ixo-tab-n { font-weight: 600; font-size: 15px; }
+.ixo-tab-name { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.ixo-tab:hover { color: var(--ink); }
+.ixo-tab[aria-selected="true"] { background: var(--ink); color: #fff; box-shadow: 0 6px 16px -8px rgba(14, 19, 17, 0.5); }
+.ixo-tab[aria-selected="true"] .ixo-tab-name { color: rgba(255, 255, 255, 0.7); }
+.ixo-tab:focus-visible { outline: 3px solid var(--grn); outline-offset: 2px; }
+
+/* Pages under a card: a plain list (Option 2) or small chips (Option 3). */
+.ix-kids { list-style: none; margin: var(--space-2) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.ix-kids a { font-size: 14px; color: var(--ink-2); transition: color .15s; }
+.ix-kids a:hover { color: var(--grn-2); }
+.ix-kids.is-chips { gap: var(--space-2); }
+.ix-kids.is-chips a {
+  display: inline-block; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px;
+  font-size: 13px; background: var(--bg); transition: border-color .15s, color .15s, background .15s;
+}
+.ix-kids.is-chips a:hover { border-color: var(--grn); background: var(--grn-soft); color: var(--ink); }
+
+/* Option 2: a directory. The topic on the left, its pages in two columns. */
+.ix2-group {
+  display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: var(--gap-cols);
+  padding: var(--space-7) 0; border-top: 1px solid var(--line);
+}
+.ix2-group:first-of-type { border-top: 0; padding-top: 0; }
+.ix2-head { align-self: start; position: sticky; top: 110px; }
+.ix2-title {
+  margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em;
+  font-size: clamp(24px, 2.2vw, 30px); line-height: 1.1;
+}
+.ix2-blurb { margin: var(--space-3) 0 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+.ix2-count { margin: var(--space-3) 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.ix2-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5) var(--gap-cards); align-items: start;
+}
+.ix2-link { display: flex; align-items: center; gap: var(--space-3); color: var(--ink); }
+.ix2-name { flex: 1; min-width: 0; font-weight: 600; font-size: 16.5px; line-height: 1.25; }
+.ix2-link:hover .six-icon { background: var(--grn); color: var(--ink); }
+.ix2-link:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
+.ix2-item .ix-kids { margin-left: calc(40px + var(--space-3)); }
+
+/* Option 3: photo cards to choose from, then the list. */
+.ix3-prompt {
+  margin: 0 0 var(--space-5); font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em;
+  font-size: clamp(26px, 2.8vw, 36px); line-height: 1.1;
+}
+.ix3-row + .ix3-row { margin-top: var(--space-6); }
+.ix3-row-label {
+  margin: 0 0 var(--space-3); font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+}
+.ix3-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-cards); }
+.ix3-card {
+  position: relative; display: block; overflow: hidden; aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg); background: var(--ink); color: #fff;
+  outline-offset: 3px; transition: transform .2s ease, box-shadow .2s ease;
+}
+.ix3-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease, opacity .2s; }
+.ix3-photo.is-blank { background: linear-gradient(135deg, #0A6A6C, #128A63); }
+.ix3-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10, 14, 12, 0.82) 0%, rgba(10, 14, 12, 0.35) 45%, rgba(10, 14, 12, 0) 75%);
+}
+.ix3-card-text { position: absolute; left: var(--space-5); right: var(--space-5); bottom: var(--space-4); z-index: 1; display: flex; flex-direction: column; gap: 2px; }
+.ix3-card-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(19px, 1.7vw, 23px); line-height: 1.15; letter-spacing: -0.012em; }
+.ix3-card-count { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.78); }
+.ix3-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -24px rgba(14, 19, 17, 0.6); }
+.ix3-card:hover .ix3-photo { transform: scale(1.04); }
+.ix3-card:focus-visible { outline: 3px solid var(--grn); }
+/* Once one is picked, the others step back and the pick gets a green ring. */
+.ix3.is-picked .ix3-card[aria-pressed="false"] .ix3-photo { opacity: 0.45; }
+.ix3-card[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--grn); }
+
+.ix3-results { margin-top: var(--space-head); scroll-margin-top: 110px; outline: none; }
+.ix3-results-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding-bottom: var(--space-4); border-bottom: 1px solid var(--line);
+}
+.ix3-showing { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.ix3-all {
+  padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--bg);
+  font: inherit; font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer;
+}
+.ix3-all:hover { border-color: var(--grn); }
+.ix3-group { padding: var(--space-6) 0 0; }
+.ix3-group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-4); }
+.ix3-group-title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.015em; }
+.ix3-group-blurb { margin: 0; color: var(--ink-3); font-size: 15px; }
+.ix3-list { list-style: none; margin: 0; padding: 0; columns: 3 280px; column-gap: var(--gap-cards); }
+.ix3-item {
+  break-inside: avoid; margin-bottom: var(--gap-cards);
+  padding: var(--pad-card); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg);
+  transition: border-color .2s, box-shadow .2s;
+}
+.ix3-item:hover { border-color: var(--line-2); box-shadow: 0 12px 32px rgba(14, 19, 17, 0.07); }
+.ix3-link { display: flex; align-items: center; gap: var(--space-3); color: var(--ink); }
+.ix3-name { flex: 1; min-width: 0; font-weight: 600; font-size: 16.5px; line-height: 1.25; }
+.ix3-link:hover .six-icon { background: var(--grn); color: var(--ink); }
+.ix3-link:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
+.ix3-item .ix-kids { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+
+@media (max-width: 900px) {
+  .ix2-group { grid-template-columns: 1fr; gap: var(--space-5); }
+  .ix2-head { position: static; }
+  .ix3-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .ix2-list { grid-template-columns: 1fr; }
+  .ix3-cards .ix3-card { aspect-ratio: 4 / 3; }
+  .ix3-card-text { left: var(--space-3); right: var(--space-3); bottom: var(--space-3); }
+  .ix3-card-title { font-size: 16px; }
+  /* A row of three stays three across, a little shorter. */
+  .ix3-cards.is-3 { gap: var(--space-2); }
+  .ix3-cards.is-3 .ix3-card { aspect-ratio: 1 / 1; }
+  .ix3-cards.is-3 .ix3-card-title { font-size: 15px; }
+  .ix3-cards.is-3 .ix3-card-text { left: var(--space-2); right: var(--space-2); bottom: var(--space-2); }
+  .ixo-tab { padding: 8px 12px; }
+  .ixo-tab-name { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ix3-card, .ix3-photo { transition: none; }
+  .ix3-card:hover, .ix3-card:hover .ix3-photo { transform: none; }
+}
+</style>

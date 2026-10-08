@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import SectionIndex from '../components/SectionIndex.astro';
+import IndexOptions from '../components/IndexOptions.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import TruDOSE from '../components/TruDOSE.astro';
 import BookCTA from '../components/BookCTA.astro';
@@ -22,7 +22,8 @@ const count = live(section?.children ?? []).length;
   <TrustStrip />
   <section class="section">
     <div class="container">
-      <SectionIndex root="/services/" panelsLabel="Programs and clinics" tilesLabel="Individual treatments"
+      {/* Three layouts to compare, as tabs, until the clinic picks one. */}
+      <IndexOptions root="/services/" panelsLabel="Programs and clinics" tilesLabel="Individual treatments"
         filter={{ label: 'Find a service', placeholder: 'Try “IV”, “brain” or “hormone”' }} />
     </div>
   </section>

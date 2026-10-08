@@ -91,7 +91,7 @@ const bands = panels.length > 0 && leaves.length > 0;
     </div>
   )}
   {panels.length > 0 && (
-    <Fragment>
+    <div class="six-group" data-find-group>
       {bands && panelsLabel && <h2 class="six-band">{panelsLabel}</h2>}
       <div class="six-panels">
         {panels.map(({ node, span }) => (
@@ -107,10 +107,10 @@ const bands = panels.length > 0 && leaves.length > 0;
           </div>
         ))}
       </div>
-    </Fragment>
+    </div>
   )}
   {leaves.length > 0 && (
-    <Fragment>
+    <div class="six-group" data-find-group>
       {bands && tilesLabel && <h2 class="six-band">{tilesLabel}</h2>}
       <ul class="six-tiles">
         {leaves.map((n) => (
@@ -123,53 +123,23 @@ const bands = panels.length > 0 && leaves.length > 0;
           </li>
         ))}
       </ul>
-    </Fragment>
+    </div>
   )}
 </div>
 
 <script>
-  // The filter box: each word typed must start a word in an item's name (so
-  // "iv" finds IV Therapy, not "hyperactivity"). A panel whose own name
-  // matches keeps all its pages; otherwise it shows only the pages that match.
-  const words = (s: string) => s.toLowerCase().replace(/&/g, ' and ').split(/[^a-z0-9]+/).filter(Boolean);
-  const hits = (q: string[], text: string) => {
-    const w = words(text);
-    return q.every((t) => w.some((x) => x.startsWith(t)));
-  };
+  // The filter box (src/lib/index-filter.ts). A band heading goes with its band.
+  import { words, applyFilter, countText } from '@/lib/index-filter';
   for (const root of document.querySelectorAll<HTMLElement>('[data-six-filterable]')) {
     const input = root.querySelector<HTMLInputElement>('.six-filter input');
     const count = root.querySelector<HTMLElement>('.six-filter-count');
     const none = root.querySelector<HTMLElement>('.six-filter-none');
     if (!input || !count || !none) continue;
-    const panels = [...root.querySelectorAll<HTMLElement>('.six-panel')];
-    const tiles = [...root.querySelectorAll<HTMLElement>('.six-tiles > li')];
-    const bands = [...root.querySelectorAll<HTMLElement>('.six-band')];
     const run = () => {
       const q = words(input.value);
-      let shown = 0;
-      for (const p of panels) {
-        const self = !q.length || hits(q, p.dataset.find || '');
-        let kids = 0;
-        for (const li of p.querySelectorAll<HTMLElement>('li[data-find]')) {
-          const on = self || hits(q, li.dataset.find || '');
-          li.hidden = !on;
-          if (on) kids += 1;
-        }
-        p.hidden = !(self || kids);
-        // Count pages, not cards: the section itself when its name matched,
-        // plus each of its pages left showing.
-        if (!p.hidden) shown += (self ? 1 : 0) + kids;
-      }
-      for (const t of tiles) {
-        t.hidden = !(!q.length || hits(q, t.dataset.find || ''));
-        if (!t.hidden) shown += 1;
-      }
-      const anyPanel = panels.some((p) => !p.hidden);
-      const anyTile = tiles.some((t) => !t.hidden);
-      // A band heading goes with its band.
-      bands.forEach((b, i) => { b.hidden = !!q.length && (i === 0 && panels.length ? !anyPanel : !anyTile); });
+      const shown = applyFilter(root, q);
       none.hidden = !q.length || shown > 0;
-      count.textContent = q.length ? (shown ? `${shown} ${shown === 1 ? 'match' : 'matches'}` : '') : '';
+      count.textContent = countText(q, shown);
     };
     input.addEventListener('input', run);
     root.querySelector('.six-filter-clear')?.addEventListener('click', () => { input.value = ''; run(); input.focus(); });
@@ -210,8 +180,7 @@ const bands = panels.length > 0 && leaves.length > 0;
   letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
   margin: 0 0 var(--space-4);
 }
-.six-band + .six-band { margin-top: 0; }
-.six-panels + .six-band { margin-top: var(--space-head); }
+.six-group + .six-group { margin-top: var(--space-head); }
 
 .six-icon {
   flex: none; display: grid; place-items: center; width: 40px; height: 40px;
