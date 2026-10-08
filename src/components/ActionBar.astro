@@ -68,9 +68,9 @@ const third = Astro.url.pathname === '/contact/'
   .actionbar-item:focus-visible { outline-color: #fff; outline-offset: -3px; border-radius: 999px; }
 
   /* Call is the one the practice most wants pressed: the logo green, filled. */
-  .actionbar-item.is-call { background: var(--grn); color: var(--ink); }
-  .actionbar-item.is-call svg { color: var(--ink); }
-  .actionbar-item.is-call:active { background: #7FCC54; }
+  .actionbar-item.is-call { background: var(--grn); color: #fff; }
+  .actionbar-item.is-call svg { color: #fff; }
+  .actionbar-item.is-call:active { background: #5DAF33; }
 
   /* The open menu has its own booking button and locks the page behind it. */
   body.nav-locked .actionbar { transform: translateY(160%); opacity: 0; pointer-events: none; }
