@@ -73,14 +73,11 @@ const aside = children.length === 0;
 // ends on its own request button keeps that instead, unless the hub has its
 // own scheduler for the card to offer (tracker C10).
 const endCard = !aside && !halves && !(ask === 'button' && !d.booking.length);
+// The full card (597px) is taller than the shortest leaf bodies (174–488px),
+// so on those pages the booking band starts one section under the card's foot
+// rather than the text's. The card keeps its address, hours and links there
+// all the same: hiding them would take words off the page (tracker K11).
 const sideCard = aside || !!long;
-// The full card (597px) is taller than the shortest leaf bodies (174–488px):
-// the row then waits for the card and the booking band starts 300–526px under
-// the text. All 18 such pages run 216 words or fewer, and the next leaf page
-// (224 words) has a 776px body, so under 220 words the card is the compact
-// one (253px), the offer only; the booking band below repeats the address and
-// hours (tracker K11).
-const shortLeaf = d.wordCount < 220;
 // A body that carries its own tile grid linking every child (D112), or a hub's
 // linked entry list (tracker P1), is already the section's menu; the card list
 // would repeat it.
@@ -191,7 +188,7 @@ const retiredTo = retiredPages[d.route];
           <LongReadToc items={long.toc} variant="rail" />
           <SidebarCTA booking={d.booking} topic={d.title} compact />
         </div>
-      ) : aside && <SidebarCTA booking={d.booking} topic={d.title} compact={shortLeaf} />}
+      ) : aside && <SidebarCTA booking={d.booking} topic={d.title} />}
     </div>
 
     {showChildren && (
