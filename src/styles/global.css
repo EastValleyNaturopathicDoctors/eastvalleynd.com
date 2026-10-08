@@ -242,3 +242,30 @@ em { font-style: normal; color: var(--grn-2); }
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
 }
+
+/* --- Page heroes: an entrance -------------------------------------------------
+   On load, the top of every page rises into place in reading order: the
+   breadcrumb or label, the title, then the intro and its actions, with the
+   page's picture (or card) easing in just behind. Once, briefly, and not at
+   all under reduced motion. The title starts at 1% opacity, not 0, so the
+   browser still counts it as painted at once. */
+@keyframes page-rise { from { opacity: 0; transform: translateY(14px); } }
+@keyframes page-rise-title { from { opacity: 0.01; transform: translateY(16px); } }
+@keyframes page-media { from { opacity: 0; transform: translateY(10px) scale(0.985); } }
+@media (prefers-reduced-motion: no-preference) {
+  :is(.page-hero, .pp-hero) :is(.crumbs, .pp-crumbs, .eyebrow) {
+    animation: page-rise .55s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  :is(.page-hero, .pp-hero) :is(.h1, .pp-title) {
+    animation: page-rise-title .6s cubic-bezier(.2, .7, .2, 1) 70ms both;
+  }
+  :is(.page-hero, .pp-hero) :is(.lede, .lr-meta, .doc-hero-creds, .post-meta, .pp-lede) {
+    animation: page-rise .6s cubic-bezier(.2, .7, .2, 1) 150ms both;
+  }
+  :is(.page-hero, .pp-hero) :is(.cpage-action, .hero-cta, .post-cats, .pp-devices) {
+    animation: page-rise .6s cubic-bezier(.2, .7, .2, 1) 230ms both;
+  }
+  :is(.page-hero, .pp-hero) :is(.cpage-hero-media, .doc-hero-photo, .pp-signin) {
+    animation: page-media .8s cubic-bezier(.2, .7, .2, 1) 120ms both;
+  }
+}

@@ -1,0 +1,63 @@
+---
+/**
+ * Homepage motion (the clinic's request, Oct 2026): each section's heading and
+ * blocks fade up as they come into view, and the cards in a grid follow one
+ * another by a beat. Once per element, short, and none at all under reduced
+ * motion or without JavaScript (the page simply shows as it is).
+ *
+ * The classes come off once an element has arrived, so the cards' own hover
+ * lifts and transitions are untouched afterwards.
+ */
+---
+<script>
+  // Whole blocks, and grids whose cards come in one after another.
+  const BLOCKS = [
+    '.section-head', '.two-col > .col-eyebrow', '.two-col .col-body > h2', '.found-photo',
+    '.trudose-media', '.trudose-text', '.opt-hero', '.testi-wrap', '.faq-left', '.book-text',
+  ].map((s) => `main section:not(.hero) ${s}`).join(', ');
+  const GRIDS = [
+    '.found-grid', '.cond-grid', '.therapy-photos', '.therapy-grid', '.opt-list',
+    '.docs-list', '.res-grid', '.faq-list',
+  ].map((s) => `main section:not(.hero) ${s}`).join(', ');
+
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!still && 'IntersectionObserver' in window) {
+    const items: HTMLElement[] = [];
+    // Anything already on screen when the page opens is left alone.
+    const below = (el: Element) => el.getBoundingClientRect().top > window.innerHeight * 0.9;
+    for (const el of document.querySelectorAll<HTMLElement>(BLOCKS)) {
+      if (below(el)) { el.classList.add('rv'); items.push(el); }
+    }
+    for (const grid of document.querySelectorAll<HTMLElement>(GRIDS)) {
+      [...grid.children].forEach((el, i) => {
+        if (!(el instanceof HTMLElement) || !below(el)) return;
+        el.classList.add('rv');
+        el.style.setProperty('--rv-i', String(i % 4));
+        items.push(el);
+      });
+    }
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const el = e.target as HTMLElement;
+        io.unobserve(el);
+        el.classList.add('rv-in');
+        const delay = Number(el.style.getPropertyValue('--rv-i') || 0) * 90;
+        window.setTimeout(() => {
+          el.classList.remove('rv', 'rv-in');
+          el.style.removeProperty('--rv-i');
+        }, 800 + delay);
+      }
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    items.forEach((el) => io.observe(el));
+  }
+</script>
+
+<style is:global>
+.rv {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1) !important;
+  transition-delay: calc(var(--rv-i, 0) * 90ms) !important;
+}
+.rv.rv-in { opacity: 1; transform: none; }
+</style>

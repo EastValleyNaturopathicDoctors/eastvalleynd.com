@@ -9,15 +9,23 @@ import { getCollection } from 'astro:content';
 // "licensed": the roster includes a holistic nutrition practitioner.
 const practitioners = (await getCollection('physicians')).length;
 ---
-<section class="hero" id="home">
+<section class="hero" id="home" data-hero="1">
   {/* The brand green mixed with sky blue (#01B9EB): two soft glows drifting
-      over a deep teal, CSS only. */}
+      over a deep teal, CSS only. Three ways to set the filter over the team
+      in motion, as Option 1 / 2 / 3 for the clinic to compare (Oct 2026):
+      1 Drift (livelier glows, the photo slowly breathing), 2 Aurora (bands of
+      light sweeping across), 3 Spotlight (natural colour following the
+      pointer, drifting on its own when idle). Once one is picked, the other
+      two and the switcher go. */}
   <div class="hero-bg">
     {/* The clinic's own team, across the top of a desktop hero; decorative here
-        (the About page carries it with its description), so alt is empty. */}
+        (the About page carries it with its description), so alt is empty. The
+        second copy is Option 3's spotlight, in natural colour. */}
     <div class="hero-photo" aria-hidden="true">
       <Image src={team} alt="" width={1600} loading="eager" fetchpriority="high" />
+      <div class="hero-photo-color"><Image src={team} alt="" width={1600} loading="eager" /></div>
     </div>
+    <div class="hero-aurora" aria-hidden="true"></div>
     <div class="hero-overlay"></div>
   </div>
 
@@ -50,9 +58,16 @@ const practitioners = (await getCollection('physicians')).length;
 
   <div class="hero-paths-wrap">
     <div class="container">
-      <div class="hero-paths-label">
-        <Icon name="arrow-right" size={14} />
-        Start by telling us why you're here
+      <div class="hero-paths-top">
+        <div class="hero-paths-label">
+          <Icon name="arrow-right" size={14} />
+          Start by telling us why you're here
+        </div>
+        <div class="hero-switch" role="group" aria-label="Hero style">
+          {[1, 2, 3].map((n) => (
+            <button type="button" data-v={n} aria-pressed={n === 1 ? 'true' : 'false'}>Option {n}</button>
+          ))}
+        </div>
       </div>
       <div class="dualpath">
         <a class="dp-card dp-treat" href="/conditions/">
@@ -86,6 +101,37 @@ const practitioners = (await getCollection('physicians')).length;
   </div>
 </section>
 
+<script>
+  // The hero style switcher (Option 1 / 2 / 3), kept in the address as
+  // #hero-2 so a link can open one, and Option 3's spotlight following the
+  // pointer over the team photo.
+  const hero = document.querySelector<HTMLElement>('.hero[data-hero]');
+  if (hero) {
+    const buttons = [...hero.querySelectorAll<HTMLButtonElement>('.hero-switch button')];
+    const set = (v: string, keep = false) => {
+      hero.dataset.hero = v;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+      if (keep) history.replaceState(null, '', v === '1' ? location.pathname + location.search : `#hero-${v}`);
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => set(b.dataset.v ?? '1', true)));
+    const fromHash = () => /^#hero-([123])$/.exec(location.hash)?.[1];
+    if (fromHash()) set(fromHash()!);
+    window.addEventListener('hashchange', () => { if (fromHash()) set(fromHash()!); });
+
+    const photo = hero.querySelector<HTMLElement>('.hero-photo');
+    let idle = 0;
+    hero.addEventListener('pointermove', (e) => {
+      if (hero.dataset.hero !== '3' || !photo || e.pointerType === 'touch') return;
+      const r = photo.getBoundingClientRect();
+      hero.style.setProperty('--sx', `${((e.clientX - r.left) / r.width) * 100}%`);
+      hero.style.setProperty('--sy', `${((e.clientY - r.top) / r.height) * 100}%`);
+      hero.classList.add('is-pointing');
+      window.clearTimeout(idle);
+      idle = window.setTimeout(() => { hero.classList.remove('is-pointing'); hero.style.removeProperty('--sx'); hero.style.removeProperty('--sy'); }, 2500);
+    });
+  }
+</script>
+
 <style is:global>
 .hero {
   position: relative;
@@ -118,8 +164,54 @@ const practitioners = (await getCollection('physicians')).length;
 }
 @keyframes hero-drift-a { to { transform: translate(-7vw, 6vw) scale(1.08); } }
 @keyframes hero-drift-b { to { transform: translate(8vw, -5vw) scale(0.92); } }
+
+/* Option 1, Drift: the glows wander further and faster, and the team photo
+   breathes, a slow push in and out. */
+.hero[data-hero="1"] .hero-bg::before { animation: hero-drift-a1 16s ease-in-out infinite alternate; opacity: 0.65; }
+.hero[data-hero="1"] .hero-bg::after { animation: hero-drift-b1 19s ease-in-out infinite alternate; opacity: 0.6; }
+.hero[data-hero="1"] .hero-photo > img { animation: hero-breathe 22s ease-in-out infinite alternate; transform-origin: 70% 30%; }
+@keyframes hero-drift-a1 { 50% { transform: translate(-16vw, 10vw) scale(1.15); } to { transform: translate(-4vw, 16vw) scale(0.95); } }
+@keyframes hero-drift-b1 { 50% { transform: translate(14vw, -8vw) scale(0.9); } to { transform: translate(-6vw, -14vw) scale(1.12); } }
+@keyframes hero-breathe { to { transform: scale(1.07) translateX(-1.5%); } }
+
+/* Option 2, Aurora: wide bands of sky blue and green sweep across the team,
+   lightening what they pass over. */
+.hero-aurora { display: none; }
+.hero[data-hero="2"] .hero-aurora {
+  /* Twice the pattern side by side, slid left by one: a seamless loop that
+     moves on the GPU instead of repainting the hero every frame. */
+  display: block; position: absolute; top: 0; bottom: 0; left: 0; width: 300%; pointer-events: none;
+  background: linear-gradient(110deg,
+    rgba(1, 185, 235, 0) 0%, rgba(1, 185, 235, 0.55) 12%, rgba(108, 190, 63, 0.5) 22%, rgba(108, 190, 63, 0) 32%,
+    rgba(1, 185, 235, 0) 50%, rgba(1, 185, 235, 0.5) 62%, rgba(108, 190, 63, 0.5) 72%, rgba(108, 190, 63, 0) 82%, rgba(1, 185, 235, 0) 100%)
+    0 0 / 50% 100% repeat-x;
+  mix-blend-mode: screen; opacity: 0.55; will-change: transform;
+  animation: hero-aurora 22s linear infinite;
+}
+@keyframes hero-aurora { to { transform: translateX(-50%); } }
+
+/* Option 3, Spotlight: the team in natural colour inside a soft circle that
+   follows the pointer, and drifts across them on its own when idle. */
+@property --sx { syntax: '<percentage>'; inherits: true; initial-value: 72%; }
+@property --sy { syntax: '<percentage>'; inherits: true; initial-value: 38%; }
+.hero-photo-color { display: none; }
+.hero[data-hero="3"] .hero-photo-color {
+  display: block; position: absolute; inset: 0;
+  -webkit-mask-image: radial-gradient(circle 260px at var(--sx) var(--sy), #000 30%, transparent 100%);
+  mask-image: radial-gradient(circle 260px at var(--sx) var(--sy), #000 30%, transparent 100%);
+  animation: hero-spot 14s ease-in-out infinite alternate;
+}
+.hero[data-hero="3"].is-pointing .hero-photo-color { animation: none; transition: --sx .25s ease-out, --sy .25s ease-out; }
+.hero-photo-color img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: 0.9; }
+@keyframes hero-spot {
+  0% { --sx: 52%; --sy: 32%; }
+  35% { --sx: 70%; --sy: 48%; }
+  70% { --sx: 84%; --sy: 30%; }
+  100% { --sx: 96%; --sy: 44%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg::before, .hero-bg::after { animation: none; }
+  .hero-bg::before, .hero-bg::after, .hero-photo > img, .hero-aurora, .hero-photo-color { animation: none !important; }
 }
 .hero-overlay {
   position: absolute; inset: 0;
@@ -193,6 +285,34 @@ const practitioners = (await getCollection('physicians')).length;
   position: relative; z-index: 3;
   padding: 0 0 var(--space-hero-bottom);
 }
+.hero-paths-top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.hero-paths-top .hero-paths-label { margin-bottom: 0; }
+.hero-switch {
+  display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(6px);
+}
+.hero-switch button {
+  padding: 6px 12px; border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255, 255, 255, 0.75);
+  transition: background .18s, color .18s;
+}
+.hero-switch button:hover { color: #fff; }
+.hero-switch button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+.hero-switch button:focus-visible { outline: 2px solid var(--grn); outline-offset: 2px; }
+
+/* The homepage hero rises in on load like every page's top (global.css). */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content > .eyebrow { animation: page-rise .55s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero-content > .hero-title { animation: page-rise-title .65s cubic-bezier(.2, .7, .2, 1) 70ms both; }
+  .hero-content > .hero-sub { animation: page-rise .65s cubic-bezier(.2, .7, .2, 1) 160ms both; }
+  .hero-content > .hero-cta { animation: page-rise .65s cubic-bezier(.2, .7, .2, 1) 240ms both; }
+  .hero-content > .hero-meta { animation: page-rise .65s cubic-bezier(.2, .7, .2, 1) 320ms both; }
+  .hero-paths-wrap { animation: page-rise .7s cubic-bezier(.2, .7, .2, 1) 380ms both; }
+}
+
 .hero-paths-label {
   display: inline-flex; align-items: center; gap: 8px;
   color: rgba(255,255,255,0.75);
@@ -291,7 +411,7 @@ const practitioners = (await getCollection('physicians')).length;
   mask-image: linear-gradient(to right, transparent 8%, #000 58%), linear-gradient(to bottom, #000 62%, transparent 100%);
   mask-composite: intersect;
 }
-.hero-photo img {
+.hero-photo > img {
   width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;
   filter: grayscale(1) contrast(1.05); mix-blend-mode: luminosity; opacity: 0.6;
 }

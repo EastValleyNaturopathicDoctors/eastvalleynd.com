@@ -22,9 +22,12 @@ export const heroOverrides: Record<string, 'panel' | 'needs-photo' | StockPhoto>
     file: 'unsplash-2LxO1Wef8wQ.jpg',
     alt: 'A gloved practitioner moving a microneedling pen across a patient’s cheek',
   },
-  // TO DO (Oct 2026): the clinic wants a new photo here. Replace 'needs-photo'
-  // with { file, alt } (a file in src/images/stock) once picked.
-  '/conditions/childhood-behavioral-disorders/': 'needs-photo',
+  // The clinic's pick from Unsplash, Oct 2026 (trimmed on the right so the
+  // boy stays in the frame).
+  '/conditions/childhood-behavioral-disorders/': {
+    file: 'unsplash-1758687127090-04787973f6dc.jpg',
+    alt: 'A boy and a man building with wooden blocks on a living-room floor',
+  },
   // Gloved hands and a surgical gown beside the instrument tray.
   '/conditions/minor-dermatological-surgeries/': 'panel',
   // A cosmetics mock-up carrying a studio's "Cosmetic Mockup" branding.
