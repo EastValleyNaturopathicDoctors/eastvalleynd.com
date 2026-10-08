@@ -56,8 +56,8 @@ const schema = {
 .faq-left p { color: var(--ink-2); margin: 0; }
 .faq-left p + .btn { margin-top: var(--space-7); }
 /* `:not(.btn)`: the FAQ column also holds the "Book online" button, and this
-   rule was winning over .btn-dark's white text — green on near-black, the one
-   contrast failure Lighthouse could still find on the homepage. */
+   rule was winning over .btn-dark's own text colour (a contrast failure
+   Lighthouse found on the homepage). */
 .faq-left a:not(.btn) { color: var(--grn-2); border-bottom: 1px solid var(--grn); }
 .faq-list { border-top: 1px solid var(--line); }
 .faq-item { border-bottom: 1px solid var(--line); }

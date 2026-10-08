@@ -22,3 +22,15 @@ const Tag = href ? 'a' : 'button';
   <slot />
   {icon && <Icon name={icon} size={16} />}
 </Tag>
+
+<script>
+  // The filled button's hover bloom starts where the pointer came in
+  // (global.css, .btn-dark). One listener for the whole page.
+  document.addEventListener('pointerover', (e) => {
+    const b = (e.target as Element | null)?.closest?.<HTMLElement>('.btn-dark, .mega-aside-cta');
+    if (!b || b.contains(e.relatedTarget as Node | null)) return;
+    const r = b.getBoundingClientRect();
+    b.style.setProperty('--bx', `${e.clientX - r.left}px`);
+    b.style.setProperty('--by', `${e.clientY - r.top}px`);
+  });
+</script>
