@@ -38,8 +38,9 @@ import { optimization } from '../data/content';
 <style is:global>
 .opt-section { background: var(--bg-soft); }
 .opt-grid {
-  display: grid; grid-template-columns: 1.1fr 1fr;
-  gap: 24px;
+  /* A card pair, not a text split: equal halves, the card gap between them. */
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap-cards);
 }
 .opt-hero {
   position: relative;
@@ -55,7 +56,7 @@ import { optimization } from '../data/content';
 }
 .opt-hero-text {
   position: relative; z-index: 2;
-  padding: 36px 34px;
+  padding: var(--pad-feature);
   /* Margins, not a flex gap: label -> h2 12 (global.css), h2 -> text 20, text -> button 32. */
   display: flex; flex-direction: column; gap: 0;
   height: 100%;
@@ -82,8 +83,8 @@ import { optimization } from '../data/content';
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 20px;
-  padding: 22px 24px;
+  gap: var(--space-5);
+  padding: var(--pad-card);
   border-bottom: 1px solid var(--line);
   transition: background .2s;
   color: var(--ink-3);
@@ -97,7 +98,7 @@ import { optimization } from '../data/content';
   color: var(--grn-2);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.opt-item h3 { font-family: var(--font-display); font-size: 18px; margin: 0 0 4px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.opt-item h3 { font-family: var(--font-display); font-size: 18px; margin: 0 0 var(--space-2); font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
 .opt-item p { margin: 0; font-size: 14px; color: var(--ink-3); }
 
 @media (max-width: 1000px) { .opt-grid { grid-template-columns: 1fr; } }

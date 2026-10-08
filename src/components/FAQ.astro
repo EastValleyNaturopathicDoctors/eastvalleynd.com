@@ -47,13 +47,14 @@ const schema = {
 <style is:global>
 .faq-section { background: #fff; }
 .faq-wrap {
-  display: grid; grid-template-columns: 1fr 1.3fr;
-  gap: clamp(32px, 5vw, 80px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap-cols);
   align-items: start;
 }
-.faq-left .h2 { margin: 12px 0 18px; }
-.faq-left p { color: var(--ink-2); margin: 0 0 24px; }
-.faq-left p:last-child { margin-bottom: 0; }
+/* Label -> heading 12 comes from global.css; heading -> text 20, text -> button 32. */
+.faq-left .h2 + p { margin-top: var(--space-5); }
+.faq-left p { color: var(--ink-2); margin: 0; }
+.faq-left p + .btn { margin-top: var(--space-7); }
 /* `:not(.btn)`: the FAQ column also holds the "Book online" button, and this
    rule was winning over .btn-dark's white text — green on near-black, the one
    contrast failure Lighthouse could still find on the homepage. */
@@ -69,8 +70,8 @@ const schema = {
 .faq-item summary {
   width: 100%;
   display: flex; align-items: center; justify-content: space-between;
-  gap: 16px;
-  padding: 22px 0;
+  gap: var(--space-4);
+  padding: var(--space-5) 0;
   text-align: left;
   font-family: var(--font-display);
   font-weight: 600;
@@ -101,7 +102,7 @@ const schema = {
 .faq-item[open] .faq-mark::after { transform: scaleY(0); opacity: 0; }
 .faq-item summary:hover .faq-mark { background: var(--line); }
 
-.faq-body p { margin: 0 0 22px; color: var(--ink-2); font-size: 15.5px; line-height: 1.6; max-width: 65ch; }
+.faq-body p { margin: 0 0 var(--space-5); color: var(--ink-2); font-size: 15.5px; line-height: 1.6; max-width: 65ch; }
 
 @media (prefers-reduced-motion: reduce) {
   .faq-mark, .faq-mark::before, .faq-mark::after { transition: none; }

@@ -70,11 +70,12 @@ const clinic = [
 </Base>
 
 <style is:global>
-/* The team photo straddles the hero's lower edge, so the hero gives up its own.
-   flow-root keeps the lede's bottom margin inside the hero's background. */
+/* The team photo straddles the hero's lower edge, so the hero gives up its own
+   bottom padding: the photo sits half a section under the lede, and the trust
+   strip half a section under the photo. */
 .page-hero:has(+ .about-team) { border-bottom: 0; padding-bottom: 0; display: flow-root; }
 .about-team {
-  padding: clamp(32px, 4vw, 56px) 0 clamp(48px, 6vw, 80px);
+  padding-block: var(--space-hero-bottom);
   background: linear-gradient(var(--bg-softer) 50%, #fff 50%);
 }
 .about-team-photo { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); }
@@ -82,19 +83,18 @@ const clinic = [
 .about-clinic { background: var(--bg-soft); }
 .clinic-grid {
   display: grid; grid-template-columns: 1.6fr 1fr;
-  gap: clamp(12px, 1.6vw, 20px);
-  margin-top: clamp(36px, 4vw, 56px);
+  gap: var(--gap-cards);
 }
 .clinic-tile { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-sunk); }
 .clinic-tile img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
 /* The lead photo fills both rows; the two on the right set their height. */
 .clinic-tile.is-lead { grid-row: span 2; }
 .clinic-tile.is-lead img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; object-position: 45% 50%; }
-.clinic-tile figcaption { position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; }
+.clinic-tile figcaption { position: absolute; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); display: flex; }
 .clinic-tile figcaption a {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: var(--space-2);
   background: rgba(255,255,255,0.95);
-  padding: 8px 14px;
+  padding: var(--space-2) var(--space-3);
   border-radius: 999px;
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;

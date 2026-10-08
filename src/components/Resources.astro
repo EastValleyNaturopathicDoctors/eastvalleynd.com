@@ -67,8 +67,10 @@ const cards = [
         <a class="res-card" href={c.href}>
           {c.img && <Image src={c.img} alt="" width={640} height={360} loading="lazy" decoding="async" />}
           <div class="res-meta"><span>{c.kind}</span><span>{c.meta}</span></div>
-          <h3>{c.title}</h3>
-          <span class="res-author">By {c.by}</span>
+          <div class="res-body">
+            <h3>{c.title}</h3>
+            <span class="res-author">By {c.by}</span>
+          </div>
           <span class="res-arrow"><Icon name="arrow-up-right" size={14} /></span>
         </a>
       ))}
@@ -81,14 +83,14 @@ const cards = [
 .res-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: var(--gap-cards);
 }
 .ebook-card {
   grid-row: span 2;
   background: var(--ink);
   color: #fff;
   border-radius: var(--radius-lg);
-  padding: 32px 28px;
+  padding: var(--pad-feature);
   /* Bottom-aligned, so the copy and its button stay together; margins, not a
      flex gap: h3 -> text 8, text -> button 32, button -> size note 8. */
   display: flex; flex-direction: column; gap: 0; justify-content: flex-end;
@@ -112,16 +114,19 @@ const cards = [
 .res-card:hover { transform: translateY(-3px); }
 .res-card img { aspect-ratio: 16/9; object-fit: cover; width: 100%; }
 .res-meta {
-  position: absolute; top: 14px; left: 14px; right: 14px;
+  position: absolute; top: var(--space-4); left: var(--space-4); right: var(--space-4);
   display: flex; justify-content: space-between;
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #fff;
 }
 .res-meta span:first-child { background: var(--grn); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-weight: 600; }
 .res-meta span:last-child { background: rgba(14,19,17,0.6); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
-.res-card h3 { font-family: var(--font-display); font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; margin: 18px 22px 0; text-wrap: balance; }
-.res-author { padding: 4px 22px 22px; color: var(--ink-3); font-size: 13px; }
+/* The card's text has the card padding on every side; the byline keeps clear
+   of the arrow in the corner (32px wide), so a long title never runs under it. */
+.res-body { display: flex; flex-direction: column; padding: var(--pad-card); }
+.res-card h3 { font-family: var(--font-display); font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.res-author { margin-top: var(--space-2); padding-right: calc(32px + var(--space-3)); color: var(--ink-3); font-size: 13px; }
 .res-arrow {
-  position: absolute; bottom: 18px; right: 18px;
+  position: absolute; bottom: var(--space-4); right: var(--space-4);
   width: 32px; height: 32px; border-radius: 50%;
   background: var(--bg-soft);
   display: inline-flex; align-items: center; justify-content: center;
