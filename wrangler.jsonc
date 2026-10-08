@@ -9,5 +9,8 @@
     "not_found_handling": "404-page",
     // Astro builds /page/index.html; /page redirects to /page/ (trailingSlash: 'always').
     "html_handling": "auto-trailing-slash"
-  }
+  },
+  // Branch builds run `npx wrangler preview`, which needs this block (it can be
+  // empty: assets and compatibility settings above apply to previews too).
+  "previews": {}
 }
