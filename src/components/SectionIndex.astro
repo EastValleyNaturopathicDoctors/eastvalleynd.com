@@ -100,10 +100,10 @@ const bands = panels.length > 0 && leaves.length > 0;
 .six-band {
   font-family: var(--font-mono); font-size: 12px; font-weight: 500;
   letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
-  margin: 0 0 14px;
+  margin: 0 0 var(--space-4);
 }
 .six-band + .six-band { margin-top: 0; }
-.six-panels + .six-band { margin-top: clamp(30px, 4vw, 44px); }
+.six-panels + .six-band { margin-top: var(--space-head); }
 
 .six-icon {
   flex: none; display: grid; place-items: center; width: 40px; height: 40px;
@@ -115,18 +115,18 @@ const bands = panels.length > 0 && leaves.length > 0;
 /* Panels */
 .six-panels {
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: clamp(14px, 1.8vw, 20px);
+  gap: var(--gap-cards);
 }
 .six-panel {
   border: 1px solid var(--line); border-radius: var(--radius-lg);
-  padding: 20px 22px 18px; background: var(--bg);
+  padding: var(--pad-card); background: var(--bg);
   transition: border-color .2s, box-shadow .2s;
 }
 .six-panel:hover { border-color: var(--line-2); box-shadow: 0 12px 32px rgba(14, 19, 17, 0.07); }
 .six-panel.is-12 { grid-column: span 12; }
 .six-panel.is-6 { grid-column: span 6; }
 .six-panel.is-4 { grid-column: span 4; }
-.six-head { display: flex; align-items: center; gap: 14px; color: inherit; }
+.six-head { display: flex; align-items: center; gap: var(--space-3); color: inherit; }
 .six-head h3 {
   flex: 1; margin: 0;
   font-family: var(--font-display); font-size: 20px; font-weight: 600;
@@ -135,15 +135,15 @@ const bands = panels.length > 0 && leaves.length > 0;
 .six-head:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
 .six-head:hover .six-icon { background: var(--grn); color: var(--ink); }
 .six-kids {
-  list-style: none; margin: 14px 0 0; padding: 14px 0 0;
+  list-style: none; margin: var(--space-4) 0 0; padding: var(--space-3) 0 0;
   border-top: 1px solid var(--line);
-  display: grid; gap: 0 22px;
+  display: grid; gap: 0 var(--space-6);
 }
 .six-kids.cols-1 { grid-template-columns: 1fr; }
 .six-kids.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .six-kids.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .six-kids a {
-  display: block; padding: 5px 0; font-size: 14.5px; color: var(--ink-2);
+  display: block; padding: var(--space-1) 0; font-size: 14.5px; color: var(--ink-2);
   transition: color .15s;
 }
 .six-kids a:hover { color: var(--grn-2); }
@@ -152,17 +152,20 @@ const bands = panels.length > 0 && leaves.length > 0;
 .six-tiles {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 10px;
+  gap: var(--gap-tiles);
 }
-.six-tiles li { display: flex; }          /* every tile in a row takes the row's height */
+.six-tiles li { display: flex; min-width: 0; }   /* every tile in a row takes the row's height */
 .six-tiles a {
-  flex: 1; display: flex; align-items: center; gap: 12px; min-height: 66px;
-  padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius);
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--space-2); min-height: 66px;
+  /* The card inset at the sides, so a tile's icon lines up with a panel's. */
+  padding: var(--space-3) var(--pad-card); border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--bg); color: var(--ink);
   font-weight: 500; font-size: 15.5px; line-height: 1.25;
   transition: border-color .18s, background .18s, transform .18s;
 }
-.six-tile-label { flex: 1; }
+/* A long single word ("Photobiomodulation") breaks inside its tile instead of
+   pushing the tile over its neighbour. */
+.six-tile-label { flex: 1; min-width: 0; -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }
 .six-tiles a:hover { border-color: var(--grn); background: var(--grn-soft); transform: translateY(-1px); }
 .six-tiles a:hover .six-icon { background: var(--grn); color: var(--ink); }
 .six-tiles a:hover .six-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
@@ -176,12 +179,10 @@ const bands = panels.length > 0 && leaves.length > 0;
   .six-kids.cols-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .six-panel { padding: 16px 16px 14px; }
   .six-head h3 { font-size: 18px; }
   .six-kids.cols-2, .six-kids.cols-3, .six-kids.cols-1 { grid-template-columns: 1fr; }
-  .six-kids a { padding: 4px 0; }
-  .six-tiles { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .six-tiles a { min-height: 0; padding: 9px 10px; gap: 9px; font-size: 13.5px; }
+  .six-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .six-tiles a { min-height: 0; padding: var(--space-2) var(--space-3); font-size: 13.5px; }
   .six-tiles .six-icon { width: 30px; height: 30px; border-radius: 9px; }
   .six-tiles .six-icon svg { width: 18px; height: 18px; }
   .six-tiles .six-arrow { display: none; }
