@@ -5,6 +5,7 @@ import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import { site } from '../data/site';
+import { keepTimes } from '@/lib/times';
 const a = site.address;
 /** As SidebarCTA: "9:00 am – 5:00 pm" -> "9 am – 5 pm". */
 const short = (t: string) => t.replace(/:00/g, '');
@@ -32,9 +33,9 @@ const short = (t: string) => t.replace(/:00/g, '');
           <Icon name="clock" size={16} />
           <div>
             <ul class="book-hours">
-              {site.hours.map((h) => <li><span>{h.days.slice(0, 3)}</span><span>{short(h.time)}</span></li>)}
+              {site.hours.map((h) => <li><span>{h.days.slice(0, 3)}</span><span>{keepTimes(short(h.time))}</span></li>)}
             </ul>
-            <span class="book-note">{site.lunch}</span>
+            <span class="book-note">{keepTimes(site.lunch)}</span>
           </div>
         </div>
         <div><Icon name="heart" size={16} /><span>HSA/FSA accepted<br />Self-pay packages available</span></div>

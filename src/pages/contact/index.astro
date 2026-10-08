@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
 import { site, mapQuery, directionsHref } from '@/data/site';
+import { keepTimes } from '@/lib/times';
 
 const a = site.address;
 ---
@@ -39,10 +40,10 @@ const a = site.address;
           <h2>Hours</h2>
           <ul class="contact-hours">
             {site.hours.map((h) => (
-              <li><span>{h.days}</span><span>{h.time}</span></li>
+              <li><span>{h.days}</span><span>{keepTimes(h.time)}</span></li>
             ))}
           </ul>
-          {site.lunch && <p class="contact-note">{site.lunch}</p>}
+          {site.lunch && <p class="contact-note">{keepTimes(site.lunch)}</p>}
         </div>
 
         <div class="contact-block">

@@ -17,6 +17,7 @@
 import Button from './Button.astro';
 import Icon from './Icon.astro';
 import { site, directionsHref } from '../data/site';
+import { keepTimes } from '@/lib/times';
 interface Props {
   /** The page's own online booking, recovered from its WordPress Acuity
    *  button (D115). When present it is the primary action. */
@@ -70,9 +71,9 @@ const short = (t: string) => t.replace(/:00/g, '');
         <dt><Icon name="clock" size={16} /><span class="sr-only">Hours</span></dt>
         <dd>
           <ul class="aside-hours">
-            {site.hours.map((h) => <li><span>{h.days.slice(0, 3)}</span><span>{short(h.time)}</span></li>)}
+            {site.hours.map((h) => <li><span>{h.days.slice(0, 3)}</span><span>{keepTimes(short(h.time))}</span></li>)}
           </ul>
-          <p class="aside-note">{site.lunch}</p>
+          <p class="aside-note">{keepTimes(site.lunch)}</p>
         </dd>
       </div>
     </dl>

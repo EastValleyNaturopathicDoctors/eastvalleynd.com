@@ -5,6 +5,7 @@ import TallyForm from '@/components/TallyForm.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
 import { site } from '@/data/site';
+import { keepTimes } from '@/lib/times';
 import '../../styles/form-pages.css';
 
 /**
@@ -93,10 +94,10 @@ const steps = [
           </a>
           <ul class="form-card-hours">
             {site.hours.map((h) => (
-              <li><span>{h.days}</span><span>{h.time}</span></li>
+              <li><span>{h.days}</span><span>{keepTimes(h.time)}</span></li>
             ))}
           </ul>
-          {site.lunch && <p class="form-card-note">{site.lunch}</p>}
+          {site.lunch && <p class="form-card-note">{keepTimes(site.lunch)}</p>}
           <p class="form-card-note">
             {site.address.street}, {site.address.city}, {site.address.state} {site.address.zip} ·{' '}
             <a href="/contact/">Directions</a>
