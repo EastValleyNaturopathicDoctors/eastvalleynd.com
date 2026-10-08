@@ -73,12 +73,14 @@ const topGrid = liftGrid ? html.match(gridRe)![0] : '';
 if (liftGrid) html = html.replace(gridRe, '');
 const kidsFirst = landing && children.length > 0;
 // A landing page's body that opens with a plain paragraph of intro length gives it to
-// the hero, beside the picture, when enough copy is left to fill the body.
+// the hero, beside the picture, when enough copy is left to fill the body. Past
+// 420 characters it runs past nine lines on a phone and pushes the picture and
+// the subpages off the first screen, so a longer opening stays in the body.
 const textOf = (h: string) => h.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const leadRe = /^\s*<p>((?:(?!<\/?p\b|<(?:img|iframe|video|figure)\b)[\s\S])*)<\/p>\s*/;
 const leadMatch = landing ? html.match(leadRe) : null;
-const lead = leadMatch && textOf(leadMatch[1]).length >= 120 && textOf(leadMatch[1]).length <= 650
-  && textOf(html.slice(leadMatch[0].length)).length >= 400 ? leadMatch[1] : '';
+const lead = leadMatch && textOf(leadMatch[1]).length >= 120 && textOf(leadMatch[1]).length <= 420
+  && textOf(html.slice(leadMatch[0].length)).length >= 400 ? leadMatch[1].trim() : '';
 if (lead) html = html.slice(leadMatch![0].length);
 // A leaf page carries the booking card beside the article; a page that heads a
 // section ends in its child cards instead. A landing hub lists them first, so
@@ -285,7 +287,9 @@ const retiredTo = retiredPages[d.route];
 }
 .crumbs a { color: var(--ink-3); }
 .crumbs a:hover { color: var(--grn-2); }
-.crumbs a + a::before { content: '/'; margin-right: var(--space-2); color: var(--line-2); }
+/* The separator trails each link, so a crumb that wraps leaves its '/' at the
+   end of the line above rather than leading the next one. */
+.crumbs a:not(:last-child)::after { content: '/'; margin-left: var(--space-2); color: var(--line-2); }
 
 .cpage-figure { margin-top: var(--space-section-tight); }
 /* A mid-sized featured image at its own width, uncropped (D116), on the
@@ -385,9 +389,16 @@ const retiredTo = retiredPages[d.route];
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
     gap: var(--gap-cols); align-items: center;
   }
+  /* Capped at 400px tall, the 4:3 frame can be narrower than its column: it
+     keeps to the content edge, in line with the header button and the card. */
+  .cpage-hero-media { justify-self: end; width: 100%; }
 }
 @media (max-width: 899px) {
   .cpage-hero-media { margin-top: var(--space-7); aspect-ratio: 16 / 10; max-height: 280px; }
+  /* A thinner mount, so the clinic's own picture isn't shrunk to a stamp. */
+  .cpage-hero-media.is-own img {
+    inset: var(--space-2); width: calc(100% - 2 * var(--space-2)); height: calc(100% - 2 * var(--space-2));
+  }
 }
 
 /* A landing page that heads others lists them first, under the hero: compact
