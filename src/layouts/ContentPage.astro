@@ -18,6 +18,10 @@ import { cleanLinks } from '@/lib/links';
 import { tidyProse } from '@/lib/prose';
 import { linkHubEntries, hasHubLinks } from '@/lib/hublinks';
 import { moveMedia } from '@/lib/mediamoves';
+import { logoRow } from '@/lib/logorow';
+import { logoRows } from '@/data/logo-rows';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { closingAsk } from '@/lib/closing';
 import { takePrimaryAction } from '@/lib/primaryaction';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
@@ -45,7 +49,12 @@ const d = entry.data;
 // main button (tracker P2). A body that opens with the top image again shows
 // it once (tracker R5).
 // Pictures a body piles up in one place go to their sections first (tracker K11).
-const once = heroOnce(moveMedia(entry.rendered?.html ?? '', d.route), d.route);
+// Partner logos stacked down a body become one row of tiles, the page's own
+// top image first when it is one of them (src/data/logo-rows.ts).
+const pageImages = import.meta.glob<{ default: ImageMetadata }>('/src/images/pages/*.{jpg,jpeg,png,webp}', { eager: true });
+const rowTop = logoRows[d.route]?.top && d.imageFile ? pageImages[`/src/images/pages/${d.imageFile}`]?.default : undefined;
+const rowTopImg = rowTop ? await getImage({ src: rowTop, width: Math.min(480, rowTop.width) }) : undefined;
+const once = heroOnce(logoRow(moveMedia(entry.rendered?.html ?? '', d.route), d.route, rowTopImg), d.route);
 const { html: body, action } = takePrimaryAction(
   injectTileIcons(tidyProse(cleanLinks(linkHubEntries(once.html, d.route), d.route))), d.route);
 // A long body gets its paste damage repaired, ids on its headings and a
@@ -117,7 +126,7 @@ const ontoBand = ask === 'lead' && !endCard && !showChildren;
 // image, and so does a "Needs photo" box for a page still owed one.
 const needsPhoto = heroOverrides[d.route] === 'needs-photo';
 const picked = needsPhoto || typeof heroOverrides[d.route] === 'object';
-const mode = d.imageFile && !once.hideHero && !picked ? heroMode(d.imageWidth) : 'none';
+const mode = d.imageFile && !once.hideHero && !picked && !rowTopImg ? heroMode(d.imageWidth) : 'none';
 // A small image that is content, like a partner lab's logo, stays an inset (I5).
 const hero = mode === 'hidden' && keptInsets.includes(d.route) ? 'inset' : mode;
 // A smaller own image sits in a tinted frame, except the IV graphics (I5, I6).
@@ -393,6 +402,31 @@ const retiredTo = retiredPages[d.route];
 }
 .cpage-hero-media.is-backdrop img:not(.cpage-hero-backdrop) { inset: 0; width: 100%; height: 100%; }
 .cpage-hero-media .cpage-hero-backdrop { filter: blur(28px) saturate(1.1); transform: scale(1.25); }
+/* Partner logos in one row of equal tiles (src/data/logo-rows.ts): each
+   logo fits its tile whatever the file's own size, and multiply drops the
+   white boxes some of the JPEGs carry. */
+.prose .cpage-logos { margin: var(--space-7) 0; }
+.prose .cpage-logos figcaption {
+  margin: 0 0 var(--space-3); font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+}
+.prose .cpage-logos ul {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3);
+}
+.prose .cpage-logos li {
+  display: grid; place-items: center; height: 100px; margin: 0; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line); border-radius: var(--radius); background: #fff;
+}
+.prose .cpage-logos img {
+  display: block; max-width: 100%; max-height: 60px; width: auto; height: auto; margin: 0;
+  object-fit: contain; mix-blend-mode: multiply; border-radius: 0;
+}
+@media (max-width: 560px) {
+  .prose .cpage-logos ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .prose .cpage-logos li { height: 76px; }
+  .prose .cpage-logos img { max-height: 42px; }
+}
 /* A page still owed a photo (src/data/hero-overrides.ts): a plain, labelled
    box in the picture's place, so nobody mistakes the gap for the design. */
 .cpage-needs-photo {

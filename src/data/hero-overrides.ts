@@ -17,9 +17,13 @@
 import type { StockPhoto } from '@/lib/stock';
 
 export const heroOverrides: Record<string, 'panel' | 'needs-photo' | StockPhoto> = {
-  // TO DO (Oct 2026): the clinic wants new photos for these two. Replace each
-  // 'needs-photo' with { file, alt } (a file in src/images/stock) once picked.
-  '/skinpen-microneedling/': 'needs-photo',
+  // The clinic's pick from Unsplash (2LxO1Wef8wQ), Oct 2026.
+  '/skinpen-microneedling/': {
+    file: 'unsplash-2LxO1Wef8wQ.jpg',
+    alt: 'A gloved practitioner moving a microneedling pen across a patient’s cheek',
+  },
+  // TO DO (Oct 2026): the clinic wants a new photo here. Replace 'needs-photo'
+  // with { file, alt } (a file in src/images/stock) once picked.
   '/conditions/childhood-behavioral-disorders/': 'needs-photo',
   // Gloved hands and a surgical gown beside the instrument tray.
   '/conditions/minor-dermatological-surgeries/': 'panel',
