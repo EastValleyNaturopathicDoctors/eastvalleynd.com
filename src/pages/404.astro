@@ -2,8 +2,9 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import BookCTA from '../components/BookCTA.astro';
+import Icon from '../components/Icon.astro';
 import { nav } from '@/lib/nav';
-import '../styles/therapy-cards.css';
+import '../styles/link-rows.css';
 ---
 <Base title="Page not found" description="That page has moved or no longer exists." searchable={false}>
   <PageHero
@@ -13,11 +14,16 @@ import '../styles/therapy-cards.css';
   />
   <section class="section">
     <div class="container">
-      <div class="therapy-grid">
+      <ul class="link-rows">
         {nav.map((l) => (
-          <a href={l.href} class="therapy-card"><h2>{l.label}</h2></a>
+          <li>
+            <a href={l.href}>
+              <span>{l.label}</span>
+              <Icon name="arrow-right" size={15} />
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
   <BookCTA />

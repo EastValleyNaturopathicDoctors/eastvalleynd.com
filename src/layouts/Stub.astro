@@ -3,6 +3,7 @@ import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
 import { childrenOf } from '@/lib/nav';
+import '../styles/link-rows.css';
 
 interface Props { title: string; path: string; }
 const { title, path } = Astro.props;
@@ -34,7 +35,7 @@ const children = childrenOf(path);
     <section class="section stub-children">
       <div class="container">
         <h2 class="h2">In this section</h2>
-        <ul class="stub-child-list">
+        <ul class="link-rows">
           {children.map((c) => (
             <li>
               <a href={c.href}>
@@ -63,21 +64,8 @@ const children = childrenOf(path);
   padding: 4px 8px; border-radius: 6px; color: var(--ink-2);
 }
 
-/* A scaffolded section still lists what is under it — see Stub.astro. It
-   starts half a section under the hero, as every page's content does. */
+/* A scaffolded section still lists what is under it — see Stub.astro — as
+   link rows (src/styles/link-rows.css). It starts half a section under the
+   hero, as every page's content does. */
 .stub-children .h2 { font-size: clamp(24px, 2.6vw, 32px); margin-bottom: var(--space-6); }
-.stub-child-list {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: var(--gap-tiles);
-}
-.stub-child-list a {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
-  padding: var(--pad-row); border: 1px solid var(--line); border-radius: var(--radius);
-  font-size: 15.5px; font-weight: 500; color: var(--ink-2);
-  transition: border-color .18s, background .18s, color .18s;
-}
-.stub-child-list a:hover { border-color: var(--grn); background: var(--grn-soft); color: var(--ink); }
-.stub-child-list svg { flex: none; color: var(--ink-3); }
-.stub-child-list a:hover svg { color: var(--grn-2); }
 </style>

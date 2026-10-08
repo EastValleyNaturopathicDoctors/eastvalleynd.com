@@ -1,0 +1,22 @@
+/* --- Link rows ---------------------------------------------------------------
+   A list of one-line links, each a bordered row with an arrow, in as many
+   columns as fit: the 404's way back into the site and a scaffolded section's
+   pages (404.astro, layouts/Stub.astro). Every cell is its own bordered row,
+   so a short last row leaves white, never a grey filler cell (tracker K11).
+   <ul class="link-rows"><li><a href><span>Label</span><Icon arrow-right /></a></li></ul> */
+.link-rows {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: var(--gap-tiles);
+}
+.link-rows li { margin: 0; }
+.link-rows a {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  height: 100%;
+  padding: var(--pad-row); border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg); font-size: 15.5px; font-weight: 500; color: var(--ink-2);
+  transition: border-color .18s, background .18s, color .18s;
+}
+.link-rows a:hover { border-color: var(--grn); background: var(--grn-soft); color: var(--ink); }
+.link-rows svg { flex: none; color: var(--ink-3); }
+.link-rows a:hover svg { color: var(--grn-2); }

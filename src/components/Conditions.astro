@@ -105,7 +105,9 @@ const truncated = !!limit && total > items.length;
   position: absolute; top: var(--space-4); right: var(--space-4);
   width: 32px; height: 32px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.18);
+  /* The ink scrim .res-meta uses: a white wash vanished on a light photo,
+     leaving a white arrow on white (tracker K11). */
+  background: rgba(14, 19, 17, 0.55);
   display: inline-flex; align-items: center; justify-content: center;
   color: #fff;
   backdrop-filter: blur(6px);
