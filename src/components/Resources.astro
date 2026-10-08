@@ -5,6 +5,14 @@
  * Everything here is real content with a real destination (D106). The design
  * template's version posted an email form to /api/ebook — an endpoint a static
  * host does not have — and linked four invented articles to /resources/.
+ *
+ * The e-book card asks for an email before the download (the clinic's choice,
+ * Oct 2026). NOT CONNECTED YET: the address is checked and sent nowhere, and
+ * the download link then appears in the card, so the e-book stays available
+ * meanwhile. To connect it, give the <form> a real `action` and remove
+ * `data-unconnected` (and decide whether the link still appears or the
+ * e-book goes by email). The form shows once its script runs; without
+ * JavaScript the card keeps a plain link instead.
  */
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -12,7 +20,9 @@ import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
 import SectionHead from './SectionHead.astro';
 import Eyebrow from './Eyebrow.astro';
+import Button from './Button.astro';
 import webinarData from '../data/webinars.json';
+import ebookPhoto from '../images/site/ebook-menopause.jpg';
 interface Props { showHead?: boolean; }
 const { showHead = true } = Astro.props;
 
@@ -54,12 +64,26 @@ const cards = [
 
     <div class="res-grid">
       <div class="ebook-card">
+        {/* Decorative: the card's words say what it is. */}
+        <Image src={ebookPhoto} alt="" width={900} class="ebook-photo" loading="lazy" decoding="async" />
         <Eyebrow>Free e-book</Eyebrow>
         <h3>How to Feel Amazing in Menopause</h3>
-        <p>A complimentary guide by Dr. Jennifer Nevels.</p>
-        <a class="btn btn-light ebook-download" href={EBOOK}>
-          Download the e-book <Icon name="arrow-right" size={16} />
-        </a>
+        <p>A complimentary guide by Dr. Jennifer Nevels. Enter your email to get your copy.</p>
+        <form class="ebook-form" method="post" action="" data-unconnected hidden>
+          <label class="ebook-label" for="ebook-email">Email address</label>
+          <div class="ebook-field">
+            <input id="ebook-email" type="email" name="email" autocomplete="email" inputmode="email"
+                   placeholder="you@example.com" required />
+            <Button variant="dark" icon="arrow-right" type="submit">Get the e-book</Button>
+          </div>
+        </form>
+        <div class="ebook-ready" hidden>
+          <p class="ebook-ready-title">Thanks! Your copy is ready.</p>
+          <a class="btn btn-light ebook-download" href={EBOOK}>
+            Download the e-book <Icon name="arrow-right" size={16} />
+          </a>
+        </div>
+        <noscript><a class="btn btn-light ebook-download" href={EBOOK}>Download the e-book <Icon name="arrow-right" size={16} /></a></noscript>
         <small>PDF · {ebookMB} MB</small>
       </div>
 
@@ -78,6 +102,23 @@ const cards = [
   </div>
 </section>
 
+<script>
+  // The e-book form (see the note at the top of this file): the browser checks
+  // the address, nothing is sent, and the download link takes the form's place.
+  for (const form of document.querySelectorAll<HTMLFormElement>('.ebook-form[data-unconnected]')) {
+    const card = form.closest('.ebook-card');
+    const ready = card?.querySelector<HTMLElement>('.ebook-ready');
+    form.hidden = false;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!ready) return;
+      form.hidden = true;
+      ready.hidden = false;
+      ready.querySelector<HTMLAnchorElement>('a')?.focus();
+    });
+  }
+</script>
+
 <style is:global>
 .resources-section { background: var(--bg-softer); }
 .res-grid {
@@ -85,21 +126,57 @@ const cards = [
   grid-template-columns: repeat(3, 1fr);
   gap: var(--gap-cards);
 }
+/* The e-book card: the photo fills it, darkening toward the words at the
+   foot. On a wide card (the tablet layout) the shade runs from the left
+   instead, beside the words. */
 .ebook-card {
   grid-row: span 2;
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 560px;
   background: var(--ink);
   color: #fff;
   border-radius: var(--radius-lg);
   padding: var(--pad-feature);
-  /* Bottom-aligned, so the copy and its button stay together; margins, not a
-     flex gap: h3 -> text 8, text -> button 32, button -> size note 8. */
+  /* Bottom-aligned, so the copy and its form stay together; margins, not a
+     flex gap: h3 -> text 8, text -> form 24, form -> size note 8. */
   display: flex; flex-direction: column; gap: 0; justify-content: flex-end;
 }
-.ebook-card .eyebrow { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); }
-.ebook-card h3 { font-family: var(--font-display); font-size: 30px; margin: 0; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
-.ebook-card p { color: rgba(255,255,255,0.78); font-size: 15px; line-height: 1.55; margin: var(--space-2) 0 0; }
-.ebook-download { margin-top: var(--space-7); align-self: flex-start; }
-.ebook-card small { margin-top: var(--space-2); color: rgba(255,255,255,0.5); font-size: 12px; }
+.ebook-photo {
+  position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%;
+  object-fit: cover; object-position: 58% 16%;
+}
+.ebook-card::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to bottom, rgba(14, 19, 17, 0) 18%, rgba(14, 19, 17, 0.5) 40%, rgba(14, 19, 17, 0.9) 62%, rgba(14, 19, 17, 0.96) 100%);
+}
+.ebook-card > :not(.ebook-photo) { position: relative; }
+.ebook-card .eyebrow { align-self: flex-start; background: rgba(14, 19, 17, 0.35); border-color: rgba(255,255,255,0.3); color: #fff; backdrop-filter: blur(6px); }
+.ebook-card h3 { font-family: var(--font-display); font-size: 30px; margin: var(--space-4) 0 0; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; text-wrap: balance; }
+.ebook-card p { color: rgba(255,255,255,0.82); font-size: 15px; line-height: 1.55; margin: var(--space-2) 0 0; }
+.ebook-form { margin-top: var(--space-6); container-type: inline-size; }
+.ebook-label {
+  display: block; margin-bottom: var(--space-2);
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7);
+}
+.ebook-field { display: flex; flex-direction: column; gap: var(--space-2); }
+.ebook-field input {
+  width: 100%; min-width: 0; font: inherit; font-size: 16px; color: var(--ink);
+  padding: 13px 18px; border: 1px solid transparent; border-radius: 999px; background: #fff;
+  transition: box-shadow .18s, border-color .18s;
+}
+.ebook-field input::placeholder { color: var(--ink-3); }
+.ebook-field input:focus-visible { outline: none; border-color: var(--grn); box-shadow: 0 0 0 3px rgba(108, 190, 63, 0.45); }
+.ebook-field .btn { justify-content: center; }
+.ebook-ready { margin-top: var(--space-6); }
+.ebook-card .ebook-ready-title { margin: 0; font-weight: 600; color: #fff; }
+.ebook-download { margin-top: var(--space-4); align-self: flex-start; }
+.ebook-card noscript .ebook-download { display: inline-flex; margin-top: var(--space-6); }
+.ebook-card small { margin-top: var(--space-2); color: rgba(255,255,255,0.6); font-size: 12px; }
+/* A wide form: the field and button share a line. */
+@container (min-width: 440px) {
+  .ebook-field { flex-direction: row; max-width: 460px; }
+  .ebook-field .btn { flex: none; }
+}
 
 .res-card {
   position: relative;
@@ -134,6 +211,25 @@ const cards = [
 }
 .res-card:hover .res-arrow { background: var(--ink); color: #fff; }
 
-@media (max-width: 1000px) { .res-grid { grid-template-columns: repeat(2, 1fr); } .ebook-card { grid-row: span 1; grid-column: 1 / -1; } }
-@media (max-width: 600px) { .res-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1000px) {
+  .res-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Wide and short: the words on the left, the photo on the right 60%,
+     fading in from the ink behind the words. */
+  .ebook-card { grid-row: span 1; grid-column: 1 / -1; min-height: 440px; }
+  .ebook-card > :not(.ebook-photo) { max-width: 50%; }
+  .ebook-photo { left: 40%; width: 60%; object-position: 62% 14%; }
+  .ebook-card::before {
+    background: linear-gradient(90deg, rgba(14, 19, 17, 1) 0%, rgba(14, 19, 17, 1) 40%, rgba(14, 19, 17, 0.55) 50%, rgba(14, 19, 17, 0) 64%);
+  }
+}
+@media (max-width: 600px) {
+  .res-grid { grid-template-columns: 1fr; }
+  /* A phone: back to the photo on top, the words over its darkened foot. */
+  .ebook-card { min-height: 660px; }
+  .ebook-card > :not(.ebook-photo) { max-width: none; }
+  .ebook-photo { left: 0; width: 100%; object-position: 62% 6%; }
+  .ebook-card::before {
+    background: linear-gradient(to bottom, rgba(14, 19, 17, 0) 22%, rgba(14, 19, 17, 0.6) 42%, rgba(14, 19, 17, 0.93) 58%, rgba(14, 19, 17, 0.97) 100%);
+  }
+}
 </style>
