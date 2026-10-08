@@ -79,7 +79,7 @@ const schema = {
   <section class="section doc-main">
     <div class="container">
       {d.booking.length > 1 && (
-        <div class="doc-booking">
+        <div class="doc-booking" id="book">
           <Eyebrow>Book with {d.name.split(' ').slice(-1)[0]}</Eyebrow>
           <h2 class="h2">Appointment types</h2>
           <ul class="doc-booking-list">
@@ -154,6 +154,8 @@ const schema = {
 /* Booking links recovered from the WordPress scheduling widgets, then the
    bio, in one section: one block step between them, not two paddings. */
 .doc-booking .h2 + .doc-booking-list { margin-top: var(--space-head); }
+/* The contact page's Schedule links land here, clear of the sticky header. */
+.doc-booking { scroll-margin-top: 110px; }
 .doc-booking + .doc-bio-body { margin-top: var(--space-block); }
 .doc-booking-list {
   list-style: none; margin: 0; padding: 0;

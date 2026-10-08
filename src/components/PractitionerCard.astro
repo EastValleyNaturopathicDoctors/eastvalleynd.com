@@ -8,14 +8,40 @@ interface Props {
    *  cards sit directly under the page's h1 and an h3 would skip a level. */
   level?: 'h2' | 'h3';
   /** 'row' is the compact list on the homepage and /about/; 'tile' is the
-   *  larger-headshot card on /physicians/, the full team page (tracker R8). */
-  variant?: 'row' | 'tile';
+   *  larger-headshot card on /physicians/, the full team page (tracker R8);
+   *  'schedule' is the row on /contact/, ending in a Schedule link. */
+  variant?: 'row' | 'tile' | 'schedule';
+  /** The schedule variant's link: one scheduler opens in a new tab. */
+  schedule?: { href: string; external: boolean };
 }
-const { name, credentials, slug, imageFile = '', summary = '', index = 0, level = 'h3', variant = 'row' } = Astro.props;
+const { name, credentials, slug, imageFile = '', summary = '', index = 0, level = 'h3', variant = 'row', schedule } = Astro.props;
 const Heading = level;
 const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
 ---
-{variant === 'tile' ? (
+{variant === 'schedule' && schedule ? (
+<div class="doc-row is-schedule">
+  <div class="doc-num">{String(index + 1).padStart(2, '0')}</div>
+  <div class="doc-name">
+    <Heading><a href={`/physicians/${slug}/`}>{name}</a></Heading>
+    <span>{credentials}</span>
+  </div>
+  <div class="doc-photo">
+    {imageFile
+      ? <TeamPhoto file={imageFile} alt="" width={128} height={128} />
+      : <span class="doc-initials" aria-hidden="true">{initials}</span>}
+  </div>
+  {schedule.external ? (
+    <a class="doc-cta" href={schedule.href} target="_blank" rel="noopener"
+       aria-label={`Schedule with ${name} (opens the scheduler)`}>
+      <span>Schedule</span><Icon name="arrow-up-right" size={14} />
+    </a>
+  ) : (
+    <a class="doc-cta" href={schedule.href} aria-label={`Schedule with ${name}`}>
+      <span>Schedule</span><Icon name="arrow-right" size={14} />
+    </a>
+  )}
+</div>
+) : variant === 'tile' ? (
 <a class="doc-tile" href={`/physicians/${slug}/`}>
   <div class="doc-tile-photo">
     {imageFile
@@ -130,6 +156,19 @@ const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join
   .docs-list a.doc-row .doc-focus { grid-row: 2; grid-column: 2 / -1; padding-left: 0; font-size: 14.5px; }
   .docs-list a.doc-row .doc-cta { grid-row: 3; grid-column: 2 / -1; justify-self: start; }
   .docs-list a.doc-row .doc-name h2, .docs-list a.doc-row .doc-name h3 { font-size: 19px; }
+}
+
+/* Schedule rows on /contact/: the same row without the summary, ending in the
+   practitioner's Schedule link. Only the name links to the profile. */
+.docs-list .doc-row.is-schedule { grid-template-columns: 70px minmax(0, 1fr) 64px 150px; }
+.doc-row.is-schedule .doc-name a { color: inherit; }
+.doc-row.is-schedule .doc-name a:hover { color: var(--grn-2); }
+.doc-row.is-schedule:hover .doc-photo { filter: none; transform: scale(1.05); }
+@media (max-width: 1000px) {
+  .docs-list .doc-row.is-schedule { grid-template-columns: 40px minmax(0, 1fr) 56px; gap: var(--space-2) var(--space-3); }
+  .doc-row.is-schedule .doc-photo { width: 56px; height: 56px; }
+  .doc-row.is-schedule .doc-cta { grid-row: 2; grid-column: 2 / -1; justify-self: start; }
+  .doc-row.is-schedule .doc-name h3 { font-size: 19px; }
 }
 
 /* --- Team page tiles (tracker R8) -------------------------------------------

@@ -3,10 +3,23 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
+import PractitionerCard from '@/components/PractitionerCard.astro';
+import { getCollection } from 'astro:content';
 import { site, mapQuery, directionsHref } from '@/data/site';
 import { keepTimes } from '@/lib/times';
 
 const a = site.address;
+// Each practitioner's Schedule link, from the booking the old site embedded on
+// their page (D115): one scheduler opens directly; several appointment types
+// open the list on their profile; none goes to the request form.
+const team = (await getCollection('physicians'))
+  .sort((x, y) => x.data.order - y.data.order)
+  .map(({ data: d }) => ({
+    ...d,
+    schedule: d.booking.length === 1 ? { href: d.booking[0].url, external: true }
+      : d.booking.length > 1 ? { href: `/physicians/${d.slug}/#book`, external: false }
+      : { href: '/schedule-appointment/', external: false },
+  }));
 ---
 <Base
   title="Contact"
@@ -61,16 +74,39 @@ const a = site.address;
       </div>
 
       <aside class="contact-map">
-        <iframe
+        {/* The address card underneath shows until the map loads, and stays
+            if Google's embed is blocked, so there's never an empty frame. */}
+        <div class="contact-map-frame">
+          <div class="contact-map-fallback" aria-hidden="true">
+            <Icon name="pin" size={28} />
+            <p>{a.street}<br />{a.city}, {a.state} {a.zip}</p>
+          </div>
+          <iframe
           title={`Map to ${site.name}`}
           src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
           loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
         <a class="contact-directions"
            href={directionsHref}
            target="_blank" rel="noopener">
           Get directions <Icon name="arrow-up-right" size={14} />
         </a>
       </aside>
+    </div>
+  </section>
+
+  <section class="section contact-team" aria-labelledby="contact-team-head" data-pagefind-ignore>
+    <div class="container">
+      <div class="contact-team-head">
+        <h2 class="h2" id="contact-team-head">Book with your practitioner</h2>
+        <p class="lede">Established patients can book online, directly with their practitioner.</p>
+      </div>
+      <div class="docs-list">
+        {team.map((d, i) => (
+          <PractitionerCard variant="schedule" name={d.name} credentials={d.credentials} slug={d.slug}
+                            imageFile={d.imageFile} index={i} schedule={d.schedule} />
+        ))}
+      </div>
     </div>
   </section>
 </Base>
@@ -101,10 +137,16 @@ const a = site.address;
 .contact-hours li span:last-child { color: var(--ink-2); font-family: var(--font-mono); font-size: 14px; }
 .contact-note { margin: var(--space-3) 0 0; font-size: 14.5px; color: var(--ink-3); }
 .contact-map { position: sticky; top: 96px; }
-.contact-map iframe {
-  width: 100%; aspect-ratio: 4 / 5; border: 1px solid var(--line);
-  border-radius: var(--radius-lg); display: block;
+.contact-map-frame {
+  position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+  border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-soft);
 }
+.contact-map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.contact-map-fallback {
+  position: absolute; inset: 0; display: grid; place-content: center; justify-items: center;
+  gap: var(--space-3); text-align: center; color: var(--grn-2);
+}
+.contact-map-fallback p { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink-2); }
 .contact-directions {
   display: inline-flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3);
   font-size: 14px; font-weight: 500; color: var(--grn-2);
@@ -112,6 +154,11 @@ const a = site.address;
 @media (max-width: 860px) {
   .contact-grid { grid-template-columns: 1fr; }
   .contact-map { position: static; }
-  .contact-map iframe { aspect-ratio: 4 / 3; }
+  .contact-map-frame { aspect-ratio: 4 / 3; }
 }
+
+/* Book with your practitioner: the rows are PractitionerCard's schedule variant. */
+.contact-team { padding-top: 0; }
+.contact-team-head { margin-bottom: var(--space-head); }
+.contact-team-head .lede { margin-top: var(--space-4); }
 </style>
