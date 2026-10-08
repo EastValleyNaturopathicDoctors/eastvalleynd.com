@@ -21,7 +21,7 @@ const children = childrenOf(path);
      and it is excluded from sitemap.xml by the same token. `follow` so the
      nav links on it still pass through. -->
 <Base title={title} description={`${title} — ${site.name}, Mesa AZ.`} noindex>
-  <section class="page-hero stub-hero">
+  <section class:list={['page-hero', 'stub-hero', children.length === 0 && 'is-last']}>
     <div class="container">
       <h1 class="h1">{title}</h1>
       <p class="stub-note">
@@ -54,6 +54,9 @@ const children = childrenOf(path);
 /* Scaffolded pages — visibly unfinished on purpose, so an empty page is never
    mistaken for a broken one during review. */
 .stub-hero { border-bottom: none; }
+/* With no section under it the hero sits on the footer: its last line keeps
+   a whole section above that edge, as every page's last content does. */
+.stub-hero.is-last { padding-bottom: var(--space-section); }
 .stub-note {
   margin-top: var(--space-5); font-size: 14px; color: var(--ink-3);
   display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;
