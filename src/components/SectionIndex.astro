@@ -15,6 +15,8 @@
  */
 import Icon from './Icon.astro';
 import { find, live, type NavNode } from '@/lib/nav';
+import { site } from '@/data/site';
+import { sectionKeywords } from '@/data/section-keywords';
 import { sectionIcons, sectionIconDefault } from '@/data/section-icons';
 
 interface Props {
@@ -25,14 +27,18 @@ interface Props {
   /** Band headings, shown only when both bands render. */
   panelsLabel?: string;
   tilesLabel?: string;
+  /** A filter box above the index: its label and an example in the field. */
+  filter?: { label: string; placeholder: string };
 }
-const { root, showChildren = true, panelsLabel, tilesLabel } = Astro.props;
+const { root, showChildren = true, panelsLabel, tilesLabel, filter } = Astro.props;
 
 const section = find(root);
 // Placeholder pages get no panel, tile or sub-page link (tracker N1).
 const items = live(section?.children ?? []);
 if (import.meta.env.DEV && !section) console.warn(`<SectionIndex> no nav section for "${root}"`);
 
+/** What the filter box matches: the page's name and any everyday words for it. */
+const findText = (n: NavNode) => [n.label, sectionKeywords[n.href]].filter(Boolean).join(' ');
 const iconFor = (n: NavNode) => sectionIcons[n.href] ?? sectionIconDefault[root] ?? 'circle';
 
 /** Soft-hyphen break points for the longest words in tile labels, so a narrow
@@ -68,20 +74,35 @@ for (const t of [12, 6, 4]) {
 const cols = (span: number) => (span === 12 ? 3 : span === 6 ? 2 : 1);
 const bands = panels.length > 0 && leaves.length > 0;
 ---
-<div class="six" data-pagefind-ignore>
+<div class="six" data-pagefind-ignore data-six-filterable={filter ? '' : undefined}>
+  {filter && (
+    <div class="six-filter" role="search">
+      <label class="six-filter-label" for={`six-find-${root.replace(/\W/g, '')}`}>{filter.label}</label>
+      <div class="six-filter-field">
+        <Icon name="search" size={18} />
+        <input id={`six-find-${root.replace(/\W/g, '')}`} type="search" autocomplete="off" spellcheck="false"
+               placeholder={filter.placeholder} />
+      </div>
+      <p class="six-filter-count" aria-live="polite"></p>
+      <div class="six-filter-none" hidden>
+        <p>Nothing here matches that yet. Call <a href={site.phoneHref}>{site.phone}</a> and we'll tell you whether we can help.</p>
+        <button type="button" class="six-filter-clear">Clear the filter</button>
+      </div>
+    </div>
+  )}
   {panels.length > 0 && (
     <Fragment>
       {bands && panelsLabel && <h2 class="six-band">{panelsLabel}</h2>}
       <div class="six-panels">
         {panels.map(({ node, span }) => (
-          <div class={`six-panel is-${span}`}>
+          <div class={`six-panel is-${span}`} data-find={findText(node)}>
             <a class="six-head" href={node.href}>
               <span class="six-icon"><Icon name={iconFor(node)} size={22} /></span>
               <h3>{node.label}</h3>
               <Icon name="arrow-up-right" size={16} class="six-arrow" />
             </a>
             <ul class={`six-kids cols-${cols(span)}`}>
-              {node.children.map((k) => <li><a href={k.href}>{k.label}</a></li>)}
+              {node.children.map((k) => <li data-find={findText(k)}><a href={k.href}>{k.label}</a></li>)}
             </ul>
           </div>
         ))}
@@ -93,7 +114,7 @@ const bands = panels.length > 0 && leaves.length > 0;
       {bands && tilesLabel && <h2 class="six-band">{tilesLabel}</h2>}
       <ul class="six-tiles">
         {leaves.map((n) => (
-          <li>
+          <li data-find={findText(n)}>
             <a href={n.href}>
               <span class="six-icon"><Icon name={iconFor(n)} size={22} /></span>
               <span class="six-tile-label">{soft(n.label)}</span>
@@ -106,7 +127,83 @@ const bands = panels.length > 0 && leaves.length > 0;
   )}
 </div>
 
+<script>
+  // The filter box: each word typed must start a word in an item's name (so
+  // "iv" finds IV Therapy, not "hyperactivity"). A panel whose own name
+  // matches keeps all its pages; otherwise it shows only the pages that match.
+  const words = (s: string) => s.toLowerCase().replace(/&/g, ' and ').split(/[^a-z0-9]+/).filter(Boolean);
+  const hits = (q: string[], text: string) => {
+    const w = words(text);
+    return q.every((t) => w.some((x) => x.startsWith(t)));
+  };
+  for (const root of document.querySelectorAll<HTMLElement>('[data-six-filterable]')) {
+    const input = root.querySelector<HTMLInputElement>('.six-filter input');
+    const count = root.querySelector<HTMLElement>('.six-filter-count');
+    const none = root.querySelector<HTMLElement>('.six-filter-none');
+    if (!input || !count || !none) continue;
+    const panels = [...root.querySelectorAll<HTMLElement>('.six-panel')];
+    const tiles = [...root.querySelectorAll<HTMLElement>('.six-tiles > li')];
+    const bands = [...root.querySelectorAll<HTMLElement>('.six-band')];
+    const run = () => {
+      const q = words(input.value);
+      let shown = 0;
+      for (const p of panels) {
+        const self = !q.length || hits(q, p.dataset.find || '');
+        let kids = 0;
+        for (const li of p.querySelectorAll<HTMLElement>('li[data-find]')) {
+          const on = self || hits(q, li.dataset.find || '');
+          li.hidden = !on;
+          if (on) kids += 1;
+        }
+        p.hidden = !(self || kids);
+        // Count pages, not cards: the section itself when its name matched,
+        // plus each of its pages left showing.
+        if (!p.hidden) shown += (self ? 1 : 0) + kids;
+      }
+      for (const t of tiles) {
+        t.hidden = !(!q.length || hits(q, t.dataset.find || ''));
+        if (!t.hidden) shown += 1;
+      }
+      const anyPanel = panels.some((p) => !p.hidden);
+      const anyTile = tiles.some((t) => !t.hidden);
+      // A band heading goes with its band.
+      bands.forEach((b, i) => { b.hidden = !!q.length && (i === 0 && panels.length ? !anyPanel : !anyTile); });
+      none.hidden = !q.length || shown > 0;
+      count.textContent = q.length ? (shown ? `${shown} ${shown === 1 ? 'match' : 'matches'}` : '') : '';
+    };
+    input.addEventListener('input', run);
+    root.querySelector('.six-filter-clear')?.addEventListener('click', () => { input.value = ''; run(); input.focus(); });
+  }
+</script>
+
 <style is:global>
+/* The filter box. */
+.six-filter { margin-bottom: var(--space-head); }
+.six-filter-label {
+  display: block; margin-bottom: var(--space-3);
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+}
+.six-filter-field { position: relative; max-width: 560px; }
+.six-filter-field svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--ink-3); pointer-events: none; }
+.six-filter-field input {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink);
+  padding: 14px 16px 14px 46px; background: var(--bg);
+  border: 1px solid var(--line-2); border-radius: 999px;
+  transition: border-color .18s, box-shadow .18s;
+}
+.six-filter-field input:focus-visible { outline: none; border-color: var(--grn-2); box-shadow: 0 0 0 3px rgba(108, 190, 63, 0.25); }
+.six-filter-count { margin: var(--space-2) 0 0 var(--space-4); min-height: 1.4em; font-size: 13.5px; color: var(--ink-3); }
+.six-filter-none { margin-top: var(--space-3); }
+.six-filter-none p { margin: 0; color: var(--ink-2); }
+.six-filter-none a { color: var(--grn-2); font-weight: 600; }
+.six-filter-clear {
+  margin-top: var(--space-3); padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--bg); font: inherit; font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer;
+}
+.six-filter-clear:hover { border-color: var(--grn); }
+.six [hidden] { display: none !important; }
+
 /* --- Section index: panels for sections, tiles for pages (D114) ---------- */
 .six-band {
   font-family: var(--font-mono); font-size: 12px; font-weight: 500;

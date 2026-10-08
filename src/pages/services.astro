@@ -22,7 +22,8 @@ const count = live(section?.children ?? []).length;
   <TrustStrip />
   <section class="section">
     <div class="container">
-      <SectionIndex root="/services/" panelsLabel="Programs and clinics" tilesLabel="Individual treatments" />
+      <SectionIndex root="/services/" panelsLabel="Programs and clinics" tilesLabel="Individual treatments"
+        filter={{ label: 'Find a service', placeholder: 'Try “IV”, “brain” or “hormone”' }} />
     </div>
   </section>
   <TruDOSE />

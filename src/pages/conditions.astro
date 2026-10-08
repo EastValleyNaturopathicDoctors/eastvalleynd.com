@@ -21,7 +21,8 @@ const count = live(section?.children ?? []).length;
   />
   <section class="section">
     <div class="container">
-      <SectionIndex root="/conditions/" panelsLabel="Areas of care" tilesLabel="Also treated at EVND" />
+      <SectionIndex root="/conditions/" panelsLabel="Areas of care" tilesLabel="Also treated at EVND"
+        filter={{ label: 'Find a condition', placeholder: 'Try “back pain”, “thyroid” or “gut”' }} />
     </div>
   </section>
   <TruDOSE />
