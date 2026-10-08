@@ -181,7 +181,7 @@ em { font-style: normal; color: var(--grn-2); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0; z-index: 999;
-  background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 0 0 8px 0;
+  background: var(--ink); color: #fff; padding: var(--space-3) var(--space-4); border-radius: 0 0 8px 0;
 }
 .skip-link:focus { left: 0; }
 
