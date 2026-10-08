@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
-import TallyForm from '@/components/TallyForm.astro';
+import AppointmentRequestForm from '@/components/AppointmentRequestForm.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
 import { site } from '@/data/site';
@@ -37,20 +37,11 @@ const bookable = (await getCollection('physicians'))
       <div class="form-main">
         <h2 class="form-heading">Request an appointment</h2>
         <p class="form-intro">
-          Tell us how to reach you and what you'd like help with. We'll follow up
-          during clinic hours — usually the same day.
+          This is a request only. You will receive a call or email to go over pricing
+          and how to onboard as a new patient.
         </p>
 
-        <TallyForm form="appointment" title="Request an appointment" height={760}>
-          <p class="tally-pending-title">Our online request form is moving.</p>
-          <p>
-            While we finish the switch, the fastest way to be seen is to call the
-            front desk — we'll take your details and get you booked on the spot.
-          </p>
-          <div class="hero-cta">
-            <Button href={site.phoneHref} variant="dark" icon="phone">Call {site.phone}</Button>
-          </div>
-        </TallyForm>
+        <AppointmentRequestForm />
       </div>
 
       <aside class="form-aside">
