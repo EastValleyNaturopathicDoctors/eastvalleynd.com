@@ -13,6 +13,9 @@
  *     Function" not) — checked like its neighbour;
  *   - eight or more short items — marked `wp-shortlist`, which BodyHtml sets in
  *     columns, so FSM's 52 conditions are not one 2,000px column on a phone;
+ *     once a page has one, its other short lists of six or more follow, so
+ *     two neighbouring lists are not one in columns and one not (K11);
+ *   - "Learn more" in a link's words never breaks between the two (K11);
  *   - the reference list (lib/longread.ts `repairReferences`).
  *
  * Heading promotion and the other long-read repairs stay with long pages. The
@@ -81,24 +84,35 @@ function siblingChecklists(html: string): string {
   return html;
 }
 
-/** At least this many items, none longer than this, read better in columns. */
+/** At least this many items, none longer than this, read better in columns.
+ *  On a page that has such a list, its sibling lists of short items do too
+ *  from SHORT_SIBLINGS items (/conditions/womens-health/: 8 and 7). */
 const SHORT_ITEMS = 8;
+const SHORT_SIBLINGS = 6;
 const SHORT_LENGTH = 40;
 function shortLists(html: string): string {
   const OPEN = /<ul( class="wp-checklist")?>/gi;
-  for (let m; (m = OPEN.exec(html)); ) {
-    const end = closeOf(html, m.index, 'ul');
-    if (end < 0) continue;
-    const list = html.slice(m.index, end);
-    const flat = !/<(ul|ol|p|div|img|table|figure)\b/i.test(list.slice(m[0].length));
-    if (!flat || items(list) < SHORT_ITEMS || !itemTexts(list).every((t) => textLength(t) <= SHORT_LENGTH)) continue;
-    const open = `<ul class="${m[1] ? 'wp-checklist ' : ''}wp-shortlist">`;
-    html = html.slice(0, m.index) + open + html.slice(m.index + m[0].length);
-    OPEN.lastIndex = m.index + open.length;
+  // Item counts of the flat lists of short items, in page order.
+  const counts: number[] = [];
+  for (const m of html.matchAll(OPEN)) {
+    const end = closeOf(html, m.index!, 'ul');
+    const list = end < 0 ? '' : html.slice(m.index, end);
+    const flat = !!list && !/<(ul|ol|p|div|img|table|figure)\b/i.test(list.slice(m[0].length));
+    counts.push(flat && itemTexts(list).every((t) => textLength(t) <= SHORT_LENGTH) ? items(list) : 0);
   }
-  return html;
+  const least = counts.some((n) => n >= SHORT_ITEMS) ? SHORT_SIBLINGS : SHORT_ITEMS;
+  let k = 0;
+  return html.replace(OPEN, (open, checked) =>
+    counts[k++] >= least ? `<ul class="${checked ? 'wp-checklist ' : ''}wp-shortlist">` : open);
+}
+
+/** "Learn More" in a link's words: the two stay on one line (U+00A0). */
+function keepLearnMore(html: string): string {
+  return html.replace(/(<a\b[^>]*>)([\s\S]*?)(<\/a>)/gi, (_, open, words: string, close) =>
+    open + words.replace(/(^|>)([^<]+)/g, (_m, gt, text: string) =>
+      gt + text.replace(/\b(learn)\s+(more)\b/gi, '$1\u00A0$2')) + close);
 }
 
 export function tidyProse(html: string): string {
-  return repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(html)))));
+  return keepLearnMore(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(html))))));
 }

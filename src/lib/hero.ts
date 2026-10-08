@@ -35,9 +35,11 @@ export const isIvGraphic = (route: string): boolean =>
  * Whether a body opens with its own video or picture, allowing one heading
  * first ("Long COVID Syndrome", then the video). Such a page skips the stock
  * photo or icon panel: the clinic's own media is the top image (tracker I5).
+ * The heading is tempered: its text cannot cross another heading tag, so a
+ * body of heading, paragraph, heading, image keeps its top image.
  */
 export const opensWithMedia = (html: string): boolean =>
-  /^\s*(?:<p>\s*(?:&nbsp;)?\s*<\/p>\s*)*(?:<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>\s*)?(?:<p[^>]*>\s*)?(?:<a [^>]*>\s*)?<(?:(?:img|video|iframe)\b|figure class="wp-video")/
+  /^\s*(?:<p>\s*(?:&nbsp;)?\s*<\/p>\s*)*(?:<(h[1-6])\b[^>]*>(?:(?!<\/?h[1-6]\b)[\s\S])*<\/\1>\s*)?(?:<p[^>]*>\s*)?(?:<a [^>]*>\s*)?<(?:(?:img|video|iframe)\b|figure class="wp-video")/
     .test(html);
 
 /**

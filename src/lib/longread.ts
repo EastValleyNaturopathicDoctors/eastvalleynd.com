@@ -92,10 +92,11 @@ export function repairReferences(html: string): string {
   const bs = blocks(html);
   const out: string[] = [];
   let level = 1;          // the last real heading's level
+  let sawH2 = false;      // a real <h2> came before: the references nest under it
   for (let i = 0; i < bs.length; i++) {
     const b = bs[i];
     const h = /^h([1-6])$/.exec(b.tag);
-    if (h) level = +h[1];
+    if (h) { level = +h[1]; if (level === 2) sawH2 = true; }
     const t = plainPara(b) ? strip(inner(b)) : '';
     const next = bs.slice(i + 1).find((x) => x.tag);
     if (REFS_LABEL.test(t) && next && /^\d+\.\s/.test(strip(inner(next)))) {
@@ -104,7 +105,9 @@ export function repairReferences(html: string): string {
       while (k < bs.length && (!bs[k].tag || (bs[k].tag === 'p' && /^\d+\.\s/.test(strip(inner(bs[k])))))) {
         refs.push(bs[k].html); k++;
       }
-      const rl = Math.min(Math.max(level, 2) + 1, 3); // listed in the contents, even under an h3
+      // Listed in the contents, even under an h3; with no h2 above it the label
+      // is a section of its own, so the outline never skips from h1 to h3.
+      const rl = sawH2 ? Math.min(Math.max(level, 2) + 1, 3) : 2;
       out.push(`<h${rl} class="lr-subhead lr-refs-head${isCaps(t) ? ' is-caps' : ''}">${inner(b)}</h${rl}>`);
       out.push(`<div class="lr-refs">${refs.join('')}</div>`);
       i = k - 1;
