@@ -12,6 +12,7 @@ import BodyHtml from '../../components/BodyHtml.astro';
 import { cleanLinks } from '@/lib/links';
 import { stripEncodedShortcodes } from '@/lib/shortcodes';
 import { site } from '../../data/site';
+import '../../styles/pager.css';
 
 export async function getStaticPaths() {
   const docs = await getCollection('physicians');
@@ -73,28 +74,27 @@ const schema = {
     </div>
   </section>
 
-  {d.booking.length > 1 && (
-    <section class="section doc-booking-section">
-      <div class="container">
-        <Eyebrow>Book with {d.name.split(' ').slice(-1)[0]}</Eyebrow>
-        <h2 class="h2">Appointment types</h2>
-        <ul class="doc-booking-list">
-          {d.booking.map((b) => (
-            <li>
-              <a href={b.url} target="_blank" rel="noopener">
-                <span>{b.label}</span>
-                <Icon name="arrow-up-right" size={16} />
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
-
-  <section class="section doc-bio-section">
-    <div class="container doc-bio">
-      <article class="doc-bio-body">
+  {/* One section: the booking block (when a practitioner has several
+      appointment types) and the bio below it, both on the content edge. */}
+  <section class="section doc-main">
+    <div class="container">
+      {d.booking.length > 1 && (
+        <div class="doc-booking">
+          <Eyebrow>Book with {d.name.split(' ').slice(-1)[0]}</Eyebrow>
+          <h2 class="h2">Appointment types</h2>
+          <ul class="doc-booking-list">
+            {d.booking.map((b) => (
+              <li>
+                <a href={b.url} target="_blank" rel="noopener">
+                  <span>{b.label}</span>
+                  <Icon name="arrow-up-right" size={16} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <article class="doc-bio-body prose">
         <BodyHtml html={bio} />
       </article>
     </div>
@@ -108,17 +108,19 @@ const schema = {
     variant="doc"
   />
 
-  <nav class="section doc-pager" aria-label="More practitioners">
-    <div class="container doc-pager-inner">
-      <a class="doc-pager-link is-prev" href={`/physicians/${prev.data.slug}/`}>
-        <Icon name="arrow-right" size={16} />
-        <span><small>Previous</small>{prev.data.name}</span>
-      </a>
-      <a class="doc-pager-all" href="/physicians/">All practitioners</a>
-      <a class="doc-pager-link is-next" href={`/physicians/${next.data.slug}/`}>
-        <span><small>Next</small>{next.data.name}</span>
-        <Icon name="arrow-right" size={16} />
-      </a>
+  <nav class="pager doc-pager" aria-label="More practitioners">
+    <div class="container">
+      <div class="pager-inner">
+        <a class="pager-link is-prev" href={`/physicians/${prev.data.slug}/`}>
+          <Icon name="arrow-right" size={16} />
+          <span><small>Previous</small>{prev.data.name}</span>
+        </a>
+        <a class="pager-all" href="/physicians/">All practitioners</a>
+        <a class="pager-link is-next" href={`/physicians/${next.data.slug}/`}>
+          <span><small>Next</small>{next.data.name}</span>
+          <Icon name="arrow-right" size={16} />
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -127,11 +129,10 @@ const schema = {
 </Base>
 
 <style is:global>
-/* Detail hero */
-.doc-hero { padding-bottom: clamp(40px, 5vw, 64px); }
+/* Detail hero. Its bottom padding is the page-hero token (global.css). */
 .doc-hero-inner {
   display: grid; grid-template-columns: minmax(200px, 300px) 1fr;
-  gap: clamp(24px, 4vw, 56px); align-items: center;
+  gap: var(--gap-cols); align-items: center;
 }
 .doc-hero-photo {
   aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden;
@@ -141,83 +142,52 @@ const schema = {
 .doc-hero-photo .doc-initials { font-size: clamp(40px, 6vw, 72px); }
 .doc-hero-creds {
   font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--ink-3); margin: 10px 0 0;
+  text-transform: uppercase; color: var(--ink-3); margin: var(--space-5) 0 0;
 }
-.doc-hero-text .lede { margin-top: 18px; }
-.doc-hero-text .hero-cta { margin-top: 28px; }
 .doc-hero .eyebrow a { text-decoration: none; }
-
-/* Bio body — the carried-over WordPress prose. */
-.doc-bio { max-width: 74ch; }
-.doc-bio-body { font-size: 17px; line-height: 1.62; color: var(--ink-2); }
-.doc-bio-body > :first-child { margin-top: 0; }
-.doc-bio-body { overflow-wrap: break-word; }
-.doc-bio-body a { overflow-wrap: anywhere; }   /* long citation URLs on a phone */
-.doc-bio-body p { margin: 0 0 1.15em; }
-.doc-bio-body h2, .doc-bio-body h3, .doc-bio-body h4 {
-  font-family: var(--font-display); color: var(--ink);
-  letter-spacing: -0.015em; line-height: 1.15;
-  margin: 1.9em 0 0.5em;
-}
-.doc-bio-body h2 { font-size: clamp(24px, 2.4vw, 32px); }
-.doc-bio-body h3 { font-size: clamp(20px, 2vw, 25px); }
-.doc-bio-body h4 { font-size: 18px; text-transform: uppercase; letter-spacing: 0.06em;
-  font-family: var(--font-mono); color: var(--grn-2); }
-.doc-bio-body ul, .doc-bio-body ol { margin: 0 0 1.15em; padding-left: 1.25em; }
-.doc-bio-body li { margin-bottom: 0.4em; }
-.doc-bio-body a { color: var(--grn-2); text-decoration: underline; text-underline-offset: 2px; }
-.doc-bio-body strong { color: var(--ink); }
-
-/* Prev / next */
-.doc-pager { padding-top: 0; }
-.doc-pager-inner {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  border-top: 1px solid var(--line); padding-top: 28px; flex-wrap: wrap;
-}
-.doc-pager-link { display: inline-flex; align-items: center; gap: 12px; }
-.doc-pager-link small {
-  display: block; font-family: var(--font-mono); font-size: 12px;
-  text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3);
-}
-.doc-pager-link.is-prev svg { transform: rotate(180deg); }
-.doc-pager-link:hover { color: var(--grn-2); }
-.doc-pager-all { font-size: 14px; color: var(--ink-3); }
-.doc-pager-all:hover { color: var(--ink); }
 
 @media (max-width: 760px) {
   .doc-hero-inner { grid-template-columns: 1fr; }
   .doc-hero-photo { max-width: 200px; }
-  .doc-pager-inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* Booking links recovered from the WordPress scheduling widgets, then the
+   bio, in one section: one block step between them, not two paddings. */
+.doc-booking .h2 + .doc-booking-list { margin-top: var(--space-head); }
+.doc-booking + .doc-bio-body { margin-top: var(--space-block); }
+.doc-booking-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--gap-cards);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.doc-booking-list a {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  height: 100%;   /* a row's cards match the tallest */
+  padding: var(--pad-row); border: 1px solid var(--line-2); border-radius: var(--radius);
+  font-weight: 500; transition: border-color .2s, background .2s;
+}
+.doc-booking-list a:hover { border-color: var(--grn); background: var(--grn-soft); }
+
+/* Bio body — the carried-over WordPress prose, on the shared article column
+   (src/styles/prose.css, via BodyHtml). Only its own extras live here. */
+.doc-bio-body h4 {
+  font-size: 18px; text-transform: uppercase; letter-spacing: 0.06em;
+  font-family: var(--font-mono); color: var(--grn-2);
 }
 
 /* Condition/therapy links carried over from the WordPress bios. WPBakery laid
    these out with a grid, so the source markup has no separators; the generator
    rebuilds them as a real list. */
 .doc-bio-body .doc-treats {
-  list-style: none; padding: 0; margin: 0 0 1.4em;
-  display: grid; gap: 8px 20px;
+  list-style: none; padding: 0; margin: 0 0 var(--space-7);
+  display: grid; gap: var(--space-2) var(--space-5);
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 }
 .doc-bio-body .doc-treats li { margin: 0; }
 .doc-bio-body .doc-treats a {
-  display: block; padding: 9px 0; font-size: 15px; font-weight: 500;
+  display: block; padding: var(--space-2) 0; font-size: 15px; font-weight: 500;
   color: var(--ink); text-decoration: none;
   border-bottom: 1px solid var(--line);
 }
 .doc-bio-body .doc-treats a:hover { color: var(--grn-2); border-color: var(--grn); }
-
-/* Booking links recovered from the WordPress scheduling widgets. */
-.doc-booking-section { padding-top: 0; }
-.doc-booking-section .h2 { margin: 10px 0 24px; }
-.doc-booking-list {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; gap: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-}
-.doc-booking-list a {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 18px 20px; border: 1px solid var(--line-2); border-radius: var(--radius);
-  font-weight: 500; transition: border-color .2s, background .2s;
-}
-.doc-booking-list a:hover { border-color: var(--grn); background: var(--grn-soft); }
 </style>
