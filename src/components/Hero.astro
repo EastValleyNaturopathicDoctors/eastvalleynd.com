@@ -2,8 +2,6 @@
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
-import { Image } from 'astro:assets';
-import team from '../images/site/hero-team.jpg';
 import { getCollection } from 'astro:content';
 // Counted from the roster, so it can't drift from /physicians/ (D126). Not
 // "licensed": the roster includes a holistic nutrition practitioner.
@@ -11,20 +9,15 @@ const practitioners = (await getCollection('physicians')).length;
 ---
 <section class="hero" id="home" data-hero="1">
   {/* The brand green mixed with sky blue (#01B9EB): two soft glows drifting
-      over a deep teal, CSS only. Three ways to set the filter over the team
-      in motion, as Option 1 / 2 / 3 for the clinic to compare (Oct 2026):
-      1 Drift (livelier glows, the photo slowly breathing), 2 Aurora (bands of
-      light sweeping across), 3 Spotlight (natural colour following the
-      pointer, drifting on its own when idle). Once one is picked, the other
-      two and the switcher go. */}
+      over a deep teal, CSS only. Three ways to set it in motion, as Option 1 /
+      2 / 3 for the clinic to compare (Oct 2026): 1 Drift (livelier glows),
+      2 Aurora (bands of light sweeping across), 3 Spotlight (a soft light
+      following the pointer, drifting on its own when idle). Once one is
+      picked, the other two and the switcher go. The team photo that sat here
+      is off until the clinic has a new one or its homepage video (the clinic
+      asked at the Oct 8 meeting); src/images/site/hero-team.jpg is kept. */}
   <div class="hero-bg">
-    {/* The clinic's own team, across the top of a desktop hero; decorative here
-        (the About page carries it with its description), so alt is empty. The
-        second copy is Option 3's spotlight, in natural colour. */}
-    <div class="hero-photo" aria-hidden="true">
-      <Image src={team} alt="" width={1600} loading="eager" fetchpriority="high" />
-      <div class="hero-photo-color"><Image src={team} alt="" width={1600} loading="eager" /></div>
-    </div>
+    <div class="hero-spot" aria-hidden="true"></div>
     <div class="hero-aurora" aria-hidden="true"></div>
     <div class="hero-overlay"></div>
   </div>
@@ -104,7 +97,7 @@ const practitioners = (await getCollection('physicians')).length;
 <script>
   // The hero style switcher (Option 1 / 2 / 3), kept in the address as
   // #hero-2 so a link can open one, and Option 3's spotlight following the
-  // pointer over the team photo.
+  // pointer across the hero.
   const hero = document.querySelector<HTMLElement>('.hero[data-hero]');
   if (hero) {
     const buttons = [...hero.querySelectorAll<HTMLButtonElement>('.hero-switch button')];
@@ -118,11 +111,10 @@ const practitioners = (await getCollection('physicians')).length;
     if (fromHash()) set(fromHash()!);
     window.addEventListener('hashchange', () => { if (fromHash()) set(fromHash()!); });
 
-    const photo = hero.querySelector<HTMLElement>('.hero-photo');
     let idle = 0;
     hero.addEventListener('pointermove', (e) => {
-      if (hero.dataset.hero !== '3' || !photo || e.pointerType === 'touch') return;
-      const r = photo.getBoundingClientRect();
+      if (hero.dataset.hero !== '3' || e.pointerType === 'touch') return;
+      const r = hero.getBoundingClientRect();
       hero.style.setProperty('--sx', `${((e.clientX - r.left) / r.width) * 100}%`);
       hero.style.setProperty('--sy', `${((e.clientY - r.top) / r.height) * 100}%`);
       hero.classList.add('is-pointing');
@@ -165,16 +157,13 @@ const practitioners = (await getCollection('physicians')).length;
 @keyframes hero-drift-a { to { transform: translate(-7vw, 6vw) scale(1.08); } }
 @keyframes hero-drift-b { to { transform: translate(8vw, -5vw) scale(0.92); } }
 
-/* Option 1, Drift: the glows wander further and faster, and the team photo
-   breathes, a slow push in and out. */
+/* Option 1, Drift: the glows wander further and faster. */
 .hero[data-hero="1"] .hero-bg::before { animation: hero-drift-a1 16s ease-in-out infinite alternate; opacity: 0.65; }
 .hero[data-hero="1"] .hero-bg::after { animation: hero-drift-b1 19s ease-in-out infinite alternate; opacity: 0.6; }
-.hero[data-hero="1"] .hero-photo > img { animation: hero-breathe 22s ease-in-out infinite alternate; transform-origin: 70% 30%; }
 @keyframes hero-drift-a1 { 50% { transform: translate(-16vw, 10vw) scale(1.15); } to { transform: translate(-4vw, 16vw) scale(0.95); } }
 @keyframes hero-drift-b1 { 50% { transform: translate(14vw, -8vw) scale(0.9); } to { transform: translate(-6vw, -14vw) scale(1.12); } }
-@keyframes hero-breathe { to { transform: scale(1.07) translateX(-1.5%); } }
 
-/* Option 2, Aurora: wide bands of sky blue and green sweep across the team,
+/* Option 2, Aurora: wide bands of sky blue and green sweep across,
    lightening what they pass over. */
 .hero-aurora { display: none; }
 .hero[data-hero="2"] .hero-aurora {
@@ -190,19 +179,18 @@ const practitioners = (await getCollection('physicians')).length;
 }
 @keyframes hero-aurora { to { transform: translateX(-50%); } }
 
-/* Option 3, Spotlight: the team in natural colour inside a soft circle that
-   follows the pointer, and drifts across them on its own when idle. */
+/* Option 3, Spotlight: a soft light that follows the pointer across the
+   hero, and drifts across it on its own when idle. */
 @property --sx { syntax: '<percentage>'; inherits: true; initial-value: 72%; }
 @property --sy { syntax: '<percentage>'; inherits: true; initial-value: 38%; }
-.hero-photo-color { display: none; }
-.hero[data-hero="3"] .hero-photo-color {
-  display: block; position: absolute; inset: 0;
-  -webkit-mask-image: radial-gradient(circle 260px at var(--sx) var(--sy), #000 30%, transparent 100%);
-  mask-image: radial-gradient(circle 260px at var(--sx) var(--sy), #000 30%, transparent 100%);
+.hero-spot { display: none; }
+.hero[data-hero="3"] .hero-spot {
+  display: block; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle 340px at var(--sx) var(--sy), rgba(140, 220, 255, 0.5) 0%, rgba(108, 190, 63, 0.22) 45%, rgba(108, 190, 63, 0) 100%);
+  mix-blend-mode: screen;
   animation: hero-spot 14s ease-in-out infinite alternate;
 }
-.hero[data-hero="3"].is-pointing .hero-photo-color { animation: none; transition: --sx .25s ease-out, --sy .25s ease-out; }
-.hero-photo-color img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: 0.9; }
+.hero[data-hero="3"].is-pointing .hero-spot { animation: none; transition: --sx .25s ease-out, --sy .25s ease-out; }
 @keyframes hero-spot {
   0% { --sx: 52%; --sy: 32%; }
   35% { --sx: 70%; --sy: 48%; }
@@ -211,7 +199,7 @@ const practitioners = (await getCollection('physicians')).length;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg::before, .hero-bg::after, .hero-photo > img, .hero-aurora, .hero-photo-color { animation: none !important; }
+  .hero-bg::before, .hero-bg::after, .hero-aurora, .hero-spot { animation: none !important; }
 }
 .hero-overlay {
   position: absolute; inset: 0;
@@ -399,21 +387,4 @@ const practitioners = (await getCollection('physicians')).length;
   .hero-meta { flex-wrap: wrap; }
 }
 
-/* The team photo across the top of a desktop hero, above the path cards: the
-   photo is 2:1, so a full-width band shows nearly the whole team. It fades
-   out to the left under the headline and toward the cards, and takes the
-   field's colour (a duotone). Not on a phone, where the copy runs the full
-   width over it. */
-.hero-photo {
-  position: absolute; top: 0; left: 0; right: 0; height: 70%;
-  -webkit-mask-image: linear-gradient(to right, transparent 8%, #000 58%), linear-gradient(to bottom, #000 62%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent 8%, #000 58%), linear-gradient(to bottom, #000 62%, transparent 100%);
-  mask-composite: intersect;
-}
-.hero-photo > img {
-  width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;
-  filter: grayscale(1) contrast(1.05); mix-blend-mode: luminosity; opacity: 0.6;
-}
-@media (max-width: 900px) { .hero-photo { display: none; } }
 </style>

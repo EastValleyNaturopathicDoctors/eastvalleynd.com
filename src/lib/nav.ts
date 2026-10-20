@@ -8,6 +8,7 @@
  * `norm()`, and walked the tree by hand — six copies of the same three ideas.
  */
 import navJson from '@/data/nav.json';
+import { tidyLabel } from '@/lib/tidy-label';
 import stubJson from '@/data/stub-routes.json';
 import { duplicatePages } from '@/data/duplicate-pages';
 
@@ -18,7 +19,10 @@ export type NavNode = {
   children: NavNode[];
 };
 
-export const nav = navJson as NavNode[];
+/** The menu, with paste damage taken off its labels (src/lib/tidy-label.ts). */
+const tidyNodes = (nodes: NavNode[]): NavNode[] =>
+  nodes.map((n) => ({ ...n, label: tidyLabel(n.label), children: tidyNodes(n.children ?? []) }));
+export const nav = tidyNodes(navJson as NavNode[]);
 
 /**
  * Compare hrefs without tripping over the trailing slash. The site runs

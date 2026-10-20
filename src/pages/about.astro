@@ -10,7 +10,6 @@ import TrustStrip from '../components/TrustStrip.astro';
 import Testimonials from '../components/Testimonials.astro';
 import BookCTA from '../components/BookCTA.astro';
 import Icon from '../components/Icon.astro';
-import teamPhoto from '../images/site/hero-team.jpg';
 import entrance from '../images/site/clinic-entrance.webp';
 import frontDesk from '../images/site/clinic-front-desk.webp';
 import waitingRoom from '../images/site/clinic-waiting-room.webp';
@@ -25,12 +24,11 @@ import hbotRoom from '../images/site/clinic-hyperbaric-room.jpg';
  * in, waiting, then the rooms. Copied into src/images/site so a regenerated
  * page image can't swap one out from under its caption. A tile with an href
  * links its caption. The microcurrent photo isn't here: EVND Foundations, a
- * few sections up, already shows it. Five tiles, so the first runs two
- * columns wide and the grid stays even.
+ * few sections up, already shows it; nor is the entrance, which opens the
+ * page in place of the team photo until the clinic has a new one (it asked at
+ * the Oct 8, 2026 meeting: some of the people in it have left).
  */
 const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string }[] = [
-  { src: entrance, href: '/contact/', caption: 'Suite 110, Southern Ave.',
-    alt: "The walkway to the clinic's Suite 110 entrance, East Valley Naturopathic Doctors lettered on the glass door" },
   { src: frontDesk, caption: 'The front desk',
     alt: "The clinic's front desk, with supplement shelves behind it" },
   { src: waitingRoom, caption: 'The waiting room',
@@ -51,7 +49,7 @@ const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string 
   />
   <div class="about-team">
     <div class="container">
-      <Image src={teamPhoto} alt="The East Valley Naturopathic Doctors team" width={1600}
+      <Image src={entrance} alt="The walkway to the clinic's Suite 110 entrance on Southern Avenue, East Valley Naturopathic Doctors lettered on the glass door" width={1360}
              class="about-team-photo" loading="eager" fetchpriority="high" />
     </div>
   </div>
@@ -95,19 +93,15 @@ const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string 
   padding-block: var(--space-hero-bottom);
   background: linear-gradient(var(--bg-softer) 50%, #fff 50%);
 }
-.about-team-photo { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); }
+.about-team-photo { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; border-radius: var(--radius-lg); }
 
 .about-clinic { background: var(--bg-soft); }
 .clinic-grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--gap-cards);
 }
 .clinic-tile { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-sunk); }
 .clinic-tile img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
-/* The first tile spans two columns at the height of its row, so its photo
-   doesn't size the row; on one column it is an ordinary tile. */
-.clinic-tile:first-child { grid-column: span 2; }
-.clinic-tile:first-child img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
 .clinic-tile figcaption { position: absolute; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); display: flex; }
 .clinic-tile figcaption :is(a, span) {
   display: inline-flex; align-items: center; gap: var(--space-2);
@@ -121,13 +115,7 @@ const clinic: { src: ImageMetadata; caption: string; alt: string; href?: string 
 .clinic-tile figcaption svg { color: var(--grn-2); flex-shrink: 0; transition: transform .2s; }
 .clinic-tile figcaption a:hover svg { transform: translateX(3px); }
 
-/* Six even tiles: three across, two on a tablet, one on a phone. */
-@media (max-width: 900px) {
-  .clinic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .clinic-tile:first-child { aspect-ratio: 2 / 1; }
-}
-@media (max-width: 560px) {
-  .clinic-grid { grid-template-columns: 1fr; }
-  .clinic-tile:first-child { grid-column: auto; aspect-ratio: 3 / 2; }
-}
+/* Four even tiles: four across, two on a tablet or laptop, one on a phone. */
+@media (max-width: 1100px) { .clinic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .clinic-grid { grid-template-columns: 1fr; } }
 </style>

@@ -123,6 +123,13 @@ function keepLearnMore(html: string): string {
       gt + text.replace(/\b(learn)\s+(more)\b/gi, '$1\u00A0$2')) + close);
 }
 
+/** A teaser link to a page whose WordPress title was pasted with stray
+ *  punctuation ("Learn more about .       Plasmalogens"), as tidyLabel()
+ *  cleans the title itself (src/lib/tidy-label.ts). */
+function tidyAboutLinks(html: string): string {
+  return html.replace(/(\babout)\s+[.,;:·•\-–—][\s.,;:·•\-–—]*(?=\w)/g, '$1 ');
+}
+
 export function tidyProse(html: string): string {
-  return keepLearnMore(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(emptyItems(html)))))));
+  return keepLearnMore(tidyAboutLinks(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(emptyItems(html))))))));
 }

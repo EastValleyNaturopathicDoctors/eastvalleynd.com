@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { tidyLabel } from './lib/tidy-label';
 
 /**
  * Physician bios. Entries are GENERATED — do not hand-edit them.
@@ -76,7 +77,8 @@ const blog = defineCollection({
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z.object({
-    title: z.string(),
+    // Stray leading punctuation and spaces from WordPress (src/lib/tidy-label.ts).
+    title: z.string().transform(tidyLabel),
     route: z.string(),
     slug: z.string(),
     wpTitle: z.string().default(''),

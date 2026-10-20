@@ -1,5 +1,5 @@
 /**
- * The filter box on the section indexes (SectionIndex.astro, IndexOptions.astro),
+ * The filter box on the section indexes (SectionIndex.astro, TopicIndex.astro),
  * run in the browser. Every element with `data-find` is a match target: an
  * outermost one is a card, any inside it are that card's pages. Each word typed
  * must start a word in the target's text, so "iv" finds IV Therapy, not

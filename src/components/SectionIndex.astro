@@ -18,6 +18,7 @@ import { find, live, type NavNode } from '@/lib/nav';
 import { site } from '@/data/site';
 import { sectionKeywords } from '@/data/section-keywords';
 import { sectionIcons, sectionIconDefault } from '@/data/section-icons';
+import '../styles/index-filter.css';
 
 interface Props {
   /** Top-level section path, e.g. "/conditions/". */
@@ -147,32 +148,6 @@ const bands = panels.length > 0 && leaves.length > 0;
 </script>
 
 <style is:global>
-/* The filter box. */
-.six-filter { margin-bottom: var(--space-head); }
-.six-filter-label {
-  display: block; margin-bottom: var(--space-3);
-  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
-}
-.six-filter-field { position: relative; max-width: 560px; }
-.six-filter-field svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--ink-3); pointer-events: none; }
-.six-filter-field input {
-  width: 100%; font: inherit; font-size: 16px; color: var(--ink);
-  padding: 14px 16px 14px 46px; background: var(--bg);
-  border: 1px solid var(--line-2); border-radius: 999px;
-  transition: border-color .18s, box-shadow .18s;
-}
-.six-filter-field input:focus-visible { outline: none; border-color: var(--grn-2); box-shadow: 0 0 0 3px rgba(108, 190, 63, 0.25); }
-.six-filter-count { margin: var(--space-2) 0 0 var(--space-4); min-height: 1.4em; font-size: 13.5px; color: var(--ink-3); }
-.six-filter-none { margin-top: var(--space-3); }
-.six-filter-none p { margin: 0; color: var(--ink-2); }
-.six-filter-none a { color: var(--grn-2); font-weight: 600; }
-.six-filter-clear {
-  margin-top: var(--space-3); padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px;
-  background: var(--bg); font: inherit; font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer;
-}
-.six-filter-clear:hover { border-color: var(--grn); }
-.six [hidden] { display: none !important; }
 
 /* --- Section index: panels for sections, tiles for pages (D114) ---------- */
 .six-band {

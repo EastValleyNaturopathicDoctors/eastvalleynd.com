@@ -1,0 +1,163 @@
+---
+/**
+ * The Services or Conditions index, by topic (the clinic's pick, Option 2 at
+ * the Oct 8, 2026 meeting): the section's pages grouped by kind of care
+ * (src/data/index-groups.ts), each group's name and line on the left, its
+ * pages on the right as boxes. A box links its page and lists that page's own
+ * sub-pages underneath, so the index stays the hub that links every page in
+ * the section. The filter box narrows all of it (src/lib/index-filter.ts).
+ */
+import Icon from './Icon.astro';
+import { find, live, type NavNode } from '@/lib/nav';
+import { site } from '@/data/site';
+import { sectionKeywords } from '@/data/section-keywords';
+import { sectionIcons, sectionIconDefault } from '@/data/section-icons';
+import { indexGroups, type IndexGroup } from '@/data/index-groups';
+import '../styles/index-filter.css';
+
+interface Props {
+  root: string;
+  filter: { label: string; placeholder: string };
+}
+const { root, filter } = Astro.props;
+const setup = indexGroups[root];
+const items = live(find(root)?.children ?? []);
+const byHref = new Map(items.map((n) => [n.href, n]));
+
+const findText = (n: NavNode) => [n.label, sectionKeywords[n.href]].filter(Boolean).join(' ');
+const iconFor = (n: NavNode) => sectionIcons[n.href] ?? sectionIconDefault[root] ?? 'circle';
+const count = (n: number) => `${n} ${n === 1 ? setup.noun[0] : setup.noun[1]}`;
+const slug = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const groups: { g: IndexGroup; nodes: NavNode[] }[] = setup.groups.map((g) => ({
+  g,
+  nodes: g.items.map((h) => {
+    const n = byHref.get(h);
+    if (!n) console.warn(`[index-groups] ${root}: "${h}" isn't in the section's menu`);
+    return n;
+  }).filter((n): n is NavNode => !!n),
+}));
+// Any page the groups leave out still shows, under "More".
+const listed = new Set(setup.groups.flatMap((g) => g.items));
+const rest = items.filter((n) => !listed.has(n.href));
+if (rest.length) {
+  console.warn(`[index-groups] ${root}: not grouped yet, shown under "More": ${rest.map((n) => n.href).join(', ')}`);
+  groups.push({ g: { title: 'More', blurb: '', items: [] }, nodes: rest });
+}
+const id = root.replace(/\W/g, '');
+---
+<div class="tix" data-tix data-pagefind-ignore>
+  <div class="six-filter" role="search">
+    <label class="six-filter-label" for={`tix-find-${id}`}>{filter.label}</label>
+    <div class="six-filter-field">
+      <Icon name="search" size={18} />
+      <input id={`tix-find-${id}`} type="search" autocomplete="off" spellcheck="false" placeholder={filter.placeholder} />
+    </div>
+    <p class="six-filter-count" aria-live="polite"></p>
+    <div class="six-filter-none" hidden>
+      <p>Nothing here matches that yet. Call <a href={site.phoneHref}>{site.phone}</a> and we'll tell you whether we can help.</p>
+      <button type="button" class="six-filter-clear">Clear the filter</button>
+    </div>
+  </div>
+
+  {groups.map(({ g, nodes }) => (
+    <section class="tix-group" data-find-group aria-labelledby={`tix-${id}-${slug(g.title)}`}>
+      <div class="tix-head">
+        <h2 class="tix-title" id={`tix-${id}-${slug(g.title)}`}>{g.title}</h2>
+        {g.blurb && <p class="tix-blurb">{g.blurb}</p>}
+        <p class="tix-count">{count(nodes.length)}</p>
+      </div>
+      <ul class="tix-list">
+        {nodes.map((n) => (
+          <li class="tix-card" data-find={findText(n)}>
+            <a class="tix-link" href={n.href}>
+              <span class="tix-icon"><Icon name={iconFor(n)} size={22} /></span>
+              <span class="tix-name">{n.label}</span>
+              <Icon name="arrow-up-right" size={16} class="tix-arrow" />
+            </a>
+            {n.children.length > 0 && (
+              <ul class="tix-kids">
+                {n.children.map((k) => <li data-find={findText(k)}><a href={k.href}>{k.label}</a></li>)}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>
+
+<script>
+  import { words, applyFilter, countText } from '@/lib/index-filter';
+  for (const root of document.querySelectorAll<HTMLElement>('[data-tix]')) {
+    const input = root.querySelector<HTMLInputElement>('.six-filter input');
+    const count = root.querySelector<HTMLElement>('.six-filter-count');
+    const none = root.querySelector<HTMLElement>('.six-filter-none');
+    if (!input || !count || !none) continue;
+    const run = () => {
+      const q = words(input.value);
+      const shown = applyFilter(root, q);
+      none.hidden = !q.length || shown > 0;
+      count.textContent = countText(q, shown);
+    };
+    input.addEventListener('input', run);
+    root.querySelector('.six-filter-clear')?.addEventListener('click', () => { input.value = ''; run(); input.focus(); });
+  }
+</script>
+
+<style is:global>
+/* --- Section index, by topic ---------------------------------------------------
+   Each group: its name, line and count on the left (held in view on a
+   desktop), its pages on the right as boxes, two across. A box's sub-pages
+   sit under a rule, quieter than the page they belong to. */
+.tix-group {
+  display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: var(--gap-cols);
+  padding: var(--space-7) 0; border-top: 1px solid var(--line);
+}
+.tix-group:first-of-type { border-top: 0; padding-top: 0; }
+.tix-head { align-self: start; position: sticky; top: 110px; }
+.tix-title {
+  margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em;
+  font-size: clamp(24px, 2.2vw, 30px); line-height: 1.1;
+}
+.tix-blurb { margin: var(--space-3) 0 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+.tix-count { margin: var(--space-3) 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+
+.tix-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-cards);
+  /* Each box as tall as its own content: one with no sub-pages doesn't
+     stretch to match a long neighbour. */
+  align-items: start;
+}
+.tix-card {
+  display: flex; flex-direction: column;
+  padding: var(--pad-card); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg);
+  transition: border-color .2s, box-shadow .2s;
+}
+.tix-card:hover { border-color: var(--line-2); box-shadow: 0 12px 32px rgba(14, 19, 17, 0.07); }
+.tix-link { display: flex; align-items: center; gap: var(--space-3); color: var(--ink); }
+.tix-icon {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 12px; background: var(--grn-soft); color: var(--grn-2);
+  transition: background .18s, color .18s;
+}
+.tix-name { flex: 1; min-width: 0; font-weight: 600; font-size: 16.5px; line-height: 1.25; }
+.tix-arrow { flex: none; color: var(--ink-3); transition: color .2s, transform .2s; }
+.tix-link:hover .tix-icon { background: var(--grn); color: var(--ink); }
+.tix-link:hover .tix-arrow { color: var(--grn-2); transform: translate(2px, -2px); }
+.tix-kids {
+  list-style: none; margin: var(--space-4) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4);
+}
+.tix-kids a { font-size: 14px; line-height: 1.6; color: var(--ink-3); transition: color .15s; }
+.tix-kids a:hover { color: var(--grn-2); }
+
+@media (max-width: 900px) {
+  .tix-group { grid-template-columns: 1fr; gap: var(--space-5); }
+  .tix-head { position: static; }
+}
+@media (max-width: 640px) {
+  .tix-list { grid-template-columns: 1fr; }
+}
+</style>
