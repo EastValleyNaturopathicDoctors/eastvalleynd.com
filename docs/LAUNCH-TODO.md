@@ -63,27 +63,43 @@ pipeline run will undo it.
 - [ ] Remove the 82 unused original images (19 MB) from `dist/_astro`.
 - [ ] Thin pages, pages that repeat most of another's text, and the same FAQ markup on three pages.
 
-## 5. From the EVND meeting
+## 5. From the EVND meeting (2026-10-08): action list
 
-**Decided, to build**
-- [ ] **Homepage hero:** replace the team photo ("we cannot go with this picture"). Interim: a stock consultation photo with faces turned away, or no photo. Final: a 15–30 s background video of practitioners with patients (like Rollins & Peterson and Onyx Integrative), optional longer click-to-play version. Write the video spec; set up a shared drive for Micah's footage.
-- [ ] Same team photo on About and Core Values: swap for clinic photos until a new team photo exists (some people in it no longer work there).
-- [ ] **Services and Conditions:** build **Option 2 (By topic)** with a box around each item (like Option 1's cards); keep the sub-page links (SEO hub). Check mobile. Then remove the tabs and Options 1 and 3.
-- [ ] Fix ". Plasmalogens"; replace the icon Zac flagged during the meeting.
-- [ ] Dr. Nevels' profile: only her hormonal/menopause video; no parasite or mold videos there (they can stay elsewhere on the site). Needs the YouTube link.
-- [ ] Dr. Porter's profile: all YouTube videos he appears in. Needs the links or the channel.
-- [ ] New page: **Epstein-Barr virus** (patient resource; may exist in the old chronic fatigue content).
-- [ ] Outdated-content AI audit: red-flag, don't rewrite; oldest pages first. Known: amniotic liquid allograft (Chronic Pain, Knee Pain, Plantar Fasciitis), stem cells and exosomes (not offered).
-- [ ] Show EVND how editing works on the new site, and how adding a page works.
+Zac joined from his computer; Curtis's microphone picked up the whole room
+(Curtis, Dr. Porter, Dr. Nevels, Missy), so the "Curtis" lines in the transcript
+are any of them. Two fixes to Gemini's summary:
+- The hormonal video goes on **Dr. Nevels'** profile, not Curtis's.
+- The "500 loyal patients" and "booked out six months" points came from the doctors.
 
-**Open question**
-- [ ] Services menu: alphabetical, or grouped like Option 2? Suggest grouped.
+### Zac: website
+- [ ] **Homepage hero photo: replace before launch.** "We cannot let it go… I would not want to go with this picture." Short term: a doctors-only photo if one exists ("just you and me and Laura or Casey"), a stock consultation shot with faces turned away, or no photo. The same photo is on About and Core Values; take out the people who've left (AI edit for now).
+- [ ] **Homepage background video** when Micah's edit arrives. Spec for them: 15–30 s (no more than 30), at least 1080p (4K source is fine), no audio, seamless loop, a poster frame, a small file. Optional longer click-to-play version below, like Rollins & Peterson (40 s background, 90 s full). References: Rollins & Peterson, Onyx Integrative.
+- [ ] **Services and Conditions: build Option 2 (By topic) on both pages.** Add a box around each item, like Option 1's cards. Keep the sub-page links: they're the SEO hub, and the room agreed people who want depth can use them. Check mobile ("it looks pretty clean on the mobile"). Then remove the tabs and Options 1 and 3.
+- [ ] Fix the stray period (". Plasmalogens"). Replace the icon Zac said "needs a new icon" (on the Conditions Option 1 view; confirm which).
+- [ ] **Dr. Nevels' profile:** her hormonal (menopause) video only; no parasite or mold videos there (they can stay elsewhere). She also pointed to her menopause e-book; consider linking it from her page. Needs the video link.
+- [ ] **Dr. Porter's profile:** every YouTube video he's in ("I'm not afraid of any of them"). Needs the channel or links.
+- [ ] **Bio template:** send EVND the format (condition headings, 2–3 sentences each, links allowed), doctors only; then put in the Word docs they send.
+- [ ] **Image audit,** page by page; swap stock for real practice photos as they come in.
+- [ ] **Outdated-content AI audit:** a red-flag list, not rewrites, oldest pages first, for the doctors to review. Known: amniotic liquid allograft; stem cells and exosomes. Their own example of a page that's up to date: cardiovascular (written two years ago).
+- [ ] **New page: Epstein-Barr virus,** a patient resource ("I like to use it as a resource for patients"). Check the old chronic fatigue content.
+- [ ] **Editing:** set up the page editor, share the link, and show EVND how to edit and add a page.
+- [ ] Services menu: alphabetical, or grouped like Option 2? Raised but not answered; suggest grouped.
+- [ ] Ask EVND for raw (vector) logo files, to refine the animation.
+- [ ] Share the preview link; get a second QA reviewer; launch when EVND approves (checklist in section 1).
+- Approved in the meeting, no action: practitioner videos, reviews on profiles, "Book with" opening the Patient Fusion page, the table of contents on long pages, buttons instead of sidebar forms, the Core Values page ("Love it"), and site speed.
 
-**Waiting on EVND**
-- [ ] Uniform bios: send them the template (condition heading plus 2–3 sentences); they return Word docs. Doctors only.
-- [ ] Priority order of services within each group.
-- [ ] New team photos (their old photographer, Rob) and video footage (Micah).
-- [ ] Their review pass, then the go-live date. Second QA reviewer on our side.
+### EVND
+- [ ] Review the site and choose a go-live date.
+- [ ] Rewrite doctor bios in the new format (Word docs); decide what each doctor wants to feature (e.g. still list migraines?).
+- [ ] Rank the services within each group (what should come first).
+- [ ] Send Dr. Nevels' hormonal video link.
+- [ ] Approve or rewrite the drafted Core Values statements for Precision and Education.
+- [ ] New staff photos (their old photographer, Rob), and say who to take out of the current group photo.
+- [ ] Micah: create the shared drive of raw footage (check it's high-resolution), then the 15–30 s homepage video: practitioners with patients, smiling faces, quick cuts.
+
+### Curtis: marketing (not website)
+- [ ] Schedule the Google Ads follow-up for Gilbert: about $1,700 a month ($750 management plus $1,000 ad spend), 4–5 broad topics (hormones, chronic pain, naturopathic in general). Weigh capacity first: Dr. Porter is booked out six months and they need more doctors.
+- [ ] Ideal-patient messaging for the homepage, with the doctors: aim at loyal, long-term patients ("I just need 500 loyal people"), and lead with what patients search for, then guide them to the right care.
 
 ## 6. Hand edits the pipeline must carry over
 
