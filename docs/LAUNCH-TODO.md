@@ -13,6 +13,28 @@ Where a fix touches generated files (`src/content/**`, `src/data/nav.json`,
 migration pipeline (`extract/*.py`) or in a hand-kept override, or the next
 pipeline run will undo it.
 
+## 0. What blocks launch (audit of 2026-11-02)
+
+Four areas, each fact-checked; 57 confirmed findings. Full evidence:
+[`docs/audit/2026-11-02-launch-readiness-findings.json`](audit/2026-11-02-launch-readiness-findings.json).
+
+**Blockers**
+- [ ] **The appointment request and contact forms send nothing and tell the patient nothing**, yet every page links to them (1,825 links) and 212 pages promise "the front desk will call you back". Clinic decides: connect them to a form service that signs a HIPAA BAA, with a confirmation message; or, until then, replace them with "call us" (phone and hours) and relabel the buttons.
+- [ ] **Treatments the owners said they don't offer are still presented as offered:** stem cells, exosomes and amniotic allograft on 15 pages plus a PDF; the blog post "…Here are 3 types that we offer"; Veterans' "Exosomes, Stem Cells". The clinic approves the removals; they're generated content (pipeline or hand-kept override).
+- [ ] **Treatment timelines the owners said to remove,** on 15 pages, e.g. "Most patients notice a difference within 2 to 4 weeks" (a new docx page), "95% of our patients… within just a few days". Also the stroke pages' "begin treatment within 36 hours", which contradicts the 2-week to 6-month wait.
+- [ ] **Cutover not done yet (section 1):** www Custom Domain, apex and http to https www 301s, query-string redirects, build command `npm run build`. Plus a DNS and email plan: export the current zone, find who hosts patientcare@ mail, lower TTLs, keep the WordPress host for rollback.
+
+**Fix before launch**
+- [ ] Pick a hero option and remove the visible "Option 1 / 2 / 3" switcher.
+- [ ] Credentials: Marie Ybarra's meta description says "Dr. Marie Ybarra, NMD" (she's a licensed aesthetician); "licensed… nutrition" and "Seven licensed clinicians" (Shelly is a holistic nutrition practitioner); "Our Physicians (7)" covers non-physicians.
+- [ ] Cure, "100%" and cancer claims in the clinic's own voice on 33 pages. Worst: /conditions/cancer-support/ ("reduced 80–100%", "cancer eradication"). The doctors review the list.
+- [ ] TruDOSE spotlight: outcome copy from the design template that no clinic page supports, and its button goes to /iv-therapy/, which never mentions TruDOSE.
+- [ ] Hand-picked reviews on profiles and the homepage that promise outcomes ("cured in 3 months", "100% gone"): swap them.
+- [ ] "Book online" and "Book a new patient visit" open the request form, not a scheduler; on 26 pages two "Book online" buttons go to different places.
+- [ ] Search Console: verify by DNS before the switch. Analytics: decide (GA4?), and update the privacy page, which says there's no analytics.
+- [ ] Still open from Oct 8 (section 2): 587 old URLs 404 without the trailing slash; 25 redirects land on placeholder or noindex pages; 69 titles lost their keywords; 3 duplicate page pairs; no square favicon.
+- [ ] Clinic sign-off on developer-written copy (Core Values Precision and Education, group lines, hero copy).
+
 ## 1. Launch day: Cloudflare and Google (dashboard work, no code)
 
 - [ ] Confirm the Worker `eastvalleynd-com`. Workers Builds: build command **`npm run build`** (not `astro build`, which skips the search index); deploy `npx wrangler deploy`.
