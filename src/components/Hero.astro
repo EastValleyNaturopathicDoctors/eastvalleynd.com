@@ -173,7 +173,9 @@ const V = '/videos/hero-2026-11';
   display: flex;
   align-items: center;
 }
-.hero-content { max-width: 820px; }
+/* Everything from the eyebrow to the stat row on one column, up to 1000px
+   (the clinic, Nov 2026). */
+.hero-content { max-width: 1000px; }
 .hero .eyebrow {
   color: #fff;
   border-color: rgba(255,255,255,0.28);
@@ -192,7 +194,6 @@ const V = '/videos/hero-2026-11';
 .hero-sub {
   font-size: clamp(17px, 1.4vw, 22px);
   line-height: 1.45;
-  max-width: 60ch;
   color: rgba(255,255,255,0.82);
   margin: 0;
 }
@@ -215,7 +216,6 @@ const V = '/videos/hero-2026-11';
   margin-top: var(--space-8);
   padding-top: var(--space-6);
   border-top: 1px solid rgba(255,255,255,0.18);
-  max-width: 620px;
 }
 .hero-meta div { display: flex; flex-direction: column; gap: 4px; }
 .hero-meta b { font-family: var(--font-display); font-size: clamp(28px, 3.2vw, 42px); font-weight: 500; }
