@@ -7,6 +7,7 @@
   --ink: #0E1311;            /* base text */
   --ink-2: #2A2F2D;          /* secondary text */
   --ink-3: #6A716E;          /* tertiary text */
+  --dark: #676767;           /* the logo's grey: the dark bands (top bar, stories, footer). White on it is 5.7:1; muted white no lighter than 0.9. */
   --bg: #FFFFFF;
   --bg-soft: #F4F5F2;        /* warm light grey */
   --bg-softer: #F9FAF7;
@@ -69,12 +70,11 @@
      (src/styles/font-fallbacks.css), so text laid out before the web font
      arrives occupies the same lines it will after. They must sit directly
      behind the real face: anything in between would render first and shift. */
-  --font-sans: "Manrope", "Manrope Fallback", Arial, ui-sans-serif, system-ui, sans-serif;
-  /* fontsource registers the variable build under this exact name — plain
-     "Bricolage Grotesque" would match nothing and fall back to Manrope
-     without a word of warning. */
-  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque Variable Fallback", Arial, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  --font-sans: "Roboto", "Roboto Fallback", Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Roboto Condensed", "Roboto Condensed Fallback", "Arial Narrow", Arial, system-ui, sans-serif;
+  /* The small uppercase labels (eyebrows, step numbers, tags): Roboto
+     Condensed too, so the site is two families, the logo's. Was a mono. */
+  --font-mono: "Roboto Condensed", "Roboto Condensed Fallback", "Arial Narrow", Arial, system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -115,8 +115,8 @@ em { font-style: normal; color: var(--grn-2); }
    starts half a section below the band; the hero's bottom padding is the other half. */
 .page-hero + .section:not(.is-band),
 .page-hero + .trust + .section:not(.is-band) { padding-top: var(--space-section-tight); }
-.h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(40px, 6vw, 84px); line-height: 1.02; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
-.h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+.h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(40px, 6vw, 84px); line-height: 1.02; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 4.4vw, 58px); line-height: 1.05; letter-spacing: -0.005em; margin: 0; text-wrap: balance; }
 .lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; color: var(--ink-2); max-width: 60ch; margin: 0; }
 .accent-grn { color: var(--grn-2); }
 

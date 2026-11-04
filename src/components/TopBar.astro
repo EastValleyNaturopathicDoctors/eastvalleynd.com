@@ -30,8 +30,8 @@ const statusTail = statusRest.join('—').trim();
 
 <style is:global>
 .topbar {
-  background: var(--ink);
-  color: rgba(255,255,255,0.78);
+  background: var(--dark);
+  color: rgba(255,255,255,0.92);
   font-size: 12.5px;
   letter-spacing: 0.01em;
 }
@@ -43,7 +43,7 @@ const statusTail = statusRest.join('—').trim();
 .status-dot { width: 7px; height: 7px; background: var(--grn); border-radius: 50%; box-shadow: 0 0 0 4px rgba(108,190,63,0.18); animation: pulse 2.5s infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(108,190,63,0); } }
 .topbar-right { display: flex; gap: var(--space-5); align-items: center; }
-.topbar-link { color: rgba(255,255,255,0.7); transition: color .2s; }
+.topbar-link { color: rgba(255,255,255,0.9); transition: color .2s; }
 .topbar-link:hover { color: #fff; }
 .topbar-phone { display: inline-flex; align-items: center; gap: var(--space-2); color: #fff; font-weight: 500; font-family: var(--font-mono); font-size: 12px; }
 

@@ -157,8 +157,8 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 </script>
 
 <style is:global>
-.testi-section { background: var(--ink); color: #fff; }
-.testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.78); }
+.testi-section { background: var(--dark); color: #fff; }
+.testi-section .eyebrow { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.92); }
 /* No flex gap: the head sits a heading group above the quotes, the link only a
    button row's step under them. */
 .testi-wrap { display: flex; flex-direction: column; gap: 0; }
@@ -175,7 +175,7 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
 .testi-step {
   display: grid; place-items: center; flex: none;
   width: 40px; height: 40px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.92);
   transition: border-color .2s, color .2s;
 }
 .testi-step:hover { border-color: var(--grn); color: #fff; }
@@ -202,15 +202,16 @@ const paras = (q: string) => q.split('\n').map((p) => p.trim()).filter(Boolean);
   line-height: 0.4;
   color: var(--grn);
 }
+/* A paragraph, so the text face (Roboto), not the condensed headings. */
 .testi-quote p {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(28px, 3.4vw, 46px);
-  line-height: 1.18;
-  letter-spacing: -0.02em;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 36px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   margin: 0;
 }
-.testi-quote footer { display: flex; gap: 16px; align-items: baseline; font-size: 14px; color: rgba(255,255,255,0.75); }
+.testi-quote footer { display: flex; gap: 16px; align-items: baseline; font-size: 14px; color: rgba(255,255,255,0.9); }
 .testi-quote footer b { color: #fff; font-weight: 600; }
 .testi-more { margin: var(--space-7) 0 0; }
 .testi-more a {

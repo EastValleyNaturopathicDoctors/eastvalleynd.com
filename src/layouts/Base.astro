@@ -5,29 +5,23 @@ import '../styles/font-fallbacks.css';   // generated: scripts/font-fallbacks.mj
 // Fonts are self-hosted (fontsource) rather than fetched from Google. Two
 // reasons: a third-party DNS+TLS+CSS+font chain sat on the critical path of
 // every page, and for a medical practice, Google Fonts is a GDPR exposure the
-// site does not need. Only the weights the stylesheet actually sets are loaded
-// — 400 (body), 500 and 600 (headings and UI), 700 (<b>/<strong>). Bricolage
-// is the variable build so the optical-size axis the display type relies on
-// still works.
-// Latin subset only. The full builds declare every script (Cyrillic, Greek,
-// Vietnamese…) behind unicode-range, which is fine for a browser but shipped
-// 31 files and 376 KB the site can never use. `standard` on Bricolage keeps
-// the optical-size axis the display type is set for.
-import '@fontsource/manrope/latin-400.css';
-import '@fontsource/manrope/latin-500.css';
-import '@fontsource/manrope/latin-600.css';
-import '@fontsource/manrope/latin-700.css';
-import '@fontsource-variable/bricolage-grotesque/standard.css';
-import '@fontsource/jetbrains-mono/latin-400.css';
-import '@fontsource/jetbrains-mono/latin-500.css';
-// Preload the two faces that paint above the fold — the display face sets the
-// hero title and every heading, Manrope 400 sets the body. Without this the
-// hero text rendered in the fallback and then reflowed when the real font
-// landed at ~2.4 s on Slow 4G: a 0.026 layout shift on hero-sub, hero-meta and
-// hero-cta. `?url` hands back the hashed path Vite will emit, so the preload
-// can never drift from the file the stylesheet actually references.
-import bricolageWoff2 from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2?url';
-import manropeWoff2 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
+// site does not need. Latin subset only; only the weights the stylesheet sets.
+// Roboto and Roboto Condensed (Nov 2026 preview): the logo's own face. Roboto
+// Condensed sets the headings and the small uppercase labels, Roboto the text.
+import '@fontsource/roboto/latin-400.css';
+import '@fontsource/roboto/latin-500.css';
+import '@fontsource/roboto/latin-600.css';
+import '@fontsource/roboto/latin-700.css';
+import '@fontsource/roboto-condensed/latin-400.css';
+import '@fontsource/roboto-condensed/latin-500.css';
+import '@fontsource/roboto-condensed/latin-600.css';
+// Preload the two faces that paint above the fold: Roboto Condensed 500 sets
+// the hero title, Roboto 400 the text under it. Without a preload the hero
+// rendered in the fallback and reflowed when the font landed. `?url` hands
+// back the hashed path Vite will emit, so the preload can never drift from
+// the file the stylesheet references.
+import displayWoff2 from '@fontsource/roboto-condensed/files/roboto-condensed-latin-500-normal.woff2?url';
+import bodyWoff2 from '@fontsource/roboto/files/roboto-latin-400-normal.woff2?url';
 import TopBar from '../components/TopBar.astro';
 import MainNav from '../components/MainNav.astro';
 import Footer from '../components/Footer.astro';
@@ -141,8 +135,8 @@ function openingHours() {
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
-  <link rel="preload" href={bricolageWoff2} as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href={manropeWoff2} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={displayWoff2} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={bodyWoff2} as="font" type="font/woff2" crossorigin />
   {robots && <meta name="robots" content={robots} />}
   <link rel="icon" href="/assets/evnd-logo.png" />
 
@@ -154,8 +148,7 @@ function openingHours() {
   <meta name="twitter:card" content="summary_large_image" />
   <!-- Weights are exactly what the stylesheet uses: 400 body, 500 buttons and
        chips, 600 labels and headings, 700 for <strong> and the prose headings
-       that inherit the browser default. Manrope 300 was requested and never
-       used. -->
+       that inherit the browser default. -->
   <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
 </head>
 <body class:list={[transparentNav && 'has-dark-hero', actionBar && 'has-actionbar']}>
