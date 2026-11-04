@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 Builds public/assets/EVND-animated.svg, the header logo, from the clinic's
-logo (public/assets/EVND-logo.svg, Nov 2026) and Manrope Regular (the site's
-own font, from node_modules/@fontsource/manrope).
+logo (public/assets/EVND-logo.svg, Nov 2026, set in Roboto SemiBold) and
+Roboto SemiBold itself (node_modules/@fontsource/roboto) for the rest of the
+name.
 
 The motion is the one the header has had since D127, on the same 11 s clock:
 EVND holds, its leaf swaying; then each big letter shrinks into the first
@@ -12,15 +13,16 @@ settles at the end of EAST VALLEY. Then it folds back. N and D go from green
 to the logo's grey as they shrink (the clinic asked, Oct 2026, for ND green
 in EVND only), so the spelled-out name reads in one colour.
 
-The words use the logo's own E, V, N and D as their first letters and Manrope
-400 for the rest: its stem is 0.102 of its cap height, the logo's 0.103, so
-they read as one face. No script and no web font: everything is paths, and
-under reduced motion it holds on EVND.
+The supplied file is the white-on-dark version; on the header's white the
+letters take the colours of evnd-logo.png (the logo the footer and favicon
+use): grey E V, green N D, a light-green leaf. No script and no web font:
+everything is paths, and under reduced motion it holds on EVND.
 
   pip install fonttools
   python3 scripts/build-animated-logo.py
 """
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from fontTools.pens.boundsPen import BoundsPen
@@ -29,17 +31,10 @@ from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parent.parent
 LOGO = ROOT / 'public/assets/EVND-logo.svg'
-# A touch bolder than the supplied file (the clinic, Nov 2026: like the
-# heavier EVND in evnd-logo.png, whose stems are 0.175 of cap height). The
-# letters are outlined in their own colour by BOLD logo units, which takes the
-# stem from 0.103 to 0.150 of cap height; Manrope 600 (0.145) matches that.
-# BOLD = 0 and weight 400 give the file exactly as supplied.
-BOLD = 15
-WEIGHT = 600
-FONT = ROOT / f'node_modules/@fontsource/manrope/files/manrope-latin-{WEIGHT}-normal.woff'
+FONT = ROOT / 'node_modules/@fontsource/roboto/files/roboto-latin-600-normal.woff'
 OUT = ROOT / 'public/assets/EVND-animated.svg'
 
-W, H = 3984.0, 1648.0          # the logo's own box
+W, H = 2984.0, 1204.0          # the logo's own box (its viewBox)
 GREY, GREEN, LEAF = '#676767', '#56B400', '#AAD97F'
 
 
@@ -48,38 +43,59 @@ def r(v, n=3):
     return '0' if s in ('-0', '') else s
 
 
-# --- The logo: four letters and a leaf, each under three nested transforms.
-# Flatten each to one matrix in the 3984 x 1648 box (the file's viewBox).
-src = LOGO.read_text()
-parts = re.findall(r'matrix\(1,0,0,1,([-\d.]+),([-\d.]+)\)">\s*<path d="([^"]+)" style="fill:rgb\((\d+),(\d+),(\d+)\)', src)
-assert len(parts) == 5, f'expected leaf + E V N D in {LOGO}, found {len(parts)}'
-K = 4.16667
-logo = {}
-for name, (tx, ty, d, *_rgb) in zip(['leaf', 'E', 'V', 'N', 'D'], parts):
-    m = (K, 0, 0, K, K * float(tx) + 5062.5 - 5320.65, K * float(ty) - 224.112)
-    logo[name] = {'d': d, 'm': m}
+# --- The logo: a leaf and four letters, each under nested transforms.
+# Flatten each path to one matrix in the logo's box.
+def matmul(m, n):
+    a, b, c, d, e, f = m
+    A, B, C, D, E, F = n
+    return (a * A + c * B, b * A + d * B, a * C + c * D, b * C + d * D, a * E + c * F + e, b * E + d * F + f)
 
-# Bounding boxes, measured in a browser (scratch measure.cjs) and fixed here:
-# they only change if the logo file does.
-BOX = {  # x, y, w, h in the 3984 x 1648 box
-    'leaf': (1084.8, 0.0, 932.6, 1433.1),
-    'E': (0.0, 528.3, 642.2, 1119.4),
-    'V': (817.1, 528.3, 891.9, 1119.4),
-    'N': (2017.4, 528.3, 829.9, 1119.4),
-    'D': (3070.8, 528.3, 912.9, 1119.4),
+
+def parse_tf(t):
+    m = (1, 0, 0, 1, 0, 0)
+    for kind, args in re.findall(r'(matrix|translate|scale)\(([^)]*)\)', t or ''):
+        v = [float(x) for x in re.split(r'[ ,]+', args.strip())]
+        if kind == 'matrix':
+            n = tuple(v)
+        elif kind == 'translate':
+            n = (1, 0, 0, 1, v[0], v[1] if len(v) > 1 else 0)
+        else:
+            n = (v[0], 0, 0, v[1] if len(v) > 1 else v[0], 0, 0)
+        m = matmul(m, n)
+    return m
+
+
+paths = []
+
+
+def walk(el, m):
+    m = matmul(m, parse_tf(el.get('transform')))
+    if el.tag.endswith('path'):
+        paths.append({'d': el.get('d'), 'm': m})
+    for kid in el:
+        walk(kid, m)
+
+
+walk(ET.parse(LOGO).getroot(), (1, 0, 0, 1, 0, 0))
+assert len(paths) == 5, f'expected leaf + E V N D in {LOGO}, found {len(paths)} paths'
+logo = dict(zip(['leaf', 'E', 'V', 'N', 'D'], paths))
+
+# Bounding boxes, measured in a browser (getBoundingClientRect at the logo's
+# own size) and fixed here: they only change if the logo file does.
+BOX = {  # x, y, w, h in the logo's box
+    'leaf': (910.1, 0.0, 748.8, 1176.1),
+    'E': (0.4, 361.7, 556.8, 842.1),
+    'V': (663.8, 361.7, 756.7, 842.1),
+    'N': (1531.1, 361.7, 677.4, 842.1),
+    'D': (2347.4, 361.7, 636.1, 842.1),
 }
-K_LOGO = 4.16667
-G = BOLD / 2 * K_LOGO           # how far the outline grows each letter, each side
-for ch in 'EVND':
-    x, y, w, h = BOX[ch]
-    BOX[ch] = (x - G, y - G, w + 2 * G, h + 2 * G)
-CAP = 1119.4 + 2 * G            # the logo letters' cap height
-BASE = 528.3 + CAP - G          # their baseline (the outline sits below it by G)
+CAP = 842.1                     # the logo letters' cap height
+BASE = 361.7 + CAP              # their baseline
 
-# --- Manrope.
+# --- Roboto SemiBold, the logo's own face.
 font = TTFont(FONT)
 gs, cmap = font.getGlyphSet(), font.getBestCmap()
-FCAP = font['OS/2'].sCapHeight  # 1440 in 2000 upm
+FCAP = font['OS/2'].sCapHeight
 hmtx = font['hmtx']
 
 
@@ -96,9 +112,9 @@ def glyph(ch):
 
 def layout(words, s, track_em):
     """Lay one line at logo scale s: the first letter of each word is the
-    logo's, the rest Manrope at the same cap height. Returns the pieces (x
+    logo's, the rest Roboto at the same cap height. Returns the pieces (x
     from the line's left edge) and the line's ink width."""
-    k = CAP * s / FCAP                 # Manrope units -> box units
+    k = CAP * s / FCAP                 # font units -> box units
     t = track_em * CAP * s             # tracking, in box units
     x, out, ink_right = 0.0, [], 0.0
     for wi, word in enumerate(words):
@@ -128,7 +144,7 @@ TR1, TR2 = 0.07, 0.16          # tracking, in each line's cap height
 LEAF_H = 1.3                   # leaf height, in line-1 cap heights
 LEAF_GAP = 0.3                 # gap before it, in line-1 cap heights
 PAD = 40                       # room above for the leaf's sway
-BOX_H = H + PAD + G           # and room below for the outline
+BOX_H = H + PAD
 BOX_W = round(BOX_H * 1020 / 246)
 _, w2u = layout(LINE2, 1.0, TR2)
 _, w1u = layout(LINE1, 1.0, TR1)
@@ -151,7 +167,7 @@ def fit(width):
 
 
 # As wide as the box, unless that makes the block too tall for it.
-width = BOX_W - G             # the box starts at -G, for E's outline
+width = BOX_W
 s1, s2, sL, block = fit(width)
 if block > 0.9 * H:
     width *= 0.9 * H / block
@@ -183,7 +199,7 @@ def pct(v):
 
 css, body = [], []
 
-# The spelled-out letters (Manrope), behind nothing, sliding out from their
+# The spelled-out letters (Roboto), behind nothing, sliding out from their
 # word's first letter.
 for li, (line, base, colour) in enumerate([(line1, b1, GREY), (line2, b2, GREY)]):
     for wi in sorted({p['word'] for p in line}):
@@ -237,7 +253,6 @@ leaf_svg = (f'<g class="a" style="animation-name:iL"><g class="sway">'
             f'<path fill="{LEAF}" transform="{mat(logo["leaf"]["m"])}" d="{logo["leaf"]["d"]}"/></g></g>')
 body.insert(0, leaf_svg)   # first, so it sits behind everything
 
-BOLD_ATTR = f' stroke-width="{BOLD}" stroke-linejoin="miter" stroke-miterlimit="4"' if BOLD else ' stroke-width="0"'
 for i, ch in enumerate('EVND'):
     x1, y1, s = targets[ch]
     tx, ty = big_move(ch, x1, y1, s)
@@ -250,10 +265,9 @@ for i, ch in enumerate('EVND'):
         css.append(f'@keyframes f{ch}{{0%,{pct(t_in)}{{fill:{GREEN};animation-timing-function:{E_BIG}}}'
                    f'{pct(t_in + BIG_LEN)},{pct(t_back)}{{fill:{GREY};animation-timing-function:{E_BIG}}}'
                    f'{pct(t_back + BIG_LEN)},100%{{fill:{GREEN}}}}}')
-        css[-1] = css[-1].replace(f'fill:{GREEN}', f'fill:{GREEN};stroke:{GREEN}').replace(f'fill:{GREY}', f'fill:{GREY};stroke:{GREY}')
-        path = f'<path class="nd" style="animation-name:f{ch}" fill="{GREEN}" stroke="{GREEN}"{BOLD_ATTR} transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
+        path = f'<path class="nd" style="animation-name:f{ch}" fill="{GREEN}" transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
     else:
-        path = f'<path fill="{GREY}" stroke="{GREY}"{BOLD_ATTR} transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
+        path = f'<path fill="{GREY}" transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
     body.append(f'<g class="a" style="animation-name:i{ch}">{path}</g>')
 
 css.append('@keyframes breeze{0%{transform:rotate(0)}14%{transform:rotate(-3.2deg)}26%{transform:rotate(-1deg)}'
@@ -264,7 +278,7 @@ style = (f'.a{{transform-box:view-box;transform-origin:0 0;animation:{DUR}s infi
          f'.nd{{animation:{DUR}s infinite both}}'
          '@media (prefers-reduced-motion:reduce){.a,.sway,.nd{animation:none!important}}' + ''.join(css))
 
-svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{r(-G)} {-PAD} {BOX_W} {r(BOX_H)}" width="{r(BOX_W / 4)}" height="{r(BOX_H / 4)}" '
+svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 {-PAD} {BOX_W} {r(BOX_H)}" width="{r(BOX_W / 4)}" height="{r(BOX_H / 4)}" '
        f'role="img" aria-label="EVND — East Valley Naturopathic Doctors"><style>{style}</style>{"".join(body)}</svg>\n')
 OUT.write_text(svg)
 print(f'{OUT.relative_to(ROOT)}: {len(svg):,} bytes; viewBox {BOX_W} x {r(BOX_H)} (ratio {BOX_W / BOX_H:.4f}); '
