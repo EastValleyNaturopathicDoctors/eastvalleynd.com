@@ -14,11 +14,10 @@
   const BLOCKS = [
     '.section-head', '.two-col > .col-eyebrow', '.two-col .col-body > h2', '.found-photo',
     '.trudose-media', '.trudose-text', '.opt-hero', '.testi-wrap', '.faq-left', '.book-text',
-    '.struggle-head', '.struggle-close', '.stakes-head',
   ].map((s) => `main section:not(.hero) ${s}`).join(', ');
   const GRIDS = [
     '.found-grid', '.cond-grid', '.therapy-photos', '.therapy-grid', '.opt-list',
-    '.docs-list', '.res-grid', '.faq-list', '.struggle-list', '.stakes-grid',
+    '.docs-list', '.res-grid', '.faq-list',
   ].map((s) => `main section:not(.hero) ${s}`).join(', ');
 
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
