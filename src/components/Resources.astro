@@ -7,12 +7,11 @@
  * host does not have — and linked four invented articles to /resources/.
  *
  * The e-book card asks for an email before the download (the clinic's choice,
- * Oct 2026). NOT CONNECTED YET: the address is checked and sent nowhere, and
- * the download link then appears in the card, so the e-book stays available
- * meanwhile. To connect it, give the <form> a real `action` and remove
- * `data-unconnected` (and decide whether the link still appears or the
- * e-book goes by email). The form shows once its script runs; without
- * JavaScript the card keeps a plain link instead.
+ * Oct 2026). The address goes to /api/ebook (worker/index.js), which adds it
+ * to the Brevo list "Website – Menopause e-book" (Nov 2026). The download
+ * link then appears in the card whatever Brevo answers, so a hiccup there
+ * never keeps anyone from the e-book. The form shows once its script runs;
+ * without JavaScript the card keeps a plain link instead.
  */
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -69,13 +68,18 @@ const cards = [
         <Eyebrow>Free e-book</Eyebrow>
         <h3>How to Feel Amazing in Menopause</h3>
         <p>A complimentary guide by Dr. Jennifer Nevels.</p>
-        <form class="ebook-form" method="post" action="" data-unconnected hidden>
+        <form class="ebook-form" method="post" action="/api/ebook" hidden>
           <label class="ebook-label" for="ebook-email">Enter your email to get your copy</label>
           <div class="ebook-field">
             <input id="ebook-email" type="email" name="email" autocomplete="email" inputmode="email"
                    placeholder="you@example.com" required />
             <Button variant="dark" icon="arrow-right" type="submit">Get the e-book</Button>
           </div>
+          {/* A trap for form-filling bots: out of sight and out of the tab order. */}
+          <div class="ebook-trap" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <p class="ebook-note">We’ll add your email to the clinic’s list for this e-book. Unsubscribe anytime.</p>
         </form>
         <div class="ebook-ready" hidden>
           <p class="ebook-ready-title">Thanks! Your copy is ready.</p>
@@ -103,18 +107,31 @@ const cards = [
 </section>
 
 <script>
-  // The e-book form (see the note at the top of this file): the browser checks
-  // the address, nothing is sent, and the download link takes the form's place.
-  for (const form of document.querySelectorAll<HTMLFormElement>('.ebook-form[data-unconnected]')) {
+  // The e-book form (see the note at the top of this file): the address goes
+  // to /api/ebook, then the download link takes the form's place, whatever
+  // the answer (or after 6 s without one).
+  for (const form of document.querySelectorAll<HTMLFormElement>('.ebook-form')) {
     const card = form.closest('.ebook-card');
     const ready = card?.querySelector<HTMLElement>('.ebook-ready');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     form.hidden = false;
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    const reveal = () => {
       if (!ready) return;
       form.hidden = true;
       ready.hidden = false;
       ready.querySelector<HTMLAnchorElement>('a')?.focus();
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (button) button.disabled = true;
+      const data = new FormData(form);
+      const send = fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.get('email'), website: data.get('website') }),
+      }).catch(() => undefined);
+      await Promise.race([send, new Promise((r) => setTimeout(r, 6000))]);
+      reveal();
     });
   }
 </script>
@@ -168,6 +185,8 @@ const cards = [
 .ebook-field input:focus-visible { outline: none; border-color: var(--grn); box-shadow: 0 0 0 3px rgba(108, 190, 63, 0.45); }
 .ebook-field .btn { justify-content: center; }
 .ebook-ready { margin-top: var(--space-6); }
+.ebook-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.ebook-note { margin: var(--space-3) 0 0 !important; font-size: 12px !important; line-height: 1.45 !important; color: rgba(255,255,255,0.9) !important; }
 .ebook-card .ebook-ready-title { margin: 0; font-weight: 600; color: #fff; }
 .ebook-download { margin-top: var(--space-4); align-self: flex-start; }
 .ebook-card noscript .ebook-download { display: inline-flex; margin-top: var(--space-6); }

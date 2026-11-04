@@ -1,7 +1,8 @@
 // Cloudflare Workers config: a static site. `npm run build` writes dist/, and
 // `npx wrangler deploy` uploads it as the Worker's assets. The only code is
-// worker/index.js, and it runs only for /videos/*: it serves the homepage
-// video in byte ranges, which static assets don't and Safari needs.
+// worker/index.js, and it runs only for the paths in run_worker_first:
+// /videos/* (the homepage video in byte ranges, which Safari needs) and
+// /api/* (the e-book form, to Brevo); and on the weekly schedule below.
 {
   "name": "eastvalleynd-com",
   "compatibility_date": "2026-09-30",
@@ -9,12 +10,20 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "run_worker_first": ["/videos/*"],
+    "run_worker_first": ["/videos/*", "/api/*"],
     // Unknown URLs get dist/404.html with a real 404 status.
     "not_found_handling": "404-page",
     // Astro builds /page/index.html; /page redirects to /page/ (trailingSlash: 'always').
     "html_handling": "auto-trailing-slash"
   },
+  // Brevo's "Website – Menopause e-book" list. The key is the BREVO_API_KEY
+  // secret, set in the dashboard (Settings > Variables and Secrets): secrets
+  // survive deploys; a plain variable set there would not, so this one lives
+  // here.
+  "vars": { "BREVO_LIST_ID": "4" },
+  // Mondays 16:23 UTC: the read-only call that keeps the Brevo key from
+  // expiring (Brevo deletes a key unused for 90 days).
+  "triggers": { "crons": ["23 16 * * 1"] },
   // Branch builds run `npx wrangler preview`, which needs this block (it can be
   // empty: assets and compatibility settings above apply to previews too).
   "previews": {}
