@@ -3,22 +3,32 @@ import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import posterJpg from '../images/site/hero-video-poster.jpg';
 // Counted from the roster, so it can't drift from /physicians/ (D126). Not
 // "licensed": the roster includes a holistic nutrition practitioner.
 const practitioners = (await getCollection('physicians')).length;
+// The video's first frame: shown while the video loads, and instead of it
+// under reduced motion, without JavaScript, or when a phone won't autoplay.
+const poster = await getImage({ src: posterJpg, format: 'webp', width: 1920, quality: 72 });
+// The clinic's homepage video (Nov 2026, from its iPhone footage; HDR brought
+// to standard colour). AV1 where the browser plays it, H.264 everywhere else,
+// and 720p on phones. Served by worker/index.js so Safari gets byte ranges.
+// A new cut gets a new date in the name (the files are cached for a year).
+const V = '/videos/hero-2026-11';
 ---
-<section class="hero" id="home" data-hero="1">
-  {/* The brand green mixed with sky blue (#01B9EB): two soft glows drifting
-      over a deep teal, CSS only. Three ways to set it in motion, as Option 1 /
-      2 / 3 for the clinic to compare (Oct 2026): 1 Drift (livelier glows),
-      2 Aurora (bands of light sweeping across), 3 Spotlight (a soft light
-      following the pointer, drifting on its own when idle). Once one is
-      picked, the other two and the switcher go. The team photo that sat here
-      is off until the clinic has a new one or its homepage video (the clinic
-      asked at the Oct 8 meeting); src/images/site/hero-team.jpg is kept. */}
+<section class="hero" id="home">
+  {/* The clinic's video, under a deep-teal veil so the white type reads. The
+      brand gradient underneath shows until the poster loads. The team photo
+      that sat here is off (src/images/site/hero-team.jpg is kept). */}
   <div class="hero-bg">
-    <div class="hero-spot" aria-hidden="true"></div>
-    <div class="hero-aurora" aria-hidden="true"></div>
+    <video class="hero-video" muted loop playsinline disablepictureinpicture preload="none"
+      poster={poster.src} aria-hidden="true" tabindex="-1">
+      <source src={`${V}-720.av1.mp4`} type='video/mp4; codecs="av01.0.08M.08"' media="(max-width: 900px)" />
+      <source src={`${V}-720.h264.mp4`} type="video/mp4" media="(max-width: 900px)" />
+      <source src={`${V}-1080.av1.mp4`} type='video/mp4; codecs="av01.0.08M.08"' />
+      <source src={`${V}-1080.h264.mp4`} type="video/mp4" />
+    </video>
     <div class="hero-overlay"></div>
   </div>
 
@@ -56,11 +66,10 @@ const practitioners = (await getCollection('physicians')).length;
           <Icon name="arrow-right" size={14} />
           Start by telling us why you're here
         </div>
-        <div class="hero-switch" role="group" aria-label="Hero style">
-          {[1, 2, 3].map((n) => (
-            <button type="button" data-v={n} aria-pressed={n === 1 ? 'true' : 'false'}>Option {n}</button>
-          ))}
-        </div>
+        <button type="button" class="hero-pause" aria-pressed="false" hidden>
+          <span class="hero-pause-icon" aria-hidden="true"></span>
+          <span class="hero-pause-text">Pause video</span>
+        </button>
       </div>
       <div class="dualpath">
         <a class="dp-card dp-treat" href="/conditions/">
@@ -95,32 +104,31 @@ const practitioners = (await getCollection('physicians')).length;
 </section>
 
 <script>
-  // The hero style switcher (Option 1 / 2 / 3), kept in the address as
-  // #hero-2 so a link can open one, and Option 3's spotlight following the
-  // pointer across the hero.
-  const hero = document.querySelector<HTMLElement>('.hero[data-hero]');
-  if (hero) {
-    const buttons = [...hero.querySelectorAll<HTMLButtonElement>('.hero-switch button')];
-    const set = (v: string, keep = false) => {
-      hero.dataset.hero = v;
-      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
-      if (keep) history.replaceState(null, '', v === '1' ? location.pathname + location.search : `#hero-${v}`);
+  // The hero video plays from here rather than `autoplay`, so it stays on its
+  // poster under reduced motion. It pauses while scrolled out of view, and the
+  // Pause button (moving content longer than 5s needs one, WCAG 2.2.2) keeps
+  // it paused until pressed again. If the phone refuses to play (Low Power
+  // Mode), the poster simply stays and the button stays hidden.
+  const video = document.querySelector<HTMLVideoElement>('.hero-video');
+  const button = document.querySelector<HTMLButtonElement>('.hero-pause');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (video && button && !still) {
+    let held = false;
+    let inView = true;
+    const label = button.querySelector('.hero-pause-text');
+    const show = () => {
+      button.setAttribute('aria-pressed', String(held));
+      if (label) label.textContent = held ? 'Play video' : 'Pause video';
     };
-    buttons.forEach((b) => b.addEventListener('click', () => set(b.dataset.v ?? '1', true)));
-    const fromHash = () => /^#hero-([123])$/.exec(location.hash)?.[1];
-    if (fromHash()) set(fromHash()!);
-    window.addEventListener('hashchange', () => { if (fromHash()) set(fromHash()!); });
-
-    let idle = 0;
-    hero.addEventListener('pointermove', (e) => {
-      if (hero.dataset.hero !== '3' || e.pointerType === 'touch') return;
-      const r = hero.getBoundingClientRect();
-      hero.style.setProperty('--sx', `${((e.clientX - r.left) / r.width) * 100}%`);
-      hero.style.setProperty('--sy', `${((e.clientY - r.top) / r.height) * 100}%`);
-      hero.classList.add('is-pointing');
-      window.clearTimeout(idle);
-      idle = window.setTimeout(() => { hero.classList.remove('is-pointing'); hero.style.removeProperty('--sx'); hero.style.removeProperty('--sy'); }, 2500);
-    });
+    const run = () => {
+      if (held || !inView) { video.pause(); return; }
+      video.play().then(() => { button.hidden = false; }).catch(() => {});
+    };
+    video.preload = 'auto';
+    button.addEventListener('click', () => { held = !held; show(); run(); });
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; run(); }).observe(video);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else run(); });
+    run();
   }
 </script>
 
@@ -131,9 +139,9 @@ const practitioners = (await getCollection('physicians')).length;
   color: #fff;
   overflow: hidden;
 }
-/* The brand green with sky blue (#01B9EB): two soft glows drift slowly over a
-   deep teal that warms toward green. The overlay keeps the copy side calm so
-   white type reads cleanly. */
+/* Under the video: the brand teal-to-green, all that shows until the poster
+   loads. The veil keeps the copy side dark enough for white type over the
+   clinic's bright rooms, and tints the footage toward the brand teal. */
 .hero-bg {
   position: absolute; inset: 0; z-index: 0; overflow: hidden;
   background:
@@ -141,75 +149,20 @@ const practitioners = (await getCollection('physicians')).length;
     radial-gradient(50% 70% at 70% 95%, rgba(108, 190, 63, 0.65) 0%, rgba(108, 190, 63, 0) 60%),
     linear-gradient(115deg, #052E39 0%, #08495A 38%, #0A6A6C 72%, #128A63 100%);
 }
-.hero-bg::before,
-.hero-bg::after {
-  content: ''; position: absolute; border-radius: 50%;
-  filter: blur(70px); opacity: 0.55; will-change: transform;
-}
-.hero-bg::before {
-  width: 48vw; height: 48vw; right: -10vw; top: -14vw; background: #01B9EB;
-  animation: hero-drift-a 28s ease-in-out infinite alternate;
-}
-.hero-bg::after {
-  width: 40vw; height: 40vw; right: 16vw; bottom: -20vw; background: #6CBE3F;
-  animation: hero-drift-b 34s ease-in-out infinite alternate;
-}
-@keyframes hero-drift-a { to { transform: translate(-7vw, 6vw) scale(1.08); } }
-@keyframes hero-drift-b { to { transform: translate(8vw, -5vw) scale(0.92); } }
-
-/* Option 1, Drift: the glows wander further and faster. */
-.hero[data-hero="1"] .hero-bg::before { animation: hero-drift-a1 16s ease-in-out infinite alternate; opacity: 0.65; }
-.hero[data-hero="1"] .hero-bg::after { animation: hero-drift-b1 19s ease-in-out infinite alternate; opacity: 0.6; }
-@keyframes hero-drift-a1 { 50% { transform: translate(-16vw, 10vw) scale(1.15); } to { transform: translate(-4vw, 16vw) scale(0.95); } }
-@keyframes hero-drift-b1 { 50% { transform: translate(14vw, -8vw) scale(0.9); } to { transform: translate(-6vw, -14vw) scale(1.12); } }
-
-/* Option 2, Aurora: wide bands of sky blue and green sweep across,
-   lightening what they pass over. */
-.hero-aurora { display: none; }
-.hero[data-hero="2"] .hero-aurora {
-  /* Twice the pattern side by side, slid left by one: a seamless loop that
-     moves on the GPU instead of repainting the hero every frame. */
-  display: block; position: absolute; top: 0; bottom: 0; left: 0; width: 300%; pointer-events: none;
-  background: linear-gradient(110deg,
-    rgba(1, 185, 235, 0) 0%, rgba(1, 185, 235, 0.55) 12%, rgba(108, 190, 63, 0.5) 22%, rgba(108, 190, 63, 0) 32%,
-    rgba(1, 185, 235, 0) 50%, rgba(1, 185, 235, 0.5) 62%, rgba(108, 190, 63, 0.5) 72%, rgba(108, 190, 63, 0) 82%, rgba(1, 185, 235, 0) 100%)
-    0 0 / 50% 100% repeat-x;
-  mix-blend-mode: screen; opacity: 0.55; will-change: transform;
-  animation: hero-aurora 22s linear infinite;
-}
-@keyframes hero-aurora { to { transform: translateX(-50%); } }
-
-/* Option 3, Spotlight: a soft light that follows the pointer across the
-   hero, and drifts across it on its own when idle. */
-@property --sx { syntax: '<percentage>'; inherits: true; initial-value: 72%; }
-@property --sy { syntax: '<percentage>'; inherits: true; initial-value: 38%; }
-.hero-spot { display: none; }
-.hero[data-hero="3"] .hero-spot {
-  display: block; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(circle 340px at var(--sx) var(--sy), rgba(140, 220, 255, 0.5) 0%, rgba(108, 190, 63, 0.22) 45%, rgba(108, 190, 63, 0) 100%);
-  mix-blend-mode: screen;
-  animation: hero-spot 14s ease-in-out infinite alternate;
-}
-.hero[data-hero="3"].is-pointing .hero-spot { animation: none; transition: --sx .25s ease-out, --sy .25s ease-out; }
-@keyframes hero-spot {
-  0% { --sx: 52%; --sy: 32%; }
-  35% { --sx: 70%; --sy: 48%; }
-  70% { --sx: 84%; --sy: 30%; }
-  100% { --sx: 96%; --sy: 44%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-bg::before, .hero-bg::after, .hero-aurora, .hero-spot { animation: none !important; }
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  pointer-events: none;
 }
 .hero-overlay {
   position: absolute; inset: 0;
   background:
-    linear-gradient(95deg, rgba(3, 32, 40, 0.55) 0%, rgba(3, 32, 40, 0.22) 48%, rgba(3, 32, 40, 0) 75%),
-    linear-gradient(to bottom, rgba(3, 32, 40, 0) 55%, rgba(3, 32, 40, 0.45) 100%);
+    linear-gradient(95deg, rgba(3, 32, 40, 0.86) 0%, rgba(3, 32, 40, 0.66) 45%, rgba(3, 32, 40, 0.38) 100%),
+    linear-gradient(to bottom, rgba(3, 32, 40, 0) 50%, rgba(3, 32, 40, 0.6) 100%);
 }
 /* On a phone the copy runs the full width, so an even veil keeps it readable. */
 @media (max-width: 900px) {
-  .hero-overlay { background: linear-gradient(to bottom, rgba(3, 32, 40, 0.35), rgba(3, 32, 40, 0.55)); }
+  .hero-overlay { background: linear-gradient(to bottom, rgba(3, 32, 40, 0.6) 0%, rgba(3, 32, 40, 0.7) 55%, rgba(3, 32, 40, 0.82) 100%); }
 }
 .hero-inner {
   position: relative; z-index: 2;
@@ -278,18 +231,22 @@ const practitioners = (await getCollection('physicians')).length;
   margin-bottom: var(--space-4);
 }
 .hero-paths-top .hero-paths-label { margin-bottom: 0; }
-.hero-switch {
-  display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px;
+.hero-pause {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px 6px 10px; border-radius: 999px; cursor: pointer;
   background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(6px);
-}
-.hero-switch button {
-  padding: 6px 12px; border: 0; border-radius: 999px; background: transparent; cursor: pointer;
-  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);
   transition: background .18s, color .18s;
 }
-.hero-switch button:hover { color: #fff; }
-.hero-switch button[aria-pressed="true"] { background: #fff; color: var(--ink); }
-.hero-switch button:focus-visible { outline: 2px solid var(--grn); outline-offset: 2px; }
+.hero-pause[hidden] { display: none; }
+.hero-pause:hover { color: #fff; background: rgba(255, 255, 255, 0.18); }
+.hero-pause:focus-visible { outline: 2px solid var(--grn); outline-offset: 2px; }
+/* Two bars when playing, a triangle when paused. */
+.hero-pause-icon { width: 10px; height: 10px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; box-sizing: border-box; }
+.hero-pause[aria-pressed="true"] .hero-pause-icon {
+  border-right: 0; border-left: 9px solid currentColor;
+  border-top: 5px solid transparent; border-bottom: 5px solid transparent; height: 10px;
+}
 
 /* The homepage hero rises in on load like every page's top (global.css). */
 @media (prefers-reduced-motion: no-preference) {

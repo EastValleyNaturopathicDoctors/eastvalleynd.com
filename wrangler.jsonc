@@ -1,10 +1,15 @@
-// Cloudflare Workers config: a static site, no server code. `npm run build`
-// writes dist/, and `npx wrangler deploy` uploads it as the Worker's assets.
+// Cloudflare Workers config: a static site. `npm run build` writes dist/, and
+// `npx wrangler deploy` uploads it as the Worker's assets. The only code is
+// worker/index.js, and it runs only for /videos/*: it serves the homepage
+// video in byte ranges, which static assets don't and Safari needs.
 {
   "name": "eastvalleynd-com",
   "compatibility_date": "2026-09-30",
+  "main": "./worker/index.js",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/videos/*"],
     // Unknown URLs get dist/404.html with a real 404 status.
     "not_found_handling": "404-page",
     // Astro builds /page/index.html; /page redirects to /page/ (trailingSlash: 'always').

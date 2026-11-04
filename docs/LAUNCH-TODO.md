@@ -25,7 +25,7 @@ Four areas, each fact-checked; 57 confirmed findings. Full evidence:
 - [ ] **Cutover not done yet (section 1):** www Custom Domain, apex and http to https www 301s, query-string redirects, build command `npm run build`. Plus a DNS and email plan: export the current zone, find who hosts patientcare@ mail, lower TTLs, keep the WordPress host for rollback.
 
 **Fix before launch**
-- [ ] Pick a hero option and remove the visible "Option 1 / 2 / 3" switcher.
+- [x] Pick a hero option and remove the visible "Option 1 / 2 / 3" switcher. *(Done Nov 4: the clinic's video replaced all three, and the switcher is gone.)*
 - [ ] Credentials: Marie Ybarra's meta description says "Dr. Marie Ybarra, NMD" (she's a licensed aesthetician); "licensed… nutrition" and "Seven licensed clinicians" (Shelly is a holistic nutrition practitioner); "Our Physicians (7)" covers non-physicians.
 - [ ] Cure, "100%" and cancer claims in the clinic's own voice on 33 pages. Worst: /conditions/cancer-support/ ("reduced 80–100%", "cancer eradication"). The doctors review the list.
 - [ ] TruDOSE spotlight: outcome copy from the design template that no clinic page supports, and its button goes to /iv-therapy/, which never mentions TruDOSE.
@@ -117,7 +117,7 @@ are any of them. Two fixes to Gemini's summary:
 - [ ] Send Dr. Nevels' hormonal video link.
 - [ ] Approve or rewrite the drafted Core Values statements for Precision and Education.
 - [ ] New staff photos (their old photographer, Rob), and say who to take out of the current group photo.
-- [ ] Micah: create the shared drive of raw footage (check it's high-resolution), then the 15–30 s homepage video: practitioners with patients, smiling faces, quick cuts.
+- [x] Micah: create the shared drive of raw footage (check it's high-resolution), then the 15–30 s homepage video: practitioners with patients, smiling faces, quick cuts. *(Done Nov 4: a 42 s cut is in the hero, `public/videos/hero-2026-11-*`; HDR converted to standard colour, 2.4–5.8 MB per file, from 43 MB. `worker/index.js` serves it in byte ranges for Safari. A new cut: re-encode with the same settings, give it a new date in the name, and update `V` in `Hero.astro`.)*
 
 ### Curtis: marketing (not website)
 - [ ] Schedule the Google Ads follow-up for Gilbert: about $1,700 a month ($750 management plus $1,000 ad spend), 4–5 broad topics (hormones, chronic pain, naturopathic in general). Weigh capacity first: Dr. Porter is booked out six months and they need more doctors.
