@@ -192,7 +192,7 @@ em { font-style: normal; color: var(--grn-2); }
 .btn-outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
 .btn-outline-light:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
-.btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn-ghost:hover { background: var(--dark); color: #fff; border-color: var(--dark); }
 
 /* Text -> button row 32, buttons 12 apart. */
 .hero-cta { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-7); align-items: center; }
@@ -224,7 +224,7 @@ em { font-style: normal; color: var(--grn-2); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0; z-index: 999;
-  background: var(--ink); color: #fff; padding: var(--space-3) var(--space-4); border-radius: 0 0 8px 0;
+  background: var(--dark); color: #fff; padding: var(--space-3) var(--space-4); border-radius: 0 0 8px 0;
 }
 .skip-link:focus { left: 0; }
 

@@ -113,7 +113,7 @@ const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join
   color: var(--ink);
   transition: background .2s, color .2s, border-color .2s;
 }
-.doc-cta:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.doc-cta:hover { background: var(--dark); color: #fff; border-color: var(--dark); }
 
 @media (max-width: 1000px) {
   .doc-row { grid-template-columns: 40px 1fr 1fr 60px; gap: var(--space-2) var(--space-3); padding: var(--space-5) 0; }
@@ -209,7 +209,7 @@ const initials = name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).join
 /* The summary takes up the slack, so the links line up along a row of cards. */
 .doc-tile-body p { flex-grow: 1; }
 .doc-tile .doc-cta { align-self: flex-start; margin-top: var(--space-5); }
-.doc-tile:hover .doc-cta { background: var(--ink); color: #fff; border-color: var(--ink); }
+.doc-tile:hover .doc-cta { background: var(--dark); color: #fff; border-color: var(--dark); }
 /* One column on a phone: a landscape crop keeps a full-width headshot from
    filling the whole screen. */
 @media (max-width: 600px) {

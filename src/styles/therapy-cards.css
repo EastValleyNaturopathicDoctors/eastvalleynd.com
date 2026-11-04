@@ -18,7 +18,7 @@
   gap: var(--space-3);
   transition: background .2s, color .2s;
 }
-.therapy-card:hover { background: var(--ink); color: #fff; }
+.therapy-card:hover { background: var(--dark); color: #fff; }
 .therapy-cat {
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;

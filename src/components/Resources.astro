@@ -133,7 +133,7 @@ const cards = [
   grid-row: span 2;
   position: relative; isolation: isolate; overflow: hidden;
   min-height: 560px;
-  background: var(--ink);
+  background: var(--dark);
   color: #fff;
   border-radius: var(--radius-lg);
   padding: var(--pad-feature);
@@ -147,16 +147,16 @@ const cards = [
 }
 .ebook-card::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(to bottom, rgba(14, 19, 17, 0) 18%, rgba(14, 19, 17, 0.5) 40%, rgba(14, 19, 17, 0.9) 62%, rgba(14, 19, 17, 0.96) 100%);
+  background: linear-gradient(to bottom, rgba(103, 103, 103, 0) 18%, rgba(103, 103, 103, 0.5) 40%, rgba(103, 103, 103, 0.9) 62%, rgba(103, 103, 103, 0.96) 100%);
 }
 .ebook-card > :not(.ebook-photo) { position: relative; }
-.ebook-card .eyebrow { align-self: flex-start; background: rgba(14, 19, 17, 0.35); border-color: rgba(255,255,255,0.3); color: #fff; backdrop-filter: blur(6px); }
+.ebook-card .eyebrow { align-self: flex-start; background: rgba(103, 103, 103, 0.35); border-color: rgba(255,255,255,0.3); color: #fff; backdrop-filter: blur(6px); }
 .ebook-card h3 { font-family: var(--font-display); font-size: 30px; margin: var(--space-4) 0 0; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; text-wrap: balance; }
-.ebook-card p { color: rgba(255,255,255,0.82); font-size: 15px; line-height: 1.55; margin: var(--space-2) 0 0; }
+.ebook-card p { color: rgba(255,255,255,0.92); font-size: 15px; line-height: 1.55; margin: var(--space-2) 0 0; }
 .ebook-form { margin-top: var(--space-6); container-type: inline-size; }
 .ebook-label {
   display: block; margin-bottom: var(--space-2);
-  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7);
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.9);
 }
 .ebook-field { display: flex; flex-direction: column; gap: var(--space-2); }
 .ebook-field input {
@@ -171,7 +171,7 @@ const cards = [
 .ebook-card .ebook-ready-title { margin: 0; font-weight: 600; color: #fff; }
 .ebook-download { margin-top: var(--space-4); align-self: flex-start; }
 .ebook-card noscript .ebook-download { display: inline-flex; margin-top: var(--space-6); }
-.ebook-card small { margin-top: var(--space-2); color: rgba(255,255,255,0.6); font-size: 12px; }
+.ebook-card small { margin-top: var(--space-2); color: rgba(255,255,255,0.9); font-size: 12px; }
 /* A wide form: the field and button share a line. */
 @container (min-width: 440px) {
   .ebook-field { flex-direction: row; max-width: 460px; }
@@ -209,7 +209,7 @@ const cards = [
   display: inline-flex; align-items: center; justify-content: center;
   transition: background .2s, color .2s;
 }
-.res-card:hover .res-arrow { background: var(--ink); color: #fff; }
+.res-card:hover .res-arrow { background: var(--dark); color: #fff; }
 
 @media (max-width: 1000px) {
   .res-grid { grid-template-columns: repeat(2, 1fr); }
@@ -219,7 +219,7 @@ const cards = [
   .ebook-card > :not(.ebook-photo) { max-width: 50%; }
   .ebook-photo { left: 40%; width: 60%; object-position: 62% 14%; }
   .ebook-card::before {
-    background: linear-gradient(90deg, rgba(14, 19, 17, 1) 0%, rgba(14, 19, 17, 1) 40%, rgba(14, 19, 17, 0.55) 50%, rgba(14, 19, 17, 0) 64%);
+    background: linear-gradient(90deg, rgba(103, 103, 103, 1) 0%, rgba(103, 103, 103, 1) 40%, rgba(103, 103, 103, 0.55) 50%, rgba(103, 103, 103, 0) 64%);
   }
 }
 @media (max-width: 600px) {
@@ -229,7 +229,7 @@ const cards = [
   .ebook-card > :not(.ebook-photo) { max-width: none; }
   .ebook-photo { left: 0; width: 100%; object-position: 62% 6%; }
   .ebook-card::before {
-    background: linear-gradient(to bottom, rgba(14, 19, 17, 0) 22%, rgba(14, 19, 17, 0.6) 42%, rgba(14, 19, 17, 0.93) 58%, rgba(14, 19, 17, 0.97) 100%);
+    background: linear-gradient(to bottom, rgba(103, 103, 103, 0) 22%, rgba(103, 103, 103, 0.6) 42%, rgba(103, 103, 103, 0.93) 58%, rgba(103, 103, 103, 0.97) 100%);
   }
 }
 </style>
