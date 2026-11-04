@@ -68,11 +68,12 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href) && !isStub(n.hre
 <header class="mainnav" id="mainnav">
   <div class="container mainnav-inner">
     {/* EVND unfolding into East Valley Naturopathic Doctors and back (D127):
-        one self-animating SVG, built by extract/build_logo.py from the two
-        lockups in Logos/. No script; under reduced motion it holds on EVND.
-        `alt=""` because the link already carries the accessible name. */}
+        one self-animating SVG, built by scripts/build-animated-logo.py from
+        the clinic's logo (public/assets/EVND-logo.svg, Nov 2026) and Manrope.
+        No script; under reduced motion it holds on EVND. `alt=""` because the
+        link already carries the accessible name. */}
     <a href="/" class="logo-link" aria-label="EVND home">
-      <img src="/assets/EVND-animated.svg" alt="" width="183" height="44" loading="eager" />
+      <img src="/assets/EVND-animated.svg" alt="" width="207" height="50" loading="eager" />
     </a>
 
     <nav class="mainnav-links" aria-label="Primary">
@@ -341,7 +342,7 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href) && !isStub(n.hre
 /* The sticky bar gives back a little height once the reader is past the top —
    89px of permanent chrome is a tenth of a laptop viewport. */
 .mainnav.is-scrolled .mainnav-inner { padding-top: 11px; padding-bottom: 11px; }
-.mainnav.is-scrolled .logo-link img { height: 38px; }
+.mainnav.is-scrolled .logo-link img { height: 42px; }
 .logo-link img { transition: height .2s ease; }
 @media (prefers-reduced-motion: reduce) {
   .mainnav-inner, .logo-link img { transition: none; }
@@ -350,7 +351,10 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href) && !isStub(n.hre
    image styles crop to `cover`, which cut the tagline off the bottom. Width and
    height follow the real ratio, and `contain` guarantees a logo is never
    cropped whatever size it is asked for. */
-.logo-link img { height: 44px; width: auto; object-fit: contain; }
+/* 50px on a desktop (Nov 2026): the clinic's logo carries its leaf above the
+   letters, so at the old 44px EVND itself stood only 29px tall. Phones keep
+   their sizes below; the bar has no width to spare there. */
+.logo-link img { height: 50px; width: auto; object-fit: contain; }
 /* aspect-ratio: the trace flagged the SVG as an unsized image (0.0005 CLS);
    `height: 44px; width: auto` only knows the width once the file has loaded. */
 .logo-link img { aspect-ratio: 1020 / 246; }
