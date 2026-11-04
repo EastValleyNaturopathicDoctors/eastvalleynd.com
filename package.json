@@ -12,9 +12,6 @@
     "postbuild": "node scripts/stray-copies.mjs && node scripts/search-index.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
-    "@fontsource/jetbrains-mono": "^5.3.0",
-    "@fontsource/manrope": "^5.3.0",
     "@fontsource/roboto": "^5.3.0",
     "@fontsource/roboto-condensed": "^5.3.0",
     "astro": "^5.14.1"

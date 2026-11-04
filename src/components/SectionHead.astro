@@ -1,10 +1,16 @@
 ---
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
-interface Props { eyebrow: string; blurb?: string; ctaLabel?: string; ctaHref?: string; }
-const { eyebrow, blurb, ctaLabel, ctaHref } = Astro.props;
+/**
+ * `split`: the heading on the left, the line and button on the right. Only the
+ * homepage's Services and Practitioners keep it (the clinic, Nov 2026); every
+ * other head stacks, the heading and the line under it at 75% of the content
+ * width on a desktop.
+ */
+interface Props { eyebrow: string; blurb?: string; ctaLabel?: string; ctaHref?: string; split?: boolean; }
+const { eyebrow, blurb, ctaLabel, ctaHref, split = false } = Astro.props;
 ---
-<div class="section-head">
+<div class:list={['section-head', split && 'is-split']}>
   <div>
     <Eyebrow>{eyebrow}</Eyebrow>
     <h2 class="h2"><slot /></h2>

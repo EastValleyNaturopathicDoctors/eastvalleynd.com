@@ -36,6 +36,10 @@ OUT = ROOT / 'public/assets/EVND-animated.svg'
 
 W, H = 2984.0, 1204.0          # the logo's own box (its viewBox)
 GREY, GREEN, LEAF = '#676767', '#56B400', '#AAD97F'
+# Unfolded (the clinic, Nov 2026): the leaf in the logo file's full green,
+# and the rule between the lines a hairline, barely there.
+LEAF_OPEN = '#6BBE3F'
+RULE_COLOUR = '#DCDCDC'
 
 
 def r(v, n=3):
@@ -159,7 +163,7 @@ def fit(width):
     s1 = width / (w1u + LEAF_GAP * CAP + BOX['leaf'][2] * sL_per_s1)
     sL = sL_per_s1 * s1
     cap1, cap2 = CAP * s1, CAP * s2
-    gap, rule_t = 0.62 * cap2, 0.22 * cap2
+    gap, rule_t = 0.62 * cap2, BOX_H / 46   # the rule: about 1px at header size
     b1 = -(cap2 + gap + rule_t + gap)                  # line 2 baseline at 0
     leaf_top = b1 - leaf_lift_u * sL - BOX['leaf'][3] * sL
     top = min(b1 - cap1, leaf_top)
@@ -175,7 +179,7 @@ if block > 0.9 * H:
 line1, _ = layout(LINE1, s1, TR1)
 line2, _ = layout(LINE2, s2, TR2)
 cap1, cap2 = CAP * s1, CAP * s2
-gap, rule_t = 0.62 * cap2, 0.22 * cap2
+gap, rule_t = 0.62 * cap2, BOX_H / 46   # the rule: about 1px at header size
 # Centred in the box, top to bottom.
 b2 = (H + block) / 2
 rule_y = b2 - cap2 - gap - rule_t
@@ -222,7 +226,7 @@ for li, (line, base, colour) in enumerate([(line1, b1, GREY), (line2, b2, GREY)]
 # The rule, drawn from the left.
 css.append(f'@keyframes rule{{0%,{pct(RULE[0])}{{transform:scaleX(0);animation-timing-function:{E_IN}}}'
            f'{pct(RULE[1])},{pct(RULE[2])}{{transform:none;animation-timing-function:{E_OUT}}}{pct(RULE[3])},100%{{transform:scaleX(0)}}}}')
-body.append(f'<g class="a r" style="animation-name:rule"><rect x="0" y="{r(rule_y, 2)}" width="{r(W_NAME, 1)}" height="{r(rule_t, 2)}" fill="{LEAF}"/></g>')
+body.append(f'<g class="a r" style="animation-name:rule"><rect x="0" y="{r(rule_y, 2)}" width="{r(W_NAME, 1)}" height="{r(rule_t, 2)}" fill="{RULE_COLOUR}"/></g>')
 
 
 def mat(m):
@@ -249,8 +253,11 @@ css.append(f'@keyframes iL{{0%,{pct(v_in)}{{transform:none;animation-timing-func
            f'{pct(v_in + BIG_LEN)},{pct(v_back)}{{transform:translate({r(ltx)}px,{r(lty)}px) scale({r(sL, 4)});animation-timing-function:{E_BIG}}}'
            f'{pct(v_back + BIG_LEN)},100%{{transform:none}}}}')
 stem = (BOX['leaf'][0] + BOX['leaf'][2], BOX['leaf'][1] + BOX['leaf'][3])
+css.append(f'@keyframes fL{{0%,{pct(v_in)}{{fill:{LEAF};animation-timing-function:{E_BIG}}}'
+           f'{pct(v_in + BIG_LEN)},{pct(v_back)}{{fill:{LEAF_OPEN};animation-timing-function:{E_BIG}}}'
+           f'{pct(v_back + BIG_LEN)},100%{{fill:{LEAF}}}}}')
 leaf_svg = (f'<g class="a" style="animation-name:iL"><g class="sway">'
-            f'<path fill="{LEAF}" transform="{mat(logo["leaf"]["m"])}" d="{logo["leaf"]["d"]}"/></g></g>')
+            f'<path class="nd" style="animation-name:fL" fill="{LEAF}" transform="{mat(logo["leaf"]["m"])}" d="{logo["leaf"]["d"]}"/></g></g>')
 body.insert(0, leaf_svg)   # first, so it sits behind everything
 
 for i, ch in enumerate('EVND'):
@@ -284,3 +291,16 @@ OUT.write_text(svg)
 print(f'{OUT.relative_to(ROOT)}: {len(svg):,} bytes; viewBox {BOX_W} x {r(BOX_H)} (ratio {BOX_W / BOX_H:.4f}); '
       f'name {W_NAME:.0f} wide; line 1 scale {s1:.3f}, line 2 {s2:.3f}, leaf {sL:.3f}; '
       f'line 2 cap at 44px tall: {cap2 / BOX_H * 44:.1f}px')
+
+# --- The favicon: the logo's leaf alone, in the logo file's own green,
+# centred in a square with a little room. public/favicon.svg is what current
+# browsers use; favicon.ico and apple-touch-icon.png are rendered from it
+# (a browser screenshot, see the commit that added them) for the rest.
+LEAF_FILL = '#6BBE3F'
+lx0, ly0, lw0, lh0 = BOX['leaf']
+side = max(lw0, lh0) * 1.1
+vx, vy = lx0 + lw0 / 2 - side / 2, ly0 + lh0 / 2 - side / 2
+fav = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{r(vx, 1)} {r(vy, 1)} {r(side, 1)} {r(side, 1)}">'
+       f'<path fill="{LEAF_FILL}" transform="{mat(logo["leaf"]["m"])}" d="{logo["leaf"]["d"]}"/></svg>\n')
+(ROOT / 'public/favicon.svg').write_text(fav)
+print(f'public/favicon.svg: {len(fav):,} bytes')

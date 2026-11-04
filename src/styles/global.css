@@ -197,21 +197,29 @@ em { font-style: normal; color: var(--grn-2); }
 /* Text -> button row 32, buttons 12 apart. */
 .hero-cta { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-7); align-items: center; }
 
-.section-head {
+/* Stacked (the default, Nov 2026): the heading, then its line and button,
+   both at 75% of the content width on a desktop. */
+.section-head { margin-bottom: var(--space-head); }
+.section-head:not(.is-split) > div:first-child,
+.section-head:not(.is-split) .section-head-right { max-width: 75%; }
+.section-head:not(.is-split) .section-head-right { margin-top: var(--space-5); }
+.section-head-right { display: flex; flex-direction: column; gap: var(--space-5); align-items: flex-start; }
+.section-head-right p { color: var(--ink-2); margin: 0; }
+/* Split (`split`): heading left, line and button right, on even columns. */
+.section-head.is-split {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--gap-cols);
   align-items: end;
-  margin-bottom: var(--space-head);
 }
 /* Even columns put every right column on one line (x=752 at 1440), which
-   leaves the heading ~9.8em of display type. It may run on into the gap, so
-   "If conventional / medicine has shrugged, / …" keeps its line breaks. */
-@media (min-width: 801px) { .section-head .h2 { min-width: 10.6em; } }
-.section-head-right { display: flex; flex-direction: column; gap: var(--space-5); align-items: flex-start; }
-.section-head-right p { color: var(--ink-2); margin: 0; max-width: 42ch; }
+   leaves the heading ~9.8em of display type. It may run on into the gap. */
+@media (min-width: 801px) { .section-head.is-split .h2 { min-width: 10.6em; } }
+.section-head.is-split .section-head-right p { max-width: 42ch; }
 
 @media (max-width: 800px) {
-  .section-head { grid-template-columns: 1fr; row-gap: var(--space-5); }
+  .section-head:not(.is-split) > div:first-child,
+  .section-head:not(.is-split) .section-head-right { max-width: none; }
+  .section-head.is-split { grid-template-columns: 1fr; row-gap: var(--space-5); }
 }
 
 .skip-link {

@@ -1,6 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '@/images/site/evnd-logo.png';
 import Icon from './Icon.astro';
 import { site, footerCols, footerLegal } from '../data/site';
 import { isStub } from '@/lib/nav';
@@ -15,7 +13,7 @@ const cols = footerCols.map((c) => ({ ...c, links: c.links.filter((l) => !isStub
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <Image src={logo} alt="EVND" width={150} height={60} loading="eager" />
+        <img src="/assets/EVND-logo.svg" alt="EVND" width="124" height="50" loading="lazy" decoding="async" />
         <p>{site.name} — board-licensed naturopathic medicine in {a.city}, Arizona since {site.since}.</p>
         <div class="footer-contact">
           <a href={site.phoneHref}><Icon name="phone" size={14} />{site.phone}</a>
@@ -49,11 +47,11 @@ const cols = footerCols.map((c) => ({ ...c, links: c.links.filter((l) => !isStub
   padding-bottom: var(--space-8);
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }
-/* The logo's own 2.5:1 shape at 50px tall: Astro's image rule would cover
-   the 150x60 box and cut off the tagline (tracker K11). */
+/* The clinic's logo as drawn for a dark ground (white EVND, green leaf;
+   public/assets/EVND-logo.svg, Nov 2026), at its own 2984:1204 shape. */
 .footer-brand img {
-  height: 50px; width: auto; aspect-ratio: 750 / 300; object-fit: contain;
-  filter: brightness(0) invert(1); margin-bottom: var(--space-4);
+  display: block; height: 50px; width: auto; aspect-ratio: 2984 / 1204;
+  margin-bottom: var(--space-4);
 }
 .footer-brand p { font-size: 14px; line-height: 1.55; max-width: 36ch; margin: 0 0 var(--space-5); }
 .footer-contact { display: flex; flex-direction: column; gap: var(--space-2); font-size: 13px; }
