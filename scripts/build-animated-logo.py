@@ -29,7 +29,14 @@ from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parent.parent
 LOGO = ROOT / 'public/assets/EVND-logo.svg'
-FONT = ROOT / 'node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff'
+# A touch bolder than the supplied file (the clinic, Nov 2026: like the
+# heavier EVND in evnd-logo.png, whose stems are 0.175 of cap height). The
+# letters are outlined in their own colour by BOLD logo units, which takes the
+# stem from 0.103 to 0.150 of cap height; Manrope 600 (0.145) matches that.
+# BOLD = 0 and weight 400 give the file exactly as supplied.
+BOLD = 15
+WEIGHT = 600
+FONT = ROOT / f'node_modules/@fontsource/manrope/files/manrope-latin-{WEIGHT}-normal.woff'
 OUT = ROOT / 'public/assets/EVND-animated.svg'
 
 W, H = 3984.0, 1648.0          # the logo's own box
@@ -61,8 +68,13 @@ BOX = {  # x, y, w, h in the 3984 x 1648 box
     'N': (2017.4, 528.3, 829.9, 1119.4),
     'D': (3070.8, 528.3, 912.9, 1119.4),
 }
-CAP = 1119.4                    # the logo letters' cap height
-BASE = 528.3 + CAP              # their baseline
+K_LOGO = 4.16667
+G = BOLD / 2 * K_LOGO           # how far the outline grows each letter, each side
+for ch in 'EVND':
+    x, y, w, h = BOX[ch]
+    BOX[ch] = (x - G, y - G, w + 2 * G, h + 2 * G)
+CAP = 1119.4 + 2 * G            # the logo letters' cap height
+BASE = 528.3 + CAP - G          # their baseline (the outline sits below it by G)
 
 # --- Manrope.
 font = TTFont(FONT)
@@ -116,7 +128,7 @@ TR1, TR2 = 0.07, 0.16          # tracking, in each line's cap height
 LEAF_H = 1.3                   # leaf height, in line-1 cap heights
 LEAF_GAP = 0.3                 # gap before it, in line-1 cap heights
 PAD = 40                       # room above for the leaf's sway
-BOX_H = H + PAD
+BOX_H = H + PAD + G           # and room below for the outline
 BOX_W = round(BOX_H * 1020 / 246)
 _, w2u = layout(LINE2, 1.0, TR2)
 _, w1u = layout(LINE1, 1.0, TR1)
@@ -139,7 +151,7 @@ def fit(width):
 
 
 # As wide as the box, unless that makes the block too tall for it.
-width = BOX_W
+width = BOX_W - G             # the box starts at -G, for E's outline
 s1, s2, sL, block = fit(width)
 if block > 0.9 * H:
     width *= 0.9 * H / block
@@ -225,6 +237,7 @@ leaf_svg = (f'<g class="a" style="animation-name:iL"><g class="sway">'
             f'<path fill="{LEAF}" transform="{mat(logo["leaf"]["m"])}" d="{logo["leaf"]["d"]}"/></g></g>')
 body.insert(0, leaf_svg)   # first, so it sits behind everything
 
+BOLD_ATTR = f' stroke-width="{BOLD}" stroke-linejoin="miter" stroke-miterlimit="4"' if BOLD else ' stroke-width="0"'
 for i, ch in enumerate('EVND'):
     x1, y1, s = targets[ch]
     tx, ty = big_move(ch, x1, y1, s)
@@ -237,9 +250,10 @@ for i, ch in enumerate('EVND'):
         css.append(f'@keyframes f{ch}{{0%,{pct(t_in)}{{fill:{GREEN};animation-timing-function:{E_BIG}}}'
                    f'{pct(t_in + BIG_LEN)},{pct(t_back)}{{fill:{GREY};animation-timing-function:{E_BIG}}}'
                    f'{pct(t_back + BIG_LEN)},100%{{fill:{GREEN}}}}}')
-        path = f'<path class="nd" style="animation-name:f{ch}" fill="{GREEN}" transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
+        css[-1] = css[-1].replace(f'fill:{GREEN}', f'fill:{GREEN};stroke:{GREEN}').replace(f'fill:{GREY}', f'fill:{GREY};stroke:{GREY}')
+        path = f'<path class="nd" style="animation-name:f{ch}" fill="{GREEN}" stroke="{GREEN}"{BOLD_ATTR} transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
     else:
-        path = f'<path fill="{GREY}" transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
+        path = f'<path fill="{GREY}" stroke="{GREY}"{BOLD_ATTR} transform="{mat(logo[ch]["m"])}" d="{logo[ch]["d"]}"/>'
     body.append(f'<g class="a" style="animation-name:i{ch}">{path}</g>')
 
 css.append('@keyframes breeze{0%{transform:rotate(0)}14%{transform:rotate(-3.2deg)}26%{transform:rotate(-1deg)}'
@@ -250,7 +264,7 @@ style = (f'.a{{transform-box:view-box;transform-origin:0 0;animation:{DUR}s infi
          f'.nd{{animation:{DUR}s infinite both}}'
          '@media (prefers-reduced-motion:reduce){.a,.sway,.nd{animation:none!important}}' + ''.join(css))
 
-svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 {-PAD} {BOX_W} {r(BOX_H)}" width="{r(BOX_W / 4)}" height="{r(BOX_H / 4)}" '
+svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{r(-G)} {-PAD} {BOX_W} {r(BOX_H)}" width="{r(BOX_W / 4)}" height="{r(BOX_H / 4)}" '
        f'role="img" aria-label="EVND — East Valley Naturopathic Doctors"><style>{style}</style>{"".join(body)}</svg>\n')
 OUT.write_text(svg)
 print(f'{OUT.relative_to(ROOT)}: {len(svg):,} bytes; viewBox {BOX_W} x {r(BOX_H)} (ratio {BOX_W / BOX_H:.4f}); '
