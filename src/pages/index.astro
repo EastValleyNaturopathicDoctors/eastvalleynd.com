@@ -13,6 +13,8 @@ import Resources from '../components/Resources.astro';
 import FAQ from '../components/FAQ.astro';
 import BookCTA from '../components/BookCTA.astro';
 import RevealOnScroll from '../components/RevealOnScroll.astro';
+import Struggle from '../components/Struggle.astro';
+import Stakes from '../components/Stakes.astro';
 import { site } from '../data/site';
 ---
 <Base
@@ -22,12 +24,14 @@ import { site } from '../data/site';
   searchable={false}>
   <Hero />
   <TrustStrip />
+  <Struggle />
   <Foundations />
   <Conditions limit={8} />
   <TruDOSE />
   <Therapies />
   <Optimization />
   <Practitioners />
+  <Stakes />
   <Testimonials />
   <Resources />
   <FAQ showCta={false} />

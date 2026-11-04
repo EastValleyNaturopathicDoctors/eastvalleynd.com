@@ -1,0 +1,81 @@
+---
+/**
+ * The homepage's stakes and success (StoryBrand pass, Nov 2026), just before
+ * the patient stories that bear it out: what staying stuck costs, beside what
+ * a plan makes possible, and the button. Kept short on purpose. No outcomes
+ * or timelines are promised (the clinic's rule): the success side describes
+ * the care (labs you can read, a plan adjusted with you), and the last line
+ * is framed as the goal.
+ */
+import Eyebrow from './Eyebrow.astro';
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import { site } from '../data/site';
+
+const without = [
+  'More years of guessing, and of being told it’s normal.',
+  'Symptoms managed one at a time while the cause carries on.',
+  'Less energy for your work, your family, and the life you want.',
+];
+const withPlan = [
+  'You know what’s driving your symptoms, in labs you can read.',
+  'A plan you understand, and a doctor who adjusts it with you.',
+  'The goal: feeling like yourself again, or better than “normal.”',
+];
+---
+<section class="section stakes-section" id="where-this-goes" data-pagefind-ignore>
+  <div class="container">
+    <div class="stakes-head">
+      <Eyebrow>Where this goes</Eyebrow>
+      <h2 class="h2">You don’t have to keep living like this.</h2>
+    </div>
+    <div class="stakes-grid">
+      <div class="stakes-card is-without">
+        <h3>Without answers</h3>
+        <ul>
+          {without.map((s) => <li><Icon name="close" size={18} /><span>{s}</span></li>)}
+        </ul>
+      </div>
+      <div class="stakes-card is-with">
+        <h3>With a plan</h3>
+        <ul>
+          {withPlan.map((s) => <li><Icon name="check" size={18} /><span>{s}</span></li>)}
+        </ul>
+        <div class="stakes-cta">
+          <Button href="/new-patient-appointment-request/" icon="arrow-right" size="lg">Book a new patient visit</Button>
+          <a href={site.phoneHref} class="stakes-phone">or call {site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+.stakes-head { max-width: 900px; }
+.stakes-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-cards);
+  margin-top: var(--space-head); align-items: stretch;
+}
+.stakes-card {
+  padding: var(--pad-feature); border-radius: var(--radius-lg); border: 1px solid var(--line);
+  display: flex; flex-direction: column;
+}
+.stakes-card h3 {
+  margin: 0; font-family: var(--font-mono); font-size: 12.5px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+}
+.stakes-card ul { list-style: none; margin: var(--space-4) 0 0; padding: 0; display: grid; gap: var(--space-4); }
+.stakes-card li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: 17px; line-height: 1.45; }
+.stakes-card li svg { flex: none; margin-top: 3px; }
+.stakes-card.is-without { background: var(--bg-soft); color: var(--ink-2); }
+.stakes-card.is-without li svg { color: var(--ink-3); }
+.stakes-card.is-with { background: var(--grn-soft); border-color: transparent; color: var(--ink); }
+.stakes-card.is-with h3 { color: var(--grn-2); }
+.stakes-card.is-with li svg { color: var(--grn-2); }
+.stakes-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); margin-top: auto; padding-top: var(--space-6); }
+.stakes-phone { color: var(--ink-2); font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
+.stakes-phone:hover { color: var(--grn-2); }
+@media (max-width: 760px) {
+  .stakes-grid { grid-template-columns: 1fr; }
+}
+</style>

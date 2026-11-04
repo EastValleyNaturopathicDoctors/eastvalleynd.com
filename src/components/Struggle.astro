@@ -1,0 +1,58 @@
+---
+/**
+ * The homepage's problem section (StoryBrand pass, Nov 2026): right under the
+ * hero, the visitor's side of the story before the clinic's. The lines echo
+ * what patients say in their own reviews (rushed visits, not being heard,
+ * symptoms masked rather than explained), so nothing here is a claim about
+ * the clinic. The last line is the "it shouldn't be this way" beat; the
+ * Foundations section after it answers it.
+ */
+import Eyebrow from './Eyebrow.astro';
+import Icon from './Icon.astro';
+
+const signs = [
+  'Your labs come back “normal,” but you still don’t feel well.',
+  'Appointments feel rushed, and no one connects your symptoms.',
+  'You’ve been given ways to manage symptoms, but no one has asked what’s causing them.',
+  'You’ve started to wonder whether it’s all in your head.',
+];
+---
+<section class="section struggle-section" id="sound-familiar" data-pagefind-ignore>
+  <div class="container">
+    <div class="struggle-head">
+      <Eyebrow>Sound familiar?</Eyebrow>
+      <h2 class="h2">You know something isn’t right. You just can’t get anyone to find out <em>why</em>.</h2>
+    </div>
+    <ul class="struggle-list">
+      {signs.map((s) => (
+        <li><span class="struggle-mark" aria-hidden="true"><Icon name="check" size={18} /></span><span>{s}</span></li>
+      ))}
+    </ul>
+    <p class="struggle-close">It shouldn’t take years and a stack of specialists to be taken seriously about your own health.</p>
+  </div>
+</section>
+
+<style is:global>
+.struggle-head { max-width: 900px; }
+.struggle-list {
+  list-style: none; margin: var(--space-head) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-cards);
+}
+.struggle-list li {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--pad-card); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg);
+  font-size: 17px; line-height: 1.45; color: var(--ink);
+}
+.struggle-mark {
+  flex: none; display: grid; place-items: center; width: 30px; height: 30px; margin-top: -2px;
+  border-radius: 999px; background: var(--grn-soft); color: var(--grn-2);
+}
+.struggle-close {
+  margin: var(--space-6) 0 0; max-width: 46ch;
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(20px, 1.9vw, 26px); line-height: 1.3; letter-spacing: -0.01em;
+  color: var(--ink-2);
+}
+@media (max-width: 760px) {
+  .struggle-list { grid-template-columns: 1fr; }
+}
+</style>
