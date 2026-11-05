@@ -102,6 +102,14 @@ const OVERRIDES = {
   '/how-is-a-qbcheck-performed/': '/conditions/childhood-behavioral-disorders/adhd/',
   '/how-often-is-a-qbcheck-performed/': '/conditions/childhood-behavioral-disorders/adhd/',
   '/qbcheck-evaluation-treatment-response/': '/conditions/childhood-behavioral-disorders/adhd/',
+  // The old site's Yoast sitemaps (its sitemap_index.xml, Nov 2026) and
+  // WordPress feeds, so search engines holding them find the new ones.
+  ...Object.fromEntries(['sitemap_index', 'post-sitemap', 'page-sitemap', 'attachment-sitemap',
+    'condition-sitemap', 'special_labs-sitemap', 'speciality_service-sitemap',
+    'treatments_therapies-sitemap', 'category-sitemap', 'post_tag-sitemap', 'author-sitemap',
+    'wp-sitemap'].map((n) => [`/${n}.xml`, '/sitemap.xml'])),
+  '/feed/': '/blog/',
+  '/comments/feed/': '/blog/',
 };
 
 const exists = async (p) => stat(p).then(() => true, () => false);

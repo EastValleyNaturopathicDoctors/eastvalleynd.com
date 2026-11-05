@@ -31,7 +31,7 @@ Four areas, each fact-checked; 57 confirmed findings. Full evidence:
 - [ ] Cure, "100%" and cancer claims in the clinic's own voice on 33 pages. Worst: /conditions/cancer-support/ ("reduced 80–100%", "cancer eradication"). The doctors review the list.
 - [x] TruDOSE spotlight: outcome copy from the design template that no clinic page supports, and its button goes to /iv-therapy/, which never mentions TruDOSE. *(Done Nov 5: only "your own platelets, by IV, in our Mesa IV suite"; the button opens the contact form. There is no TruDOSE page: when the clinic writes one, point the button there.)*
 - [ ] Hand-picked reviews on profiles and the homepage that promise outcomes ("cured in 3 months", "100% gone"): swap them.
-- [ ] "Book online" and "Book a new patient visit" open the request form, not a scheduler; on 26 pages two "Book online" buttons go to different places.
+- [x] "Book online" and "Book a new patient visit" open the request form, not a scheduler; on 26 pages two "Book online" buttons go to different places. *(Nov 5: buttons that open the form now say "Request…" (the New patients band on 227 pages, the hero, Optimization, FAQ); "Book online" is left only on the 26 pages' Acuity links.)*
 - [ ] Search Console: verify by DNS before the switch (a google-site-verification TXT is already in the zone: keep it in the move). Analytics: decide (GA4?), and update the privacy page, which says there's no analytics.
 - [x] Still open from Oct 8 (section 2): 587 old URLs 404 without the trailing slash; 25 redirects land on placeholder or noindex pages; 69 titles lost their keywords; 3 duplicate page pairs; no square favicon. *(Done Nov 5; see section 2.)*
 - [ ] Clinic sign-off on developer-written copy (Core Values Precision and Education, group lines, hero copy).
@@ -81,7 +81,7 @@ Four areas, each fact-checked; 57 confirmed findings. Full evidence:
 - [ ] Structured data: geo, image and sameAs for MedicalClinic; BlogPosting authors typed as Person; BreadcrumbList.
 - [ ] Per-page `og:image`; `og:type` set to article on blog posts.
 - [ ] `lastmod` in `sitemap.xml`.
-- [ ] Redirect the old Yoast sitemap URLs (`/sitemap_index.xml`, `/post-sitemap.xml`, …) to `/sitemap.xml`, and `/feed/` to `/blog/`.
+- [x] Redirect the old Yoast sitemap URLs (`/sitemap_index.xml`, `/post-sitemap.xml`, …) to `/sitemap.xml`, and `/feed/` to `/blog/`. *(Nov 5: all 11 from the live sitemap_index.xml plus `/wp-sitemap.xml`; `/feed/` and `/comments/feed/`; in `scripts/redirects-finalize.mjs`.)*
 - [ ] Upgrade Astro (two majors behind; 9 build-time npm audit items).
 - [ ] Remove the 82 unused original images (19 MB) from `dist/_astro`.
 - [ ] Thin pages, pages that repeat most of another's text, and the same FAQ markup on three pages.
