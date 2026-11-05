@@ -10,6 +10,7 @@
  * button gives the phone number.
  */
 import { widget } from './turnstile-client';
+import { attribution } from './attribution';
 import { site } from '@/data/site';
 
 const FAIL = `We couldn’t send that just now. Please try again, or call ${site.phone}.`;
@@ -52,12 +53,13 @@ export function attach(form: HTMLFormElement) {
       data.dob = [data.dob_month, data.dob_day, data.dob_year].filter(Boolean).join('/');
     }
     data.turnstile = await t.token();
+    const how = attribution();   // UTM tags and landing page (lib/attribution.ts)
     let answer: { ok?: boolean; error?: string; field?: string } = {};
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(Object.keys(how).length ? { ...data, attribution: how } : data),
         signal: AbortSignal.timeout(20_000),
       });
       answer = await res.json().catch(() => ({}));

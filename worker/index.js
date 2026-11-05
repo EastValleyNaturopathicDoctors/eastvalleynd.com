@@ -162,6 +162,25 @@ export const FORMS = {
   },
 };
 
+/**
+ * How the sender found the site, as the browser recorded it (src/lib/attribution.ts):
+ * the UTM tags of the visit that brought them (e.g. the Google Business
+ * Profile link's utm_source=google, utm_medium=organic, utm_campaign=gmb,
+ * utm_term=mesa-website), where they landed and the site that sent them.
+ * Optional, and never a reason to refuse a submission.
+ */
+export const ATTRIBUTION = [
+  ['utm_source', 'Source'],
+  ['utm_medium', 'Medium'],
+  ['utm_campaign', 'Campaign'],
+  ['utm_term', 'Term'],
+  ['utm_content', 'Content'],
+  ['gclid', 'Google Ads click ID'],
+  ['landing_page', 'Landing page'],
+  ['referrer', 'Referred by'],
+  ['first_seen', 'First visit'],
+];
+
 /** Trims, drops control characters (keeping line breaks in long fields), caps length. */
 const clean = (v, long, max) =>
   typeof v !== 'string' ? '' : v.replace(long ? /[^\S\n]+/g : /\s+/g, ' ').replace(/[\u0000-\u0009\u000B-\u001F\u007F]/g, '').trim().slice(0, max);
@@ -216,6 +235,8 @@ export async function form(request, env, spec) {
     const ref = new URL(request.headers.get('Referer') || '');
     if (ref.host === new URL(request.url).host) page = ref.origin + ref.pathname;
   } catch {}
+  const a = body.attribution && typeof body.attribution === 'object' ? body.attribution : {};
+  const found = ATTRIBUTION.map(([k, label]) => [label, clean(a[k], false, 200)]).filter(([, v]) => v);
   const when = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Phoenix', dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
   const text = [
     spec.title,
@@ -223,6 +244,9 @@ export async function form(request, env, spec) {
     ...lines.map(([k, v]) => (v.includes('\n') ? `${k}:\n${v}` : `${k}: ${v}`)),
     '',
     ...(spec.note && !health ? [spec.note, ''] : []),
+    'How they found the site',
+    ...(found.length ? found.map(([k, v]) => `${k}: ${v}`) : ['No campaign tags (a direct visit, or the browser blocked storage).']),
+    '',
     `Sent ${when} (Arizona time)${page ? ` from ${page}` : ''}.`,
     'Reply to this email to answer the sender directly.',
   ].join('\n');

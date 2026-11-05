@@ -183,5 +183,10 @@ function openingHours() {
   <SearchDialog />
   <Footer />
   {actionBar && <ActionBar />}
+  <script>
+    // Keeps the UTM tags of a tagged visit for the forms (lib/attribution.ts).
+    import { capture } from '@/lib/attribution';
+    capture();
+  </script>
 </body>
 </html>
