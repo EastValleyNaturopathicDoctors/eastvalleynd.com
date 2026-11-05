@@ -4,27 +4,37 @@ import { stockSlot } from '@/lib/stock';
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
+/**
+ * The homepage spotlight on TruDOSE™ Platelet IV Therapy. There is no TruDOSE
+ * page on the site yet (the old /trudose-iv-therapy/trudose/ wasn't
+ * migrated), and the owners restricted TruDOSE claims, so this says only what
+ * is established: the patient's own platelets (it's in the name), given in
+ * the clinic's in-office IV suite in Mesa. The design template's outcome copy
+ * ("restoring tissue, calming inflammation…", "60–90 minute appointments",
+ * "New regenerative technology") is gone (audit 2026-11-02), and the button,
+ * which went to /iv-therapy/ (no mention of TruDOSE), asks the front desk.
+ * When the clinic writes a TruDOSE page, point the button there.
+ */
 ---
 <section class="section trudose is-band" data-pagefind-ignore>
   <div class="container trudose-inner">
     <div class="trudose-media">
       <PageImage set="stock" file={stockSlot('section:trudose')!.file} alt="" width={1000} height={1250} />
       <div class="trudose-media-overlay"></div>
-      <div class="trudose-badge"><Icon name="drop" size={14} />New regenerative technology</div>
+      <div class="trudose-badge"><Icon name="drop" size={14} />Offered at EVND</div>
     </div>
     <div class="trudose-text">
       <Eyebrow>Spotlight · TruDOSE™ Platelet IV Therapy</Eyebrow>
       <h2 class="h2">Your blood. Your dose. <span class="accent-grn">Precisely yours.</span></h2>
       <p class="lede">
-        TruDOSE™ delivers your own platelets intravenously —
-        restoring tissue, calming inflammation, and accelerating recovery in conditions PRP
-        injections alone can't reach.
+        TruDOSE™ Platelet IV Therapy uses your own platelets, given by IV. Ask our doctors
+        whether it's right for you.
       </p>
       <ul class="ticklist">
-        <li><Icon name="check" size={16} /><span>In-office IV suite, 60–90 minute appointments</span></li>
+        <li><Icon name="check" size={16} /><span>In our in-office IV suite in Mesa</span></li>
       </ul>
       <div class="hero-cta">
-        <Button href="/iv-therapy/" variant="dark" icon="arrow-right">TruDOSE Platelet IV Therapy</Button>
+        <Button href="/contact/" variant="dark" icon="arrow-right">Ask about TruDOSE</Button>
       </div>
     </div>
   </div>
