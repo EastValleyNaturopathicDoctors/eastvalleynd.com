@@ -9,6 +9,7 @@
  * here needs to know about them.
  */
 import type { CollectionEntry } from 'astro:content';
+import { livePost } from '@/data/duplicate-pages';
 import { getCollection } from 'astro:content';
 import ContentPage from '@/layouts/ContentPage.astro';
 import BlogPost from '@/layouts/BlogPost.astro';
@@ -28,7 +29,7 @@ export async function getStaticPaths() {
   const toParam = (route: string) => route.replace(/^\/|\/$/g, '');
 
   const pages = await getCollection('pages');
-  const posts = await getCollection('blog');
+  const posts = (await getCollection('blog')).filter(livePost);   // retired posts aren't built
 
   return [
     // A generated page with a hand-built one in src/pages is left to that one.

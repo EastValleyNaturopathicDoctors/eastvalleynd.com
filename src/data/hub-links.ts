@@ -27,7 +27,7 @@ export const hubLinks: Record<string, Record<string, string>> = {
     'Anti-Aging': '/brain-regeneration-clinic/anti-aging/',
     // No sub-page under the clinic: the Conditions pages and the post on topic.
     'Autism': '/conditions/childhood-behavioral-disorders/autism/',
-    'ADHD': '/conditions/childhood-behavioral-disorders/',
+    'ADHD': '/conditions/childhood-behavioral-disorders/adhd/',
     'PANDAS and PANS': '/conditions/childhood-behavioral-disorders/pandas/',
     'Learning Disorders': '/how-neurofeedback-helps-wth-reading-and-learning-disorders/',
     // Brain Therapies: each one's service page.

@@ -15,6 +15,7 @@
  * without JavaScript the card keeps a plain link instead.
  */
 import { getCollection } from 'astro:content';
+import { livePost } from '@/data/duplicate-pages';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
@@ -36,7 +37,7 @@ const blogImages = import.meta.glob<{ default: ImageMetadata }>('/src/images/blo
 const posters = import.meta.glob<{ default: ImageMetadata }>('/src/images/webinars/*.jpg', { eager: true });
 
 const webinar = webinarData.webinars.find((w) => w.id === 'hFJUnGl09pc')!;
-const posts = (await getCollection('blog'))
+const posts = (await getCollection('blog')).filter(livePost)
   .filter((p) => p.data.imageFile && blogImages[`/src/images/blog/${p.data.imageFile}`])
   .sort((a, b) => b.data.date.localeCompare(a.data.date))
   .slice(0, 3);

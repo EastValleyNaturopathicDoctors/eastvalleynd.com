@@ -18,6 +18,15 @@
  * extract/build_pages.py. An entry here can be deleted once its duplicate is
  * gone from nav.json and src/content.
  */
+/**
+ * Blog posts retired in favour of the page they repeat (the FINAL audit
+ * workbook's New Sitemap tab: "Update URL from /allergies/", "/infertility/").
+ * They're not built and not listed anywhere; scripts/redirects-finalize.mjs
+ * 301s their addresses to the kept page. Filter with `livePost`.
+ */
+export const retiredPosts = new Set(['/allergies/', '/infertility/']);
+export const livePost = (e: { data: { slug: string } }): boolean => !retiredPosts.has(`/${e.data.slug}/`);
+
 export const duplicatePages: Record<string, string> = {
   '/brain-regeneration-clinic/long-covid-syndrome/': '/conditions/long-covid-syndrome/',
   // Blog posts that repeat a condition page (audit 2026-11-02: 96-98% the same).

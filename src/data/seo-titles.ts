@@ -27,7 +27,6 @@ export const seoTitles: Record<string, string> = {
   '/conditions/heart-care/': 'Natural Heart Care', // Natural Heart Care
   '/conditions/heart-care/coronary-artery-disease/': 'Coronary Artery Disease (CAD)', // Coronary Artery Disease (CAD)
   '/conditions/heart-care/peripheral-arterial-disease/': 'Peripheral Arterial Disease (PAD)', // Peripheral Arterial Disease (PAD)
-  '/conditions/insomnia/': 'Insomnia & Sleep Disturbance', // Insomnia and sleep disturbance
   '/conditions/mcas/': 'MCAS & Histamine Intolerance', // MCAS and Histamine Intolerance
   '/conditions/mental-health/': 'Depression, Anxiety & Mental Health', // Diagnosis of Depression and Anxiety
   '/conditions/mental-health/highly-sensitive-person/': 'Highly Sensitive Person Protocols', // Highly Sensitive Person Protocols

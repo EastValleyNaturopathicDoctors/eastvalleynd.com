@@ -724,6 +724,12 @@
         "inMenu": true,
         "children": [
           {
+            "label": "ADHD",
+            "href": "/conditions/childhood-behavioral-disorders/adhd/",
+            "inMenu": false,
+            "children": []
+          },
+          {
             "label": "Autism",
             "href": "/conditions/childhood-behavioral-disorders/autism/",
             "inMenu": false,

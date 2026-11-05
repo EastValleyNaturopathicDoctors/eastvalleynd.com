@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { livePost } from '@/data/duplicate-pages';
 import PageImage from '@/components/PageImage.astro';
 import { stockFor } from '@/lib/stock';
 import Base from '@/layouts/Base.astro';
@@ -9,7 +10,7 @@ import Icon from '@/components/Icon.astro';
 import BookCTA from '@/components/BookCTA.astro';
 import '../../styles/post-cards.css';
 
-const posts = (await getCollection('blog'))
+const posts = (await getCollection('blog')).filter(livePost)
   .sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const fmt = (s: string) =>

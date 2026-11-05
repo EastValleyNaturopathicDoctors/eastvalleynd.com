@@ -1,5 +1,6 @@
 ---
 import { jsonLd } from '@/lib/schema';
+import { livePost } from '@/data/duplicate-pages';
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import Base from './Base.astro';
@@ -47,7 +48,7 @@ const whole = hero === 'wide' && !!meta && isOff169(meta.width, meta.height);
 // body opens with its own video or picture (tracker I5).
 const stock = hero === 'none' && !opensWithMedia(html) ? stockFor(`/${d.slug}/`) : undefined;
 
-const all = (await getCollection('blog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const all = (await getCollection('blog')).filter(livePost).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const i = all.findIndex((e) => e.data.slug === slug);
 const prev = i > 0 ? all[i - 1] : null;
 const next = i >= 0 && i < all.length - 1 ? all[i + 1] : null;

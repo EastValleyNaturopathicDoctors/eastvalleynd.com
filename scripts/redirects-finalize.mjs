@@ -70,7 +70,7 @@ const OVERRIDES = {
   // one gets its copy, delete its line here.
   '/about/naturopathic-medicine/': '/about/',
   '/about/our-mission/': '/about/core-values/',
-  '/conditions/chronic-pain/dysmenorrhea/': '/natural-solutions-to-painful-periods/',
+  '/conditions/chronic-pain/dysmenorrhea/': '/transcranial-direct-current-stimulation/dysmenorrhea/',
   '/conditions/gut-health/': '/conditions/gastrointestinal-disorders/',
   '/conditions/hormonal/': '/hormone-therapy/',
   '/conditions/neurological/': '/brain-regeneration-clinic/',
@@ -81,6 +81,27 @@ const OVERRIDES = {
   '/how-to-feel-amazing-in-menopause-part-4/': '/conditions/womens-health/menopause/',
   '/specialty-labs/food-sensitivity/': '/conditions/igg-food-intolerance/',
   '/specialty-labs/gut-health/': '/specialty-labs/',
+  // The FINAL audit workbook's New Sitemap tab (the authority, Nov 2026):
+  // where its notes say an old address goes.
+  '/depression-and-anxiety/': '/brain-regeneration-clinic/depression-and-anxiety/',
+  '/special_labs/salivary-hormone-testing/': '/hormone-therapy/',        // folded into Hormone Therapy
+  '/treatments_therapies/high-dose-vitamin-c-kills-cancer/': '/high-dose-vitamin-c-kills-cancer/',   // "turn into blog post"
+  '/allergies/': '/conditions/allergies/',                               // "Update URL from /allergies/"
+  '/infertility/': '/conditions/infertility/',                           // "Update URL from /infertility/"
+  '/conditions/cardiovascular/': '/conditions/heart-care/',             // planned hub, no copy: Natural Heart Care
+  // ADD/ADHD: one page from LaDawn's doc ("combine" in the sitemap tab; the
+  // Content Clusters tab merges the ADD/ADHD pages and folds in the QbCheck
+  // ones as sections, which the doc covers).
+  '/addadhd-evaluation/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/add-adhd-affordable-diagnosis/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/addadhd-brain-mapping/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/accurately-diagnose-addadhd/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/alternative-treatments-for-addadhd/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/addadhd-qb-test/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/what-is-a-qbcheck/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/how-is-a-qbcheck-performed/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/how-often-is-a-qbcheck-performed/': '/conditions/childhood-behavioral-disorders/adhd/',
+  '/qbcheck-evaluation-treatment-response/': '/conditions/childhood-behavioral-disorders/adhd/',
 };
 
 const exists = async (p) => stat(p).then(() => true, () => false);
@@ -177,22 +198,35 @@ const out = [
 await writeFile(file, out);
 
 // --- sitemap.xml ---------------------------------------------------------------
+// Pages built by hand from the team's docs, which the pipeline's sitemap
+// doesn't know (Nov 2026). Added when the page exists and is indexable.
+const SITEMAP_ADD = ['/conditions/childhood-behavioral-disorders/adhd/'];
 const smFile = path.join(DIST, 'sitemap.xml');
 const sm = await readFile(smFile, 'utf8');
 const dropped = [];
 const kept = [];
+const listed = new Set([...sm.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1]));
+const origin = /<loc>(https?:\/\/[^/<]+)/.exec(sm)?.[1] ?? 'https://www.eastvalleynd.com';
+const smAdded = [];
+for (const p of SITEMAP_ADD) {
+  const h = await head(p);
+  if (!listed.has(p) && !h.missing && !h.noindex && (!h.canonical || h.canonical === p)) smAdded.push(p);
+}
 for (const m of sm.matchAll(/<url>[\s\S]*?<\/url>/g)) {
   const loc = /<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/.exec(m[0])?.[1];
   const h = loc ? await head(loc) : {};
-  if (loc && !h.missing && (h.noindex || (h.canonical && h.canonical !== loc))) dropped.push(loc);
+  // A redirect wins over a page at the same address (Cloudflare checks
+  // _redirects first), so a redirected address isn't a page any more.
+  if (loc && (bySrc.has(loc) || (!h.missing && (h.noindex || (h.canonical && h.canonical !== loc))))) dropped.push(loc);
   else kept.push(m[0]);
 }
-if (dropped.length) {
+for (const p of smAdded) kept.push(`<url><loc>${origin}${p}</loc></url>`);
+if (dropped.length || smAdded.length) {
   const start = sm.indexOf('<url>');
   const end = sm.lastIndexOf('</url>') + '</url>'.length;
   await writeFile(smFile, sm.slice(0, start) + kept.join('\n  ') + sm.slice(end));
 }
 
 console.log(`redirects      : ${all.length} rules (${rules.length} + ${twins} slashless twins); ${repointed} repointed, ${added} added, ${followed} followed to canonical/chain end`);
-console.log(`sitemap.xml    : ${dropped.length ? `dropped ${dropped.join(', ')} (noindex or canonical elsewhere)` : 'nothing to drop'}`);
+console.log(`sitemap.xml    : ${dropped.length ? `dropped ${dropped.join(', ')} (noindex, canonical elsewhere, or redirected)` : 'nothing to drop'}${smAdded.length ? `; added ${smAdded.join(', ')}` : ''}`);
 for (const w of warn) console.warn(`  REDIRECT     ${w}`);
