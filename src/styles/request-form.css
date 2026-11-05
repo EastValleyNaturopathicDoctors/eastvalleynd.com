@@ -53,6 +53,7 @@
 .req-error:focus { outline: none; }
 .req-form [aria-invalid="true"] { border-color: #B42318 !important; }
 .req-help { margin: 0; font-size: 13px; color: var(--ink-3); }
+.req-optional { font-weight: 400; color: var(--ink-3); }
 .req-done {
   border: 1px solid var(--line); border-radius: var(--radius-lg);
   background: var(--grn-soft); padding: var(--pad-feature);

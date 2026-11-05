@@ -146,6 +146,7 @@ export const FORMS = {
       { name: 'current_patient', label: 'Current patient', required: true, kind: 'choice', choices: { no: 'No', yes: 'Yes' } },
       { name: 'dob', label: "Patient's date of birth", max: 10, health: true },
       { name: 'reason', label: 'Main reason / chief complaint', kind: 'long', max: 4000, health: true },
+      { name: 'comments', label: 'Comments', kind: 'long', max: 4000 },
     ],
     note: 'Date of birth and reason for the visit are not collected online for now: please ask when you call back.',
   },
