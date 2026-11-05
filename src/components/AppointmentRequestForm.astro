@@ -4,17 +4,22 @@
  * ("Request Appointment - Full Page"): the same fields and wording, in the
  * site's own styling, without the reCAPTCHA.
  *
- * NOT CONNECTED YET (by the clinic's choice, Oct 2026): Submit checks the
- * required fields and sends nothing. The button stays disabled until the
- * script runs, so without JavaScript nothing can be submitted and no patient
- * details end up in a URL. To connect it, give the <form> a real `action` (a
- * HIPAA-compliant form service: it collects a date of birth and a health
- * complaint) and remove `data-unconnected`. Styles: src/styles/request-form.css.
+ * Sent by the site's Worker to patientcare@ (src/lib/form-send.ts,
+ * worker/index.js /api/appointment), behind Cloudflare Turnstile. An interim
+ * route (Nov 2026) until the clinic's Paubox Forms: it has no HIPAA BAA, so
+ * the date of birth and chief complaint fields are left out
+ * (src/data/forms.ts) and the front desk asks on the call back. Without
+ * JavaScript the button stays disabled, so no patient details end up in a
+ * URL. Styles: src/styles/request-form.css.
  */
 import Button from './Button.astro';
+import { site } from '../data/site';
+import { healthFields } from '../data/forms';
+import { turnstileSiteKey } from '../data/turnstile';
 import '../styles/request-form.css';
 ---
-<form class="req-form" id="appointment-request" method="post" action="" data-unconnected>
+<form class="req-form" id="appointment-request" method="post" action="/api/appointment"
+      data-endpoint="/api/appointment" data-action="appointment" data-sitekey={turnstileSiteKey}>
   <fieldset class="req-field">
     <legend>Name</legend>
     <div class="req-row">
@@ -48,7 +53,7 @@ import '../styles/request-form.css';
     </div>
   </fieldset>
 
-  <fieldset class="req-field">
+  {healthFields && (<fieldset class="req-field">
     <legend>Patient's date of birth</legend>
     <div class="req-dob">
       <label class="req-sub"><input type="text" name="dob_month" inputmode="numeric" maxlength="2" placeholder="MM" autocomplete="bday-month" /><span class="sr-only">Month</span></label>
@@ -60,21 +65,28 @@ import '../styles/request-form.css';
   <div class="req-field">
     <label for="req-reason">What is your main reason or chief complaint for seeing or seeking a naturopath?</label>
     <textarea id="req-reason" name="reason" rows="5"></textarea>
-  </div>
+  </div>)}
 
   <p class="req-legend"><span class="req-star" aria-hidden="true">*</span> Required</p>
 
+  {/* A trap for form-filling bots: out of sight and out of the tab order. */}
+  <div class="req-trap" aria-hidden="true">
+    <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <div class="req-turnstile"></div>
+
   <div class="req-actions">
-    <Button variant="dark" size="lg" icon="arrow-right" type="submit" disabled>Submit</Button>
+    <Button variant="dark" size="lg" icon="arrow-right" type="submit" disabled><span class="btn-label">Submit</span></Button>
+    <p class="req-error" role="alert" tabindex="-1" hidden></p>
   </div>
 
 </form>
+<div class="req-done" data-for="appointment-request" role="status" tabindex="-1" hidden>
+  <p class="req-done-title">Thank you. Your request is in.</p>
+  <p>The front desk will call you back to confirm a time. Need us sooner? Call <a href={site.phoneHref}>{site.phone}</a>.</p>
+</div>
 
 <script>
-  // Not connected yet (see the note at the top of this file): the browser
-  // checks the required fields, and nothing is sent.
-  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-unconnected]')) {
-    form.querySelector<HTMLButtonElement>('button[type="submit"]')?.removeAttribute('disabled');
-    form.addEventListener('submit', (e) => e.preventDefault());
-  }
+  import { attach } from '@/lib/form-send';
+  for (const form of document.querySelectorAll<HTMLFormElement>('#appointment-request')) attach(form);
 </script>

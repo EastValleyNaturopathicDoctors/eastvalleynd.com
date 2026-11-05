@@ -4,16 +4,19 @@
  * (required), phone, and comments, in the site's own styling, without the
  * reCAPTCHA.
  *
- * NOT CONNECTED YET (by the clinic's choice, Oct 2026), the same way as
- * AppointmentRequestForm.astro: Submit checks the required fields and sends
- * nothing, and without JavaScript the button stays disabled. To connect it,
- * give the <form> a real `action` and remove `data-unconnected`. Styles:
- * src/styles/request-form.css.
+ * Sent by the site's Worker to patientcare@ (src/lib/form-send.ts,
+ * worker/index.js /api/contact), behind Cloudflare Turnstile: an interim
+ * route (Nov 2026) until the clinic's Paubox Forms, with no HIPAA BAA, so the
+ * Comments box asks people to leave medical details for the phone. Without
+ * JavaScript the button stays disabled. Styles: src/styles/request-form.css.
  */
 import Button from './Button.astro';
+import { site } from '../data/site';
+import { turnstileSiteKey } from '../data/turnstile';
 import '../styles/request-form.css';
 ---
-<form class="req-form" id="contact-form" method="post" action="" data-unconnected>
+<form class="req-form" id="contact-form" method="post" action="/api/contact"
+      data-endpoint="/api/contact" data-action="contact" data-sitekey={turnstileSiteKey}>
   <div class="req-field">
     <label for="contact-name">Name <span class="req-star" aria-hidden="true">*</span></label>
     <input id="contact-name" type="text" name="name" autocomplete="name" required />
@@ -31,20 +34,29 @@ import '../styles/request-form.css';
 
   <div class="req-field">
     <label for="contact-comments">Comments</label>
-    <textarea id="contact-comments" name="comments" rows="6"></textarea>
+    <textarea id="contact-comments" name="comments" rows="6" aria-describedby="contact-comments-help"></textarea>
+    <p class="req-help" id="contact-comments-help">Please don’t include medical details here; we’ll talk those through by phone.</p>
   </div>
 
   <p class="req-legend"><span class="req-star" aria-hidden="true">*</span> Required</p>
 
+  {/* A trap for form-filling bots: out of sight and out of the tab order. */}
+  <div class="req-trap" aria-hidden="true">
+    <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <div class="req-turnstile"></div>
+
   <div class="req-actions">
-    <Button variant="dark" size="lg" icon="arrow-right" type="submit" disabled>Submit</Button>
+    <Button variant="dark" size="lg" icon="arrow-right" type="submit" disabled><span class="btn-label">Submit</span></Button>
+    <p class="req-error" role="alert" tabindex="-1" hidden></p>
   </div>
 </form>
+<div class="req-done" data-for="contact-form" role="status" tabindex="-1" hidden>
+  <p class="req-done-title">Thank you. Your message is in.</p>
+  <p>A real person replies within a business day. Need us sooner? Call <a href={site.phoneHref}>{site.phone}</a>.</p>
+</div>
 
 <script>
-  // Not connected yet (see the note at the top of this file).
-  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-unconnected]')) {
-    form.querySelector<HTMLButtonElement>('button[type="submit"]')?.removeAttribute('disabled');
-    form.addEventListener('submit', (e) => e.preventDefault());
-  }
+  import { attach } from '@/lib/form-send';
+  for (const form of document.querySelectorAll<HTMLFormElement>('#contact-form')) attach(form);
 </script>

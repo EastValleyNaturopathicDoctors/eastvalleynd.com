@@ -17,6 +17,17 @@
  *             Restricted to Contacts). Email address only: Brevo signs no
  *             HIPAA BAA, so nothing about a patient's health goes through it.
  *
+ * /api/appointment, /api/contact
+ *             The appointment request and contact forms: Turnstile, then an
+ *             email to FORMS_TO (patientcare@) through Brevo's transactional
+ *             API (the BREVO_FORMS_API_KEY secret, Transactional email only),
+ *             with Reply-To set to the sender. AN INTERIM ROUTE (Nov 2026)
+ *             until the clinic's Paubox Forms are set up: neither Cloudflare
+ *             nor Brevo signs a HIPAA BAA, so the appointment form's date of
+ *             birth and chief complaint stay off (FORMS_HEALTH_FIELDS "off",
+ *             and src/data/forms.ts) and the front desk asks on the call back.
+ *             Nothing is stored here; nothing a sender typed is logged.
+ *
  * And on a schedule (wrangler.jsonc triggers.crons), a read-only call to Brevo
  * once a week: Brevo deletes a key after 90 days in a row without use, and
  * the form alone might go that long without a signup.
@@ -28,6 +39,7 @@ export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
     if (pathname === '/api/ebook') return ebook(request, env);
+    if (FORMS[pathname]) return form(request, env, FORMS[pathname]);
     if (pathname.startsWith('/videos/')) return video(request, env);
     return env.ASSETS.fetch(request);
   },
@@ -46,6 +58,10 @@ export default {
  *   BREVO_API_BASE?: string,
  *   TURNSTILE_SECRET?: string,
  *   TURNSTILE_VERIFY_URL?: string,
+ *   BREVO_FORMS_API_KEY?: string,
+ *   FORMS_TO?: string,
+ *   FORMS_FROM?: string,
+ *   FORMS_HEALTH_FIELDS?: string,
  * }} Env
  */
 
@@ -105,6 +121,127 @@ export async function ebook(request, env) {
   // Log Brevo's status and code, never the address.
   const detail = await res.json().catch(() => ({}));
   console.error(`ebook: Brevo answered ${res.status} ${detail.code ?? ''}`.trim());
+  return json(502, { ok: false, error: 'upstream' });
+}
+
+// --- The appointment and contact forms -------------------------------------
+
+/**
+ * @typedef {{ name: string, label: string, required?: boolean, max?: number,
+ *   kind?: 'text' | 'long' | 'email' | 'phone' | 'choice', choices?: Record<string, string>,
+ *   health?: boolean }} Field
+ * @typedef {{ action: string, subject: string, title: string, fields: Field[], note?: string }} FormSpec
+ */
+/** @type {Record<string, FormSpec>} */
+export const FORMS = {
+  '/api/appointment': {
+    action: 'appointment',
+    subject: 'Website: new patient appointment request',
+    title: 'New patient appointment request (website)',
+    fields: [
+      { name: 'first_name', label: 'First name', max: 80 },
+      { name: 'last_name', label: 'Last name', max: 80 },
+      { name: 'email', label: 'Email', required: true, kind: 'email' },
+      { name: 'phone', label: 'Phone', required: true, kind: 'phone' },
+      { name: 'current_patient', label: 'Current patient', required: true, kind: 'choice', choices: { no: 'No', yes: 'Yes' } },
+      { name: 'dob', label: "Patient's date of birth", max: 10, health: true },
+      { name: 'reason', label: 'Main reason / chief complaint', kind: 'long', max: 4000, health: true },
+    ],
+    note: 'Date of birth and reason for the visit are not collected online for now: please ask when you call back.',
+  },
+  '/api/contact': {
+    action: 'contact',
+    subject: 'Website: contact form message',
+    title: 'Contact form message (website)',
+    fields: [
+      { name: 'name', label: 'Name', required: true, max: 120 },
+      { name: 'email', label: 'Email', required: true, kind: 'email' },
+      { name: 'phone', label: 'Phone', kind: 'phone' },
+      { name: 'comments', label: 'Comments', kind: 'long', max: 4000 },
+    ],
+  },
+};
+
+/** Trims, drops control characters (keeping line breaks in long fields), caps length. */
+const clean = (v, long, max) =>
+  typeof v !== 'string' ? '' : v.replace(long ? /[^\S\n]+/g : /\s+/g, ' ').replace(/[\u0000-\u0009\u000B-\u001F\u007F]/g, '').trim().slice(0, max);
+
+/** @param {Request} request @param {Env} env @param {FormSpec} spec */
+export async function form(request, env, spec) {
+  if (request.method !== 'POST') return json(405, { ok: false, error: 'method' }, { Allow: 'POST' });
+  let sameSite = false;
+  try {
+    sameSite = new URL(request.headers.get('Origin') || '').host === new URL(request.url).host;
+  } catch {}
+  if (!sameSite) return json(403, { ok: false, error: 'origin' });
+  if (Number(request.headers.get('Content-Length') || 0) > 16384) return json(413, { ok: false, error: 'size' });
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json(400, { ok: false, error: 'body' });
+  }
+  if (!body || typeof body !== 'object') return json(400, { ok: false, error: 'body' });
+  if (typeof body.website === 'string' && body.website.trim()) return json(200, { ok: true });
+
+  const health = env.FORMS_HEALTH_FIELDS === 'on';
+  /** @type {[string, string][]} */
+  const lines = [];
+  let replyTo = '';
+  let replyName = '';
+  for (const f of spec.fields) {
+    if (f.health && !health) continue;
+    let v = clean(body[f.name], f.kind === 'long', f.max ?? (f.kind === 'email' ? 254 : 200));
+    if (f.kind === 'email' && v && !EMAIL.test(v)) return json(400, { ok: false, error: 'field', field: f.name });
+    if (f.kind === 'phone' && v && (v.replace(/\D/g, '').length < 7 || v.length > 40)) return json(400, { ok: false, error: 'field', field: f.name });
+    if (f.kind === 'choice') v = f.choices?.[v] ?? '';
+    if (f.required && !v) return json(400, { ok: false, error: 'field', field: f.name });
+    if (f.kind === 'email') replyTo = v;
+    if (f.name === 'name') replyName = v;
+    if (v) lines.push([f.label, v]);
+  }
+  if (!replyName) replyName = [clean(body.first_name, false, 80), clean(body.last_name, false, 80)].filter(Boolean).join(' ');
+
+  const human = await turnstile(request, env, body.turnstile, spec.action);
+  if (human !== true) return human;
+
+  if (!env.BREVO_FORMS_API_KEY || !env.FORMS_TO || !env.FORMS_FROM) {
+    console.error(`${spec.action}: BREVO_FORMS_API_KEY, FORMS_TO or FORMS_FROM is not set`);
+    return json(503, { ok: false, error: 'unavailable' });
+  }
+
+  // Which page it came from (the appointment form is on two).
+  let page = '';
+  try {
+    const ref = new URL(request.headers.get('Referer') || '');
+    if (ref.host === new URL(request.url).host) page = ref.origin + ref.pathname;
+  } catch {}
+  const when = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Phoenix', dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
+  const text = [
+    spec.title,
+    '',
+    ...lines.map(([k, v]) => (v.includes('\n') ? `${k}:\n${v}` : `${k}: ${v}`)),
+    '',
+    ...(spec.note && !health ? [spec.note, ''] : []),
+    `Sent ${when} (Arizona time)${page ? ` from ${page}` : ''}.`,
+    'Reply to this email to answer the sender directly.',
+  ].join('\n');
+
+  const res = await fetch(`${brevo(env)}/smtp/email`, {
+    method: 'POST',
+    headers: { 'api-key': env.BREVO_FORMS_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      sender: { name: 'EVND website', email: env.FORMS_FROM },
+      to: [{ email: env.FORMS_TO, name: 'EVND Patient Care' }],
+      replyTo: { email: replyTo, ...(replyName ? { name: replyName } : {}) },
+      subject: spec.subject,
+      textContent: text,
+      tags: ['website-form', spec.action],
+    }),
+  });
+  if (res.status === 201 || res.status === 202) return json(200, { ok: true });
+  const detail = await res.json().catch(() => ({}));
+  console.error(`${spec.action}: Brevo answered ${res.status} ${detail.code ?? ''}`.trim());
   return json(502, { ok: false, error: 'upstream' });
 }
 

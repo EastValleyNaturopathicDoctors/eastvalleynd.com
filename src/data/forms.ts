@@ -45,3 +45,16 @@ export const tallyEmbedOptions = 'alignLeft=1&hideTitle=1&transparentBackground=
 export const tallyHiddenFields = ['originPage', 'utm_source', 'utm_medium', 'utm_campaign'];
 
 export { formSpec };
+
+/**
+ * The appointment and contact forms on the site (AppointmentRequestForm.astro,
+ * ContactForm.astro) are sent by the site's Worker to patientcare@ through
+ * Brevo: an interim route (Nov 2026) until the clinic's Paubox Forms are set
+ * up. Neither Cloudflare nor Brevo signs a HIPAA BAA, so while this route is
+ * in use the appointment form leaves out the patient's date of birth and
+ * chief complaint, and the front desk asks for them on the call back. To put
+ * them back (only if the clinic accepts that), set this true AND set
+ * FORMS_HEALTH_FIELDS to "on" in wrangler.jsonc: the Worker drops them
+ * otherwise.
+ */
+export const healthFields = false;
