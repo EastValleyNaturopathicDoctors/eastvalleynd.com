@@ -103,6 +103,8 @@ const schema = {
   '@type': 'MedicalClinic',
   name: site.name,
   url: Astro.site?.href,
+  image: new URL('/assets/evnd-logo.png', Astro.site).href,
+  logo: new URL('/assets/evnd-logo.png', Astro.site).href,
   telephone: site.phone,
   address: {
     '@type': 'PostalAddress',

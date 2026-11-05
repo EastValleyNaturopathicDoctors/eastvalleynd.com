@@ -63,4 +63,7 @@ export const seoTitles: Record<string, string> = {
   '/transcranial-direct-current-stimulation/depression/': 'tDCS for Depression', // tDCS for Depression
   '/transcranial-direct-current-stimulation/dysmenorrhea/': 'tDCS for Dysmenorrhea', // tDCS for Dysmenorrhea
   '/': 'Naturopathic Doctors in Mesa, AZ | East Valley Naturopathic Doctors',
+  // 121-character post title: too long for search results (Semrush, Nov 2026).
+  '/dr-jennifer-nevels-of-east-valley-naturopathic-doctors-named-to-phoenix-magazines-top-primary-care-doctors-of-2025-list/':
+    'Dr. Nevels Named a Phoenix Magazine Top Doctor for 2025',
 };

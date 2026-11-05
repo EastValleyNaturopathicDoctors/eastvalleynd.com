@@ -10,6 +10,10 @@ interface Props {
   showCta?: boolean;
 }
 const { showCta = true } = Astro.props;
+// The same questions show on the homepage, Conditions and Resources; the
+// FAQPage markup goes on the homepage only, since search engines flag the
+// same FAQ markup on several pages (Semrush, Nov 2026).
+const markup = Astro.url.pathname === '/';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -42,7 +46,7 @@ const schema = {
     </div>
   </div>
 </section>
-<script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
+{markup && <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />}
 
 <style is:global>
 .faq-section { background: #fff; }

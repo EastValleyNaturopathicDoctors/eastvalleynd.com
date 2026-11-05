@@ -58,6 +58,7 @@ const schema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: d.name,
+  url: new URL(Astro.url.pathname, Astro.site).href,
   jobTitle: d.credentials,
   description: d.summary,
   worksFor: { '@type': 'MedicalClinic', name: site.name },

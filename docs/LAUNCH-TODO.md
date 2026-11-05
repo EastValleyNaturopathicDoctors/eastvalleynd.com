@@ -78,7 +78,7 @@ Four areas, each fact-checked; 57 confirmed findings. Full evidence:
 
 ## 4. Later
 
-- [ ] Structured data: geo, image and sameAs for MedicalClinic; BlogPosting authors typed as Person; BreadcrumbList.
+- [ ] Structured data: geo and sameAs for MedicalClinic; BreadcrumbList. *(Nov 5, from the Semrush crawl: BlogPosting authors are a Person linked to their profile when a doctor, with the post image and publisher logo; MedicalClinic has the logo as image; the FAQPage markup is on the homepage only, not repeated on Conditions and Resources. Blog posts also share their own image as og:image.)*
 - [ ] Per-page `og:image`; `og:type` set to article on blog posts.
 - [ ] `lastmod` in `sitemap.xml`.
 - [x] Redirect the old Yoast sitemap URLs (`/sitemap_index.xml`, `/post-sitemap.xml`, …) to `/sitemap.xml`, and `/feed/` to `/blog/`. *(Nov 5: all 11 from the live sitemap_index.xml plus `/wp-sitemap.xml`; `/feed/` and `/comments/feed/`; in `scripts/redirects-finalize.mjs`.)*
