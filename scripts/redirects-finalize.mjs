@@ -65,6 +65,22 @@ const OVERRIDES = {
   '/physicians/laura-Badalamenti/': '/physicians/laura-badalamenti-schwartz/',
   // No TruDOSE page on the new site yet; the IV therapy page is the nearest.
   '/trudose-iv-therapy/trudose/': '/iv-therapy/',
+  // The placeholder pages (src/data/stub-routes.json: a title, no copy yet),
+  // sent to the live page nearest their subject until each is written. When
+  // one gets its copy, delete its line here.
+  '/about/naturopathic-medicine/': '/about/',
+  '/about/our-mission/': '/about/core-values/',
+  '/conditions/chronic-pain/dysmenorrhea/': '/natural-solutions-to-painful-periods/',
+  '/conditions/gut-health/': '/conditions/gastrointestinal-disorders/',
+  '/conditions/hormonal/': '/hormone-therapy/',
+  '/conditions/neurological/': '/brain-regeneration-clinic/',
+  '/conditions/rheumatoid-arthritis/': '/conditions/arthritis/',
+  '/how-to-feel-amazing-in-menopause-part-1/': '/conditions/womens-health/menopause/',
+  '/how-to-feel-amazing-in-menopause-part-2/': '/conditions/womens-health/menopause/',
+  '/how-to-feel-amazing-in-menopause-part-3/': '/conditions/womens-health/menopause/',
+  '/how-to-feel-amazing-in-menopause-part-4/': '/conditions/womens-health/menopause/',
+  '/specialty-labs/food-sensitivity/': '/conditions/igg-food-intolerance/',
+  '/specialty-labs/gut-health/': '/specialty-labs/',
 };
 
 const exists = async (p) => stat(p).then(() => true, () => false);

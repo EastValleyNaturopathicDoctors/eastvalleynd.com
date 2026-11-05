@@ -26,6 +26,7 @@ import { closingAsk } from '@/lib/closing';
 import { takePrimaryAction } from '@/lib/primaryaction';
 import { trail as navTrail, live, isDuplicate } from '@/lib/nav';
 import { stockFor } from '@/lib/stock';
+import { dropDeadItems } from '@/lib/dead-items';
 import { compactHeroes } from '@/data/compact-heroes';
 import { keptInsets } from '@/data/kept-insets';
 import { retiredPages } from '@/data/retired-pages';
@@ -55,8 +56,9 @@ const pageImages = import.meta.glob<{ default: ImageMetadata }>('/src/images/pag
 const rowTop = logoRows[d.route]?.top && d.imageFile ? pageImages[`/src/images/pages/${d.imageFile}`]?.default : undefined;
 const rowTopImg = rowTop ? await getImage({ src: rowTop, width: Math.min(480, rowTop.width) }) : undefined;
 const once = heroOnce(logoRow(moveMedia(entry.rendered?.html ?? '', d.route), d.route, rowTopImg), d.route);
+// A document library drops the entries whose file is gone (src/lib/dead-items.ts).
 const { html: body, action } = takePrimaryAction(
-  injectTileIcons(tidyProse(cleanLinks(linkHubEntries(once.html, d.route), d.route))), d.route);
+  injectTileIcons(dropDeadItems(tidyProse(cleanLinks(linkHubEntries(once.html, d.route), d.route)), d.route)), d.route);
 // A long body gets its paste damage repaired, ids on its headings and a
 // contents list (D131) — only when there are enough sections to list.
 const long = longReadFor(body, d.wordCount);
