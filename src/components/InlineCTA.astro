@@ -27,7 +27,7 @@ const book = booking[0];
   <div class="cta-inline-actions">
     {book
       ? <Button href={book.url} variant="dark" icon="calendar" target="_blank" rel="noopener"
-                aria-label={topic ? `Book ${topic} online (opens the scheduler)` : undefined}>Book online</Button>
+                aria-label={topic ? `Book online for ${topic}` : undefined}>Book online</Button>
       : <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>}
     {book && <a class="cta-inline-phone" href="/new-patient-appointment-request/">Or send a request</a>}
     <a class="cta-inline-phone" href={site.phoneHref}><Icon name="phone" size={15} />{site.phone}</a>

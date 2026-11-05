@@ -85,8 +85,11 @@ const truncated = !!limit && total > items.length;
 .cond-tag {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.85);
-  background: rgba(255,255,255,0.14);
+  /* A dark chip, so the label holds 4.5:1 on any photo (it measured 3.7:1
+     on a light one as white-on-white-tint, audit 2026-10-08). */
+  color: #fff;
+  background: rgba(14, 19, 17, 0.5);
+  backdrop-filter: blur(4px);
   padding: 4px 8px; border-radius: 999px;
   align-self: flex-start;
   backdrop-filter: blur(6px);
@@ -125,7 +128,7 @@ const truncated = !!limit && total > items.length;
   .cond-arrow { top: var(--space-3); right: var(--space-3); }
   .cond-tag { font-size: 11px; letter-spacing: 0.03em; max-width: 100%; overflow-wrap: anywhere; }
 }
-@media (max-width: 399px) { .cond-tag { font-size: 10px; letter-spacing: 0.02em; padding: 3px 7px; } }
+@media (max-width: 399px) { .cond-tag { font-size: 11px; letter-spacing: 0.02em; padding: 3px 7px; } }
 
 /* The way to the other conditions, after the sample. */
 .cond-more {

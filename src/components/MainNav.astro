@@ -315,10 +315,24 @@ const headerNav = nav.filter((n) => !HEADER_EXCLUDE.has(n.href) && !isStub(n.hre
   document.addEventListener('click', (e) => {
     if (!(e.target as Element)?.closest('.navitem.has-sub')) closeAll();
   });
+  // The phone menu: Tab out of it (to content hidden underneath) closes it.
+  // Shift+Tab back to the menu button keeps it open.
+  panel.addEventListener('focusout', (e) => {
+    const to = e.relatedTarget as Node | null;
+    if (!panel.hidden && to && !panel.contains(to) && to !== toggle) toggle.click();
+  });
+  // Escape closes whatever is open and puts focus back where it came from:
+  // the menu button, or the submenu's toggle (it used to fall to <body>).
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (toggle.getAttribute('aria-expanded') === 'true') toggle.click();
+    if (toggle.getAttribute('aria-expanded') === 'true') {
+      toggle.click();
+      toggle.focus();
+      return;
+    }
+    const open = subs.find((s) => s.classList.contains('is-open'));
     closeAll();
+    if (open && open.contains(document.activeElement)) open.querySelector<HTMLButtonElement>('.subtoggle')?.focus();
   });
 </script>
 
@@ -471,8 +485,12 @@ body.nav-locked { overflow: hidden; }
   transform-origin: top center;
   transition: opacity .18s ease, transform .18s cubic-bezier(.2,.7,.3,1), visibility .18s;
 }
+/* Hover for the mouse, the toggle button (.is-open) for the keyboard. Not
+   :focus-within: that opened every panel Tab passed through, so a keyboard
+   user walked all ~75 menu links before reaching the page (80 Tab presses),
+   while the toggle still said aria-expanded="false". A closed panel is
+   visibility: hidden, so its links are out of the Tab order. */
 .navitem.has-sub:hover .subnav,
-.navitem.has-sub:focus-within .subnav,
 .navitem.has-sub.is-open .subnav {
   opacity: 1; visibility: visible; transform: translateY(0) scale(1);
 }
@@ -527,7 +545,6 @@ body.nav-locked { overflow: hidden; }
   align-items: start;
 }
 .navitem.is-mega:hover .subnav-mega,
-.navitem.is-mega:focus-within .subnav-mega,
 .navitem.is-mega.is-open .subnav-mega { transform: translate(-50%, 0) scale(1); }
 .subnav-mega .subnav-list {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));

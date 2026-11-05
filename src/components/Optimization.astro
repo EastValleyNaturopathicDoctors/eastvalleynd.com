@@ -14,7 +14,7 @@ import { optimization } from '../data/content';
         <div class="opt-hero-overlay"></div>
         <div class="opt-hero-text">
           <Eyebrow>Optimization at EVND</Eyebrow>
-          <h2 class="h2">Healthy isn't the ceiling. <br /><span class="accent-grn">It's the floor.</span></h2>
+          <h2 class="h2">Healthy isn't the ceiling. <br /><span class="accent-grn opt-accent">It's the floor.</span></h2>
           <p>Programs for performance, longevity, hormone resilience, body composition and cognition — built by physicians, not influencers.</p>
           <Button href="/new-patient-appointment-request/" variant="light" icon="arrow-right">Book an optimization consult</Button>
         </div>
@@ -36,6 +36,9 @@ import { optimization } from '../data/content';
 </section>
 
 <style is:global>
+/* The brand green rather than the dark one: on the kettlebell photo the dark
+   green measured 2.9:1, under the 3:1 large text needs (audit 2026-10-08). */
+.opt-hero .opt-accent { color: var(--grn); }
 .opt-section { background: var(--bg-soft); }
 .opt-grid {
   /* A card pair, not a text split: equal halves, the card gap between them. */

@@ -233,6 +233,16 @@ em { font-style: normal; color: var(--grn-2); }
   outline-offset: 3px;
   border-radius: 4px;
 }
+/* On the dark grounds (the hero, the grey bands, the photo panels, the phone
+   action bar) the green ring all but vanished, 1.9:1 on the hero's teal: it
+   turns white there. The ring sits outside the control, on the dark ground,
+   so white reads even around the hero's white path cards. */
+:where(.hero, .topbar, .footer, .testi-section, .book-section, .opt-hero, .ebook-card, .actionbar, .pp-help, .pp-hero)
+  :where(a, button, input, summary):focus-visible,
+:where(.hero, .book-section, .opt-hero, .ebook-card) :is(.btn-dark):focus-visible {
+  outline-color: #fff;
+}
+
 
 /* Interior page header, for pages without the video hero. */
 /* Its bottom padding is half a section; the content under the band edge

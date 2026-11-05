@@ -189,6 +189,11 @@ W_NAME = width
 
 # --- The clock (11 s, the header's since D127). Percentages.
 DUR = 11
+# Plays twice, then holds on EVND (the leaf sways three times and settles):
+# moving content that runs on with no pause control fails WCAG 2.2.2, and the
+# loop repainted every page for as long as it was open (audit 2026-10-08).
+LOOPS = 2
+SWAYS = 3
 BIG_IN, BIG_STEP, BIG_LEN = 36.364, 0.545, 7.727      # E, V, N, D in turn
 BIG_BACK = 91.182                                      # E last back, D first
 WORD_IN, WORD_STEP, LET_STEP, LET_LEN = 42.932, 0.545, 0.318, 4.545
@@ -280,9 +285,9 @@ for i, ch in enumerate('EVND'):
 css.append('@keyframes breeze{0%{transform:rotate(0)}14%{transform:rotate(-3.2deg)}26%{transform:rotate(-1deg)}'
            '38%{transform:rotate(-2.4deg)}55%{transform:rotate(.6deg)}70%{transform:rotate(-1.6deg)}84%{transform:rotate(.3deg)}100%{transform:rotate(0)}}')
 
-style = (f'.a{{transform-box:view-box;transform-origin:0 0;animation:{DUR}s infinite both}}.t{{opacity:0}}.r{{transform:scaleX(0)}}'
-         f'.sway{{transform-box:view-box;transform-origin:{r(stem[0], 1)}px {r(stem[1], 1)}px;animation:breeze 6.8s ease-in-out infinite}}'
-         f'.nd{{animation:{DUR}s infinite both}}'
+style = (f'.a{{transform-box:view-box;transform-origin:0 0;animation:{DUR}s {LOOPS} both}}.t{{opacity:0}}.r{{transform:scaleX(0)}}'
+         f'.sway{{transform-box:view-box;transform-origin:{r(stem[0], 1)}px {r(stem[1], 1)}px;animation:breeze 6.8s ease-in-out {SWAYS}}}'
+         f'.nd{{animation:{DUR}s {LOOPS} both}}'
          '@media (prefers-reduced-motion:reduce){.a,.sway,.nd{animation:none!important}}' + ''.join(css))
 
 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 {-PAD} {BOX_W} {r(BOX_H)}" width="{r(BOX_W / 4)}" height="{r(BOX_H / 4)}" '

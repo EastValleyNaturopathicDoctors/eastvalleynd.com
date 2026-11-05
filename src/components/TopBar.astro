@@ -40,7 +40,7 @@ const statusTail = statusRest.join('—').trim();
   height: 38px; gap: 16px;
 }
 .topbar-status { display: inline-flex; align-items: center; gap: 8px; }
-.status-dot { width: 7px; height: 7px; background: var(--grn); border-radius: 50%; box-shadow: 0 0 0 4px rgba(108,190,63,0.18); animation: pulse 2.5s infinite; }
+.status-dot { width: 7px; height: 7px; background: var(--grn); border-radius: 50%; box-shadow: 0 0 0 4px rgba(108,190,63,0.18); animation: pulse 2.5s 3; }  /* three pulses, then still (it repainted every frame, forever) */
 @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(108,190,63,0); } }
 .topbar-right { display: flex; gap: var(--space-5); align-items: center; }
 .topbar-link { color: rgba(255,255,255,0.9); transition: color .2s; }

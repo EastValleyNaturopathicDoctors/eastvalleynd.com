@@ -85,8 +85,8 @@ const schema = {
               Book with {d.name.split(' ').slice(-1)[0]}
             </Button>
           ) : d.booking.length > 1 ? (
-            /* Several appointment types: down to the list of them (#book). */
-            <Button href="#book" variant="dark" icon="arrow_downward">Schedule an appointment</Button>
+            /* Several appointment types: down to the list of them (#appointment-types; #book is the booking band at the foot of the page). */
+            <Button href="#appointment-types" variant="dark" icon="arrow_downward">Schedule an appointment</Button>
           ) : (
             <Button href="/new-patient-appointment-request/" variant="dark" icon="arrow-right">Request an appointment</Button>
           )}
@@ -101,7 +101,7 @@ const schema = {
   <section class="section doc-main">
     <div class="container">
       {d.booking.length > 1 && (
-        <div class="doc-booking" id="book">
+        <div class="doc-booking" id="appointment-types">
           <Eyebrow>Book with {d.name.split(' ').slice(-1)[0]}</Eyebrow>
           <h2 class="h2">Appointment types</h2>
           <ul class="doc-booking-list">

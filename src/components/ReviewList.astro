@@ -27,7 +27,7 @@ const paras = (t: string) => t.split(/\n+/).map((p) => p.trim()).filter(Boolean)
         <span class="review-name">{r.name}</span>
         <span class="review-date">{monthName(r.date)}</span>
         <a class="review-link" href={r.link} target="_blank" rel="noopener"
-           aria-label={`Read ${r.name}'s review on Google`}>
+           aria-label={`Read on Google: ${r.name}'s review`}>
           Read on Google <Icon name="arrow-up-right" size={13} />
         </a>
       </figcaption>

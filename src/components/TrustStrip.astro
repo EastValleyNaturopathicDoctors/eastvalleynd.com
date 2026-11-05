@@ -5,24 +5,53 @@ const items = [
   'TruDOSE™ Platelet IV', 'HSA / FSA accepted',
   'Telehealth available', 'Integrative — works with your specialist',
 ];
-// Doubled so the marquee loops seamlessly.
-const track = [...items, ...items];
 ---
+{/* The list twice over so the marquee loops seamlessly; the second copy is
+    hidden from screen readers, which read each item twice before. It pauses
+    on hover and keyboard focus, and the button stops it for good (moving
+    content over 5 s needs a pause, WCAG 2.2.2). */}
 <div class="trust" data-pagefind-ignore>
   <div class="trust-track">
-    {track.map((t) => (
-      <span class="trust-item"><Icon name="check" size={14} />{t}</span>
-    ))}
+    {items.map((t) => <span class="trust-item"><Icon name="check" size={14} />{t}</span>)}
+    {items.map((t) => <span class="trust-item" aria-hidden="true"><Icon name="check" size={14} />{t}</span>)}
   </div>
+  <button type="button" class="trust-pause" aria-pressed="false" aria-label="Pause the scrolling list">
+    <span class="trust-pause-icon" aria-hidden="true"></span>
+  </button>
 </div>
+
+<script>
+  for (const strip of document.querySelectorAll<HTMLElement>('.trust')) {
+    const btn = strip.querySelector<HTMLButtonElement>('.trust-pause');
+    btn?.addEventListener('click', () => {
+      const paused = strip.classList.toggle('is-paused');
+      btn.setAttribute('aria-pressed', String(paused));
+      btn.setAttribute('aria-label', paused ? 'Play the scrolling list' : 'Pause the scrolling list');
+    });
+  }
+</script>
 
 <style is:global>
 .trust {
+  position: relative;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
   background: #fff;
 }
+.trust:hover .trust-track,
+.trust:focus-within .trust-track,
+.trust.is-paused .trust-track { animation-play-state: paused; }
+.trust-pause {
+  position: absolute; right: var(--space-3); top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2);
+  background: #fff; color: var(--ink-2); cursor: pointer;
+  display: grid; place-items: center; box-shadow: -12px 0 16px 4px #fff;
+}
+.trust-pause:hover { color: var(--ink); border-color: var(--ink-3); }
+/* Two bars when moving, a triangle when paused. */
+.trust-pause-icon { width: 9px; height: 10px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; box-sizing: border-box; }
+.trust.is-paused .trust-pause-icon { width: 0; height: 0; border-right: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent; margin-left: 2px; }
 .trust-track {
   display: flex; gap: var(--space-8);
   padding: var(--space-4) 0;
@@ -44,5 +73,6 @@ const track = [...items, ...items];
 
 @media (prefers-reduced-motion: reduce) {
   .trust-track { animation: none !important; }
+  .trust-pause { display: none; }
 }
 </style>

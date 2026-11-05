@@ -45,7 +45,7 @@ const short = (t: string) => t.replace(/:00/g, '');
       {book ? (
         <Fragment>
           <Button href={book.url} variant="dark" icon="calendar" target="_blank" rel="noopener"
-                  aria-label={topic ? `Book ${topic} online (opens the scheduler)` : undefined}>Book online</Button>
+                  aria-label={topic ? `Book online for ${topic}` : undefined}>Book online</Button>
           <Button href="/new-patient-appointment-request/" variant="ghost" icon="arrow-right">Request an appointment</Button>
           <a class="aside-phone" href={site.phoneHref}><Icon name="phone" size={15} />{site.phone}</a>
         </Fragment>
