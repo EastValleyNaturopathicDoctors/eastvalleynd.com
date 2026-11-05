@@ -117,6 +117,7 @@ const cards = [
   // download link takes the form's place, whatever the answer (or after 6 s
   // without one). If Turnstile can't load (a blocker), the download still
   // appears; only the list misses the address.
+  import { track } from '@/lib/datalayer';
   type Turnstile = {
     render: (el: HTMLElement, o: Record<string, unknown>) => string;
     getResponse: (id: string) => string | undefined;
@@ -186,6 +187,8 @@ const cards = [
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: data.get('email'), website: data.get('website'), turnstile: t }),
       })).catch(() => undefined);
+      // For GTM: only when the address really reached the list.
+      void send.then((r) => { if (r?.ok) track('sign_up', { form_name: 'ebook' }); });
       await Promise.race([send, wait(6000)]);
       reveal();
     });

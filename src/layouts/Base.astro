@@ -144,6 +144,17 @@ function openingHours() {
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  {/* Google Tag Manager (GTM-KX2F2PN), on the live domain only, so previews
+      and local builds don't count as visits. Form events: lib/datalayer.ts. */}
+  <script is:inline>
+    if (/(^|\.)eastvalleynd\.com$/.test(location.hostname)) {
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KX2F2PN');
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{fullTitle}</title>
   <meta name="description" content={metaDescription} />
@@ -170,6 +181,8 @@ function openingHours() {
   <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
 </head>
 <body class:list={[transparentNav && 'has-dark-hero', actionBar && 'has-actionbar']}>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KX2F2PN"
+    height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
   <a href="#main" class="skip-link">Skip to content</a>
   <TopBar />
   <MainNav />

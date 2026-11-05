@@ -11,6 +11,7 @@
  */
 import { widget } from './turnstile-client';
 import { attribution } from './attribution';
+import { track } from './datalayer';
 import { site } from '@/data/site';
 
 const FAIL = `We couldn’t send that just now. Please try again, or call ${site.phone}.`;
@@ -69,6 +70,7 @@ export function attach(form: HTMLFormElement) {
     t.reset();
     busy(false);
     if (answer.ok) {
+      track('generate_lead', { form_name: action });   // for GTM (lib/datalayer.ts)
       form.hidden = true;
       done.hidden = false;
       done.focus();
