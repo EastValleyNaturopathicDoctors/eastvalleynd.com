@@ -28,6 +28,7 @@ import Footer from '../components/Footer.astro';
 import ActionBar from '../components/ActionBar.astro';
 import SearchDialog from '../components/SearchDialog.astro';
 import { site } from '../data/site';
+import { seoTitles } from '../data/seo-titles';
 import preview from '../data/preview.json';
 
 interface Props {
@@ -82,7 +83,11 @@ const searchMeta = searched
   ? ['title[data-search-title]', searchSection && 'section[data-search-section]'].filter(Boolean).join(', ')
   : undefined;
 
-const fullTitle = title === site.name ? title : `${title} — ${site.short}`;
+// A search title for the page, where its own title lost the words people
+// search for (src/data/seo-titles.ts); the visible H1 keeps the page's title.
+const seoTitle = seoTitles[Astro.url.pathname];
+const shown = seoTitle ?? title;
+const fullTitle = shown.includes(site.name) ? shown : `${shown} — ${site.short}`;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
 const a = site.address;
 
