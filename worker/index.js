@@ -10,11 +10,12 @@
  *             is fine. File names carry a version (hero-2026-11.…), so they
  *             can be cached for a year; a new video gets a new name.
  *
- * /api/ebook  The menopause e-book form (Resources.astro): adds the address to
- *             the Brevo list BREVO_LIST_ID with the BREVO_API_KEY secret (set
- *             in the Cloudflare dashboard, Restricted to Contacts). Email
- *             address only: Brevo signs no HIPAA BAA, so nothing about a
- *             patient's health goes through it.
+ * /api/ebook  The menopause e-book form (Resources.astro): checks the visitor's
+ *             Turnstile token (TURNSTILE_SECRET, widget "eastvalleynd.com
+ *             forms"), then adds the address to the Brevo list BREVO_LIST_ID
+ *             with the BREVO_API_KEY secret (set in the Cloudflare dashboard,
+ *             Restricted to Contacts). Email address only: Brevo signs no
+ *             HIPAA BAA, so nothing about a patient's health goes through it.
  *
  * And on a schedule (wrangler.jsonc triggers.crons), a read-only call to Brevo
  * once a week: Brevo deletes a key after 90 days in a row without use, and
@@ -43,6 +44,8 @@ export default {
  *   BREVO_API_KEY?: string,
  *   BREVO_LIST_ID?: string,
  *   BREVO_API_BASE?: string,
+ *   TURNSTILE_SECRET?: string,
+ *   TURNSTILE_VERIFY_URL?: string,
  * }} Env
  */
 
@@ -83,6 +86,9 @@ export async function ebook(request, env) {
   const email = typeof body?.email === 'string' ? body.email.trim() : '';
   if (email.length > 254 || !EMAIL.test(email)) return json(400, { ok: false, error: 'email' });
 
+  const human = await turnstile(request, env, body?.turnstile, 'ebook');
+  if (human !== true) return human;
+
   const list = Number(env.BREVO_LIST_ID);
   if (!env.BREVO_API_KEY || !list) {
     console.error('ebook: BREVO_API_KEY or BREVO_LIST_ID is not set');
@@ -100,6 +106,42 @@ export async function ebook(request, env) {
   const detail = await res.json().catch(() => ({}));
   console.error(`ebook: Brevo answered ${res.status} ${detail.code ?? ''}`.trim());
   return json(502, { ok: false, error: 'upstream' });
+}
+
+/**
+ * Cloudflare Turnstile: true when the token is real, unused, issued for this
+ * form (`action`) on this host; otherwise the response to send back. Without
+ * the secret it refuses rather than letting everything through.
+ * https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
+ * @param {Request} request @param {Env} env @param {unknown} token @param {string} action
+ * @returns {Promise<true | Response>}
+ */
+export async function turnstile(request, env, token, action) {
+  if (!env.TURNSTILE_SECRET) {
+    console.error('turnstile: TURNSTILE_SECRET is not set');
+    return json(503, { ok: false, error: 'unavailable' });
+  }
+  if (typeof token !== 'string' || !token || token.length > 2048) return json(403, { ok: false, error: 'turnstile' });
+  let result;
+  try {
+    const res = await fetch(env.TURNSTILE_VERIFY_URL || 'https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      signal: AbortSignal.timeout(10_000),
+      body: new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token, remoteip: request.headers.get('CF-Connecting-IP') ?? '' }),
+    });
+    if (!res.ok) throw new Error(`siteverify ${res.status}`);
+    result = await res.json();
+  } catch (err) {
+    console.error(`turnstile: ${err instanceof Error ? err.message : 'siteverify failed'}`);
+    return json(502, { ok: false, error: 'turnstile-unreachable' });
+  }
+  const host = new URL(request.url).hostname;
+  if (!result.success || result.action !== action || result.hostname !== host) {
+    console.error(`turnstile: refused (${(result['error-codes'] || []).join(',') || 'action/hostname'})`);
+    return json(403, { ok: false, error: 'turnstile' });
+  }
+  return true;
 }
 
 /** The weekly call that keeps the key in use (see the top of this file). @param {Env} env */

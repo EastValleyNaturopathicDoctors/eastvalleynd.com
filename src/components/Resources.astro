@@ -8,7 +8,8 @@
  *
  * The e-book card asks for an email before the download (the clinic's choice,
  * Oct 2026). The address goes to /api/ebook (worker/index.js), which adds it
- * to the Brevo list "Website – Menopause e-book" (Nov 2026). The download
+ * to the Brevo list "Website – Menopause e-book" (Nov 2026), once Cloudflare
+ * Turnstile has vouched for the visitor (src/data/turnstile.ts). The download
  * link then appears in the card whatever Brevo answers, so a hiccup there
  * never keeps anyone from the e-book. The form shows once its script runs;
  * without JavaScript the card keeps a plain link instead.
@@ -21,6 +22,7 @@ import SectionHead from './SectionHead.astro';
 import Eyebrow from './Eyebrow.astro';
 import Button from './Button.astro';
 import webinarData from '../data/webinars.json';
+import { turnstileSiteKey } from '../data/turnstile';
 import ebookPhoto from '../images/site/ebook-menopause.jpg';
 interface Props { showHead?: boolean; }
 const { showHead = true } = Astro.props;
@@ -68,7 +70,7 @@ const cards = [
         <Eyebrow>Free e-book</Eyebrow>
         <h3>How to Feel Amazing in Menopause</h3>
         <p>A complimentary guide by Dr. Jennifer Nevels.</p>
-        <form class="ebook-form" method="post" action="/api/ebook" hidden>
+        <form class="ebook-form" method="post" action="/api/ebook" data-sitekey={turnstileSiteKey} hidden>
           <label class="ebook-label" for="ebook-email">Enter your email to get your copy</label>
           <div class="ebook-field">
             <input id="ebook-email" type="email" name="email" autocomplete="email" inputmode="email"
@@ -79,6 +81,8 @@ const cards = [
           <div class="ebook-trap" aria-hidden="true">
             <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
           </div>
+          {/* Turnstile: invisible unless Cloudflare wants a click. */}
+          <div class="ebook-turnstile"></div>
           <p class="ebook-note">We’ll add your email to the clinic’s list for this e-book. Unsubscribe anytime.</p>
         </form>
         <div class="ebook-ready" hidden>
@@ -107,14 +111,64 @@ const cards = [
 </section>
 
 <script>
-  // The e-book form (see the note at the top of this file): the address goes
-  // to /api/ebook, then the download link takes the form's place, whatever
-  // the answer (or after 6 s without one).
+  // The e-book form (see the note at the top of this file): Turnstile loads as
+  // the card comes near, the address and its token go to /api/ebook, then the
+  // download link takes the form's place, whatever the answer (or after 6 s
+  // without one). If Turnstile can't load (a blocker), the download still
+  // appears; only the list misses the address.
+  type Turnstile = {
+    render: (el: HTMLElement, o: Record<string, unknown>) => string;
+    getResponse: (id: string) => string | undefined;
+  };
+  const w = window as unknown as { turnstile?: Turnstile };
+  let loading: Promise<void> | undefined;
+  const loadTurnstile = () =>
+    (loading ??= new Promise<void>((done) => {
+      if (w.turnstile) return done();
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = () => done();
+      s.onerror = () => done();
+      document.head.append(s);
+    }));
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
   for (const form of document.querySelectorAll<HTMLFormElement>('.ebook-form')) {
     const card = form.closest('.ebook-card');
     const ready = card?.querySelector<HTMLElement>('.ebook-ready');
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const slot = form.querySelector<HTMLElement>('.ebook-turnstile');
     form.hidden = false;
+
+    let widget: string | undefined;
+    const start = async () => {
+      await loadTurnstile();
+      if (!w.turnstile || !slot || widget !== undefined) return;
+      widget = w.turnstile.render(slot, {
+        sitekey: form.dataset.sitekey, action: 'ebook',
+        appearance: 'interaction-only', theme: 'dark', size: 'flexible',
+      });
+    };
+    // Start once the card is near, or the moment someone heads for the field.
+    new IntersectionObserver((entries, io) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
+    }, { rootMargin: '600px 0px' }).observe(form);
+    form.addEventListener('focusin', () => { start(); }, { once: true });
+
+    const token = async () => {
+      // Turnstile didn't load (a blocker): no token is coming, don't wait.
+      if (!w.turnstile || widget === undefined) return '';
+      // A token usually exists by the time the address is typed; give it up
+      // to 5 s more if not.
+      for (let i = 0; i < 25; i++) {
+        const t = widget !== undefined ? w.turnstile?.getResponse(widget) : undefined;
+        if (t) return t;
+        await wait(200);
+      }
+      return '';
+    };
+
     const reveal = () => {
       if (!ready) return;
       form.hidden = true;
@@ -125,12 +179,13 @@ const cards = [
       e.preventDefault();
       if (button) button.disabled = true;
       const data = new FormData(form);
-      const send = fetch(form.action, {
+      await start();
+      const send = token().then((t) => fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.get('email'), website: data.get('website') }),
-      }).catch(() => undefined);
-      await Promise.race([send, new Promise((r) => setTimeout(r, 6000))]);
+        body: JSON.stringify({ email: data.get('email'), website: data.get('website'), turnstile: t }),
+      })).catch(() => undefined);
+      await Promise.race([send, wait(6000)]);
       reveal();
     });
   }
@@ -186,6 +241,7 @@ const cards = [
 .ebook-field .btn { justify-content: center; }
 .ebook-ready { margin-top: var(--space-6); }
 .ebook-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.ebook-turnstile:not(:empty) { margin-top: var(--space-3); }
 .ebook-note { margin: var(--space-3) 0 0 !important; font-size: 12px !important; line-height: 1.45 !important; color: rgba(255,255,255,0.9) !important; }
 .ebook-card .ebook-ready-title { margin: 0; font-weight: 600; color: #fff; }
 .ebook-download { margin-top: var(--space-4); align-self: flex-start; }
