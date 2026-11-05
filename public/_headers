@@ -1,0 +1,18 @@
+# Response headers for the static site (Cloudflare Workers static assets).
+# The Worker's own routes (/videos/*, /api/*) set their headers in
+# worker/index.js. HSTS is set in the Cloudflare dashboard at launch
+# (SSL/TLS > Edge Certificates), on the real domain, not here.
+
+# Built files carry a content hash in their names: cache them for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Every response: no MIME sniffing, a privacy-minded referrer, no framing by
+# other sites, and no camera, microphone or location for the page or anything
+# it embeds. (No Content-Security-Policy yet: YouTube, Turnstile and inline
+# scripts need it tested first.)
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
