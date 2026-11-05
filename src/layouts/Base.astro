@@ -29,6 +29,7 @@ import ActionBar from '../components/ActionBar.astro';
 import SearchDialog from '../components/SearchDialog.astro';
 import { site } from '../data/site';
 import { seoTitles } from '../data/seo-titles';
+import { metaDescriptions } from '../data/meta-descriptions';
 import preview from '../data/preview.json';
 
 interface Props {
@@ -88,6 +89,8 @@ const searchMeta = searched
 const seoTitle = seoTitles[Astro.url.pathname];
 const shown = seoTitle ?? title;
 const fullTitle = shown.includes(site.name) ? shown : `${shown} — ${site.short}`;
+// A description that was wrong in migration (src/data/meta-descriptions.ts).
+const metaDescription = metaDescriptions[Astro.url.pathname] ?? description;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
 const a = site.address;
 
@@ -138,7 +141,7 @@ function openingHours() {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{fullTitle}</title>
-  <meta name="description" content={description} />
+  <meta name="description" content={metaDescription} />
   <link rel="canonical" href={canonical} />
   <link rel="preload" href={displayWoff2} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={bodyWoff2} as="font" type="font/woff2" crossorigin />
@@ -152,7 +155,7 @@ function openingHours() {
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content={fullTitle} />
-  <meta property="og:description" content={description} />
+  <meta property="og:description" content={metaDescription} />
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
   <meta name="twitter:card" content="summary_large_image" />

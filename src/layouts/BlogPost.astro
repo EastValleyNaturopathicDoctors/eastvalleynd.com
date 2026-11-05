@@ -17,6 +17,7 @@ import SidebarCTA from '../components/SidebarCTA.astro';
 import { splitForCta } from '@/lib/midcta';
 import { longReadFor } from '@/lib/longread';
 import { cleanLinks } from '@/lib/links';
+import { keeperOf } from '@/lib/nav';
 import { tidyProse } from '@/lib/prose';
 import { site } from '../data/site';
 import { blogImageMeta } from '@/lib/blogimage';
@@ -27,6 +28,10 @@ interface Props { entry: CollectionEntry<'blog'> }
 const { entry } = Astro.props;
 const d = entry.data;
 const slug = d.slug;
+// A post that repeats a condition page names that page as canonical
+// (src/data/duplicate-pages.ts); it stays up, indexable, at its old address.
+const kept = keeperOf(`/${slug}/`);
+const canonicalPath = kept !== `/${slug}/` ? kept : undefined;
 // A body that opens with the top image again shows it once (tracker R5).
 const once = heroOnce(entry.rendered?.html ?? '', `/${slug}/`);
 const body = tidyProse(cleanLinks(once.html, `/${slug}/`));   // trackers L3, K2
@@ -62,7 +67,7 @@ const schema = {
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
 };
 ---
-<Base title={d.title} description={d.metaDescription || d.excerpt} searchSection="Blog">
+<Base title={d.title} description={d.metaDescription || d.excerpt} searchSection="Blog" canonicalPath={canonicalPath}>
   {long && <div class="lr-progress" aria-hidden="true"></div>}
   <article class:list={['post', long && 'is-long']}>
     <header class="page-hero post-hero">

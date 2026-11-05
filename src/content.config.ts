@@ -1,6 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { tidyLabel } from './lib/tidy-label';
+import { tidyLabel, fixText } from './lib/tidy-label';
 
 /**
  * Physician bios. Entries are GENERATED — do not hand-edit them.
@@ -18,7 +18,7 @@ const physicians = defineCollection({
      *  optimises it at build time rather than shipping the original. */
     imageFile: z.string().default(''),
     summary: z.string().default(''),
-    metaDescription: z.string().default(''),
+    metaDescription: z.string().default('').transform(fixText),
     /** Provenance, so a page can always be traced back to its WordPress record. */
     sourceId: z.number().optional(),
     sourceUrl: z.string().optional(),
@@ -46,13 +46,13 @@ const physicians = defineCollection({
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
-    title: z.string(),
+    title: z.string().transform(tidyLabel),
     slug: z.string(),
     date: z.string(),
     updated: z.string().default(''),
     author: z.string().default(''),
     excerpt: z.string().default(''),
-    metaDescription: z.string().default(''),
+    metaDescription: z.string().default('').transform(fixText),
     /** Filename in src/images/blog — resolved by BlogImage.astro. */
     imageFile: z.string().default(''),
     imageAlt: z.string().default(''),
@@ -82,7 +82,7 @@ const pages = defineCollection({
     route: z.string(),
     slug: z.string(),
     wpTitle: z.string().default(''),
-    metaDescription: z.string().default(''),
+    metaDescription: z.string().default('').transform(fixText),
     imageFile: z.string().default(''),
     imageAlt: z.string().default(''),
     /** Intrinsic width of the hero file (D116). 0 = unknown. */

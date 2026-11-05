@@ -19,11 +19,14 @@
  *   - an item that holds no words (/conditions/asthma/ ends on "<ul><li>
  *     </li></ul>") drew a lone bullet; it goes, and so does a list left with
  *     no items (K11);
- *   - the reference list (lib/longread.ts `repairReferences`).
+ *   - the reference list (lib/longread.ts `repairReferences`);
+ *   - and, the one change to the words, the known typos that show in Google
+ *     (`fixText` in lib/tidy-label.ts).
  *
  * Heading promotion and the other long-read repairs stay with long pages. The
  * permanent fix belongs in the content pipeline (extract/wpclean.py).
  */
+import { fixText } from './tidy-label';
 import { repairReferences } from '@/lib/longread';
 
 /** Index just past the tag that closes the `tag` opened at `from`, or -1. */
@@ -131,5 +134,5 @@ function tidyAboutLinks(html: string): string {
 }
 
 export function tidyProse(html: string): string {
-  return keepLearnMore(tidyAboutLinks(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(emptyItems(html))))))));
+  return fixText(keepLearnMore(tidyAboutLinks(repairReferences(shortLists(siblingChecklists(dotLists(unwrapLoneLists(emptyItems(html)))))))));
 }
