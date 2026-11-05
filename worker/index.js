@@ -281,18 +281,29 @@ export async function turnstile(request, env, token, action) {
   return true;
 }
 
-/** The weekly call that keeps the key in use (see the top of this file). @param {Env} env */
+/**
+ * The weekly calls that keep both Brevo keys in use (see the top of this
+ * file): read-only, one per key. The contacts key reads the e-book list; the
+ * forms key (Transactional email only) reads a day of sending statistics.
+ * Neither sends anything.
+ * @param {Env} env
+ */
 export async function keepAlive(env) {
   const list = Number(env.BREVO_LIST_ID);
-  if (!env.BREVO_API_KEY || !list) {
-    console.error('keepAlive: BREVO_API_KEY or BREVO_LIST_ID is not set');
-    return;
-  }
-  const res = await fetch(`${brevo(env)}/contacts/lists/${list}`, {
-    headers: { 'api-key': env.BREVO_API_KEY, Accept: 'application/json' },
-  });
-  if (res.ok) console.log(`keepAlive: Brevo list ${list} reachable`);
-  else console.error(`keepAlive: Brevo answered ${res.status}`);
+  const checks = [
+    ['contacts key', env.BREVO_API_KEY, list ? `/contacts/lists/${list}` : ''],
+    ['forms key', env.BREVO_FORMS_API_KEY, '/smtp/statistics/aggregatedReport?days=1'],
+  ];
+  await Promise.all(checks.map(async ([name, key, path]) => {
+    if (!key || !path) return console.error(`keepAlive: ${name} is not set`);
+    try {
+      const res = await fetch(`${brevo(env)}${path}`, { headers: { 'api-key': key, Accept: 'application/json' } });
+      if (res.ok) console.log(`keepAlive: ${name} OK`);
+      else console.error(`keepAlive: ${name}: Brevo answered ${res.status}`);
+    } catch {
+      console.error(`keepAlive: ${name}: Brevo unreachable`);
+    }
+  }));
 }
 
 // --- Videos, in byte ranges ------------------------------------------------

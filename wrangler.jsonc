@@ -31,7 +31,7 @@
     "FORMS_FROM": "patientcare@eastvalleynd.com",
     "FORMS_HEALTH_FIELDS": "off"
   },
-  // Mondays 16:23 UTC: the read-only call that keeps the Brevo key from
+  // Mondays 16:23 UTC: the read-only calls that keep both Brevo keys from
   // expiring (Brevo deletes a key unused for 90 days).
   "triggers": { "crons": ["23 16 * * 1"] },
   // Branch builds run `npx wrangler preview`, which needs this block (it can be
