@@ -54,6 +54,7 @@ export function attach(form: HTMLFormElement) {
       data.dob = [data.dob_month, data.dob_day, data.dob_year].filter(Boolean).join('/');
     }
     data.turnstile = await t.token();
+    data.page = location.pathname;   // the page it was sent from, for the email
     const how = attribution();   // UTM tags and landing page (lib/attribution.ts)
     let answer: { ok?: boolean; error?: string; field?: string } = {};
     try {

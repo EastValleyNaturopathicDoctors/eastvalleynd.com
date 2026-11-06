@@ -231,16 +231,21 @@ export async function form(request, env, spec) {
   }
 
   // Which page it came from (the appointment form is on two).
-  let page = '';
-  try {
+  // The form names its page; the Referer header is the fallback (some
+  // browsers and privacy settings strip it).
+  const origin = new URL(request.url).origin;
+  const named = clean(body.page, false, 300);
+  let page = /^\/[^\s]*$/.test(named) ? origin + named : '';
+  if (!page) try {
     const ref = new URL(request.headers.get('Referer') || '');
-    if (ref.host === new URL(request.url).host) page = ref.origin + ref.pathname;
+    if (ref.origin === origin) page = ref.origin + ref.pathname;
   } catch {}
   const a = body.attribution && typeof body.attribution === 'object' ? body.attribution : {};
   const found = ATTRIBUTION.map(([k, label]) => [label, clean(a[k], false, 200)]).filter(([, v]) => v);
   const when = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Phoenix', dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
   const text = [
     spec.title,
+    `Submitted from: ${page || 'unknown page'}`,
     '',
     ...lines.map(([k, v]) => (v.includes('\n') ? `${k}:\n${v}` : `${k}: ${v}`)),
     '',
@@ -248,7 +253,7 @@ export async function form(request, env, spec) {
     'How they found the site',
     ...(found.length ? found.map(([k, v]) => `${k}: ${v}`) : ['No campaign tags (a direct visit, or the browser blocked storage).']),
     '',
-    `Sent ${when} (Arizona time)${page ? ` from ${page}` : ''}.`,
+    `Sent ${when} (Arizona time).`,
     'Reply to this email to answer the sender directly.',
   ].join('\n');
 

@@ -67,12 +67,11 @@ import '../styles/request-form.css';
     <textarea id="req-reason" name="reason" rows="5"></textarea>
   </div>)}
 
-  {/* Optional (Nov 2026). Sent on the interim route without a HIPAA BAA, so,
-      like the contact form's box, it asks for medical details by phone. */}
+  {/* Optional (Nov 2026). The reason for the visit has its own box above. */}
   <div class="req-field">
     <label for="req-comments">Comments <span class="req-optional">(optional)</span></label>
     <textarea id="req-comments" name="comments" rows="4" aria-describedby="req-comments-help"></textarea>
-    <p class="req-help" id="req-comments-help">Anything that helps us schedule you, like the best time to call. Please don’t include medical details; we’ll talk those through by phone.</p>
+    <p class="req-help" id="req-comments-help">Anything else that helps us schedule you, like the best time to call.</p>
   </div>
 
   <p class="req-legend"><span class="req-star" aria-hidden="true">*</span> Required</p>

@@ -57,4 +57,7 @@ export { formSpec };
  * FORMS_HEALTH_FIELDS to "on" in wrangler.jsonc: the Worker drops them
  * otherwise.
  */
-export const healthFields = false;
+// On again from Nov 6, 2026, at the clinic's request ("it used to have date
+// of birth and reason for reaching out/chief complaint"), knowing the route
+// has no BAA. Off again: set this false and FORMS_HEALTH_FIELDS "off".
+export const healthFields = true;

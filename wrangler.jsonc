@@ -23,13 +23,14 @@
   // here.
   // The appointment and contact forms (an interim route until Paubox Forms):
   // emailed to FORMS_TO through Brevo with the BREVO_FORMS_API_KEY secret
-  // (Transactional email only). FORMS_HEALTH_FIELDS stays "off" while the route
-  // has no BAA; see worker/index.js and src/data/forms.ts.
+  // (Transactional email only). FORMS_HEALTH_FIELDS: date of birth and chief
+  // complaint, "on" since Nov 6, 2026 at the clinic's request although the
+  // route has no BAA (they were "off" until then); see src/data/forms.ts.
   "vars": {
     "BREVO_LIST_ID": "4",
     "FORMS_TO": "patientcare@eastvalleynd.com",
     "FORMS_FROM": "patientcare@eastvalleynd.com",
-    "FORMS_HEALTH_FIELDS": "off"
+    "FORMS_HEALTH_FIELDS": "on"
   },
   // Mondays 16:23 UTC: the read-only calls that keep both Brevo keys from
   // expiring (Brevo deletes a key unused for 90 days).
